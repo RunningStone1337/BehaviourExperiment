@@ -18,7 +18,7 @@ namespace BuildingModule
             Destroy(thisPlace.Entrance.gameObject);
             thisPlace.CurrentState = thisPlace.FreeState;
             foreach (var neigh in thisPlace.Neighbours)
-                neigh.RebuildNeighbours();
+                EntranceBuilder.RebuildWalls(neigh);
             return true;
         }
     }

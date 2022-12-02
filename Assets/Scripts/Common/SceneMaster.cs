@@ -11,14 +11,12 @@ namespace Common
     {
         [SerializeField] SceneStateBase currentState;
         [SerializeField] BuildingModeState buildingModeState;
-        [SerializeField] InterierPlacingState interierPlacingState;
         [SerializeField] NavigationState navigationState;
         [SerializeField] PlacingInterierState placingInterierState;
         static SceneMaster master;
         public SceneStateBase CurrentState { get => currentState; set => currentState = value; }
         public BuildingModeState BuildingModeState { get => buildingModeState; }
         public PlacingInterierState PlacingInterierState { get => placingInterierState; }
-        public InterierPlacingState InterierPlacingState { get => interierPlacingState; }
         public NavigationState NavigationState { get => navigationState; }
         public static SceneMaster Master { get => master; private set => master = value; }
 

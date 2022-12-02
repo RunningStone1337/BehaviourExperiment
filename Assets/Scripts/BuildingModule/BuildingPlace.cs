@@ -131,13 +131,7 @@ namespace BuildingModule
             return root.PlacesDict.ContainsKey(coords) ? root.PlacesDict[coords] : default;
         }
 
-        public void RebuildNeighbours()
-        {
-            if (IsOccuped)
-            {
-                Entrance.ResetVisual();
-            }
-        }
+        
         #endregion Private Methods
     }
 }

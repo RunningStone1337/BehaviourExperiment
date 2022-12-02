@@ -21,7 +21,7 @@ namespace Common
 
         public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }
