@@ -43,18 +43,19 @@ namespace BuildingModule
                 BuildWalls(neigh.Entrance);
             }
         }
+
         public static void BuildWalls(Entrance newEntrance)
         {
-            var storage = SceneDataStorage.Storage;
             if (NeedRightWall(newEntrance.EntrancePlace))
-                newEntrance.RightWall = Instantiate(storage.RightWallPrefab, newEntrance.transform).GetComponent<Wall>();
+                newEntrance.RightWall.SetActiveState();
             if (NeedLeftWall(newEntrance.EntrancePlace))
-                newEntrance.LeftWall = Instantiate(storage.LeftWallPrefab, newEntrance.transform).GetComponent<Wall>();
+                newEntrance.LeftWall.SetActiveState();
             if (NeedUpWall(newEntrance.EntrancePlace))
-                newEntrance.UpWall = Instantiate(storage.UpWallPrefab, newEntrance.transform).GetComponent<Wall>();
+                newEntrance.UpWall.SetActiveState();
             if (NeedDownWall(newEntrance.EntrancePlace))
-                newEntrance.DownWall = Instantiate(storage.DownWallPrefab, newEntrance.transform).GetComponent<Wall>();
+                newEntrance.DownWall.SetActiveState();
         }
+
         static bool NeedRightWall(BuildingPlace bp) =>!bp.RightNeighbour.IsOccuped;
         static bool NeedLeftWall(BuildingPlace bp) =>!bp.LeftNeighbour.IsOccuped;
         static bool NeedUpWall(BuildingPlace bp) =>!bp.UpNeighbour.IsOccuped;
@@ -63,13 +64,13 @@ namespace BuildingModule
         public static void RemoveExcessWalls(Entrance entrance)
         {
             if (!NeedRightWall(entrance.EntrancePlace))
-                entrance.RightWall = null;
+                entrance.RightWall.SetInactiveState();
             if (!NeedLeftWall(entrance.EntrancePlace))
-                entrance.LeftWall = null;
+                entrance.LeftWall.SetInactiveState();
             if (!NeedUpWall(entrance.EntrancePlace))
-                entrance.UpWall = null;
+                entrance.UpWall.SetInactiveState();
             if (!NeedDownWall(entrance.EntrancePlace))
-                entrance.DownWall = null;
+                entrance.DownWall.SetInactiveState();
         }
     }
 }

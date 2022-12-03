@@ -17,14 +17,6 @@ namespace BuildingModule {
 
         static EntranceRoot entranceRoot;
         [SerializeField] BuildingPlace[] places;
-        private void Awake()
-        {
-            if (Root == null)
-            {
-                Root = this;
-                return;
-            }
-            Destroy(this);
-        }
+       
     }
 }

@@ -27,9 +27,8 @@ namespace UI
         public UIStateBase CurrentState { get => currentState;
             set 
             {
-                var oldState = currentState;
+                currentState.DeactivateUI();
                 currentState = value;
-                oldState.DeactivateUI();
                 currentState.ActivateUI();
             }
         }

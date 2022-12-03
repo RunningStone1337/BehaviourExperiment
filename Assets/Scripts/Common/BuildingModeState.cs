@@ -8,6 +8,8 @@ namespace Common
 {
     public class BuildingModeState : SceneStateBase
     {
+        public override void BeforeChangeState() { }
+
         public override void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)
         {
             var isSucceed = buildingPlace.TryPlaceNewEntrance(eventData);
@@ -23,5 +25,9 @@ namespace Common
         {
             //throw new System.NotImplementedException();
         }
+
+        public override void HandleWallClick(Wall wall, PointerEventData eventData) { }
+
+        public override void Initiate(){}
     }
 }

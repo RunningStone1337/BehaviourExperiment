@@ -8,11 +8,14 @@ namespace Common
 {
     public class NavigationState : SceneStateBase
     {
+        public override void BeforeChangeState() { }
+
         public override void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData){}
 
-        public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
-        {
-            //throw new System.NotImplementedException();
-        }
+        public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData) { }
+
+        public override void HandleWallClick(Wall wall, PointerEventData eventData) { }
+
+        public override void Initiate(){}
     }
 }

@@ -15,10 +15,25 @@ namespace Common
         /// <param name="eventData"></param>
         public abstract void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData);
         /// <summary>
+        /// ќтрабатывает каждый раз после присвоени€ нового значени€ переменной состо€ни€
+        /// </summary>
+        public abstract void Initiate();
+        /// <summary>
+        /// ќтрабатывает каждый раз перед тем как присвоить новое значение переменной состо€ни€
+        /// </summary>
+        public abstract void BeforeChangeState();
+
+        /// <summary>
         ///  лик по помещению.
         /// </summary>
         /// <param name="entrance"></param>
         /// <param name="eventData"></param>
         public abstract void HandleEntranceClick(Entrance entrance, PointerEventData eventData);
+        /// <summary>
+        ///  лик по стене
+        /// </summary>
+        /// <param name="wall"></param>
+        /// <param name="eventData"></param>
+        public abstract void HandleWallClick(Wall wall, PointerEventData eventData);
     }
 }

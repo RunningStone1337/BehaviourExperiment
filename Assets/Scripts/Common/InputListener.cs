@@ -40,6 +40,12 @@ namespace InputSystem
         {
             sceneMaster.HandleEntranceClick(entrance, eventData);
         }
+
+        public void HandleWallClick(Wall wall, PointerEventData eventData)
+        {
+            sceneMaster.HandleWallClick(wall, eventData);
+        }
+
         private void Update()
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");

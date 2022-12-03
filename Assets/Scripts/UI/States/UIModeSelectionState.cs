@@ -2,12 +2,15 @@ using Common;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class UIModeSelectionState : UIStateBase
     {
         [SerializeField] SceneMaster sceneMaster;
+        [SerializeField] Button buttonBuildingMode;
+        [SerializeField] Button buttonNavigationMode;
         public SceneMaster SceneMaster
         {
             get
@@ -33,15 +36,18 @@ namespace UI
         public void SetPreviousScreen()
         {
             canvasController.CurrentState = canvasController.MainState;
+            ActiveButton = null;
         }
 
         public void SetBuildingState()
         {
             canvasController.CurrentState = canvasController.BuildingState;
+            ActiveButton = buttonBuildingMode;
         }
         public void SetNavigationState()
         {
             SceneMaster.CurrentState = SceneMaster.NavigationState;
+            ActiveButton = buttonNavigationMode;
         }
 
     }

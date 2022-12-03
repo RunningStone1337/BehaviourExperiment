@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -9,6 +10,7 @@ namespace UI
     /// </summary>
     public class UIMainState : UIStateBase
     {
+        [SerializeField] Button buttonChooseMode;
         public override void ActivateUI()
         {
             rootObject.SetActive(true);
@@ -22,6 +24,7 @@ namespace UI
         public void ChangeScreen()
         {
             canvasController.CurrentState = canvasController.ModeSelectionState;
+            ActiveButton = null;
         }
     }
 }
