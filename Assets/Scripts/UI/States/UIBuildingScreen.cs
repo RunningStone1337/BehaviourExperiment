@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIBuildingState : UIStateBase
+    public class UIBuildingScreen : UIScreenBase
     {
-        [SerializeField] Button buttonEntranceBuildMode;
-        [SerializeField] Button buttonWallsBuildMode;
-        [SerializeField] Button buttonInterierBuildMode;
+        [SerializeField] SelectableButton buttonEntranceBuildMode;
+        [SerializeField] SelectableButton buttonWallsBuildMode;
+        [SerializeField] SelectableButton buttonInterierBuildMode;
      
         public void SetBuildingEntranceState()
         {
@@ -19,13 +19,15 @@ namespace UI
         } 
         public void SetPreviousScreen()
         {
-            canvasController.CurrentState = canvasController.ModeSelectionState;
+            SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
+            //canvasController.CurrentState = canvasController.ModeSelectionState;
             ActiveButton = null;
         }
         public void SetPlacingInterierState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.PlacingInterierState;
             ActiveButton = buttonInterierBuildMode;
+            //interierCollection.ActivateUI();
         } 
         public void SetBuildingWallsState()
         {

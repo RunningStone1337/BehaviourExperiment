@@ -15,6 +15,21 @@ namespace BuildingModule
         [SerializeField] Wall upWall;
         [SerializeField] Wall downWall;
         [SerializeField] Wall[] walls;
+        [SerializeField] Corner ulCorner;
+        [SerializeField] Corner urCorner;
+        [SerializeField] Corner drCorner;
+        [SerializeField] Corner dlCorner;
+        [SerializeField] Corner[] corners;
+        [SerializeField] Underwall leftUnderwall;
+        [SerializeField] Underwall upUnderwall;
+        [SerializeField] Underwall rightUnderwall;
+        [SerializeField] Underwall downUnderwall;
+        [SerializeField] Underwall[] underwalls;
+        [SerializeField] MiddlePlace leftPlace;
+        [SerializeField] MiddlePlace upPlace;
+        [SerializeField] MiddlePlace rightPlace;
+        [SerializeField] MiddlePlace downPlace;
+        [SerializeField] MiddlePlace[] middlePlaces;
         public Wall[] Walls {get => walls; }
         public Wall LeftWall {get => leftWall;}
         public Wall RightWall { get => rightWall;}

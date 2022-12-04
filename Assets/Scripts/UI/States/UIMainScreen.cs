@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UI.CanvasController;
 
 namespace UI
 {
     /// <summary>
     /// Стейт стартового экрана
     /// </summary>
-    public class UIMainState : UIStateBase
+    public class UIMainScreen : UIScreenBase
     {
         [SerializeField] Button buttonChooseMode;
         public override void ActivateUI()
@@ -23,7 +24,7 @@ namespace UI
 
         public void ChangeScreen()
         {
-            canvasController.CurrentState = canvasController.ModeSelectionState;
+            Controller.CurrentState = Controller.ModeSelectionState;
             ActiveButton = null;
         }
     }

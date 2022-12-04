@@ -2,6 +2,7 @@ using BuildingModule;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,7 +11,7 @@ namespace Common
     public class SceneMaster : MonoBehaviour
     {
         [SerializeField] SceneStateBase currentState;
-        [SerializeField] BuildingModeState buildingModeState;
+        [SerializeField] BuildingEntranceModeState buildingModeState;
         [SerializeField] NavigationState navigationState;
         [SerializeField] PlacingInterierState placingInterierState;
         [SerializeField] BuildingWallsState buildingWallsState;
@@ -19,14 +20,17 @@ namespace Common
         {
             get => currentState; set
             {
-                currentState.BeforeChangeState();
+                currentState.BeforeChangeOldState();
                 currentState = value;
                 currentState.Initiate();
             }
         }
-        public BuildingModeState BuildingModeState { get => buildingModeState; }
+        public BuildingEntranceModeState BuildingModeState { get => buildingModeState; }
         public BuildingWallsState BuildingWallsState { get => buildingWallsState; }
         public PlacingInterierState PlacingInterierState { get => placingInterierState; }
+
+       
+
         public NavigationState NavigationState { get => navigationState; }
         public static SceneMaster Master { get => master; private set => master = value; }
 
@@ -53,6 +57,10 @@ namespace Common
         public void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)
         {
             CurrentState.HandleBuildingPlaceClick(buildingPlace, eventData);
+        }
+        public void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
+        {
+            CurrentState.HandlePlaceableUIViewClick(placeableUIView, eventData);
         }
     }
 }

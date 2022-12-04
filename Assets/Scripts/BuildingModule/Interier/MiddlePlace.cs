@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BuildingModule
 {
-    public class TableInterier : InterierBase
+    public class MiddlePlace : InterierPlaceBase
     {
-        
+       
     }
 }

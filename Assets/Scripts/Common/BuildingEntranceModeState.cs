@@ -1,15 +1,14 @@
 using BuildingModule;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Common
 {
-    public class BuildingModeState : SceneStateBase
+    public class BuildingEntranceModeState : SceneStateBase
     {
-        public override void BeforeChangeState() { }
-
         public override void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)
         {
             var isSucceed = buildingPlace.TryPlaceNewEntrance(eventData);
@@ -20,14 +19,5 @@ namespace Common
                     throw new System.Exception("Unhandled exception in building module");
             }
         }
-
-        public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
-        {
-            //throw new System.NotImplementedException();
-        }
-
-        public override void HandleWallClick(Wall wall, PointerEventData eventData) { }
-
-        public override void Initiate(){}
     }
 }

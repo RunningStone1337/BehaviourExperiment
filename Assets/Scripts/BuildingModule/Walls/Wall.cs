@@ -13,7 +13,7 @@ namespace BuildingModule
         [SerializeField] ActiveState activeState;
         [SerializeField] AvailForBuildState availForBuildState;
         public WallStateBase CurrentState { get => currentState;
-            set {
+            private set {
                 currentState = value;
                 currentState.Initiate();
             }

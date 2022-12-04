@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BuildingModule
 {
-    public abstract class InterierBase : MonoBehaviour
+    public class Underwall : InterierPlaceBase
     {
-        
+     
     }
 }

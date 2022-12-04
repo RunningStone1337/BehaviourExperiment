@@ -2,6 +2,7 @@ using BuildingModule;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -51,9 +52,13 @@ namespace Common
                 }
             }
         }
-        public override void BeforeChangeState()
+        public override void BeforeChangeOldState()
         {
             DeactivateAllBuildStateWalls();
+        }
+
+        public override void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
+        {
         }
     }
 }

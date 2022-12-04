@@ -32,28 +32,21 @@ namespace InputSystem
             NavigationHandler = FindObjectOfType<NavigationHandler>();
         }
 
-        public void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)
-        {
+        public void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)=>
             sceneMaster.HandleBuildingPlaceClick(buildingPlace, eventData);
-        }
-        public void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
-        {
-            sceneMaster.HandleEntranceClick(entrance, eventData);
-        }
 
-        public void HandleWallClick(Wall wall, PointerEventData eventData)
-        {
+        public void HandleEntranceClick(Entrance entrance, PointerEventData eventData)=>
+            sceneMaster.HandleEntranceClick(entrance, eventData);
+
+        public void HandleWallClick(Wall wall, PointerEventData eventData)=>
             sceneMaster.HandleWallClick(wall, eventData);
-        }
 
         private void Update()
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             NavigationHandler.MouseScroll(scroll);
             if (sceneMaster.CurrentState is NavigationState)
-            {
                 NavigationHandler.Swipes();
-            }
         }
 
     }
