@@ -1,4 +1,5 @@
 using BuildingModule;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UI;
@@ -7,7 +8,10 @@ using UnityEngine.EventSystems;
 
 namespace Common
 {
-    public abstract class SceneStateBase : MonoBehaviour
+    /// <summary>
+    /// Иерархия глобальных состояний сцены.
+    /// </summary>
+    public abstract class SceneStateBase : MonoBehaviour, IState
     {
         [SerializeField] protected SceneMaster master;
         private void Awake()
@@ -42,11 +46,25 @@ namespace Common
         /// <param name="wall"></param>
         /// <param name="eventData"></param>
         public virtual void HandleWallClick(Wall wall, PointerEventData eventData) { }
+
+        /// <summary>
+        /// Клик по размещённому элементу интерьера.
+        /// </summary>
+        /// <param name="interierBase"></param>
+        /// <param name="eventData"></param>
+        public virtual void HandleInterierClick(InterierBase interierBase, PointerEventData eventData) { }
+
         /// <summary>
         /// Клик по UI панели, соответствующей создаваемому GO
         /// </summary>
         /// <param name="placeableUIView"></param>
         /// <param name="eventData"></param>
         public virtual void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData) { }
+        /// <summary>
+        /// Клик по месту размещения интерьера.
+        /// </summary>
+        /// <param name="interierPlaceBase"></param>
+        /// <param name="eventData"></param>
+        public virtual void HandleInterierPlaceClick(InterierPlaceBase interierPlaceBase, PointerEventData eventData) { }
     }
 }

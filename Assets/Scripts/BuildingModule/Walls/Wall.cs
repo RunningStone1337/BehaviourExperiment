@@ -1,3 +1,4 @@
+using Common;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,20 +6,25 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public class Wall : MonoBehaviour, IPointerClickHandler
+    public class Wall : MonoBehaviour, IPointerClickHandler, ICurrentStateHandler
     {
         [SerializeField] SpriteRenderer spriteRenderer;
         [SerializeField] WallStateBase currentState;
         [SerializeField] InactiveState inactiveState;
         [SerializeField] ActiveState activeState;
         [SerializeField] AvailForBuildState availForBuildState;
-        public WallStateBase CurrentState { get => currentState;
-            private set {
-                currentState = value;
+     
+        public SpriteRenderer Renderer { get => spriteRenderer; }
+        public IState CurrentState
+        {
+            get => currentState;
+            set
+            {
+                currentState = (WallStateBase)value;
                 currentState.Initiate();
             }
         }
-        public SpriteRenderer Renderer { get => spriteRenderer; }
+
         public void SetActiveState()
         {
             CurrentState = activeState;

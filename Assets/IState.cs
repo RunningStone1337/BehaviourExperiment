@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BuildingModule
+namespace Common
 {
-    public class Chair : InterierBase
+    public interface IState
     {
 
     }

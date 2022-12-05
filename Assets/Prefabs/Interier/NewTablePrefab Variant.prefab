@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
+  collider2d: {fileID: 0}
+  thisInterierPlace: {fileID: 0}
   interier: {fileID: 6187758628626347132}
   color: {r: 0.6226415, g: 0.5513501, b: 0, a: 1}
 --- !u!1001 &1134515026116949825
@@ -78,6 +80,10 @@ PrefabInstance:
     - target: {fileID: 7099374401679110752, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_Name
       value: NewTablePrefab Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450492591764184150, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: id
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8550153596203979650, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_Color.a

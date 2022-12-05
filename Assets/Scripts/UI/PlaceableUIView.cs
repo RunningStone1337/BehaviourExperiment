@@ -19,6 +19,7 @@ namespace UI
         [SerializeField] [HideInInspector] Color defaultColor;
         public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
         public InterierListScreen InterierListScreen { get => interierListScreen; }
+        public GameObject CorrespondingObjectPrefab { get => correspondingObjectPrefab; }
         public bool IsSelected
         {
             get => isSelected;

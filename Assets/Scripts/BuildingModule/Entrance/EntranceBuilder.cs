@@ -1,5 +1,6 @@
 using Common;
 using System;
+using UI;
 using UnityEngine;
 
 namespace BuildingModule
@@ -31,7 +32,17 @@ namespace BuildingModule
             foreach (var neigh in thisPlace.Neighbours)
                 RebuildWalls(neigh);
         }
-
+        public static void AddInterierIfNotMatch(int oldId, InterierPlaceBase place)
+        {
+            var ac = CanvasController.Controller.InterierListScreen.ActiveComponent as PlaceableUIView;
+            if (ac != null)
+            {
+                var newInterierId = ac.CorrespondingObjectPrefab.GetComponent<InterierBase>().ThisIdentifier.ID;
+                if (oldId!= newInterierId)
+                    Builder.TryAddSelectedInterier(place);
+            }
+        }
+        
         /// <summary>
         /// Удаляет лишние стены на месте новых соединений комнат
         /// </summary>
@@ -41,6 +52,32 @@ namespace BuildingModule
             {
                 RemoveExcessWalls(neigh.Entrance);
                 BuildWalls(neigh.Entrance);
+            }
+        }
+        public static void ReplaceInterierOrDeleteExist(InterierBase oldInterier, InterierPlaceBase place)
+        {
+            var oldID = oldInterier.ThisIdentifier.ID;
+            //удалить интерьер
+            RemoveInterier(oldInterier);
+            place.CurrentState = place.AvailableForPlacingInterierPlaceState;
+            //если выбран прежний, не добавлять ничего, иначе выбранный
+            AddInterierIfNotMatch(oldID, place);
+        }
+        public static void RemoveInterier(InterierBase interierBase)
+        {
+            interierBase.ThisInterierPlace.CurrentState = interierBase.ThisInterierPlace.FreeInterierPlaceState;
+            Destroy(interierBase.gameObject);
+        }
+
+        public void TryAddSelectedInterier(InterierPlaceBase ipb)
+        {
+            var ac = CanvasController.Controller.InterierListScreen.ActiveComponent as PlaceableUIView;
+            if (ac != null)
+            {
+                var newEntrance = Instantiate(ac.CorrespondingObjectPrefab,
+                    ipb.transform).GetComponent<InterierBase>();
+                ipb.Interier = newEntrance;
+                ipb.CurrentState = ipb.OccupedInterierPlaceState;
             }
         }
 

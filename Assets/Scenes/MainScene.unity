@@ -6079,7 +6079,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 389167312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f717533055c4204429c5fb0a245b174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -6115,7 +6115,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1611606866}
-        m_TargetAssemblyTypeName: UI.ModeSelectionState, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.UIModeSelectionScreen, Assembly-CSharp
         m_MethodName: SetNavigationState
         m_Mode: 1
         m_Arguments:
@@ -6126,6 +6126,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isSelected: 0
 --- !u!114 &389167315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6256,7 +6257,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 392941776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f717533055c4204429c5fb0a245b174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -6292,7 +6293,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1611606866}
-        m_TargetAssemblyTypeName: UI.ModeSelectionState, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.UIModeSelectionScreen, Assembly-CSharp
         m_MethodName: SetBuildingState
         m_Mode: 1
         m_Arguments:
@@ -6303,6 +6304,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isSelected: 0
 --- !u!114 &392941779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8413,8 +8415,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b8cad9058a1b745acbb1824560f212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeDelay: 0.1
   cameraConstraints: {fileID: 519420034}
-  currendScrollSpeed: 20
+  currendScrollSpeed: 10
   currentScrollSensetivity: 111
   freezeSwipes: 0
   mainCam: {fileID: 519420031}
@@ -8435,7 +8438,7 @@ MonoBehaviour:
   upPositionConstraint: 50
   downPositionConstraint: -50
   maxCameraSize: 40
-  minCameraSize: 5
+  minCameraSize: 2
 --- !u!114 &519478117 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4061633567300540987, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -9146,9 +9149,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootObject: {fileID: 564780212}
   sceneMaster: {fileID: 0}
-  buttonEntranceBuildMode: {fileID: 0}
-  buttonWallsBuildMode: {fileID: 0}
-  buttonInterierBuildMode: {fileID: 0}
+  buttonEntranceBuildMode: {fileID: 1735985767}
+  buttonWallsBuildMode: {fileID: 824873902}
+  buttonInterierBuildMode: {fileID: 1109883957}
 --- !u!114 &564780215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13008,7 +13011,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 824873900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f717533055c4204429c5fb0a245b174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -13044,7 +13047,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 564780214}
-        m_TargetAssemblyTypeName: UI.UIBuildingState, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.UIBuildingScreen, Assembly-CSharp
         m_MethodName: SetBuildingWallsState
         m_Mode: 1
         m_Arguments:
@@ -13055,6 +13058,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isSelected: 0
 --- !u!114 &824873903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17453,7 +17457,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1109883955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f717533055c4204429c5fb0a245b174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -17489,7 +17493,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 564780214}
-        m_TargetAssemblyTypeName: UI.UIBuildingState, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.UIBuildingScreen, Assembly-CSharp
         m_MethodName: SetPlacingInterierState
         m_Mode: 1
         m_Arguments:
@@ -17500,6 +17504,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isSelected: 0
 --- !u!114 &1109883958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23960,6 +23965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneMaster: {fileID: 0}
+  blockInputClickEvents: 0
 --- !u!4 &1516755129
 Transform:
   m_ObjectHideFlags: 0
@@ -27612,7 +27618,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1735985765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f717533055c4204429c5fb0a245b174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -27648,7 +27654,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 564780214}
-        m_TargetAssemblyTypeName: UI.UIBuildingState, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.UIBuildingScreen, Assembly-CSharp
         m_MethodName: SetBuildingEntranceState
         m_Mode: 1
         m_Arguments:
@@ -27659,6 +27665,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isSelected: 0
 --- !u!114 &1735985768
 MonoBehaviour:
   m_ObjectHideFlags: 0

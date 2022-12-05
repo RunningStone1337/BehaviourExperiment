@@ -12,12 +12,12 @@ namespace UI
     public class UIMainScreen : UIScreenBase
     {
         [SerializeField] Button buttonChooseMode;
-        public override void ActivateUI()
+        public override void InitiateState()
         {
             rootObject.SetActive(true);
         }
 
-        public override void DeactivateUI()
+        public override void BeforeChangeState()
         {
             rootObject.SetActive(false);
         }

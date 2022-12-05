@@ -1,10 +1,11 @@
+using Common;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI
 {
-    public class CanvasController : MonoBehaviour
+    public class CanvasController : MonoBehaviour, ICurrentStateHandler
     {
         [SerializeField]  UIScreenBase currentState;
         [SerializeField]  UIModeSelectionScreen modeSelectionState;
@@ -13,18 +14,18 @@ namespace UI
         [SerializeField]  InterierListScreen interierCollectionScreen;
         static CanvasController canvasController;
         public UIModeSelectionScreen ModeSelectionState { get => modeSelectionState; }
-        public UIMainScreen MainState { get => mainState; }
+        public UIMainScreen MainScreen { get => mainState; }
         public UIBuildingScreen BuildingState { get => buildingState; }
         public InterierListScreen InterierListScreen { get => interierCollectionScreen; }
         public static CanvasController Controller { get => canvasController; private set => canvasController = value; }
-        public UIScreenBase CurrentState
+        public IState CurrentState
         {
             get => currentState;
             set
             {
-                currentState.DeactivateUI();
-                currentState = value;
-                currentState.ActivateUI();
+                currentState.BeforeChangeState();
+                currentState = (UIScreenBase)value;
+                currentState.InitiateState();
             }
         }
 

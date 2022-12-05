@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Common;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public abstract class BuildingPlaceState : MonoBehaviour
+    public abstract class BuildingPlaceState : MonoBehaviour, IState
     {
         #region Public Methods
 

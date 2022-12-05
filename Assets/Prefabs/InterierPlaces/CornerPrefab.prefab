@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -93,6 +93,9 @@ GameObject:
   - component: {fileID: 6930448195843253858}
   - component: {fileID: 6523113287212544741}
   - component: {fileID: 7681338605785271420}
+  - component: {fileID: 979023045484023851}
+  - component: {fileID: 4804221251204782837}
+  - component: {fileID: 1207608337726734205}
   m_Layer: 0
   m_Name: CornerPrefab
   m_TagString: Untagged
@@ -127,8 +130,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e23c35d31c467947944f95558f50e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 3215405853686389565}
-  collider: {fileID: 7681338605785271420}
+  spriteRenderer: {fileID: 3215405853686389565}
+  collider2d: {fileID: 7681338605785271420}
+  isOccuped: 0
+  freeInterierPlaceState: {fileID: 979023045484023851}
+  occupedInterierPlaceState: {fileID: 4804221251204782837}
+  availableForPlacingInterier: {fileID: 1207608337726734205}
+  currentState: {fileID: 0}
 --- !u!58 &7681338605785271420
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -145,3 +153,45 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.03
+--- !u!114 &979023045484023851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214730061173427353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6b9970e3d2ed1468c4ea534420e13b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisPlace: {fileID: 0}
+--- !u!114 &4804221251204782837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214730061173427353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a0dac28f0fc18341bfdf075764c806f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisPlace: {fileID: 0}
+--- !u!114 &1207608337726734205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214730061173427353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61436c784925af84a8ab6ce169af7537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisPlace: {fileID: 0}
+  placeRenderer: {fileID: 3215405853686389565}
+  targetColor: {r: 0.7830189, g: 0.3511652, b: 0.15143289, a: 0.74509805}
+  step: 0.005

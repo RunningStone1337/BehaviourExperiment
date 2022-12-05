@@ -11,21 +11,8 @@ namespace Common
     {
         public override void BeforeChangeOldState()
         {
-            CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
+            //CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
         }
-
-        public override void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData){}
-
-        public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData) { }
-
-        public override void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
-        {
-        }
-
-        public override void HandleWallClick(Wall wall, PointerEventData eventData) { }
-
-        public override void Initiate(){}
-
       
     }
 }

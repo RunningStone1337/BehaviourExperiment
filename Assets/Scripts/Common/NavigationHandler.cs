@@ -6,16 +6,11 @@ namespace Common
 {
     public class NavigationHandler : MonoBehaviour
     {
-        #region Public Events
-
-        public event Action<float> OnCameraSizeChangedEvent;
-
-        public event Action OnCameraSwipeEndEvent;
-
-        public event Action OnCameraSwipeStartEvent;
-
-        #endregion Public Events
-
+        [SerializeField][Range(0f, 1f)] float timeDelay = 0.5f;
+        public Action HoldingMouseStartedEvent;
+        public Action MouseReleasedEvent;
+        public Action HoldingMouseLimitReachedEvent;
+        float pressingTimeStart;
         #region Public Properties
 
         public Vector3 CameraStartPos { get; private set; }
@@ -86,7 +81,6 @@ namespace Common
             {
                 mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, targetSize, currendScrollSpeed * Time.deltaTime);
                 transform.position = GetCamPosOnBoundsConstraints(transform.position);
-                OnCameraSizeChangedEvent?.Invoke(mainCam.orthographicSize);
                 yield return null;
             }
             ZoomRoutine = null;
@@ -98,19 +92,25 @@ namespace Common
             {
                 if (Input.GetMouseButtonDown(0))//если лева€ нажата ¬ѕ≈–¬џ≈ 
                 {
+                    //Debug.Log("First click");
                     CameraStartPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
                     PointerStartPos = Input.mousePosition;
                     FirstTimeInLoop = true;
                 }
                 else if (Input.GetMouseButton(0))//если нажата и удерживаетс€
                 {
+                    //Debug.Log("Holding");
                     if (FirstTimeInLoop)
                     {
-                        OnCameraSwipeStartEvent?.Invoke();
+                        pressingTimeStart = Time.time;
+                        HoldingMouseStartedEvent?.Invoke();
                         FirstTimeInLoop = false;
-                        //Debug.Log("Start");
                     }
-
+                    if (Time.time - pressingTimeStart>= timeDelay)
+                    {
+                        //Debug.Log("Limit reached");
+                        HoldingMouseLimitReachedEvent?.Invoke();
+                    }
                     var mPos = Input.mousePosition;
                     var posX = mainCam.ScreenToWorldPoint(mPos).x - CameraStartPos.x;
                     var posY = mainCam.ScreenToWorldPoint(mPos).y - CameraStartPos.y;
@@ -118,31 +118,15 @@ namespace Common
                         Mathf.Clamp(transform.position.x - posX, cameraConstraints.LeftPositionConstraint, cameraConstraints.RightPositionConstraint),
                         Mathf.Clamp(transform.position.y - posY, cameraConstraints.DownPositionConstraint, cameraConstraints.UpPositionConstraint),
                         -100f);
-                    //if (Mathf.Abs(PointerStartPos.x - transform.position.x) > 1f || Mathf.Abs(PointerStartPos.y - transform.position.y) > 1f)
-                    //{//если свайп сильнее 1
-                    //    Debug.Log(Mathf.Abs(PointerStartPos.x - transform.position.x));
-                    //}
-                    //else
-                    //{
-                    //}
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    OnCameraSwipeEndEvent?.Invoke();
-                    //Debug.Log("End");
+                    pressingTimeStart = 0f;
+                    MouseReleasedEvent?.Invoke();
+                    //Debug.Log("Release");
                 }
             }
         }
-
-        //private void Update()
-        //{
-        //    /// «ум камеры мышью
-        //    float scroll = Input.GetAxis("Mouse ScrollWheel");
-        //    MouseScroll(scroll);
-        //    /// «ум камеры на телефоне с помощью тачей
-        //    //TouchScroll(scroll);
-        //    Swipes();
-        //}
 
         #endregion Private Methods
     }

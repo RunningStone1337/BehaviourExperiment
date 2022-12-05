@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using InputSystem;
+using Common;
 
 namespace BuildingModule
 {
-    public class BuildingPlace : MonoBehaviour, IPointerClickHandler
+    public class BuildingPlace : MonoBehaviour, IPointerClickHandler, ICanBeOccuped, ICurrentStateHandler
     {
         #region Public Methods
 
@@ -31,7 +32,7 @@ namespace BuildingModule
         public Entrance Entrance { get; internal set; }
 
         public FreeState FreeState { get => freeState; }
-        public bool IsOccuped { get => isOccuped; private set => isOccuped = value; }
+        public bool IsOccuped { get => isOccuped;  set => isOccuped = value; }
         public BuildingPlace LeftNeighbour
         { 
             get => leftNeighbour;
@@ -67,12 +68,12 @@ namespace BuildingModule
 
         public OccupedState OccupedState { get => occupedState; }
         public Vector2Int Cordinates { get => coordinates; }
-        public BuildingPlaceState CurrentState
+        public IState CurrentState
         {
             get => currentState;
             set
             {
-                currentState = value;
+                currentState = (BuildingPlaceState)value;
                 IsOccuped = currentState is OccupedState;
             }
         }

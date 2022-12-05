@@ -14,7 +14,7 @@ namespace UI
 
         public void SetPreviousScreen()
         {
-            Controller.CurrentState = Controller.MainState;
+            Controller.CurrentState = Controller.MainScreen;
             ActiveButton = null;
         }
 

@@ -13,7 +13,7 @@ namespace Common
         [SerializeField] SceneStateBase currentState;
         [SerializeField] BuildingEntranceModeState buildingModeState;
         [SerializeField] NavigationState navigationState;
-        [SerializeField] PlacingInterierState placingInterierState;
+        [SerializeField] PlacingInterierSceneState placingInterierState;
         [SerializeField] BuildingWallsState buildingWallsState;
         static SceneMaster master;
         public SceneStateBase CurrentState
@@ -27,7 +27,7 @@ namespace Common
         }
         public BuildingEntranceModeState BuildingModeState { get => buildingModeState; }
         public BuildingWallsState BuildingWallsState { get => buildingWallsState; }
-        public PlacingInterierState PlacingInterierState { get => placingInterierState; }
+        public PlacingInterierSceneState PlacingInterierState { get => placingInterierState; }
 
        
 
@@ -49,9 +49,19 @@ namespace Common
             CurrentState.HandleWallClick(wall, eventData);
         }
 
+        public void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
+        {
+            CurrentState.HandleInterierClick(interierBase, eventData);
+        }
+
         public void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
         {
             CurrentState.HandleEntranceClick(entrance, eventData);
+        }
+
+        public void HandleInterierPlaceClick(InterierPlaceBase interierPlaceBase, PointerEventData eventData)
+        {
+            CurrentState.HandleInterierPlaceClick(interierPlaceBase, eventData);
         }
 
         public void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)

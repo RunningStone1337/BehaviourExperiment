@@ -31,6 +31,9 @@ namespace BuildingModule
         [SerializeField] MiddlePlace downPlace;
         [SerializeField] MiddlePlace[] middlePlaces;
         public Wall[] Walls {get => walls; }
+        public Corner[] Corners { get => corners; }
+        public Underwall[] Underwalls { get => underwalls; }
+        public MiddlePlace[] MiddlePlaces { get => middlePlaces; }
         public Wall LeftWall {get => leftWall;}
         public Wall RightWall { get => rightWall;}
         public Wall UpWall { get => upWall;}
@@ -43,17 +46,21 @@ namespace BuildingModule
             EntrancePlace = buildingPlace;
             EntrancePlace.Entrance = this;
         }
+        
+        //public void SetInterierPlacesCollidersState(bool v)
+        //{
+        //    foreach (var uw in Underwalls)
+        //        uw.SetColliderEnableIfFree( v);
+        //    foreach (var uw in MiddlePlaces)
+        //        uw.SetColliderEnableIfFree( v);
+        //    foreach (var uw in Corners)
+        //        uw.SetColliderEnableIfFree( v);
+        //}
+        
 
         public void OnPointerClick(PointerEventData eventData)
         {
             InputSystem.InputListener.Listener.HandleEntranceClick(this, eventData);
         }
-        private Wall ReplaceIfNotNull(Wall newValue, Wall existValue)
-        {
-            if (existValue != null)
-                Destroy(existValue.gameObject);
-            return newValue;
-        }
-
     }
 }

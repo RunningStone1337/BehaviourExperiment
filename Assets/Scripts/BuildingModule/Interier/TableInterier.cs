@@ -15,5 +15,19 @@ namespace BuildingModule
         public string ObjectName => objName;
 
         public string ObjectDescription => objDescription;
+        public override void ActivateAvailableInterierPlaces(IEnumerable<BuildingPlace> places)
+        {
+            /////////должен также вызываться после размещения нового объекта интерьера
+            ///для обновления доступных мест для выбранного объекта
+            foreach (var pl in places)
+            {
+                foreach (var middlePlace in pl.Entrance.MiddlePlaces)
+                {
+                    if (!middlePlace.IsOccuped && !middlePlace.OppositeMiddlePlace.IsOccuped)
+                        middlePlace.CurrentState = middlePlace.AvailableForPlacingInterierPlaceState;
+                }
+            }
+        }
+
     }
 }

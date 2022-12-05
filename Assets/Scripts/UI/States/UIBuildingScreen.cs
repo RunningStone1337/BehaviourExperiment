@@ -21,6 +21,7 @@ namespace UI
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
             //canvasController.CurrentState = canvasController.ModeSelectionState;
+            CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
             ActiveButton = null;
         }
         public void SetPlacingInterierState()

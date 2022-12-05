@@ -7,7 +7,10 @@ using static UI.CanvasController;
 
 namespace UI
 {
-    public abstract class UIScreenBase : MonoBehaviour
+    /// <summary>
+    /// Иерархия экранов контроллера UI.
+    /// </summary>
+    public abstract class UIScreenBase : MonoBehaviour,IState
     {
         [SerializeField] protected GameObject rootObject;
         [SerializeField] SceneMaster sceneMaster;
@@ -32,11 +35,11 @@ namespace UI
             }
         }
 
-        public virtual void DeactivateUI()
+        public virtual void BeforeChangeState()
         {
             rootObject.SetActive(false);
         }
-        public virtual void ActivateUI()
+        public virtual void InitiateState()
         {
             rootObject.SetActive(true);
         }

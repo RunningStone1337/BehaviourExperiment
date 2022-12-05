@@ -11,5 +11,6 @@ namespace BuildingModule
         {
             interier.Renderer.color = interierColor;
         }
+       
     }
 }
