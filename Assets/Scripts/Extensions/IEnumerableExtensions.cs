@@ -8,13 +8,16 @@ namespace Extensions
 {
     public static class IEnumerableExtensions 
     {
-        public static IEnumerable<ICurrentStateHandler> GetCurrentStateHandlers<TStateType>(this IEnumerable<ICurrentStateHandler> handlers)
+        public static IEnumerable<TStateHanlder> GetCurrentStateHandlers<TStateType, TStateHanlder>(this IEnumerable<TStateHanlder> handlers)
+          where TStateType : IState where TStateHanlder: ICurrentStateHandler 
         {
             return handlers.Where(x => x.CurrentState is TStateType);
         }
-        public static IEnumerable<IState> GetCurrentStatesOfType<TStateType>(this IEnumerable<ICurrentStateHandler> handlers)
+     
+        public static IEnumerable<TStateType> GetCurrentStatesOfType<TStateType, TStateHanlder>(this IEnumerable<TStateHanlder> handlers) 
+            where TStateHanlder : ICurrentStateHandler where TStateType: IState
         {
-            return handlers.Select(x=>x.CurrentState).Where(x => x is TStateType);
+            return (IEnumerable<TStateType>)handlers.Select(x=>x.CurrentState).Where(x => x is TStateType);
         }
     }
 }

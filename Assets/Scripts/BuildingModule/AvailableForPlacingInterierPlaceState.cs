@@ -33,7 +33,7 @@ namespace BuildingModule
         }
         public override void HandleInterierPlaceClick(PointerEventData eventData)
         {
-           EntranceBuilder.Builder.TryAddSelectedInterier(thisPlace);
+           EntranceBuilder.TryAddSelectedInterier(thisPlace);
         }
         public override void BeforeChangeState()
         {

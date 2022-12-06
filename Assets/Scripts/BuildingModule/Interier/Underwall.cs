@@ -6,6 +6,6 @@ namespace BuildingModule
 {
     public class Underwall : InterierPlaceBase
     {
-     
+       
     }
 }

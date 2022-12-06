@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Common;
+using System;
 
 namespace BuildingModule
 {
@@ -13,6 +14,7 @@ namespace BuildingModule
         [SerializeField] InterierPlaceBase thisInterierPlace;
         [SerializeField] ObjectUniqIdentifier thisIdentifier;
         public ObjectUniqIdentifier ThisIdentifier { get => thisIdentifier; }
+
         public SpriteRenderer Renderer { get => spriteRenderer; }
         public InterierPlaceBase ThisInterierPlace { get => thisInterierPlace; }
         private void Awake()
@@ -20,7 +22,12 @@ namespace BuildingModule
             thisInterierPlace = GetComponentInParent<InterierPlaceBase>();
         }
 
-        public virtual void ActivateAvailableInterierPlaces(IEnumerable<BuildingPlace> places) { }
+        /// <summary>
+        /// Определяет, может ли данный предмет размещаться на месте с текущим состоянием
+        /// </summary>
+        /// <param name="interierPlace"></param>
+        /// <returns></returns>
+        public virtual bool IsAvailableForPlacing(InterierPlaceBase interierPlace) { return default; }
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {

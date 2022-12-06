@@ -16,13 +16,10 @@ namespace Common
         }
         public override void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
         {
-            placeableUIView.InterierListScreen.ActiveComponent = placeableUIView;
+            CanvasController.Controller.InterierListScreen.ActiveComponent = placeableUIView;
+            var interier = SceneMaster.Master.LastSelectedViewObject;
             //подсвечиваем доступные места и активируем мерцание
-            //var places = EntranceRoot.Root.PlacesDict.Values.Where(x => x.CurrentState is OccupedState);
-            ///ПОЧЕМУ НЕ РАБОТАЕТ???
-            var places = (IEnumerable<BuildingPlace>)EntranceRoot.Root.PlacesDict.Values.GetCurrentStateHandlers<OccupedState>()/* as IEnumerable<BuildingPlace>*/;
-            var interier = placeableUIView.CorrespondingObjectPrefab.GetComponent<InterierBase>();
-            interier.ActivateAvailableInterierPlaces(places);
+            InterierPlaceBase.ActivateAvailableInterierPlaces(interier);
         }
         public override void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
         {
@@ -36,7 +33,7 @@ namespace Common
         }
         public override void HandleInterierPlaceClick(InterierPlaceBase interierPlaceBase, PointerEventData eventData)
         {
-            ((InterierPlaceStateBase)interierPlaceBase.CurrentState).HandleInterierPlaceClick(eventData);
+            interierPlaceBase.HandleInterierPlaceClick(eventData);
         }
     }
 }

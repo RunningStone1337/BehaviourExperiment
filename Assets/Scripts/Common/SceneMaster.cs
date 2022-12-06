@@ -33,6 +33,14 @@ namespace Common
 
         public NavigationState NavigationState { get => navigationState; }
         public static SceneMaster Master { get => master; private set => master = value; }
+        public InterierBase LastSelectedViewObject
+        {
+            get
+            {
+                var c = (PlaceableUIView)CanvasController.Controller.InterierListScreen?.ActiveComponent;
+                return c?.GetThisViewObject<InterierBase>();
+            }
+        }
 
         private void Awake()
         {

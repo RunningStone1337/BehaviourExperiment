@@ -5,15 +5,16 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
+    /// <summary>
+    /// Стейт с занятым местом интерьера.
+    /// </summary>
     public class OccupedInterierPlaceState : InterierPlaceStateBase
     {
         public override void HandleInterierPlaceClick(PointerEventData eventData)
         {
             EntranceBuilder.ReplaceInterierOrDeleteExist(thisPlace.Interier, thisPlace);
         }
-        public override void InitializeState()
-        {
-            thisPlace.Interier = null;
-        }
+
+       
     }
 }

@@ -32,15 +32,25 @@ namespace BuildingModule
             foreach (var neigh in thisPlace.Neighbours)
                 RebuildWalls(neigh);
         }
-        public static void AddInterierIfNotMatch(int oldId, InterierPlaceBase place)
+
+        /// <summary>
+        /// ƒобавл€ет выбранный объект интерьера если он не совпадает со старым
+        /// </summary>
+        /// <param name="oldId"></param>
+        /// <param name="place"></param>
+        public static void AddInterierIfNew(int oldId, InterierPlaceBase place)
         {
-            var ac = CanvasController.Controller.InterierListScreen.ActiveComponent as PlaceableUIView;
-            if (ac != null)
+            var inter = SceneMaster.Master.LastSelectedViewObject;
+            var newInterierId = inter.ThisIdentifier.ID;
+            if (inter != null && oldId != newInterierId)//есть активный компон
             {
-                var newInterierId = ac.CorrespondingObjectPrefab.GetComponent<InterierBase>().ThisIdentifier.ID;
-                if (oldId!= newInterierId)
-                    Builder.TryAddSelectedInterier(place);
+                TryAddSelectedInterier(place);
+                //InterierPlaceBase.ActivateAvailableInterierPlaces(inter);
             }
+            //else
+            //{
+            //    place.SetPlaceStateAccordingInterierPlaceability(inter);
+            //}
         }
         
         /// <summary>
@@ -54,30 +64,47 @@ namespace BuildingModule
                 BuildWalls(neigh.Entrance);
             }
         }
+        /// <summary>
+        /// ”дал€ет интерьер или замен€ет его новым в зависимости от текущего выбранного компонента.
+        /// </summary>
+        /// <param name="oldInterier"></param>
+        /// <param name="place"></param>
         public static void ReplaceInterierOrDeleteExist(InterierBase oldInterier, InterierPlaceBase place)
         {
             var oldID = oldInterier.ThisIdentifier.ID;
             //удалить интерьер
-            RemoveInterier(oldInterier);
-            place.CurrentState = place.AvailableForPlacingInterierPlaceState;
+            RemoveInterier(oldInterier, place);
+            //place.CurrentState = place.AvailableForPlacingInterierPlaceState;
             //если выбран прежний, не добавл€ть ничего, иначе выбранный
-            AddInterierIfNotMatch(oldID, place);
+            AddInterierIfNew(oldID, place);            
         }
-        public static void RemoveInterier(InterierBase interierBase)
+        public static void RemoveInterier(InterierBase interierBase, InterierPlaceBase place)
         {
-            interierBase.ThisInterierPlace.CurrentState = interierBase.ThisInterierPlace.FreeInterierPlaceState;
+            place.CurrentState = place.FreeInterierPlaceState;
             Destroy(interierBase.gameObject);
+            var selected = SceneMaster.Master.LastSelectedViewObject;
+            place.SetPlaceStateAccordingInterierPlaceability(selected);
+            if (place is MiddlePlace tp)
+                tp.SetFreeStateForOtherMiddlePlaces();
         }
 
-        public void TryAddSelectedInterier(InterierPlaceBase ipb)
+        /// <summary>
+        /// ƒобавл€ет выбранный интерьер на место если какой-то выбран
+        /// и размещение не запрещено.
+        /// </summary>
+        /// <param name="ipb"></param>
+        public static void TryAddSelectedInterier(InterierPlaceBase ipb)
         {
-            var ac = CanvasController.Controller.InterierListScreen.ActiveComponent as PlaceableUIView;
-            if (ac != null)
+            var lastSelected = SceneMaster.Master.LastSelectedViewObject;
+            if (lastSelected != null)
             {
-                var newEntrance = Instantiate(ac.CorrespondingObjectPrefab,
-                    ipb.transform).GetComponent<InterierBase>();
-                ipb.Interier = newEntrance;
-                ipb.CurrentState = ipb.OccupedInterierPlaceState;
+                if (lastSelected.IsAvailableForPlacing(ipb))
+                {
+                    var newEntrance = Instantiate(lastSelected.gameObject,
+                        ipb.transform).GetComponent<InterierBase>();
+                    ipb.Interier = newEntrance;
+                    ipb.CurrentState = ipb.OccupedInterierPlaceState;
+                }
             }
         }
 

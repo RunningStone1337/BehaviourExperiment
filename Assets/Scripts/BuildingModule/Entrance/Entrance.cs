@@ -46,7 +46,7 @@ namespace BuildingModule
             EntrancePlace = buildingPlace;
             EntrancePlace.Entrance = this;
         }
-        
+
         //public void SetInterierPlacesCollidersState(bool v)
         //{
         //    foreach (var uw in Underwalls)
@@ -56,7 +56,14 @@ namespace BuildingModule
         //    foreach (var uw in Corners)
         //        uw.SetColliderEnableIfFree( v);
         //}
-        
+        private void Awake()
+        {
+            EntranceRoot.Root.Entrances.Add(this);
+        }
+        private void OnDestroy()
+        {
+            EntranceRoot.Root.Entrances.Remove(this);
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {

@@ -93,9 +93,9 @@ GameObject:
   - component: {fileID: 1742493147903265814}
   - component: {fileID: 5957350177463717497}
   - component: {fileID: 1846455819449293299}
-  - component: {fileID: 6656153548507979445}
-  - component: {fileID: 2831076522203073194}
-  - component: {fileID: 5218113369275324745}
+  - component: {fileID: 1165812612420145877}
+  - component: {fileID: 2719033618185776993}
+  - component: {fileID: 2509578591890699138}
   m_Layer: 0
   m_Name: MiddlePlacePrefab
   m_TagString: Untagged
@@ -134,10 +134,10 @@ MonoBehaviour:
   collider2d: {fileID: 1846455819449293299}
   interier: {fileID: 0}
   isOccuped: 0
-  freeInterierPlaceState: {fileID: 2831076522203073194}
-  occupedInterierPlaceState: {fileID: 6656153548507979445}
-  availableForPlacingInterier: {fileID: 5218113369275324745}
-  currentState: {fileID: 0}
+  freeInterierPlaceState: {fileID: 1165812612420145877}
+  occupedInterierPlaceState: {fileID: 2719033618185776993}
+  availableForPlacingInterier: {fileID: 2509578591890699138}
+  currentState: {fileID: 1165812612420145877}
   oppositeMiddlePlace: {fileID: 0}
 --- !u!61 &1846455819449293299
 BoxCollider2D:
@@ -165,7 +165,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.03, y: 0.1}
   m_EdgeRadius: 0
---- !u!114 &6656153548507979445
+--- !u!114 &1165812612420145877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,11 +174,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3238051004567721064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a0dac28f0fc18341bfdf075764c806f, type: 3}
+  m_Script: {fileID: 11500000, guid: b78dab28f92745a4db8a75d297630035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
---- !u!114 &2831076522203073194
+--- !u!114 &2719033618185776993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,11 +187,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3238051004567721064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f6b9970e3d2ed1468c4ea534420e13b, type: 3}
+  m_Script: {fileID: 11500000, guid: f3213740216345744a1a9dcf016cb0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
---- !u!114 &5218113369275324745
+--- !u!114 &2509578591890699138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,10 +200,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3238051004567721064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61436c784925af84a8ab6ce169af7537, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b693394a12a7c54aaae8a0849b90d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
   placeRenderer: {fileID: 2150807712747624199}
-  targetColor: {r: 0.6226415, g: 0.42945796, b: 0.17328231, a: 0.7294118}
+  targetColor: {r: 0.62352943, g: 0.43137255, b: 0.17254902, a: 0.7490196}
   step: 0.005

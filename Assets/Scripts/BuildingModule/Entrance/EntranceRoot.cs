@@ -14,9 +14,11 @@ namespace BuildingModule {
             }
             private set => entranceRoot = value; }
         public Dictionary<Vector2Int, BuildingPlace> PlacesDict { get; set; } = new Dictionary<Vector2Int, BuildingPlace>();
+        public List<Entrance> Entrances { get=> entrances; private set=> entrances = value; }
 
         static EntranceRoot entranceRoot;
         [SerializeField] BuildingPlace[] places;
-       
+        [SerializeField] List<Entrance> entrances;
+
     }
 }
