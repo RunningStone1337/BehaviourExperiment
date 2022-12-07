@@ -16,8 +16,9 @@ namespace Common
         }
         public override void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
         {
+            SceneMaster.Master.LastSelectedViewObject = placeableUIView.CorrespondingObjectPrefab;
             CanvasController.Controller.InterierListScreen.ActiveComponent = placeableUIView;
-            var interier = SceneMaster.Master.LastSelectedViewObject;
+            var interier = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             //подсвечиваем доступные места и активируем мерцание
             InterierPlaceBase.ActivateAvailableInterierPlaces(interier);
         }

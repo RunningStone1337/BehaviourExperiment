@@ -6,6 +6,7 @@ namespace UI
 {
     public interface ISelectableUIComponent
     {
+
         /// <summary>
         /// Объект, используемый для хранения и восстановления дефолтного значения компонента.
         /// </summary>

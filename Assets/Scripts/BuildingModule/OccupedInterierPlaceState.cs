@@ -12,9 +12,7 @@ namespace BuildingModule
     {
         public override void HandleInterierPlaceClick(PointerEventData eventData)
         {
-            EntranceBuilder.ReplaceInterierOrDeleteExist(thisPlace.Interier, thisPlace);
+            EntranceBuilder.ReplaceInterierOrDeleteExist(thisPlace.Interier[0], thisPlace);
         }
-
-       
     }
 }

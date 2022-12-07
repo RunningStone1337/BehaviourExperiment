@@ -9,6 +9,7 @@ namespace BuildingModule
 {
     public class Entrance : MonoBehaviour, IPointerClickHandler
     {
+        [SerializeField] EntranceRoleBase role;
         [SerializeField] SpriteRenderer entranceSprite;
         [SerializeField] Wall leftWall;
         [SerializeField] Wall rightWall;
@@ -39,6 +40,7 @@ namespace BuildingModule
         public Wall UpWall { get => upWall;}
         public Wall DownWall { get => downWall;}
         public BuildingPlace EntrancePlace { get; private set; }
+        public EntranceRoleBase Role { get=>role; set=>role = value; }
 
         public void Initiate(BuildingPlace buildingPlace)
         {

@@ -19,5 +19,9 @@ namespace Extensions
         {
             return (IEnumerable<TStateType>)handlers.Select(x=>x.CurrentState).Where(x => x is TStateType);
         }
+        public static int Count<T1, T2>(this IEnumerable<T1> enumer) where T2: T1
+        {
+            return enumer.Where(x => x is T2).Count();
+        }
     }
 }

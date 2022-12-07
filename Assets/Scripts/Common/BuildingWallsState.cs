@@ -10,9 +10,6 @@ namespace Common
 {
     public class BuildingWallsState : SceneStateBase
     {
-        public override void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData){}
-
-        public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData){}
         public override void Initiate()
         {
             ActivateAllInactiveWalls();
@@ -39,26 +36,10 @@ namespace Common
             else
                 wall.SetBuildingState();
         }
-        private static void DeactivateAllBuildStateWalls()
-        {
-            var root = EntranceRoot.Root;
-            var entrances = root.PlacesDict.Select(x => x.Value).Where(x => x.CurrentState is OccupedState).Select(x => x.Entrance);
-            foreach (var en in entrances)
-            {
-                foreach (var wall in en.Walls)
-                {
-                    if (wall.CurrentState is AvailForBuildState)
-                        wall.SetInactiveState();
-                }
-            }
-        }
+       
         public override void BeforeChangeOldState()
         {
-            DeactivateAllBuildStateWalls();
-        }
-
-        public override void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
-        {
+            SceneMaster.Master.DeactivateAllBuildStateWalls();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace UI
         [SerializeField] SelectableButton buttonEntranceBuildMode;
         [SerializeField] SelectableButton buttonWallsBuildMode;
         [SerializeField] SelectableButton buttonInterierBuildMode;
+        [SerializeField] SelectableButton buttonEntranceRoleMode;
      
         public void SetBuildingEntranceState()
         {
@@ -34,6 +35,11 @@ namespace UI
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.BuildingWallsState;
             ActiveButton = buttonWallsBuildMode;
+        }
+        public void SetEntranceRoleEditingState()
+        {
+            SceneMaster.Master.CurrentState = SceneMaster.Master.EntranceRoleEditingState;
+            ActiveButton = buttonEntranceRoleMode;
         }
     }
 }

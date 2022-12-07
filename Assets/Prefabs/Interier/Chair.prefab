@@ -101,6 +101,11 @@ MonoBehaviour:
   collider2d: {fileID: 6095224493026633613}
   thisInterierPlace: {fileID: 0}
   thisIdentifier: {fileID: 917818194238383277}
+  previewSprite: {fileID: 0}
+  objName: "\u041F\u0440\u043E\u0441\u0442\u043E\u0439 \u0441\u0442\u0443\u043B"
+  objDescription: "\u041D\u0435 \u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442
+    \u043D\u0438\u043A\u0430\u043A\u043E\u0433\u043E \u0432\u043B\u0438\u044F\u043D\u0438\u044F
+    \u043D\u0430 \u043A\u043E\u043C\u0444\u043E\u0440\u0442"
 --- !u!58 &6095224493026633613
 CircleCollider2D:
   m_ObjectHideFlags: 0

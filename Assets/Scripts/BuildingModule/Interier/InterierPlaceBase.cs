@@ -16,21 +16,20 @@ namespace BuildingModule
     {
         [SerializeField] SpriteRenderer spriteRenderer;
         [SerializeField] Collider2D collider2d;
-        [SerializeField] InterierBase interier;
-        [SerializeField] bool isOccuped;
+        [SerializeField] List<InterierBase> interier;
+        [SerializeField] Entrance entrance;
+
         [Space]
         [SerializeField] FreeInterierPlaceState freeInterierPlaceState;
         [SerializeField] OccupedInterierPlaceState occupedInterierPlaceState;
-
-
         [SerializeField] AvailableForPlacingInterierPlaceState availableForPlacingInterier;
-
         [SerializeField] InterierPlaceStateBase currentState;
+        public Entrance Entrance { get => entrance; protected set => entrance = value; }
         public Collider2D Collider2D { get => collider2d; }
         public FreeInterierPlaceState FreeInterierPlaceState { get => freeInterierPlaceState; }
         public OccupedInterierPlaceState OccupedInterierPlaceState { get => occupedInterierPlaceState; }
         public AvailableForPlacingInterierPlaceState AvailableForPlacingInterierPlaceState { get => availableForPlacingInterier; }
-        public bool IsOccuped { get => isOccuped; set => isOccuped = value; }
+        public bool IsOccuped { get => Interier.Count>0; set { } }
         public IState CurrentState
         {
             get => currentState;
@@ -43,18 +42,19 @@ namespace BuildingModule
             }
         }
 
-        public InterierBase Interier
+        public List<InterierBase> Interier
         {
             get => interier;
             set
             {
                 interier = value;
-                if (interier != null)
-                    IsOccuped = true;
-                else
-                    IsOccuped = false;
+                //if (interier != null)
+                //    IsOccuped = true;
+                //else
+                //    IsOccuped = false;
             }
         }
+        
 
         public static void ActivateAvailableInterierPlaces(InterierBase interier)
         {
@@ -68,21 +68,19 @@ namespace BuildingModule
                     pl.SetPlaceStateAccordingInterierPlaceability(interier);
             }
         }
-
-        public void SetPlaceStateAccordingInterierPlaceability(InterierBase interier)
+        public virtual void SetPlaceStateAccordingInterierPlaceability(InterierBase interier)
         {
             ///при переключении активного итема места, которые не должны светиться(в центре) светятся, нужно обработать 
             if (interier.IsAvailableForPlacing(this))
                 CurrentState = AvailableForPlacingInterierPlaceState;
-            else
-                CurrentState = FreeInterierPlaceState;
         }
 
         public void HandleInterierPlaceClick(PointerEventData eventData)
         {
             ((InterierPlaceStateBase)CurrentState).HandleInterierPlaceClick(eventData);
         }
-        public virtual bool IsAvailableForPlacingInterier(TableInterier tableInterier)=>default;
+        public virtual bool IsAvailableForPlacingInterier<T>() where T : InterierBase 
+        { return default; }
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -91,6 +89,7 @@ namespace BuildingModule
         private void Awake()
         {
             currentState = FreeInterierPlaceState;
+            Entrance = GetComponentInParent<Entrance>();
         }
     }
 }

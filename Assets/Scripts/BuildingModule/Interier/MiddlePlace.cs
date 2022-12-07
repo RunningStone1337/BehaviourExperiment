@@ -15,14 +15,14 @@ namespace BuildingModule
         public MiddlePlace LeftMiddlePlace { get => leftMiddlePlace; }
         public MiddlePlace RightMiddlePlace { get => rightMiddlePlace; }
 
-        public override bool IsAvailableForPlacingInterier(TableInterier tableInterier)
+        public override bool IsAvailableForPlacingInterier<T>()
         {
-            return ((InterierPlaceStateBase)CurrentState).IsAvailableForPlacingInterier(tableInterier);
+            return ((InterierPlaceStateBase)CurrentState).IsAvailableForPlacingInterier<T>();
         }
 
         public void SetFreeStateForOtherMiddlePlaces()
         {
-            var selected = SceneMaster.Master.LastSelectedViewObject;
+            var selected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             LeftMiddlePlace.SetPlaceStateAccordingInterierPlaceability(selected);
             RightMiddlePlace.SetPlaceStateAccordingInterierPlaceability(selected);
             OppositeMiddlePlace.SetPlaceStateAccordingInterierPlaceability(selected);

@@ -2,6 +2,7 @@ using Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -23,7 +24,7 @@ namespace BuildingModule
         /// </summary>
         /// <param name="tableInterier"></param>
         /// <returns></returns>
-        public virtual bool IsAvailableForPlacingInterier(TableInterier tableInterier) => default;
+        public virtual bool IsAvailableForPlacingInterier<T>() where T: InterierBase { return default; }
 
         public virtual void InitializeState() { }
 
@@ -33,23 +34,24 @@ namespace BuildingModule
         /// <summary>
         /// Устанавливает состояние противоположного места в зависимости от наличия ЗДЕСЬ интерьера типа Т
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Тип, ограничивающий размещение на противоположной стороне.</typeparam>
         public void SetOppositePlaceStateAccordingSelectedInterier<T>() where T : InterierBase
         {
             var pl = (MiddlePlace)thisPlace;
             var op = pl.OppositeMiddlePlace;
-                var currentObj = SceneMaster.Master.LastSelectedViewObject;
+            var currentObj = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             //ЗДЕСЬ интерьер и противоположное место было доступно для размещения
-            if (thisPlace.IsOccuped && thisPlace.Interier is T)//в кликнутом стейт = AvailableForPlacing, удален интерьер
+            if (thisPlace.Interier.Count != 0 && thisPlace.Interier.Where(x=>x is T).Count()>0)
             {
                 if (op.CurrentState is AvailableForPlacingInterierPlaceState && currentObj is T)//запрещаем размещать
                     op.CurrentState = op.FreeInterierPlaceState;
                 else
                     op.CurrentState = op.AvailableForPlacingInterierPlaceState;
-            }//а если противоположный фри, он так и останется всегда, нужно менять его стейт в зависимости от выбранного объекта
-            else if (!op.IsOccuped)
+            }
+            else if (op.Interier.Count == 0)
             {
-                op.CurrentState = op.AvailableForPlacingInterierPlaceState;
+                op.SetPlaceStateAccordingInterierPlaceability(currentObj);
+                //op.CurrentState = op.AvailableForPlacingInterierPlaceState;
             }
 
         }
@@ -61,7 +63,7 @@ namespace BuildingModule
         {
             var place = (MiddlePlace)thisPlace;
             var opp = place.OppositeMiddlePlace;
-            if (opp.IsOccuped && opp.Interier is TableInterier)
+            if (opp.Interier.Where(x=>x is TableInterier).Count() > 0)
                 return true;
             return false;
         }

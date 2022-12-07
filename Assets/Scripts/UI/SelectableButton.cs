@@ -22,6 +22,7 @@ namespace UI
         }
         public object DefaultToken { get => colors.normalColor; set { } }
 
+
         public void SetDisabledState()
         {
             GetComponent<Image>().color = (Color)DefaultToken;

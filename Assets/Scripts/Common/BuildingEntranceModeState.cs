@@ -19,5 +19,11 @@ namespace Common
                     throw new System.Exception("Unhandled exception in building module");
             }
         }
+        public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
+        {
+            var isSucceed = entrance.EntrancePlace.TryRemoveExistEntrance(eventData);
+            if (!isSucceed)
+                throw new System.Exception("Unhandled exception in building module");
+        }
     }
 }

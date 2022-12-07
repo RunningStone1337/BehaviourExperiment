@@ -132,13 +132,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2150807712747624199}
   collider2d: {fileID: 1846455819449293299}
-  interier: {fileID: 0}
+  interier: []
+  entrance: {fileID: 0}
   isOccuped: 0
   freeInterierPlaceState: {fileID: 1165812612420145877}
   occupedInterierPlaceState: {fileID: 2719033618185776993}
   availableForPlacingInterier: {fileID: 2509578591890699138}
   currentState: {fileID: 1165812612420145877}
   oppositeMiddlePlace: {fileID: 0}
+  leftMiddlePlace: {fileID: 0}
+  rightMiddlePlace: {fileID: 0}
 --- !u!61 &1846455819449293299
 BoxCollider2D:
   m_ObjectHideFlags: 0

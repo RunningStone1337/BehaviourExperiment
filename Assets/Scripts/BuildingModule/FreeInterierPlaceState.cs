@@ -6,10 +6,10 @@ namespace BuildingModule
 {
     public class FreeInterierPlaceState : InterierPlaceStateBase
     {
-        public override void InitializeState()
-        {
-            //thisPlace.IsOccuped = false;
-            thisPlace.Interier = null;
-        }
+        //public override void InitializeState()
+        //{
+        //    //thisPlace.IsOccuped = false;
+        //    thisPlace.Interier = null;
+        //}
     }
 }

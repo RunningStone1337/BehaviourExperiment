@@ -8,19 +8,27 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlaceableUIView : MonoBehaviour, ISelectableUIComponent, IPointerClickHandler
+    public class PlaceableUIView : MonoBehaviour, ISelectableUIComponent, IPointerClickHandler, IUIViewedObjectHandler
     {
         [SerializeField] Image backImage;
         [SerializeField] Image previewImage;
         [SerializeField] Text nameText;
         [SerializeField] Text descriptionText;
         [SerializeField] GameObject correspondingObjectPrefab;
-        [SerializeField] InterierListScreen interierListScreen;
         [SerializeField] bool isSelected;
         [SerializeField] [HideInInspector] Color defaultColor;
         public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
-        public InterierListScreen InterierListScreen { get => interierListScreen; }
-        public GameObject CorrespondingObjectPrefab { get => correspondingObjectPrefab; }
+        public IUIViewedObject CorrespondingObjectPrefab
+        {
+            get
+            {
+
+                var comp = correspondingObjectPrefab.GetComponent<IUIViewedObject>();
+                if (comp == null)
+                    comp = correspondingObjectPrefab.GetComponent<IUIViewedObjectHandler>().CorrespondingObjectPrefab;
+                return comp;
+            }
+        }
         public bool IsSelected
         {
             get => isSelected;
@@ -38,14 +46,13 @@ namespace UI
         [ContextMenu("Init")]
         public void InitUIView()
         {
-            var UIView = correspondingObjectPrefab.GetComponent<IUIViewedObject>();
-            previewImage.sprite = UIView.PreviewSprite;
-            nameText.text = UIView.ObjectName;
-            descriptionText.text = UIView.ObjectDescription;
+            previewImage.sprite = CorrespondingObjectPrefab.PreviewSprite;
+            nameText.text = CorrespondingObjectPrefab.ObjectName;
+            descriptionText.text = CorrespondingObjectPrefab.ObjectDescription;
         }
 
         public T GetThisViewObject<T>() where T : MonoBehaviour=>
-            CorrespondingObjectPrefab.GetComponent<T>();
+            correspondingObjectPrefab.GetComponent<T>();
         public void OnPointerClick(PointerEventData eventData)
         {
             SceneMaster.Master.HandlePlaceableUIViewClick(this, eventData);

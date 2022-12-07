@@ -2,6 +2,7 @@ using BuildingModule;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,8 @@ namespace Common
         [SerializeField] NavigationState navigationState;
         [SerializeField] PlacingInterierSceneState placingInterierState;
         [SerializeField] BuildingWallsState buildingWallsState;
+        [SerializeField] EntranceRoleEditingState entranceRoleEditingState;
+        [SerializeField] IUIViewedObject lastSelectedViewObject;
         static SceneMaster master;
         public SceneStateBase CurrentState
         {
@@ -25,20 +28,22 @@ namespace Common
                 currentState.Initiate();
             }
         }
+
         public BuildingEntranceModeState BuildingModeState { get => buildingModeState; }
         public BuildingWallsState BuildingWallsState { get => buildingWallsState; }
         public PlacingInterierSceneState PlacingInterierState { get => placingInterierState; }
-
-       
-
+        public EntranceRoleEditingState EntranceRoleEditingState { get => entranceRoleEditingState; }
         public NavigationState NavigationState { get => navigationState; }
         public static SceneMaster Master { get => master; private set => master = value; }
-        public InterierBase LastSelectedViewObject
+        public IUIViewedObject LastSelectedViewObject
         {
             get
             {
-                var c = (PlaceableUIView)CanvasController.Controller.InterierListScreen?.ActiveComponent;
-                return c?.GetThisViewObject<InterierBase>();
+                return lastSelectedViewObject;
+            }
+            set
+            {
+                lastSelectedViewObject = value;
             }
         }
 
@@ -52,6 +57,33 @@ namespace Common
             Destroy(this);
         }
 
+        public void DeactivateAllInterierPlaces()
+        {
+            var entrances = EntranceRoot.Root.Entrances;
+            foreach (var en in entrances)
+            {
+                var places = new List<InterierPlaceBase>(en.MiddlePlaces);
+                places.AddRange(en.Underwalls);
+                places.AddRange(en.Corners);
+                foreach (var wall in places)
+                {
+                    if (wall.CurrentState is AvailableForPlacingInterierPlaceState)
+                        wall.CurrentState = wall.FreeInterierPlaceState;
+                }
+            }
+        }
+        public void DeactivateAllBuildStateWalls()
+        {
+            var entrances = EntranceRoot.Root.Entrances;
+            foreach (var en in entrances)
+            {
+                foreach (var wall in en.Walls)
+                {
+                    if (wall.CurrentState is AvailForBuildState)
+                        wall.SetInactiveState();
+                }
+            }
+        }
         public void HandleWallClick(Wall wall, PointerEventData eventData)
         {
             CurrentState.HandleWallClick(wall, eventData);

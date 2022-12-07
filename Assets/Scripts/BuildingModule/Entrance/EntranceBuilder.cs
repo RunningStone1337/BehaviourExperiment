@@ -40,7 +40,7 @@ namespace BuildingModule
         /// <param name="place"></param>
         public static void AddInterierIfNew(int oldId, InterierPlaceBase place)
         {
-            var inter = SceneMaster.Master.LastSelectedViewObject;
+            var inter = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             var newInterierId = inter.ThisIdentifier.ID;
             if (inter != null && oldId != newInterierId)//есть активный компон
             {
@@ -80,9 +80,11 @@ namespace BuildingModule
         }
         public static void RemoveInterier(InterierBase interierBase, InterierPlaceBase place)
         {
-            place.CurrentState = place.FreeInterierPlaceState;
+            place.Interier.Remove(interierBase);
+            if (place.Interier.Count==0)
+                place.CurrentState = place.FreeInterierPlaceState;
             Destroy(interierBase.gameObject);
-            var selected = SceneMaster.Master.LastSelectedViewObject;
+            var selected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             place.SetPlaceStateAccordingInterierPlaceability(selected);
             if (place is MiddlePlace tp)
                 tp.SetFreeStateForOtherMiddlePlaces();
@@ -95,15 +97,14 @@ namespace BuildingModule
         /// <param name="ipb"></param>
         public static void TryAddSelectedInterier(InterierPlaceBase ipb)
         {
-            var lastSelected = SceneMaster.Master.LastSelectedViewObject;
+            var lastSelected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             if (lastSelected != null)
             {
                 if (lastSelected.IsAvailableForPlacing(ipb))
                 {
                     var newEntrance = Instantiate(lastSelected.gameObject,
                         ipb.transform).GetComponent<InterierBase>();
-                    ipb.Interier = newEntrance;
-                    ipb.CurrentState = ipb.OccupedInterierPlaceState;
+                    newEntrance.Initiate(ipb);
                 }
             }
         }

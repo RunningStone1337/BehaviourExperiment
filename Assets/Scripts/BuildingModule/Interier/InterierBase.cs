@@ -33,5 +33,11 @@ namespace BuildingModule
         {
             InputSystem.InputListener.Listener.HandleInterierClick(this, eventData);
         }
+
+        public virtual void Initiate(InterierPlaceBase ipb)
+        {
+            ipb.Interier.Add(this);
+            ipb.CurrentState = ipb.OccupedInterierPlaceState;
+        }
     }
 }
