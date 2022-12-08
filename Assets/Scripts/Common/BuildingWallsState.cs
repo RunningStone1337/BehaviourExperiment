@@ -2,7 +2,7 @@ using BuildingModule;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UI;
+using Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,7 +18,7 @@ namespace Common
         private static void ActivateAllInactiveWalls()
         {
             var root = EntranceRoot.Root;
-            var entrances = root.PlacesDict.Select(x => x.Value).Where(x => x.CurrentState is OccupedState).Select(x => x.Entrance);
+            var entrances = root.Entrances;
             foreach (var en in entrances)
             {
                 foreach (var wall in en.Walls)

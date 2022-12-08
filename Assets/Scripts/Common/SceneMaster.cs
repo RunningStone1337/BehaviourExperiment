@@ -17,6 +17,7 @@ namespace Common
         [SerializeField] PlacingInterierSceneState placingInterierState;
         [SerializeField] BuildingWallsState buildingWallsState;
         [SerializeField] EntranceRoleEditingState entranceRoleEditingState;
+        [SerializeField] RoomSplittingState roomSplittingState;
         [SerializeField] IUIViewedObject lastSelectedViewObject;
         static SceneMaster master;
         public SceneStateBase CurrentState
@@ -28,9 +29,9 @@ namespace Common
                 currentState.Initiate();
             }
         }
-
         public BuildingEntranceModeState BuildingModeState { get => buildingModeState; }
         public BuildingWallsState BuildingWallsState { get => buildingWallsState; }
+        public RoomSplittingState RoomSplittingState { get => roomSplittingState; }
         public PlacingInterierSceneState PlacingInterierState { get => placingInterierState; }
         public EntranceRoleEditingState EntranceRoleEditingState { get => entranceRoleEditingState; }
         public NavigationState NavigationState { get => navigationState; }

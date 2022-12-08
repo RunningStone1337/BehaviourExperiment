@@ -25,7 +25,7 @@ namespace UI
         public void ChangeScreen()
         {
             Controller.CurrentState = Controller.ModeSelectionState;
-            ActiveButton = null;
+            ActiveComponent = null;
         }
     }
 }

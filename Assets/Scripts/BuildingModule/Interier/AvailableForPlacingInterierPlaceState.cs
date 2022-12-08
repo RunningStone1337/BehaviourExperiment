@@ -17,9 +17,7 @@ namespace BuildingModule
         public override void InitializeState()
         {
             thisPlace.Collider2D.enabled = true;
-            if (Routine != null)
-                StopCoroutine(Routine);
-            Routine = StartCoroutine(VisualEffectRoutine());
+            StartRoutine();
         }
 
         public IEnumerator VisualEffectRoutine()
@@ -38,6 +36,13 @@ namespace BuildingModule
         public override void BeforeChangeState()
         {
             thisPlace.Collider2D.enabled = false;
+        }
+
+        public void StartRoutine()
+        {
+            if (Routine != null)
+                StopCoroutine(Routine);
+            Routine = StartCoroutine(VisualEffectRoutine());
         }
     }
 }

@@ -23,5 +23,12 @@ namespace Extensions
         {
             return enumer.Where(x => x is T2).Count();
         }
+        public static void StartVisualEffect(this IEnumerable<IVisualEffectRoutineHandler> handlers)
+        {
+            foreach (var h in handlers)
+            {
+                h.StartRoutine();
+            }
+        }
     }
 }

@@ -16,30 +16,31 @@ namespace UI
         public void SetBuildingEntranceState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.BuildingModeState;
-            ActiveButton = buttonEntranceBuildMode;
+            ActiveComponent = buttonEntranceBuildMode;
         } 
         public void SetPreviousScreen()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
             //canvasController.CurrentState = canvasController.ModeSelectionState;
             CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
-            ActiveButton = null;
+            ActiveComponent = null;
         }
         public void SetPlacingInterierState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.PlacingInterierState;
-            ActiveButton = buttonInterierBuildMode;
+            ActiveComponent = buttonInterierBuildMode;
             //interierCollection.ActivateUI();
         } 
         public void SetBuildingWallsState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.BuildingWallsState;
-            ActiveButton = buttonWallsBuildMode;
+            ActiveComponent = buttonWallsBuildMode;
         }
         public void SetEntranceRoleEditingState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.EntranceRoleEditingState;
-            ActiveButton = buttonEntranceRoleMode;
+            ActiveComponent = buttonEntranceRoleMode;
         }
+        
     }
 }

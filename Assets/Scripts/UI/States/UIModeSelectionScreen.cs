@@ -15,18 +15,18 @@ namespace UI
         public void SetPreviousScreen()
         {
             Controller.CurrentState = Controller.MainScreen;
-            ActiveButton = null;
+            ActiveComponent = null;
         }
 
         public void SetBuildingState()
         {
             Controller.CurrentState = Controller.BuildingState;
-            ActiveButton = buttonBuildingMode;
+            ActiveComponent = buttonBuildingMode;
         }
         public void SetNavigationState()
         {
             SceneMaster.CurrentState = SceneMaster.NavigationState;
-            ActiveButton = buttonNavigationMode;
+            ActiveComponent = buttonNavigationMode;
         }
 
     }

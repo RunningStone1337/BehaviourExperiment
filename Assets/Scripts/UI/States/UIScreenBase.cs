@@ -10,7 +10,7 @@ namespace UI
     /// <summary>
     /// Иерархия экранов контроллера UI.
     /// </summary>
-    public abstract class UIScreenBase : MonoBehaviour,IState
+    public abstract class UIScreenBase : MonoBehaviour,IState, ISelectableUIComponentHandler
     {
         [SerializeField] protected GameObject rootObject;
         [SerializeField] SceneMaster sceneMaster;
@@ -26,7 +26,15 @@ namespace UI
             private set => sceneMaster = value;
         }
         [SerializeField] ISelectableUIComponent activeButton;
-        protected ISelectableUIComponent ActiveButton
+        //protected ISelectableUIComponent ActiveButton
+        //{
+        //    get => activeButton;
+        //    set
+        //    {
+        //        activeButton = ResetSelectableComponent(activeButton, value);
+        //    }
+        //}
+        public ISelectableUIComponent ActiveComponent
         {
             get => activeButton;
             set
@@ -34,7 +42,6 @@ namespace UI
                 activeButton = ResetSelectableComponent(activeButton, value);
             }
         }
-
         public virtual void BeforeChangeState()
         {
             rootObject.SetActive(false);

@@ -15,9 +15,7 @@ namespace BuildingModule
         public override void Initiate()
         {
             ThisWall.Renderer.enabled = true;
-            if (routine != null)
-                StopCoroutine(routine);
-            routine = StartCoroutine(VisualEffectRoutine());
+            StartRoutine();
         }
 
         public IEnumerator VisualEffectRoutine()
@@ -29,6 +27,12 @@ namespace BuildingModule
                 targetGraphics,
                 step,
                 () =>  ThisWall.CurrentState is AvailForBuildState);
+        }
+        public void StartRoutine()
+        {
+            if (Routine != null)
+                StopCoroutine(Routine);
+            Routine = StartCoroutine(VisualEffectRoutine());
         }
     }
 }

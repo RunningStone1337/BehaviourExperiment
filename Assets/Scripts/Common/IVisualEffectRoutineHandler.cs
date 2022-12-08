@@ -8,5 +8,6 @@ namespace Common {
         Coroutine Routine { get; set; }
 
         IEnumerator VisualEffectRoutine();
+        void StartRoutine();
     }
 }
