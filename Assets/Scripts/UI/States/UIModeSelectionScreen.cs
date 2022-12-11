@@ -11,6 +11,7 @@ namespace UI
     {
         [SerializeField] SelectableButton buttonBuildingMode;
         [SerializeField] SelectableButton buttonNavigationMode;
+        [SerializeField] SelectableButton buttonEventsPlanningMode;
 
         public void SetPreviousScreen()
         {
@@ -25,8 +26,13 @@ namespace UI
         }
         public void SetNavigationState()
         {
-            SceneMaster.CurrentState = SceneMaster.NavigationState;
+            SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
             ActiveComponent = buttonNavigationMode;
+        }
+        public void SetEventsPlanningState()
+        {
+            SceneMaster.Master.CurrentState = SceneMaster.Master.EventsPlanningState;
+            ActiveComponent = buttonEventsPlanningMode;
         }
 
     }

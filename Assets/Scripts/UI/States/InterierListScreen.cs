@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UI.CanvasController;
 using static BuildingModule.EntranceBuilder;
+using UnityEngine.EventSystems;
+using Common;
 
 namespace UI
 {
@@ -11,20 +13,21 @@ namespace UI
         [SerializeField] PlaceableUIView simpleTableView;
         [SerializeField] PlaceableUIView oldTableView;
         [SerializeField] PlaceableUIView newTableView;
-        [SerializeField] ISelectableUIComponent activeComponent;
-        public ISelectableUIComponent ActiveComponent
-        {
-            get => activeComponent;
-            set
-            {
-                activeComponent = ResetSelectableComponent(activeComponent, value);
-            }
-        }
+
         public override void BeforeChangeState()
         {
-            SceneMaster.DeactivateAllInterierPlaces();
+            SceneMaster.Master.DeactivateAllInterierPlaces();
             ActiveComponent = null;
             base.BeforeChangeState();
+        }
+        
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            InputSystem.InputListener.Listener.HandleUIScreenPointerDown(this, eventData);
+        }
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+            InputSystem.InputListener.Listener.HandleUIScreenPointerUp(this, eventData);
         }
     }
 }

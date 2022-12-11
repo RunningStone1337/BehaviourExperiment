@@ -13,8 +13,10 @@ namespace UI
         [SerializeField]  UIBuildingScreen buildingState;
         [SerializeField]  InterierListScreen interierCollectionScreen;
         [SerializeField]  RolesScreen rolesScreen;
+        [SerializeField]  EventsPlanningScreen eventsPlanningScreen;
         static CanvasController canvasController;
         public UIModeSelectionScreen ModeSelectionState { get => modeSelectionState; }
+        public EventsPlanningScreen EventsPlanningScreen { get => eventsPlanningScreen; }
         public UIMainScreen MainScreen { get => mainState; }
         public UIBuildingScreen BuildingState { get => buildingState; }
         public InterierListScreen InterierListScreen { get => interierCollectionScreen; }

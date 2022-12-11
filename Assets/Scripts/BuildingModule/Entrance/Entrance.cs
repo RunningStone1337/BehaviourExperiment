@@ -5,9 +5,14 @@ using UnityEngine;
 using Common;
 using UnityEngine.EventSystems;
 using System.Linq;
+using static BuildingModule.DirectionUtils;
 
 namespace BuildingModule
 {
+    public enum Direction
+    {
+        Up,Down,Right,Left
+    }
     public class Entrance : MonoBehaviour, IPointerClickHandler, IVisualEffectRoutineHandler
     {
         [SerializeField] SpriteRenderer entranceSprite;
@@ -48,7 +53,16 @@ namespace BuildingModule
         Coroutine routine;
         public Wall[] Walls {get => walls; }
         public List<Entrance> Neighbours { get => neighbours; }
-        public Room ThisRoom { get => thisRoom; }
+        public Room ThisRoom
+        {
+            get => thisRoom; set
+            {
+
+                ThisRoom.ThisRoomEntrances.Remove(this);
+                thisRoom = value;
+                ThisRoom.ThisRoomEntrances.Add(this);
+            }
+        }
         public Corner[] Corners { get => corners; }
         public Underwall[] Underwalls { get => underwalls; }
         public MiddlePlace[] MiddlePlaces { get => middlePlaces; }
@@ -72,21 +86,91 @@ namespace BuildingModule
             thisRoom = FindRoomOrCreateNew();
             thisRoom.ThisRoomEntrances.Add(this);
         }
-        public void TrySeparateRoom()
+        public bool TrySeparateRoom()
         {
-            ///условия разделения комнаты:
-            ///1)от этого места в одну из 4х сторон
-            ///в зависимости от ориентации
-            if (IsOnBoard())
-            {
-
-            }
+            var util = new RoomEditingUtil(this);
+            return util.TrySeparateRoom();
         }
 
-        public bool IsOnBoard()
+        public Entrance GetNeighbourFromDirection(Direction d)
         {
+            return d switch
+            {
+                Direction.Up => UpNeighbour,
+                Direction.Down => DownNeighbour,
+                Direction.Right => RightNeighbour,
+                Direction.Left => LeftNeighbour,
+                _ => throw new Exception($"Неизвестное направление {d}"),
+            };
+        }
+
+        /// <summary>
+        /// Находится ли комната на вероятном месте разделения?
+        /// true если есть проход со стенами хотя бы с одной стороны от главного направления.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsOnBoard(out Direction boardDirection)
+        {
+            boardDirection = default;
+            if (HavePassageOnDirection(Direction.Up, UpNeighbour, LeftNeighbour, RightNeighbour))
+            {
+                boardDirection = Direction.Up;
+                return true;
+            }
+            if (HavePassageOnDirection(Direction.Down, DownNeighbour, LeftNeighbour, RightNeighbour))
+            {
+                boardDirection = Direction.Down;
+                return true;
+            }
+            if (HavePassageOnDirection(Direction.Left, LeftNeighbour, UpNeighbour, DownNeighbour))
+            {
+                boardDirection = Direction.Left;
+                return true;
+            }
+            if (HavePassageOnDirection(Direction.Right, RightNeighbour, UpNeighbour, DownNeighbour))
+            {
+                boardDirection = Direction.Right;
+                return true;
+            }
             return default;
         }
+
+        private bool HavePassageOnDirection(Direction mainDirection, Entrance mainDirectionNeighbour, Entrance secondaryDirection1,
+            Entrance secondaryDirection2)
+        {
+            Direction[] directions = GetAdditionalDirections(mainDirection);
+            if (IsPassage(mainDirection) &&
+                            mainDirectionNeighbour.ThisRoom == ThisRoom &&
+                            (IsPassage(directions[0]) || IsPassage(directions[1]) || IsPassage(directions[2])))//проход есть
+            {
+                //проверяем соседей по сторонам от главного направления
+                if (secondaryDirection1 && !secondaryDirection1.IsPassage(mainDirection))//он есть
+                    return true;
+                else if (secondaryDirection2 && !secondaryDirection2.IsPassage(mainDirection))
+                    return true;
+            }
+            return default;
+        }
+
+       
+
+        /// <summary>
+        /// Есть ли проход от вызывающего в указанном направлении
+        /// </summary>
+        /// <param name="directionFormCaller">Направление, где находится проверяемый сосед</param>
+        /// <returns></returns>
+        private bool IsPassage(Direction directionFormCaller)
+        {
+            return directionFormCaller switch
+            {
+                Direction.Up => UpWall.CurrentState is InactiveState && UpNeighbour?.DownWall.CurrentState is InactiveState,
+                Direction.Down => DownWall.CurrentState is InactiveState && downNeighbour?.UpWall.CurrentState is InactiveState,
+                Direction.Right => RightWall.CurrentState is InactiveState && RightNeighbour?.LeftWall.CurrentState is InactiveState,
+                Direction.Left => LeftWall.CurrentState is InactiveState && LeftNeighbour?.RightWall.CurrentState is InactiveState,
+                _ => throw new Exception($"Неизвестное направление {directionFormCaller}"),
+            };
+        }
+
         public List<Entrance> FindNeighbours()
         {
             List<Entrance> neighs = new List<Entrance>();
@@ -96,33 +180,7 @@ namespace BuildingModule
             leftNeighbour = FindNeighbour(neighs, new Vector2Int(-2, 0));
             return neighs;
         }
-        /// <summary>
-        /// Возвращает лист Entrance, начиная с этого, которые принадлежат текущей комнате кроме,
-        /// разделяя по exceptionEntrance
-        /// </summary>
-        /// <param name="exceptionEntrance"></param>
-        /// <returns></returns>
-        //public List<Entrance> GetCurrentRoomEntrancesExcept(Entrance exceptionEntrance)
-        //{
-        //    List<Entrance> res = new List<Entrance>();
-        //    foreach (var n in Neighbours)
-        //    {
-        //        if (n != exceptionEntrance)
-        //        {
-        //            res.Add(n);
-        //            res.AddRange(n.GetCurrentRoomEntrancesExcept(exceptionEntrance));
-        //        }
-        //    }
-        //    return res;
-        //}
-        public bool VerticalConnection()
-        {
-            return upNeighbour != null && downNeighbour != null;
-        } 
-        public bool HorizontalConnection()
-        {
-            return leftNeighbour != null && rightNeighbour != null;
-        }
+
         private Entrance FindNeighbour(List<Entrance> neighs, Vector2Int offset)
         {
             var coords = EntrancePlace.Cordinates + offset;
@@ -138,31 +196,11 @@ namespace BuildingModule
 
         private Room FindRoomOrCreateNew()
         {
-            ///смотрим соседей, если их нет - создаём новую комнату
-            if (Neighbours.Count == 0)
-                return EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();
-            ///отсекаем тех соседей, между которыми есть стены.
-            var potentialRooms = new List<Room>();
-            foreach (var n in Neighbours)
-            {
-                if (!n.HasWallBetween(this) && !HasWallBetween(n))
-                {
-                    if (!potentialRooms.Contains(n.ThisRoom))
-                        potentialRooms.Add(n.ThisRoom);
-                }
-            }
-            ///смотрим к каким комнатам они принадлежат.
-            if (potentialRooms.Count > 1)
-            {
-                return potentialRooms.OrderBy(x => x.ThisRoomEntrances.Count).Last();
-            }
-            else
-                return potentialRooms[0];
-            ///между остальными выбираем наибольшее и присасываемся к нему.
-            ///дополнительные ограничения?
+            var util = new RoomEditingUtil(this);
+            return util.FindRoomOrCreateNew();
         }
 
-        private bool HasWallBetween(Entrance neigh)
+        public bool HasWallBetween(Entrance neigh)
         {
             if (neigh == upNeighbour)
             {
@@ -202,40 +240,9 @@ namespace BuildingModule
             foreach (var n in neighbours)
                 n.neighbours.Remove(this);
             ThisRoom.ThisRoomEntrances.Remove(this);
-            //if (ThisRemoveBreakRoom())
-            //{
-            //    ThisRoom.HandleRoomSeparation(this);
-            //}
         }
 
-        private bool ThisRemoveBreakRoom()
-        {
-            //не предусмотрено соединение комнаты крестом
-            if (WasLinked(upNeighbour, downNeighbour, rightNeighbour, leftNeighbour) 
-                || WasLinked(rightNeighbour, leftNeighbour, upNeighbour, downNeighbour))
-                return true;
-            return false;
-        }
-
-        private bool WasLinked(Entrance pair1Entr1, Entrance pair1entr2, Entrance pair2entr1, Entrance pair2entr2)
-        {
-            //условие соседства
-            var neighCondition = pair1Entr1 == null && pair1entr2 == null && pair2entr1 != null && pair2entr2 != null;
-            if (neighCondition)
-            {
-                //условие одинаковой комнаты
-                var roomCondition = pair2entr1.ThisRoom == pair2entr2.ThisRoom;
-                if (roomCondition)
-                    return true;
-            }
-            return default;
-        }
-
-        private bool WasHorizintallyLinked()
-        {
-            return rightNeighbour != null && leftNeighbour != null && upNeighbour == null && downNeighbour == null;
-        }
-
+      
         public void OnPointerClick(PointerEventData eventData)
         {
             InputSystem.InputListener.Listener.HandleEntranceClick(this, eventData);
@@ -245,7 +252,7 @@ namespace BuildingModule
         {
             var baseColor = new Color(1, 1, 1, 1);
             yield return VisualEffectsProvider.ShiningEffect(baseColor, ThisRoom.Role.RoleColor, entranceSprite, step,
-                () => SceneMaster.Master.CurrentState is EntranceRoleEditingState);
+                () => SceneMaster.Master.CurrentState is EntranceRoleEditingState || SceneMaster.Master.CurrentState is RoomSplittingState);
         }
 
         public void StartRoutine()

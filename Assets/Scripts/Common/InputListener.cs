@@ -1,24 +1,71 @@
 using BuildingModule;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Common;
+using UI;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace InputSystem
 {
     public class InputListener : MonoBehaviour
     {
-        [SerializeField] SceneMaster sceneMaster;
+        #region Public Properties
+
+        public static InputListener Listener { get => listener; private set => listener = value; }
+        public bool BlockInputClickEvents { get => blockInputClickEvents; }
         public NavigationHandler NavigationHandler { get; private set; }
 
-        static InputListener listener;
-        public static InputListener Listener { get => listener; private set => listener = value; }
-        [SerializeField] bool blockInputClickEvents;
-        public bool BlockInputClickEvents { get => blockInputClickEvents; }
+        #endregion Public Properties
 
-       
+        #region Public Methods
+
+        public void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData)
+        {
+            if (!BlockInputClickEvents)
+                sceneMaster.HandleBuildingPlaceClick(buildingPlace, eventData);
+        }
+
+        public void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
+        {
+            if (!BlockInputClickEvents)
+                sceneMaster.HandleEntranceClick(entrance, eventData);
+        }
+
+        public void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
+        {
+            if (!BlockInputClickEvents)
+                sceneMaster.HandleInterierClick(interierBase, eventData);
+        }
+
+        public void HandleInterierPlaceClick(InterierPlaceBase interierPlaceBase, PointerEventData eventData) =>
+            sceneMaster.HandleInterierPlaceClick(interierPlaceBase, eventData);
+
+        public void HandleUIScreenPointerDown(UIScreenBase interierListScreen, PointerEventData eventData)
+        {
+            NavigationHandler.FreezeSwipes = true;
+        }
+
+        public void HandleUIScreenPointerUp(UIScreenBase interierListScreen, PointerEventData eventData)
+        {
+            NavigationHandler.FreezeSwipes = false;
+        }
+
+        public void HandleWallClick(Wall wall, PointerEventData eventData)
+        {
+            if (!BlockInputClickEvents)
+                sceneMaster.HandleWallClick(wall, eventData);
+        }
+
+        #endregion Public Methods
+
+        #region Private Fields
+
+        private static InputListener listener;
+        [SerializeField] private bool blockInputClickEvents;
+        [SerializeField] private SceneMaster sceneMaster;
+
+        #endregion Private Fields
+
+        #region Private Methods
 
         private void Awake()
         {
@@ -30,6 +77,16 @@ namespace InputSystem
             Destroy(this);
         }
 
+        private void OnMouseHoldingLimitReachedCallback()
+        {
+            blockInputClickEvents = true;
+        }
+
+        private void OnMouseReleasedCallback()
+        {
+            blockInputClickEvents = false;
+        }
+
         private void Start()
         {
             sceneMaster = FindObjectOfType<SceneMaster>();
@@ -38,47 +95,13 @@ namespace InputSystem
             NavigationHandler.MouseReleasedEvent += OnMouseReleasedCallback;
         }
 
-        private void OnMouseReleasedCallback()
-        {
-            blockInputClickEvents = false;
-        }
-
-        private void OnMouseHoldingLimitReachedCallback()
-        {
-            blockInputClickEvents = true;
-        }
-        public void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
-        {
-            if (!BlockInputClickEvents)
-                sceneMaster.HandleInterierClick(interierBase, eventData);
-        }
-        public void HandleBuildingPlaceClick(BuildingPlace buildingPlace, PointerEventData eventData) 
-        {
-            if (!BlockInputClickEvents)
-                sceneMaster.HandleBuildingPlaceClick(buildingPlace, eventData);
-        }
-
-        public void HandleEntranceClick(Entrance entrance, PointerEventData eventData) 
-        {
-            if (!BlockInputClickEvents)
-                sceneMaster.HandleEntranceClick(entrance, eventData); 
-        }
-
-        public void HandleWallClick(Wall wall, PointerEventData eventData)
-        {
-            if (!BlockInputClickEvents)
-                sceneMaster.HandleWallClick(wall, eventData);
-        }
-
         private void Update()
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             NavigationHandler.MouseScroll(scroll);
             NavigationHandler.Swipes();
-          
         }
 
-        public void HandleInterierPlaceClick(InterierPlaceBase interierPlaceBase, PointerEventData eventData)=>
-            sceneMaster.HandleInterierPlaceClick(interierPlaceBase, eventData);
+        #endregion Private Methods
     }
 }
