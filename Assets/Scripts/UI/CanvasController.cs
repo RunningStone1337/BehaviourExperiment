@@ -7,14 +7,18 @@ namespace UI
 {
     public class CanvasController : MonoBehaviour, ICurrentStateHandler
     {
-        [SerializeField]  UIScreenBase currentState;
-        [SerializeField]  UIModeSelectionScreen modeSelectionState;
-        [SerializeField]  UIMainScreen mainState;
-        [SerializeField]  UIBuildingScreen buildingState;
-        [SerializeField]  InterierListScreen interierCollectionScreen;
-        [SerializeField]  RolesScreen rolesScreen;
-        [SerializeField]  EventsPlanningScreen eventsPlanningScreen;
+        [SerializeField] UIScreenBase currentState;
+        [SerializeField] UIModeSelectionScreen modeSelectionState;
+        [SerializeField] UIMainScreen mainState;
+        [SerializeField] UIBuildingScreen buildingState;
+        [SerializeField] InterierListScreen interierCollectionScreen;
+        [SerializeField] RolesScreen rolesScreen;
+        [SerializeField] EventsPlanningScreen eventsPlanningScreen;
+        [SerializeField] ConfirmSelectionScreen confirmSelectionScreen;
+        [SerializeField] AgentsConfigureScreen agentsConfigureScreen;
         static CanvasController canvasController;
+        public AgentsConfigureScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
+        public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
         public UIModeSelectionScreen ModeSelectionState { get => modeSelectionState; }
         public EventsPlanningScreen EventsPlanningScreen { get => eventsPlanningScreen; }
         public UIMainScreen MainScreen { get => mainState; }

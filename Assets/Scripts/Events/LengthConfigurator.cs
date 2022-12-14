@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// UI слайдер+инпут филд, взаимосвязанные вводимым значением
+    /// </summary>
     public class LengthConfigurator : MonoBehaviour
     {
         [SerializeField] Slider slider;

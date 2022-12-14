@@ -9,6 +9,19 @@ namespace Events
     {
         [SerializeField] Toggle dayToggle;
         [SerializeField] DaySchedule thisDaySchedule;
+        [SerializeField] string dayName;
+        public string DayName { get => dayName; }
+        public void HandleToggleClick()
+        {
+            if (dayToggle.isOn)
+                thisDaySchedule.gameObject.SetActive(true);
+            else
+                thisDaySchedule.gameObject.SetActive(false);
+        }
+        private void Start()
+        {
+            HandleToggleClick();
+        }
 
     }
 }

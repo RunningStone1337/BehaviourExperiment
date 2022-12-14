@@ -18,7 +18,9 @@ namespace UI
         public override void BeforeChangeState()
         {
             ActiveComponent = null;
+            base.BeforeChangeState();
         }
+
         public override void OnPointerDown(PointerEventData eventData)
         {
             InputSystem.InputListener.Listener.HandleUIScreenPointerDown(this, eventData);

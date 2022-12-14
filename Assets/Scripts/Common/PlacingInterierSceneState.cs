@@ -10,10 +10,6 @@ namespace Common
 {
     public class PlacingInterierSceneState : SceneStateBase
     {
-        public override void BeforeChangeOldState()
-        {
-            CanvasController.Controller.InterierListScreen.BeforeChangeState();
-        }
         public override void HandlePlaceableUIViewClick(PlaceableUIView placeableUIView, PointerEventData eventData)
         {
             SceneMaster.Master.LastSelectedViewObject = placeableUIView.CorrespondingObjectPrefab;
@@ -26,6 +22,10 @@ namespace Common
         {
             var place = interierBase.ThisInterierPlace;
             EntranceBuilder.ReplaceInterierOrDeleteExist(interierBase, place);
+        }
+        public override void BeforeChangeOldState()
+        {
+            CanvasController.Controller.InterierListScreen.BeforeChangeState();
         }
 
         public override void Initiate()

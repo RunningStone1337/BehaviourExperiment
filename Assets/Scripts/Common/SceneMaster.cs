@@ -55,10 +55,18 @@ namespace Common
         public PlacingInterierSceneState PlacingInterierState { get => placingInterierState; }
         public RoomSplittingState RoomSplittingState { get => roomSplittingState; }
 
+
         #endregion Public Properties
 
         #region Public Methods
-
+        public void ClearEntrances()
+        {
+            var entr = EntranceRoot.Root.Entrances;
+            foreach (var e in entr)
+            {
+                e.EntrancePlace.TryRemoveExistEntrance(null);
+            }
+        }
         public void DeactivateAllBuildStateWalls()
         {
             var entrances = EntranceRoot.Root.Entrances;

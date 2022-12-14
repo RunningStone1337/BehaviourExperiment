@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Events
 {
-    public abstract class PrecitionDiscipline : DisciplineBase
+    public abstract class PreciseDiscipline : DisciplineBase
     {
         
     }

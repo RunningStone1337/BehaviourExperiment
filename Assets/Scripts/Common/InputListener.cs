@@ -39,12 +39,12 @@ namespace InputSystem
         public void HandleInterierPlaceClick(InterierPlaceBase interierPlaceBase, PointerEventData eventData) =>
             sceneMaster.HandleInterierPlaceClick(interierPlaceBase, eventData);
 
-        public void HandleUIScreenPointerDown(UIScreenBase interierListScreen, PointerEventData eventData)
+        public void HandleUIScreenPointerDown(object sender, PointerEventData eventData)
         {
             NavigationHandler.FreezeSwipes = true;
         }
 
-        public void HandleUIScreenPointerUp(UIScreenBase interierListScreen, PointerEventData eventData)
+        public void HandleUIScreenPointerUp(object sender, PointerEventData eventData)
         {
             NavigationHandler.FreezeSwipes = false;
         }

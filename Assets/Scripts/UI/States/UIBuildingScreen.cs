@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Common;
 using UnityEngine.UI;
+using System;
 
 namespace UI
 {
@@ -21,7 +22,6 @@ namespace UI
         public void SetPreviousScreen()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
-            //canvasController.CurrentState = canvasController.ModeSelectionState;
             CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
             ActiveComponent = null;
         }
@@ -29,7 +29,6 @@ namespace UI
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.PlacingInterierState;
             ActiveComponent = buttonInterierBuildMode;
-            //interierCollection.ActivateUI();
         } 
         public void SetBuildingWallsState()
         {
@@ -40,6 +39,19 @@ namespace UI
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.EntranceRoleEditingState;
             ActiveComponent = buttonEntranceRoleMode;
+        }
+
+        public void ClearSceneButton()
+        {
+            var confirm = CanvasController.Controller.ConfirmSelectionScreen;
+            confirm.InitiateState();
+            confirm.InitiateButtonsCallbacks(
+                new List<Action> {
+                SceneMaster.Master.ClearEntrances,confirm.BeforeChangeState 
+                },
+                new List<Action> {
+                () => { confirm.BeforeChangeState(); 
+                }});
         }
         
     }

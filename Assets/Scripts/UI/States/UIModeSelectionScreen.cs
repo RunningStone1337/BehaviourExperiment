@@ -10,7 +10,7 @@ namespace UI
     public class UIModeSelectionScreen : UIScreenBase
     {
         [SerializeField] SelectableButton buttonBuildingMode;
-        [SerializeField] SelectableButton buttonNavigationMode;
+        [SerializeField] SelectableButton buttonAgentsCreationMode;
         [SerializeField] SelectableButton buttonEventsPlanningMode;
 
         public void SetPreviousScreen()
@@ -24,10 +24,11 @@ namespace UI
             Controller.CurrentState = Controller.BuildingState;
             ActiveComponent = buttonBuildingMode;
         }
-        public void SetNavigationState()
+        public void SetAgentsCreationState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
-            ActiveComponent = buttonNavigationMode;
+            Controller.CurrentState = Controller.AgentsConfigureScreen;
+            ActiveComponent = buttonAgentsCreationMode;
         }
         public void SetEventsPlanningState()
         {
