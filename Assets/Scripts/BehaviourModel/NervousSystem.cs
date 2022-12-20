@@ -8,16 +8,18 @@ namespace BehaviourModel
     /// Репрезентация нервной системы человека.
     /// Нижний уровень обработки поступающей информации, формирующий тенденцию отклика на ситуации и
     /// создающий новые импульсы, являющися основой для действий.
+    /// Уровень органических предпосылок личности.
     /// </summary>
     public class NervousSystem : MonoBehaviour
     {
         [SerializeField] [Range(1, 10)] int nervousPower;
-        [SerializeField] [Range(1, 10)] int nervousAgility;
+        [SerializeField] [Range(1, 10)] int nervousMobility;
         [SerializeField] [Range(1, 10)] int reactivity;
         [SerializeField] [Range(1, 10)] int activity;
-        [SerializeField] [Range(1, 10)] int version;
         [SerializeField] [Range(1f, 10f)] float actReactRelation;
         [SerializeField] int[] nervousBalance;
+        ///добавить текущий уровень возбуждения НС
+        ///разделение неуравновшенности на тормозную и возбудимую
 
         /// <summary>
         /// Сила НС - свойство нервной системы, отражающее предел работоспособности клеток коры головного мозга,
@@ -32,14 +34,13 @@ namespace BehaviourModel
         /// Подвижность НС - свойство нервной системы, состоящее в способности быстро реагировать на изменения в окружающей среде,
         /// способности переключаться с возбудительного процесса на тормозный и наоборот.
         /// </summary>
-        public int NervousAgility { get => nervousAgility; set => nervousAgility = Mathf.Clamp(value, 1, 10); }
+        public int NervousMobility { get => nervousMobility; set => nervousMobility = Mathf.Clamp(value, 1, 10); }
         /// <summary>
         /// Уравновешенность НС — свойство нервной системы, выражающее соотношение между возбуждением 
         /// и торможением, баланс этих процессов. Является самостоятельным свойством нервной системы,
         /// образующее в сочетании с другими (с силой и подвижностью) определенный тип высшей нервной деятельности.
         /// </summary>
         public int[] NervousBalance { get => nervousBalance; set => nervousBalance = value; }
-
         /// <summary>
         /// Степень непроизвольности реакций на внешние и внутренние импульсы.
         /// </summary>
@@ -48,10 +49,6 @@ namespace BehaviourModel
         /// Степень активности воздействия на мир и целеустремлённость.
         /// </summary>
         public int Activity { get => activity; set => activity = Mathf.Clamp(value, 1, 10); }
-        /// <summary>
-        /// Интро/экстраверсия. Чем выше показатель, тем выше экстраверсия, ниже = интроверсия.
-        /// </summary>
-        public int Version { get => version; set => version = Mathf.Clamp(value, 1, 10); }
         /// <summary>
         /// Отношение активности к реактивности, определяет мотивы действий - зависимость от внешних сили или внутренних побуждений.
         /// При == 1 вероятность 0.5, выше 1 - высокая активность, ниже 1 - высокая реактивность.

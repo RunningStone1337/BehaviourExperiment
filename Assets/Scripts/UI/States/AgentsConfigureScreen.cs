@@ -6,6 +6,10 @@ namespace UI
 {
     public class AgentsConfigureScreen : UIScreenBase
     {
+        [SerializeField] Transform cardsTransform;
+        public void CreateAgentButtonClick()
+        {
 
+        }
     }
 }
