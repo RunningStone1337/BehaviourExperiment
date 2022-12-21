@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class AgentsConfigureScreen : UIScreenBase
+    public class AgentsSelectionScreen : UIScreenBase
     {
         [SerializeField] Transform cardsTransform;
         public void CreateAgentButtonClick()

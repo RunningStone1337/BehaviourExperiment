@@ -15,9 +15,9 @@ namespace UI
         [SerializeField] RolesScreen rolesScreen;
         [SerializeField] EventsPlanningScreen eventsPlanningScreen;
         [SerializeField] ConfirmSelectionScreen confirmSelectionScreen;
-        [SerializeField] AgentsConfigureScreen agentsConfigureScreen;
+        [SerializeField] AgentsSelectionScreen agentsConfigureScreen;
         static CanvasController canvasController;
-        public AgentsConfigureScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
+        public AgentsSelectionScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
         public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
         public UIModeSelectionScreen ModeSelectionState { get => modeSelectionState; }
         public EventsPlanningScreen EventsPlanningScreen { get => eventsPlanningScreen; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,13 @@ namespace UI
             }
 
         }
+
+        public void SetExtremes(int min = 1, int max = 10)
+        {
+            slider.minValue = min;
+            slider.maxValue = max;
+        }
+
         private void Awake()
         {
             inputField.text = ((int)slider.value).ToString();
