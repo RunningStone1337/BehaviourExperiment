@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Common
 {
-    public class KeyDiapazoneHandler : MonoBehaviour
+    public class KeyValuesHandler : MonoBehaviour
     {
         [SerializeField] List<Vector3Int> values;
 
@@ -17,6 +17,12 @@ namespace Common
             for (int min = value.y; min <= value.z; min++)
                 res.Add(min);
             return res;
+        }
+
+        public Vector2Int GetYZForValue(int key)
+        {
+            var t = values.First(x => x.x == key);
+            return new Vector2Int(t.y, t.z);
         }
     }
 }

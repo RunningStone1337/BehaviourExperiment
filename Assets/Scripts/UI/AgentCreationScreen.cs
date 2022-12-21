@@ -68,10 +68,10 @@ namespace UI
         public LengthConfigurator TimidityCourageSlider { get => timidityCourageSlider; }
         [Space]
         [Header(" онтроллеры диапазонов знаечний веса и роста")]
-        [SerializeField] KeyDiapazoneHandler ageWeightsHandler;
-        [SerializeField] KeyDiapazoneHandler ageHeightsHandler;
-        public KeyDiapazoneHandler AgeWeightsHandler { get => ageWeightsHandler; }
-        public KeyDiapazoneHandler AgeHeightsHandler { get => ageHeightsHandler; }
+        [SerializeField] KeyValuesHandler ageWeightsHandler;
+        [SerializeField] KeyValuesHandler ageHeightsHandler;
+        public KeyValuesHandler AgeWeightsHandler { get => ageWeightsHandler; }
+        public KeyValuesHandler AgeHeightsHandler { get => ageHeightsHandler; }
         public int SelectedAge { get => int.Parse(ageDropButtonPair.DropdownValue); }
 
         private void Start()

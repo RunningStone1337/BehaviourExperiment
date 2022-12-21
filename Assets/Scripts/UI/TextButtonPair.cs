@@ -9,5 +9,6 @@ namespace UI
     {
         [SerializeField] InputField inputField;
         [SerializeField] Button button;
+        public InputField InputField { get => inputField; }
     }
 }

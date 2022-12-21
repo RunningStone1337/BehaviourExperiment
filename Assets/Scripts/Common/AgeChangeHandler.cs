@@ -91,7 +91,7 @@ namespace Common
             }
         }
 
-        public void ResetExtremeValues(DropdownButtonPair target, KeyDiapazoneHandler diapazoneHandler)
+        public void ResetExtremeValues(DropdownButtonPair target, KeyValuesHandler diapazoneHandler)
         {
             var diap = diapazoneHandler.CreateDiapazonForKey(newValue);
             target.ClearDropdown();
