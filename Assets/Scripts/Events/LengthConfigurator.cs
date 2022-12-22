@@ -14,6 +14,11 @@ namespace UI
     {
         [SerializeField] Slider slider;
         [SerializeField] InputField inputField;
+
+        public int MinValue { get=>(int)slider.minValue; }
+        public int MaxValue { get => (int)slider.maxValue; }
+        public int Value { get => (int)slider.value;set { slider.value = value; SliderValueChanded(); } }
+
         public void SliderValueChanded()
         {
             inputField.text = ((int)slider.value).ToString();

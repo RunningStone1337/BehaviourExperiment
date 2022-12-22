@@ -36,7 +36,7 @@ namespace UI
         }        
        
         public int DropdownLength { get=>dropdown.options.Count;  }
-        public int DropdownIndex { set=> dropdown.value = value; }
+        public int DropdownIndex { set => dropdown.value = value; get => dropdown.value; }
 
         public void AddDropdownOption(string value)
         {

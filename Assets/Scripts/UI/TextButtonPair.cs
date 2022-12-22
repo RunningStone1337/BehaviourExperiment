@@ -10,5 +10,6 @@ namespace UI
         [SerializeField] InputField inputField;
         [SerializeField] Button button;
         public InputField InputField { get => inputField; }
+        public string Text { get=> InputField.text; internal set=>InputField.text = value; }
     }
 }

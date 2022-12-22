@@ -6,10 +6,10 @@ namespace UI
 {
     public class AgentsSelectionScreen : UIScreenBase
     {
-        [SerializeField] Transform cardsTransform;
+        [SerializeField] AgentCreationScreen agentCreationScreen;
         public void CreateAgentButtonClick()
         {
-
+            agentCreationScreen.InitiateState();
         }
     }
 }
