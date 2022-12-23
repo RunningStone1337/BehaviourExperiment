@@ -21,5 +21,29 @@ namespace UI
             agentImage.sprite = acs.AgentImageHandler.Image.sprite;
             agentNameText.text = acs.NameInputFieldButtonPair.InputField.text;
         }
+
+        public void OnButtonChangeClick()
+        {
+            AgentCreationScreen acs = GameObject.FindGameObjectWithTag("AgentConfigureScreen").GetComponent<AgentsSelectionScreen>().AgentCreationScreen;
+            acs.InitiateState(agentInitializator, this);
+        }
+
+        public void OnButtonDeleteClick()
+        {
+            var confirm = CanvasController.Controller.ConfirmSelectionScreen;
+            confirm.InitiateState();
+            confirm.InitiateButtonsCallbacks(
+                new List<Action> {
+                ()=>{
+                    if (agentInitializator != null)
+                        //agentInitializator = null;
+                        Destroy(agentInitializator);
+                    Destroy(gameObject);
+                }, () => { confirm.BeforeChangeState(); }
+                },
+                new List<Action> {
+                () => { confirm.BeforeChangeState();
+                }});
+        }
     }
 }

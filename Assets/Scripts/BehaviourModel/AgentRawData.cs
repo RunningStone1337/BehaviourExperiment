@@ -12,7 +12,7 @@ namespace BehaviourModel
         Braked,
         Excitable
     }
-    public class AgentRawData : MonoBehaviour
+    public class AgentRawData:MonoBehaviour
     {
         ushort imageID;
         public ushort ImageID { get => imageID; }
@@ -87,22 +87,22 @@ namespace BehaviourModel
             nsReactivity = (ushort)acs.NsReactivitySlider.Value;
             nsType = GetNSType(acs.NsBalanceDropButtonPair.DropdownIndex);
 
-            closenessSociability = (ushort)acs.ClosenessSociabilitySlider.Value;
-            calmnessAnxiety = (ushort)acs.CalmnessAnxietySlider.Value;
-            conformismNonconformism = (ushort)acs.ConformismNonconformismSlider.Value;
-            conservatismRadicalism = (ushort)acs.ConservatismRadicalismSlider.Value;
-            credulitySuspicion = (ushort)acs.CredulitySuspicionSlider.Value;
-            emotionalInstabilityStability = (ushort)acs.EmotionalInstabilityStabilitySlider.Value;
-            intelligence = (ushort)acs.IntelligenceSlider.Value;
-            normativityOfBehaviour = (ushort)acs.NormativityOfBehaviourSlider.Value;
-            practicalityDreaminess = (ushort)acs.PracticalityDreaminessSlider.Value;
-            relaxationTension = (ushort)acs.RelaxationTensionSlider.Value;
-            restraintExpressiveness = (ushort)acs.RestraintExpressivenessSlider.Value;
-            rigiditySensetivity = (ushort)acs.RigiditySensetivitySlider.Value;
-            selfcontrol = (ushort)acs.SelfcontrolSlider.Value;
-            straightforwardnessDiplomacy = (ushort)acs.StraightforwardnessDiplomacySlider.Value;
-            subordinationDomination = (ushort)acs.SubordinationDominationSlider.Value;
-            timidityCourage = (ushort)acs.TimidityCourageSlider.Value;
+            closenessSociability = (ushort)acs.CharacterRect.ClosenessSociabilitySlider.Value;
+            calmnessAnxiety = (ushort)acs.CharacterRect.CalmnessAnxietySlider.Value;
+            conformismNonconformism = (ushort)acs.CharacterRect.ConformismNonconformismSlider.Value;
+            conservatismRadicalism = (ushort)acs.CharacterRect.ConservatismRadicalismSlider.Value;
+            credulitySuspicion = (ushort)acs.CharacterRect.CredulitySuspicionSlider.Value;
+            emotionalInstabilityStability = (ushort)acs.CharacterRect.EmotionalInstabilityStabilitySlider.Value;
+            intelligence = (ushort)acs.CharacterRect.IntelligenceSlider.Value;
+            normativityOfBehaviour = (ushort)acs.CharacterRect.NormativityOfBehaviourSlider.Value;
+            practicalityDreaminess = (ushort)acs.CharacterRect.PracticalityDreaminessSlider.Value;
+            relaxationTension = (ushort)acs.CharacterRect.RelaxationTensionSlider.Value;
+            restraintExpressiveness = (ushort)acs.CharacterRect.RestraintExpressivenessSlider.Value;
+            rigiditySensetivity = (ushort)acs.CharacterRect.RigiditySensetivitySlider.Value;
+            selfcontrol = (ushort)acs.CharacterRect.SelfcontrolSlider.Value;
+            straightforwardnessDiplomacy = (ushort)acs.CharacterRect.StraightforwardnessDiplomacySlider.Value;
+            subordinationDomination = (ushort)acs.CharacterRect.SubordinationDominationSlider.Value;
+            timidityCourage = (ushort)acs.CharacterRect.TimidityCourageSlider.Value;
         }
 
         private NervousSystemType GetNSType(int dropdownIndex)

@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class DropdownButtonPair : MonoBehaviour
+    public class DropdownButtonPair : UIButtonPairElement
     {
         [SerializeField] Dropdown dropdown;
-        [SerializeField] Button button;
         Dropdown Dropdown { get => dropdown; }
-        Button Button { get => button; }
         public string DropdownValue
         {
             get

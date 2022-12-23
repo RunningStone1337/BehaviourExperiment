@@ -23,8 +23,12 @@ namespace UI
         {
             ImageID = spritesList.IndexOf(thisImage.sprite);
         }
-        public Sprite GetImage(ushort imageID)
+        public Sprite GetImage(int imageID)
         {
+            if (imageID >= spritesList.Count || imageID == -1)
+            {
+                return default;
+            }
             return spritesList[imageID];
         }
     }
