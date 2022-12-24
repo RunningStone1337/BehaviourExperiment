@@ -129,10 +129,11 @@ namespace UI
             if (CurrentData == null)
             {
                 //создать карточку на панели выбора
-                var newCard = Instantiate(SceneDataStorage.Storage.AgentCardPrafab, cardsOrderHandler.transform).GetComponent<AgentCardPreview>();
+                var newCard = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
+                    cardsOrderHandler.transform).GetComponent<AgentCardPreview>();
                 newCard.Initiate(this);
-                newCard.CardData = newCard.gameObject.AddComponent<AgentRawData>();
-                //newCard.CardData = new AgentRawData();
+                //newCard.CardData = newCard.gameObject.AddComponent<AgentRawData>();
+                newCard.CardData = new AgentRawData();
                 //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
                 newCard.CardData.Initiate(this);
                 cardsOrderHandler.ReorderContent();

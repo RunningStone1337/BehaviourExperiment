@@ -36,8 +36,8 @@ namespace UI
                 new List<Action> {
                 ()=>{
                     if (agentInitializator != null)
-                        //agentInitializator = null;
-                        Destroy(agentInitializator);
+                        agentInitializator = null;
+                        //Destroy(agentInitializator);
                     Destroy(gameObject);
                 }, () => { confirm.BeforeChangeState(); }
                 },

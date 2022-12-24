@@ -15,6 +15,7 @@ namespace Common
         public GameObject DownWallPrefab { get => downWallPrefab; }
         public GameObject PlaceableUIViewPefab { get => placeableUIViewPefab; }
         public GameObject AgentCardPrafab { get => agentCardPrafab; }
+        public GameObject AgentDataSaveLoadViewPrafab { get => agentDataSaveLoadViewPrafab; }
        
 
         #endregion Public Properties
@@ -29,6 +30,7 @@ namespace Common
         [SerializeField] private GameObject downWallPrefab;
         [SerializeField] private GameObject placeableUIViewPefab;
         [SerializeField] private GameObject agentCardPrafab;
+        [SerializeField] private GameObject agentDataSaveLoadViewPrafab;
 
         #endregion Private Fields
 

@@ -131,6 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c6f72543f1f2b478e30c97808817ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentNameText: {fileID: 972722923817541888}
+  agentPathText: {fileID: 972722922099765959}
+  agentSaveScreen: {fileID: 0}
   isSelected: 0
   defaultColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 0}
   backgroundImage: {fileID: 972722922943521399}

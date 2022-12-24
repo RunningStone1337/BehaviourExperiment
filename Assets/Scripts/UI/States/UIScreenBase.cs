@@ -13,12 +13,12 @@ namespace UI
     {
         #region Public Properties
 
-        public ISelectableUIComponent ActiveComponent
+        public virtual ISelectableUIComponent ActiveComponent
         {
-            get => activeButton;
+            get => selectedUIComponent;
             set
             {
-                activeButton = ResetSelectableComponent(activeButton, value);
+                selectedUIComponent = ResetSelectableComponent(selectedUIComponent, value);
             }
         }
 
@@ -52,7 +52,7 @@ namespace UI
 
         #region Private Fields
 
-        [SerializeField] private ISelectableUIComponent activeButton;
+        [SerializeField] protected ISelectableUIComponent selectedUIComponent;
         [SerializeField] protected GameObject rootObject;
 
         #endregion Private Fields
