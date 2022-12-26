@@ -15,11 +15,12 @@ namespace UI
 
         public AgentRawData CardData { get => agentInitializator; set => agentInitializator = value; }
 
-        public void Initiate(AgentCreationScreen acs)
+        public void Initiate(AgentCreationScreen acs, AgentRawData rawData)
         {
             
             agentImage.sprite = acs.AgentImageHandler.Image.sprite;
             agentNameText.text = acs.NameInputFieldButtonPair.InputField.text;
+            CardData = rawData;
         }
 
         public void OnButtonChangeClick()
@@ -31,15 +32,16 @@ namespace UI
         public void OnButtonDeleteClick()
         {
             var confirm = CanvasController.Controller.ConfirmSelectionScreen;
+            var configurator = CanvasController.Controller.AgentsConfigureScreen;
             confirm.InitiateState();
             confirm.InitiateButtonsCallbacks(
                 new List<Action> {
-                ()=>{
-                    if (agentInitializator != null)
+                    ()=>{ configurator.RemoveAgentData(agentInitializator); },
+                    ()=>{
                         agentInitializator = null;
-                        //Destroy(agentInitializator);
-                    Destroy(gameObject);
-                }, () => { confirm.BeforeChangeState(); }
+                        Destroy(gameObject);
+                    },
+                    () => { confirm.BeforeChangeState(); }
                 },
                 new List<Action> {
                 () => { confirm.BeforeChangeState();
