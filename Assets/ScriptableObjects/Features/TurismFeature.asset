@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f515ad12f90651e499b18d52b639ada7, type: 3}
   m_Name: TurismFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0422\u0443\u0440\u0438\u0437\u043C"

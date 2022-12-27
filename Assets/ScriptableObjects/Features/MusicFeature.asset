@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b131de76dc1d8264fa93889ab602f55b, type: 3}
   m_Name: MusicFeature
   m_EditorClassIdentifier: 
+  featureName: "\u041F\u0440\u043E\u0441\u043B\u0443\u0448\u0438\u0432\u0430\u043D\u0438\u0435
+    \u043C\u0443\u0437\u044B\u043A\u0438"

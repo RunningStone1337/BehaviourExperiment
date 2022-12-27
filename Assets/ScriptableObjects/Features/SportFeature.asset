@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 334d2b8a44fe9c146b8b3c3a91cabee1, type: 3}
   m_Name: SportFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0421\u043F\u043E\u0440\u0442"

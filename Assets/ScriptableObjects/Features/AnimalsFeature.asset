@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f29fe0725d18e74dac09b2e3d38ed8c, type: 3}
   m_Name: AnimalsFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0416\u0438\u0432\u043E\u0442\u043D\u044B\u0435"

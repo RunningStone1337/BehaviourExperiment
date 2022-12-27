@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3094191206849988355, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_Name
-      value: DropdownButtonPair
+      value: EmptyDropdownButtonPairVariant
       objectReference: {fileID: 0}
     - target: {fileID: 4611881220998871821, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_AnchorMax.x
@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6434984677763827611, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 563.71
       objectReference: {fileID: 0}
     - target: {fileID: 6434984677763827611, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_SizeDelta.y

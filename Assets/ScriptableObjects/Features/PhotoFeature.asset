@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4df396b22c1a9b488ac3ac264b37548, type: 3}
   m_Name: PhotoFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044F"

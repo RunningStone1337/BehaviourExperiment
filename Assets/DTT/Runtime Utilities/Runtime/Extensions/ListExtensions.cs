@@ -7,7 +7,7 @@ namespace DTT.Utils.Extensions
     /// <summary>
     /// Provides extensions methods for classes that implement the <see cref="IList{T}"/> interface.
     /// </summary>
-    public static class ListExtensions
+    public static partial class ListExtensions
     {
         /// <summary>
         /// Swaps values at 'first' index with value at 'second' index.

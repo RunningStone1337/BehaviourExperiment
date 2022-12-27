@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01677a00fd610d343ab008a38fd12156, type: 3}
   m_Name: ComputerGamesFeature
   m_EditorClassIdentifier: 
+  featureName: "\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440\u043D\u044B\u0435
+    \u0438\u0433\u0440\u044B"

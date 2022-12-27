@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fced1051fb9a50843a82aaf30f6dde5c, type: 3}
   m_Name: CarsFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0410\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0438"

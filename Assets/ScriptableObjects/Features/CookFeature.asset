@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb1fcc38fe831b4d9f741ff5e84ca6c, type: 3}
   m_Name: CookFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0413\u043E\u0442\u043E\u0432\u043A\u0430"

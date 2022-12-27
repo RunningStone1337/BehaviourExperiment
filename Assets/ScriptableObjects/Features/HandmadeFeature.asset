@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57cc2a5ea83c49d42b5f4f0c2248be9f, type: 3}
   m_Name: HandmadeFeature
   m_EditorClassIdentifier: 
+  featureName: "\u0420\u0443\u043A\u043E\u0434\u0435\u043B\u0438\u0435"

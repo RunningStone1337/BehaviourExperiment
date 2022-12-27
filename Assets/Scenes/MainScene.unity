@@ -20940,7 +20940,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   featureDropPrefab: {fileID: 1215124752957313970, guid: fd91734a0643d694280bd193bd42892a, type: 3}
-  features:
+  removeButton: {fileID: 1286960733}
+  availFeatures:
   - {fileID: 11400000, guid: 05ce283bf11611d438efc0dfa6021934, type: 2}
   - {fileID: 11400000, guid: 41db0786f4ef2c540837771154ab1a65, type: 2}
   - {fileID: 11400000, guid: ccc0b8933bdf5754db6e0237ce520007, type: 2}
@@ -20953,8 +20954,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bd93fc50781905e4e8ce750ed023700a, type: 2}
   - {fileID: 11400000, guid: 26c9e00b17835794c9d4976b2d1aa340, type: 2}
   - {fileID: 11400000, guid: 15e2860046e96e84ea68e1036c516ca5, type: 2}
-  - {fileID: 11400000, guid: 3d006a86a60d7b048b6f1f9778d8189b, type: 2}
   - {fileID: 11400000, guid: f962e5e7265ef0341acdbddb19a5199f, type: 2}
+  - {fileID: 11400000, guid: 3d006a86a60d7b048b6f1f9778d8189b, type: 2}
   - {fileID: 11400000, guid: ec5f5d09a213d3747b25286dd1edb2fb, type: 2}
   - {fileID: 11400000, guid: 4afd38d3d372de240a28372e087d9b80, type: 2}
   - {fileID: 11400000, guid: 391dbc689c8313c4c817e1f5a996c4b5, type: 2}
@@ -20962,6 +20963,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 704e9bcb54edbee4aacd90e790da354a, type: 2}
   - {fileID: 11400000, guid: d7c15e032ed79e84bb0587fd71ebe00f, type: 2}
   selectedFeatures: []
+  dropdowns: []
   contentRect: {fileID: 1487697660}
 --- !u!114 &947251874 stripped
 MonoBehaviour:
@@ -28256,7 +28258,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 945611364}
         m_TargetAssemblyTypeName: UI.FeaturesRect, Assembly-CSharp
-        m_MethodName: OnAddButtonCLick
+        m_MethodName: OnButtonRemoveClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
