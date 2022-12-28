@@ -35,20 +35,16 @@ namespace UI
         public int MaxAge => maxAge;
         [Space]
         [Header("Настройки ЦНС")]
-        [SerializeField] SliderButtonPair nsPowerSlider;
-        [SerializeField] SliderButtonPair nsMoveabilitySlider;
-        [SerializeField] SliderButtonPair nsActivitySlider;
-        [SerializeField] SliderButtonPair nsReactivitySlider;
-        [SerializeField] DropdownButtonPair nsBalanceDropButtonPair;
-        public SliderButtonPair NsPowerSlider { get => nsPowerSlider; }
-        public SliderButtonPair NsMoveabilitySlider { get => nsMoveabilitySlider; }
-        public SliderButtonPair NsActivitySlider { get => nsActivitySlider; }
-        public SliderButtonPair NsReactivitySlider { get => nsReactivitySlider; }
-        public DropdownButtonPair NsBalanceDropButtonPair { get => nsBalanceDropButtonPair; }
+        [SerializeField] NervousSystemRect nervousSystemRect;
+        public NervousSystemRect NervousSystemRect { get => nervousSystemRect; }
         [Space]
         [Header("Настройки характера")]
         [SerializeField] CharacterRect characterRect;
         public CharacterRect CharacterRect => characterRect;
+        [Space]
+        [Header("Настройки особенностей")]
+        [SerializeField] FeaturesRect featuresRect;
+        public FeaturesRect FeaturesRect => featuresRect;
         [Space]
         [Header("Контроллеры диапазонов значений веса и роста")]
         [SerializeField] KeyValuesHandler ageWeightsHandler;
@@ -63,7 +59,7 @@ namespace UI
         {
             
             for (int age = minAge; age <= maxAge; age++)
-                ageDropButtonPair.AddDropdownOption(age.ToString());
+                ageDropButtonPair.AddOption(age.ToString());
             var ageChangeHandler = new AgeChangeHandler(minAge, this);
             ageChangeHandler.ResetCharacterExtremeValues();
             ageChangeHandler.ResetWieghtAndHeightDropdowns();

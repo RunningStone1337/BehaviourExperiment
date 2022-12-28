@@ -18,7 +18,7 @@ namespace Common
             //подсвечиваем доступные места и активируем мерцание
             InterierPlaceBase.ActivateAvailableInterierPlaces(interier);
         }
-        public override void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
+        public override void HandleInterierClick(InterierBase interierBase, PointerEventData eventData) 
         {
             var place = interierBase.ThisInterierPlace;
             EntranceBuilder.ReplaceInterierOrDeleteExist(interierBase, place);

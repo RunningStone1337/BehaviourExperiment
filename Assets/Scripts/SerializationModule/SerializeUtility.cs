@@ -11,11 +11,11 @@ namespace SerializationModule
 {
     public class SerializeUtility
     {
-        string appDirectory = $"{Application.dataPath}";
+        string appDirectory = $"{Application.dataPath}/SaveData";
         public List<(T data, string dataPath)> LoadDataList<T>()
         {
             var res = new List<(T agent, string path)>();
-            var fullPath = $"{appDirectory}/{nameof(T)}";
+            var fullPath = $"{appDirectory}/{typeof(T).Name}";
             if (Directory.Exists(fullPath))
             {
                 var agentsPaths = Directory.GetFiles(fullPath);
@@ -50,7 +50,7 @@ namespace SerializationModule
         public string SaveAgent<T>(T agent, string fileName)
         {
             var translator = new Translator();
-            var fullPath = $"{appDirectory}/{nameof(T)}";
+            var fullPath = $"{appDirectory}/{typeof(T).Name}";
             var filePath = $"{fullPath}/{translator.ToEnglish(fileName)}.json";
             if (File.Exists(filePath))
                 return default;

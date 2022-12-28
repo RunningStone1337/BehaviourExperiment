@@ -96,7 +96,7 @@ namespace Common
             var diap = diapazoneHandler.CreateDiapazonForKey(newValue);
             target.ClearDropdown();
             foreach (var v in diap)
-                target.AddDropdownOption(v.ToString());
+                target.AddOption(v.ToString());
             target.ResetVisualDropdown();
         }
     }

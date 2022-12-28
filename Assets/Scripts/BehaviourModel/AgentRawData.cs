@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UI;
 
 namespace BehaviourModel
@@ -69,7 +70,7 @@ namespace BehaviourModel
         public ushort timidityCourage;
         public ushort TimidityCourage { get => timidityCourage; }
 
-        //интересы
+        public List<FeatureBase> features;
         public void Initiate(AgentCreationScreen acs)
         {
             imageID = acs.AgentImageHandler.ImageID;
@@ -79,11 +80,11 @@ namespace BehaviourModel
             weight = Convert.ToUInt16(ushort.Parse(acs.WeightDropButtonPair.DropdownValue));
             height = Convert.ToUInt16(ushort.Parse(acs.HeightDropButtonPair.DropdownValue));
 
-            nsPower = Convert.ToUInt16(acs.NsPowerSlider.Value);
-            nsMoveability = Convert.ToUInt16(acs.NsMoveabilitySlider.Value);
-            nsActivity = Convert.ToUInt16(acs.NsActivitySlider.Value);
-            nsReactivity = Convert.ToUInt16(acs.NsReactivitySlider.Value);
-            nsType = GetNSType(acs.NsBalanceDropButtonPair.DropdownIndex);
+            nsPower = Convert.ToUInt16(acs.NervousSystemRect.NsPowerSlider.Value);
+            nsMoveability = Convert.ToUInt16(acs.NervousSystemRect.NsMoveabilitySlider.Value);
+            nsActivity = Convert.ToUInt16(acs.NervousSystemRect.NsActivitySlider.Value);
+            nsReactivity = Convert.ToUInt16(acs.NervousSystemRect.NsReactivitySlider.Value);
+            nsType = GetNSType(acs.NervousSystemRect.NsBalanceDropButtonPair.DropdownIndex);
 
             closenessSociability = Convert.ToUInt16(acs.CharacterRect.ClosenessSociabilitySlider.Value);
             calmnessAnxiety = Convert.ToUInt16(acs.CharacterRect.CalmnessAnxietySlider.Value);
@@ -101,6 +102,8 @@ namespace BehaviourModel
             straightforwardnessDiplomacy = Convert.ToUInt16(acs.CharacterRect.StraightforwardnessDiplomacySlider.Value);
             subordinationDomination = Convert.ToUInt16(acs.CharacterRect.SubordinationDominationSlider.Value);
             timidityCourage = Convert.ToUInt16(acs.CharacterRect.TimidityCourageSlider.Value);
+
+            features = acs.FeaturesRect.SelectedFeatures;
         }
 
         private NervousSystemType GetNSType(int dropdownIndex)

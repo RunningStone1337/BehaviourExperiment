@@ -13,19 +13,20 @@ namespace BuildingModule
         [SerializeField] MiddlePlace rightMiddlePlace;
         public MiddlePlace OppositeMiddlePlace { get => oppositeMiddlePlace; }
         public MiddlePlace LeftMiddlePlace { get => leftMiddlePlace; }
-        public MiddlePlace RightMiddlePlace { get => rightMiddlePlace; }
+        public MiddlePlace RightMiddlePlace { get => rightMiddlePlace; }       
 
-        public override bool IsAvailableForPlacingInterier<T>()
+        public override void SetStateForPlacing(InterierBase interier)
         {
-            return ((InterierPlaceStateBase)CurrentState).IsAvailableForPlacingInterier<T>();
+            if (IsAvailableForPlacingInterier(interier))
+                CurrentState = AvailableForPlacingInterierPlaceState;
+            SetFreeStateForOtherMiddlePlaces(interier);
         }
 
-        public void SetFreeStateForOtherMiddlePlaces()
+        private void SetFreeStateForOtherMiddlePlaces(InterierBase selected)
         {
-            var selected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
-            LeftMiddlePlace.SetPlaceStateAccordingInterierPlaceability(selected);
-            RightMiddlePlace.SetPlaceStateAccordingInterierPlaceability(selected);
-            OppositeMiddlePlace.SetPlaceStateAccordingInterierPlaceability(selected);
+            LeftMiddlePlace.SetAvailableStateIfAvailForPlacing(selected);
+            RightMiddlePlace.SetAvailableStateIfAvailForPlacing(selected);
+            OppositeMiddlePlace.SetAvailableStateIfAvailForPlacing(selected);
         }
     }
 }

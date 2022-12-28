@@ -27,11 +27,11 @@ namespace BuildingModule
         /// </summary>
         /// <param name="interierPlace"></param>
         /// <returns></returns>
-        public virtual bool IsAvailableForPlacing(InterierPlaceBase interierPlace) { return default; }
+        //public abstract bool IsAvailableForPlacing(InterierPlaceBase interierPlace);/* { return default; }*/
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            InputSystem.InputListener.Listener.HandleInterierClick(this, eventData);
+            //InputSystem.InputListener.Listener.HandleInterierClick(this, eventData);
         }
 
         public virtual void Initiate(InterierPlaceBase ipb)

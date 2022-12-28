@@ -19,12 +19,13 @@ namespace BuildingModule
         {
             thisPlace = GetComponent<InterierPlaceBase>();
         }
+
         /// <summary>
-        /// Конечный эта проверки разрешения размещения - в зависимости от состояния места размещения
+        /// Конечный этап проверки разрешения размещения - в зависимости от состояния места размещения
         /// </summary>
         /// <param name="tableInterier"></param>
         /// <returns></returns>
-        public virtual bool IsAvailableForPlacingInterier<T>() where T: InterierBase { return default; }
+        public virtual bool IsAvailableForPlacingInterier(InterierBase interier) { return default; }
 
         public virtual void InitializeState() { }
 
@@ -50,7 +51,7 @@ namespace BuildingModule
             }
             else if (op.Interier.Count == 0)
             {
-                op.SetPlaceStateAccordingInterierPlaceability(currentObj);
+                op.SetStateForPlacing(currentObj);
                 //op.CurrentState = op.AvailableForPlacingInterierPlaceState;
             }
 

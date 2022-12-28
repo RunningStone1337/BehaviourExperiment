@@ -30,7 +30,7 @@ namespace InputSystem
                 sceneMaster.HandleEntranceClick(entrance, eventData);
         }
 
-        public void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
+        public void HandleInterierClick<T>(T interierBase, PointerEventData eventData) where T : InterierBase
         {
             if (!BlockInputClickEvents)
                 sceneMaster.HandleInterierClick(interierBase, eventData);

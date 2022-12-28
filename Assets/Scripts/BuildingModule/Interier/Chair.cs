@@ -17,10 +17,7 @@ namespace BuildingModule
         public string ObjectName => objName;
 
         public string ObjectDescription => objDescription;
-        public override bool IsAvailableForPlacing(InterierPlaceBase interierPlace)
-        {
-            return interierPlace.IsAvailableForPlacingInterier<Chair>();
-        }
+       
         public override void Initiate(InterierPlaceBase ipb)
         {
             ipb.Interier.Add(this);

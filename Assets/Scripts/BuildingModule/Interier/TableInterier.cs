@@ -17,11 +17,7 @@ namespace BuildingModule
 
         public string ObjectDescription => objDescription;
        
-        public override bool IsAvailableForPlacing(InterierPlaceBase interierPlace)
-        {
-            //может ли на АБСТРАКТНОМ месте в КОНКРЕТНОМ состоянии размещаться КОНКРЕТНЫЙ предмет
-            return interierPlace.IsAvailableForPlacingInterier<TableInterier>();
-        }
+     
 
     }
 }

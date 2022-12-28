@@ -1,0 +1,46 @@
+{
+    "imageID": -1,
+    "agentName": "Игорь Артёмович Кузнецов",
+    "sex": true,
+    "age": 14,
+    "weight": 53,
+    "height": 164,
+    "nsPower": 3,
+    "nsMoveability": 10,
+    "nsActivity": 3,
+    "nsReactivity": 2,
+    "nsType": 0,
+    "closenessSociability": 10,
+    "calmnessAnxiety": 6,
+    "conformismNonconformism": 10,
+    "conservatismRadicalism": 2,
+    "credulitySuspicion": 5,
+    "emotionalInstabilityStability": 4,
+    "intelligence": 2,
+    "normativityOfBehaviour": 1,
+    "practicalityDreaminess": 1,
+    "relaxationTension": 10,
+    "restraintExpressiveness": 10,
+    "rigiditySensetivity": 6,
+    "selfcontrol": 6,
+    "straightforwardnessDiplomacy": 4,
+    "subordinationDomination": 2,
+    "timidityCourage": 3,
+    "features": [
+        {
+            "instanceID": -592122
+        },
+        {
+            "instanceID": -591930
+        },
+        {
+            "instanceID": -591956
+        },
+        {
+            "instanceID": -591428
+        },
+        {
+            "instanceID": -591380
+        }
+    ]
+}

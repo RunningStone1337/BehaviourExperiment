@@ -16,7 +16,10 @@ namespace Extensions
                 list.Add(obj);
         }
 
-        public static FeatureBase FirstOrDefaultSelectedFeature(this List<FeatureBase> list, DropdownButtonPair drop) =>
-            list.FirstOrDefault(x => x.FeatureName.Equals(drop.DropdownValue));
+        public static Content FirstOrDefaultMatchContent<Content, ContentHandler>(this List<Content> list, ContentHandler drop)
+            where Content: IOption
+            where ContentHandler: IOptionsHandler
+            =>
+            list.FirstOrDefault(x => x.OptionName.Equals(drop.SelectedOptionValue));
     }
 }

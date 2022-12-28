@@ -18,7 +18,6 @@ namespace BuildingModule
         [SerializeField] Collider2D collider2d;
         [SerializeField] List<InterierBase> interier;
         [SerializeField] Entrance entrance;
-
         [Space]
         [SerializeField] FreeInterierPlaceState freeInterierPlaceState;
         [SerializeField] OccupedInterierPlaceState occupedInterierPlaceState;
@@ -42,50 +41,59 @@ namespace BuildingModule
             }
         }
 
-        public List<InterierBase> Interier
-        {
-            get => interier;
-            set
-            {
-                interier = value;
-                //if (interier != null)
-                //    IsOccuped = true;
-                //else
-                //    IsOccuped = false;
-            }
-        }
-        
+        public List<InterierBase> Interier => interier;
 
         public static void ActivateAvailableInterierPlaces(InterierBase interier)
         {
             var entrances = EntranceRoot.Root.Entrances;
             foreach (var entr in entrances)
             {
-                List<InterierPlaceBase> places = new List<InterierPlaceBase>(entr.MiddlePlaces);
+                var places = new List<InterierPlaceBase>(entr.MiddlePlaces);
                 places.AddRange(entr.Corners);
                 places.AddRange(entr.Underwalls);
                 foreach (var pl in places)
-                    pl.SetPlaceStateAccordingInterierPlaceability(interier);
+                    pl.SetStateForPlacing(interier);
             }
         }
-        public virtual void SetPlaceStateAccordingInterierPlaceability(InterierBase interier)
+
+        /// <summary>
+        /// Устанавливает стейт места размещения в зависимости от условий данного места
+        /// </summary>
+        /// <param name="interier"></param>
+        public virtual void SetStateForPlacing(InterierBase interier)
         {
             ///при переключении активного итема места, которые не должны светиться(в центре) светятся, нужно обработать 
-            if (interier.IsAvailableForPlacing(this))
+            SetAvailableStateIfAvailForPlacing(interier);
+        }
+
+        public void RemoveInterier(InterierBase interier)
+        {
+           Interier.Remove(interier);
+            var count = Interier.Count;
+            if (count == 0)
+                CurrentState = FreeInterierPlaceState;
+            Destroy(interier.gameObject);
+        }
+
+        /// <summary>
+        /// Устанавливает доступное для размещения состояние если предмет данного типа может размещаться
+        /// взависимости от состояния этого места
+        /// </summary>
+        /// <param name="interier"></param>
+        protected void SetAvailableStateIfAvailForPlacing(InterierBase interier)
+        {
+            if (IsAvailableForPlacingInterier(interier))
                 CurrentState = AvailableForPlacingInterierPlaceState;
         }
 
-        public void HandleInterierPlaceClick(PointerEventData eventData)
-        {
-            ((InterierPlaceStateBase)CurrentState).HandleInterierPlaceClick(eventData);
-        }
-        public virtual bool IsAvailableForPlacingInterier<T>() where T : InterierBase 
-        { return default; }
+        public void HandleInterierPlaceClick(PointerEventData eventData)=>
+            currentState.HandleInterierPlaceClick(eventData);
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
+        public virtual bool IsAvailableForPlacingInterier(InterierBase interier) => currentState.IsAvailableForPlacingInterier(interier);
+
+        public void OnPointerClick(PointerEventData eventData)=>
             InputSystem.InputListener.Listener.HandleInterierPlaceClick(this, eventData);
-        }
+
         private void Awake()
         {
             currentState = FreeInterierPlaceState;

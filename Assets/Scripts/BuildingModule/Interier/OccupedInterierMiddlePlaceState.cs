@@ -1,24 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UI;
-using Extensions;
-
 namespace BuildingModule
 {
-    public class OccupedMiddleInterierPlaceState : OccupedInterierPlaceState
+    public class OccupedInterierMiddlePlaceState : OccupedInterierPlaceState
     {
         protected MiddlePlace ThisPlace { get => (MiddlePlace)thisPlace; }
-        public override bool IsAvailableForPlacingInterier<T>()
+        public override bool IsAvailableForPlacingInterier(InterierBase interier)
         {
-            if (typeof(T).Equals<Chair>())
+            //сделать обработчики на каждый случай в interier?
+            if (interier is Chair)
             {
                 var chairsCount = ThisPlace.GetComponentsInChildren<Chair>().Length;
                 if (chairsCount <= 1)
                     return true;
                 return false;
             }
-            return base.IsAvailableForPlacingInterier<T>();
+            return base.IsAvailableForPlacingInterier(interier);
         }
+
         public override void InitializeState()
         {
             base.InitializeState();

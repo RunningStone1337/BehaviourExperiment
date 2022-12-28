@@ -106,7 +106,7 @@ namespace Common
             CurrentState.HandleEntranceClick(entrance, eventData);
         }
 
-        public void HandleInterierClick(InterierBase interierBase, PointerEventData eventData)
+        public void HandleInterierClick<T>(T interierBase, PointerEventData eventData) where T : InterierBase
         {
             CurrentState.HandleInterierClick(interierBase, eventData);
         }

@@ -16,8 +16,7 @@ namespace UI
     {
         [SerializeField] GameObject featureDropPrefab;
         [SerializeField] Button removeButton;
-        [SerializeField] List<FeatureBase> availFeatures;
-        [SerializeField] List<FeatureBase> selectedFeatures;
+        [SerializeField] UnicValuesDropdownHandler<DropdownButtonPair, FeatureBase> unicValuesHandler;
         [SerializeField] List<DropdownButtonPair> dropdowns;
         [SerializeField] RectTransform contentRect;
         [SerializeField] ISelectableUIComponent activeComponent;
@@ -34,116 +33,109 @@ namespace UI
                     removeButton.interactable = false;
             }
         }
+        
+        public List<FeatureBase> SelectedFeatures { get=> unicValuesHandler.SelectedContent;}
 
         [ContextMenu("TryAddFeatureSelectorDropdown")]
-        public void OnAddButtonCLick()
+        public void OnAddButtonClick()
         {
             TryAddFeatureSelectorDropdown();
         }
-
-        private void TryAddFeatureSelectorDropdown()
+        public void OnButtonRemoveClick()
         {
-            if (availFeatures.Count>0)
+            RemoveSelectedFeatureDrop();
+        }
+        public void SetDefaultValues()
+        {
+            if (dropdowns.Count>0)
             {
-                var drop = CreateNewDropdown();
-                var feature = availFeatures.FirstOrDefaultSelectedFeature(drop);
-                drop.ValueObject = feature;
-                AddSelectedRemoveAvail(feature);
-                ResetAnotherDropdowns(drop, feature);
-                drop.AddPointerClickCallback((x) => { ActiveComponent = drop; });
-                drop.AddOnValueChangedCallback(OnDropdownSelectionChanged);
-                ActiveComponent = drop;
+                ActiveComponent = dropdowns[dropdowns.Count-1];
+                for (int i = 0; i < dropdowns.Count; i++)
+                    RemoveSelectedFeatureDrop();
             }
         }
 
-        private void ResetAnotherDropdowns(DropdownButtonPair drop, FeatureBase excepdedFeature)
+        public void RandomizeControlsValues()
         {
-            var drops = dropdowns.Where(x => x != drop);
-            foreach (var d in drops)
+            foreach (var d in dropdowns)
+                d.PushButton();
+        }
+
+       
+        private DropdownButtonPair TryAddFeatureSelectorDropdown(FeatureBase feature = null)
+        {
+            if (unicValuesHandler.HasFreeValues())
             {
-                d.RemoveOnValueChangedCallbacks();
-                d.RemoveDropdownOption(excepdedFeature.FeatureName);
-                d.AddOnValueChangedCallback(OnDropdownSelectionChanged);
+                var drop = CreateNewDropdown();
+                unicValuesHandler.AddContentHandler(drop, (x) => { ActiveComponent = x; });
+                if (feature != null)
+                    drop.DropdownValue = feature.OptionName;
+                drop.AddPointerClickCallback((x) => { ActiveComponent = drop; });
+                drop.AddButtonClickCallback(() => {
+                    drop.DropdownValue = drop.RandomValue;                
+                });
+                ActiveComponent = drop;
+                return drop;
             }
+            return default;
         }
 
         private DropdownButtonPair CreateNewDropdown()
         {
             var drop = Instantiate(featureDropPrefab, contentRect).GetComponent<DropdownButtonPair>();
             dropdowns.Add(drop);
-            foreach (var f in availFeatures)
-                drop.AddDropdownOption(f.FeatureName);
             return drop;
         }
-        private void AddAvailRemoveSelected(FeatureBase prevFeature)
-        {
-            selectedFeatures.Remove(prevFeature);
-            availFeatures.Add(prevFeature);
-        }
-        private void AddSelectedRemoveAvail(FeatureBase feature)
-        {
-            selectedFeatures.Add(feature);
-            availFeatures.Remove(feature);
-        }
 
-        private void OnDropdownSelectionChanged(int newIndex)
+        public void SetControlsValues(AgentRawData rawData)
         {
-            DropdownButtonPair sender = GetSenderWithFeatures(availFeatures, out FeatureBase newFeature, out FeatureBase prevFeature);
-            AddAvailRemoveSelected(prevFeature);
-            AddSelectedRemoveAvail(newFeature);
-            var drops = dropdowns.Where(x => x != sender);
-            foreach (var d in drops)
+            var c = dropdowns.Count;
+            for (int i = 0; i < c; i++)
             {
-                d.RemoveOnValueChangedCallbacks();
-                d.AddDropdownOption(prevFeature.FeatureName);
-                d.RemoveDropdownOption(newFeature.FeatureName);
-                d.AddOnValueChangedCallback(OnDropdownSelectionChanged);
+                ActiveComponent = dropdowns[0];
+                RemoveSelectedFeatureDrop();
             }
-            ActiveComponent = sender;
+            var f = rawData.features;
+            for (int i = 0; i < f.Count; i++)
+            {
+                TryAddFeatureSelectorDropdown(f[i]);
+            }
         }
 
-        private DropdownButtonPair GetSenderWithFeatures(List<FeatureBase> source, out FeatureBase newFeature, out FeatureBase prevFeature)
+        private void EqualDropdownsCountOnFeaturesCount(AgentRawData rawData)
         {
-            DropdownButtonPair sender = default;
-            newFeature = default;
-            prevFeature = default;
-            foreach (var d in dropdowns)
+            var existedDrops = dropdowns.Count;
+            var featuresCount = rawData.features.Count;
+            if (existedDrops < featuresCount)
             {
-                ///определить предыдущий выбор и свапнуть его в списках
-                newFeature = source.FirstOrDefaultSelectedFeature(d);
-                if (newFeature != null)
+                var c = featuresCount - existedDrops;
+                for (int i = 0; i < c; i++)
+                    TryAddFeatureSelectorDropdown();
+            }
+            else if (existedDrops > featuresCount)
+            {
+                var c = existedDrops - featuresCount;
+                for (int i = 0; i < c; i++)
                 {
-                    sender = d;
-                    prevFeature = (FeatureBase)d.ValueObject;
-                    sender.ValueObject = newFeature;
-                    break;
+                    ActiveComponent = dropdowns[0];
+                    RemoveSelectedFeatureDrop();
                 }
             }
-            return sender;
-        }   
-        
-        public void OnButtonRemoveClick()
-        {
-            HandleFeatureRemoving();
         }
 
-        private void HandleFeatureRemoving()
+        private void RemoveSelectedFeatureDrop()
         {
             var activeDrop = (DropdownButtonPair)ActiveComponent;
-            var currentFeature = selectedFeatures.FirstOrDefaultSelectedFeature(activeDrop);
-            var drops = dropdowns.Where(x => x != activeDrop);
-            foreach (var d in drops)
-            {
-                d.RemoveOnValueChangedCallbacks();
-                d.AddDropdownOption(currentFeature.FeatureName);
-                d.AddOnValueChangedCallback(OnDropdownSelectionChanged);
-            }
-            AddAvailRemoveSelected(currentFeature);
-            var sender = (DropdownButtonPair)activeComponent;
-            var index = dropdowns.IndexOf(sender);
-            dropdowns.Remove(sender);
-            Destroy(sender.gameObject);
-            if (dropdowns.Count>0)
+            unicValuesHandler.RemoveContentHandler(activeDrop);
+            var index = dropdowns.IndexOf(activeDrop);
+            dropdowns.Remove(activeDrop);
+            Destroy(activeDrop.gameObject);
+            ResetActiveComponent(index);
+        }
+
+        private void ResetActiveComponent(int index)
+        {
+            if (dropdowns.Count > 0)
             {
                 while (index >= 0)
                 {
@@ -159,6 +151,5 @@ namespace UI
             else
                 ActiveComponent = null;
         }
-     
     }
 }

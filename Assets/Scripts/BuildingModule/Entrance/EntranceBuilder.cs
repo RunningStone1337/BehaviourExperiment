@@ -78,16 +78,12 @@ namespace BuildingModule
             //если выбран прежний, не добавлять ничего, иначе выбранный
             AddInterierIfNew(oldID, place);            
         }
-        public static void RemoveInterier(InterierBase interierBase, InterierPlaceBase place)
+        public static void RemoveInterier(InterierBase interier, InterierPlaceBase place)
         {
-            place.Interier.Remove(interierBase);
-            if (place.Interier.Count==0)
-                place.CurrentState = place.FreeInterierPlaceState;
-            Destroy(interierBase.gameObject);
+            place.RemoveInterier(interier);
+            ///затуп - нужно знать конкретный тип на этом этапе
             var selected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
-            place.SetPlaceStateAccordingInterierPlaceability(selected);
-            if (place is MiddlePlace tp)
-                tp.SetFreeStateForOtherMiddlePlaces();
+            place.SetStateForPlacing(selected);
         }
 
         /// <summary>
@@ -100,7 +96,7 @@ namespace BuildingModule
             var lastSelected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             if (lastSelected != null)
             {
-                if (lastSelected.IsAvailableForPlacing(ipb))
+                if (ipb.IsAvailableForPlacingInterier(lastSelected))
                 {
                     var newEntrance = Instantiate(lastSelected.gameObject,
                         ipb.transform).GetComponent<InterierBase>();
