@@ -38,21 +38,17 @@ namespace BuildingModule
         /// </summary>
         /// <param name="oldId"></param>
         /// <param name="place"></param>
-        public static void AddInterierIfNew(int oldId, InterierPlaceBase place)
+        public static void AddInterierIfNewAndAvail(InterierBase inter, int oldId, InterierPlaceBase place)
         {
-            var inter = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             var newInterierId = inter.ThisIdentifier.ID;
-            if (inter != null && oldId != newInterierId)//есть активный компон
-            {
-                TryAddSelectedInterier(place);
-                //InterierPlaceBase.ActivateAvailableInterierPlaces(inter);
-            }
-            //else
-            //{
-            //    place.SetPlaceStateAccordingInterierPlaceability(inter);
-            //}
+            place.ResetCurrentStateWithDependentPlaces(inter);
+            if (IsNew(oldId, newInterierId) && inter.IsAvailForPlacing(place))
+                AddInterier(inter, place);
         }
-        
+
+        private static bool IsNew(int oldId, int newId)=>
+            oldId != newId;
+
         /// <summary>
         /// Удаляет лишние стены на месте новых соединений комнат
         /// </summary>
@@ -71,38 +67,29 @@ namespace BuildingModule
         /// <param name="place"></param>
         public static void ReplaceInterierOrDeleteExist(InterierBase oldInterier, InterierPlaceBase place)
         {
+            var newInter = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
             var oldID = oldInterier.ThisIdentifier.ID;
-            //удалить интерьер
             RemoveInterier(oldInterier, place);
-            //place.CurrentState = place.AvailableForPlacingInterierPlaceState;
-            //если выбран прежний, не добавлять ничего, иначе выбранный
-            AddInterierIfNew(oldID, place);            
+            AddInterierIfNewAndAvail(newInter, oldID, place);            
+            
         }
-        public static void RemoveInterier(InterierBase interier, InterierPlaceBase place)
-        {
-            place.RemoveInterier(interier);
-            ///затуп - нужно знать конкретный тип на этом этапе
-            var selected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
-            place.SetStateForPlacing(selected);
-        }
+        public static void RemoveInterier(InterierBase oldInterier,  InterierPlaceBase place)=>
+            place.RemoveInterier(oldInterier);
+         
+        private static bool IsNew(InterierBase newInter, InterierBase oldInterier) =>
+            IsNew(newInter.ThisIdentifier.ID, oldInterier.ThisIdentifier.ID);
 
         /// <summary>
         /// Добавляет выбранный интерьер на место если какой-то выбран
         /// и размещение не запрещено.
         /// </summary>
         /// <param name="ipb"></param>
-        public static void TryAddSelectedInterier(InterierPlaceBase ipb)
+        public static void AddInterier(InterierBase inter, InterierPlaceBase ipb)
         {
-            var lastSelected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
-            if (lastSelected != null)
-            {
-                if (ipb.IsAvailableForPlacingInterier(lastSelected))
-                {
-                    var newEntrance = Instantiate(lastSelected.gameObject,
-                        ipb.transform).GetComponent<InterierBase>();
-                    newEntrance.Initiate(ipb);
-                }
-            }
+            var newEntrance = Instantiate(inter.gameObject,
+                ipb.transform).GetComponent<InterierBase>();
+            ipb.AddInterier(newEntrance);
+            newEntrance.Initiate(ipb);
         }
 
         public static void BuildWalls(Entrance newEntrance)

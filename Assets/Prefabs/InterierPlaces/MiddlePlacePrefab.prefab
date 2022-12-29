@@ -93,9 +93,9 @@ GameObject:
   - component: {fileID: 1742493147903265814}
   - component: {fileID: 5957350177463717497}
   - component: {fileID: 1846455819449293299}
-  - component: {fileID: 1165812612420145877}
-  - component: {fileID: 2719033618185776993}
-  - component: {fileID: 2509578591890699138}
+  - component: {fileID: 2636692856560720447}
+  - component: {fileID: 546627486383254462}
+  - component: {fileID: 2418059597090266886}
   m_Layer: 0
   m_Name: MiddlePlacePrefab
   m_TagString: Untagged
@@ -134,11 +134,10 @@ MonoBehaviour:
   collider2d: {fileID: 1846455819449293299}
   interier: []
   entrance: {fileID: 0}
-  isOccuped: 0
-  freeInterierPlaceState: {fileID: 1165812612420145877}
-  occupedInterierPlaceState: {fileID: 2719033618185776993}
-  availableForPlacingInterier: {fileID: 2509578591890699138}
-  currentState: {fileID: 1165812612420145877}
+  freeInterierPlaceState: {fileID: 2636692856560720447}
+  occupedInterierPlaceState: {fileID: 546627486383254462}
+  availableForPlacingInterier: {fileID: 2418059597090266886}
+  currentState: {fileID: 0}
   oppositeMiddlePlace: {fileID: 0}
   leftMiddlePlace: {fileID: 0}
   rightMiddlePlace: {fileID: 0}
@@ -168,7 +167,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.03, y: 0.1}
   m_EdgeRadius: 0
---- !u!114 &1165812612420145877
+--- !u!114 &2636692856560720447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
---- !u!114 &2719033618185776993
+--- !u!114 &546627486383254462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
---- !u!114 &2509578591890699138
+--- !u!114 &2418059597090266886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,5 +207,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
   placeRenderer: {fileID: 2150807712747624199}
-  targetColor: {r: 0.62352943, g: 0.43137255, b: 0.17254902, a: 0.7490196}
+  targetColor: {r: 0.6313726, g: 0.33333334, b: 0.15686275, a: 0.7490196}
   step: 0.005

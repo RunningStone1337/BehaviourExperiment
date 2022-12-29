@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
+    /// <summary>
+    /// —тейт доступности размещени€ интерьера.
+    /// </summary>
     public class AvailableForPlacingInterierPlaceState : InterierPlaceStateBase, IVisualEffectRoutineHandler
     {
         [SerializeField] SpriteRenderer placeRenderer;
@@ -13,7 +16,7 @@ namespace BuildingModule
         [SerializeField] [Range(0f,1f)]float step;
         Coroutine routine;
         public Coroutine Routine { get => routine; set => routine = value; }
-
+    
         public override void InitializeState()
         {
             thisPlace.Collider2D.enabled = true;
@@ -29,10 +32,13 @@ namespace BuildingModule
                 step,
                 () => thisPlace.CurrentState is AvailableForPlacingInterierPlaceState);
         }
+
         public override void HandleInterierPlaceClick(PointerEventData eventData)
         {
-           EntranceBuilder.TryAddSelectedInterier(thisPlace);
+            var selected = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
+            EntranceBuilder.AddInterier(selected, thisPlace);
         }
+
         public override void BeforeChangeState()
         {
             thisPlace.Collider2D.enabled = false;
@@ -43,6 +49,19 @@ namespace BuildingModule
             if (Routine != null)
                 StopCoroutine(Routine);
             Routine = StartCoroutine(VisualEffectRoutine());
+        }
+
+        public override void ResetState(InterierBase interier)
+        {
+            var intCount = thisPlace.InterierCount();
+            if (intCount > 0)//обычно нельз€ размещать больше 1 предмета на место
+                thisPlace.SetNotAvailForPlacingState();
+
+        }
+        void OnDrawGizmos()
+        {
+            var color = Color.green;
+            DrawSphereGizmo(color);
         }
     }
 }

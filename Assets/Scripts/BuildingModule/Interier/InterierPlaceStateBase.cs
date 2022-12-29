@@ -12,62 +12,40 @@ namespace BuildingModule
     /// <summary>
     /// Иерархия состояний для мест размещения интерьера.
     /// </summary>
+    [Serializable]
     public abstract class InterierPlaceStateBase : MonoBehaviour, IState
     {
         [SerializeField] protected InterierPlaceBase thisPlace;
+     
         private void Awake()
         {
             thisPlace = GetComponent<InterierPlaceBase>();
         }
 
-        /// <summary>
-        /// Конечный этап проверки разрешения размещения - в зависимости от состояния места размещения
-        /// </summary>
-        /// <param name="tableInterier"></param>
-        /// <returns></returns>
-        public virtual bool IsAvailableForPlacingInterier(InterierBase interier) { return default; }
-
         public virtual void InitializeState() { }
 
         public virtual void BeforeChangeState() { }
 
-        public virtual void HandleInterierPlaceClick(PointerEventData eventData) { }
+        public virtual void HandleInterierPlaceClick(PointerEventData eventData) { }       
+       
         /// <summary>
-        /// Устанавливает состояние противоположного места в зависимости от наличия ЗДЕСЬ интерьера типа Т
+        /// Устанавливает новое состояние или оставляет старое в зависимости от текущих обстоятельств
         /// </summary>
-        /// <typeparam name="T">Тип, ограничивающий размещение на противоположной стороне.</typeparam>
-        public void SetOppositePlaceStateAccordingSelectedInterier<T>() where T : InterierBase
+        public abstract void ResetState(InterierBase interier);
+#if UNITY_EDITOR
+        protected void DrawSphereGizmo(Color color)
         {
-            var pl = (MiddlePlace)thisPlace;
-            var op = pl.OppositeMiddlePlace;
-            var currentObj = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
-            //ЗДЕСЬ интерьер и противоположное место было доступно для размещения
-            if (thisPlace.Interier.Count != 0 && thisPlace.Interier.Where(x=>x is T).Count()>0)
+            if (thisPlace != null)
             {
-                if (op.CurrentState is AvailableForPlacingInterierPlaceState && currentObj is T)//запрещаем размещать
-                    op.CurrentState = op.FreeInterierPlaceState;
-                else
-                    op.CurrentState = op.AvailableForPlacingInterierPlaceState;
+                if (thisPlace.CurrentState.Equals(this))
+                {
+                    Gizmos.color = color;
+                    var col = Gizmos.color;
+                    Gizmos.DrawSphere(thisPlace.transform.position, 0.1f);
+                    Gizmos.color = col;
+                }
             }
-            else if (op.Interier.Count == 0)
-            {
-                op.SetStateForPlacing(currentObj);
-                //op.CurrentState = op.AvailableForPlacingInterierPlaceState;
-            }
-
         }
-        /// <summary>
-        /// Если противоположная сторона занята столом, вернет true
-        /// </summary>
-        /// <returns></returns>
-        protected bool IsOppositeOccupedByTable()
-        {
-            var place = (MiddlePlace)thisPlace;
-            var opp = place.OppositeMiddlePlace;
-            if (opp.Interier.Where(x=>x is TableInterier).Count() > 0)
-                return true;
-            return false;
-        }
-
+#endif
     }
 }

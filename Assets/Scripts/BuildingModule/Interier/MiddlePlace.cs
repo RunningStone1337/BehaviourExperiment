@@ -1,4 +1,5 @@
 using Common;
+using Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,20 +14,6 @@ namespace BuildingModule
         [SerializeField] MiddlePlace rightMiddlePlace;
         public MiddlePlace OppositeMiddlePlace { get => oppositeMiddlePlace; }
         public MiddlePlace LeftMiddlePlace { get => leftMiddlePlace; }
-        public MiddlePlace RightMiddlePlace { get => rightMiddlePlace; }       
-
-        public override void SetStateForPlacing(InterierBase interier)
-        {
-            if (IsAvailableForPlacingInterier(interier))
-                CurrentState = AvailableForPlacingInterierPlaceState;
-            SetFreeStateForOtherMiddlePlaces(interier);
-        }
-
-        private void SetFreeStateForOtherMiddlePlaces(InterierBase selected)
-        {
-            LeftMiddlePlace.SetAvailableStateIfAvailForPlacing(selected);
-            RightMiddlePlace.SetAvailableStateIfAvailForPlacing(selected);
-            OppositeMiddlePlace.SetAvailableStateIfAvailForPlacing(selected);
-        }
+        public MiddlePlace RightMiddlePlace { get => rightMiddlePlace; }      
     }
 }

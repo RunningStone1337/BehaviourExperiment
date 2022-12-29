@@ -14,7 +14,7 @@ namespace Common
         {
             SceneMaster.Master.LastSelectedViewObject = placeableUIView.CorrespondingObjectPrefab;
             CanvasController.Controller.InterierListScreen.ActiveComponent = placeableUIView;
-            var interier = (InterierBase)SceneMaster.Master.LastSelectedViewObject;
+            var interier = (InterierBase)placeableUIView.CorrespondingObjectPrefab;
             //подсвечиваем доступные места и активируем мерцание
             InterierPlaceBase.ActivateAvailableInterierPlaces(interier);
         }

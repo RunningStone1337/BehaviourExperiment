@@ -17,7 +17,7 @@ MonoBehaviour:
   thisInterierPlace: {fileID: 0}
   thisIdentifier: {fileID: 0}
   interier: {fileID: 6970461294965320288}
-  interierColor: {r: 0.5943396, g: 0.22590552, b: 0.058873262, a: 0}
+  interierColor: {r: 0.5943396, g: 0.22590552, b: 0.058873262, a: 1}
 --- !u!1001 &5426312766780718206
 PrefabInstance:
   m_ObjectHideFlags: 0
