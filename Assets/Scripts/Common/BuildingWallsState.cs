@@ -35,8 +35,10 @@ namespace Common
                 wall.SetActiveState();
             else
                 wall.SetBuildingState();
+            var entr = wall.ThisEntrance;
+            entr.RemoveInvalidInterierAndFromNeighbours();
         }
-       
+
         public override void BeforeChangeOldState()
         {
             SceneMaster.Master.DeactivateAllBuildStateWalls();

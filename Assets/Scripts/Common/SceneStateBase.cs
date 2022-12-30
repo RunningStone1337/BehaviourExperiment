@@ -18,7 +18,6 @@ namespace Common
         {
             master = GetComponent<SceneMaster>();
         }
-
         /// <summary>
         /// Клик по месту для размещения помещения.
         /// </summary>
@@ -52,7 +51,7 @@ namespace Common
         /// </summary>
         /// <param name="interierBase"></param>
         /// <param name="eventData"></param>
-        public virtual void HandleInterierClick(InterierBase interierBase, PointerEventData eventData) { }
+        public virtual void HandleInterierClick(PlacedInterier interierBase, PointerEventData eventData) { }
 
         /// <summary>
         /// Клик по UI панели, соответствующей создаваемому GO

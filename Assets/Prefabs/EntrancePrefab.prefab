@@ -100,50 +100,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 422f81af9feafce4babb21c20bc99ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entranceSprite: {fileID: 8960210736208679381}
-  step: 0.005
-  leftWall: {fileID: 7011177441926561867}
-  rightWall: {fileID: 8823720248340781283}
-  upWall: {fileID: 3974390228933151261}
-  downWall: {fileID: 919915554306821434}
-  walls:
-  - {fileID: 7011177441926561867}
-  - {fileID: 8823720248340781283}
-  - {fileID: 919915554306821434}
-  - {fileID: 3974390228933151261}
-  ulCorner: {fileID: 7222299588877665379}
-  urCorner: {fileID: 5300257032541014877}
-  drCorner: {fileID: 7318737235575625841}
-  dlCorner: {fileID: 5253343761188197453}
   corners:
   - {fileID: 7222299588877665379}
   - {fileID: 5300257032541014877}
   - {fileID: 7318737235575625841}
   - {fileID: 5253343761188197453}
-  leftUnderwall: {fileID: 5198675321337876589}
-  upUnderwall: {fileID: 5485593461050790708}
-  rightUnderwall: {fileID: 8800361284633373740}
-  downUnderwall: {fileID: 6109866302934415009}
-  underwalls:
-  - {fileID: 5198675321337876589}
-  - {fileID: 5485593461050790708}
-  - {fileID: 8800361284633373740}
-  - {fileID: 6109866302934415009}
-  leftPlace: {fileID: 2883247613674705054}
-  upPlace: {fileID: 4793480120867677720}
-  rightPlace: {fileID: 7771618007008287397}
+  dlCorner: {fileID: 5253343761188197453}
+  drCorner: {fileID: 7318737235575625841}
+  ulCorner: {fileID: 7222299588877665379}
+  urCorner: {fileID: 5300257032541014877}
   downPlace: {fileID: 842625918895043219}
+  leftPlace: {fileID: 2883247613674705054}
   middlePlaces:
   - {fileID: 2883247613674705054}
   - {fileID: 4793480120867677720}
   - {fileID: 7771618007008287397}
   - {fileID: 842625918895043219}
-  thisRoom: {fileID: 0}
-  neighbours: []
-  upNeighbour: {fileID: 0}
-  rightNeighbour: {fileID: 0}
+  rightPlace: {fileID: 7771618007008287397}
+  upPlace: {fileID: 4793480120867677720}
+  downUnderwall: {fileID: 6109866302934415009}
+  leftUnderwall: {fileID: 5198675321337876589}
+  rightUnderwall: {fileID: 8800361284633373740}
+  underwalls:
+  - {fileID: 5198675321337876589}
+  - {fileID: 5485593461050790708}
+  - {fileID: 8800361284633373740}
+  - {fileID: 6109866302934415009}
+  upUnderwall: {fileID: 5485593461050790708}
   downNeighbour: {fileID: 0}
   leftNeighbour: {fileID: 0}
+  neighbours: []
+  rightNeighbour: {fileID: 0}
+  upNeighbour: {fileID: 0}
+  downWall: {fileID: 919915554306821434}
+  leftWall: {fileID: 7011177441926561867}
+  rightWall: {fileID: 8823720248340781283}
+  upWall: {fileID: 3974390228933151261}
+  walls:
+  - {fileID: 7011177441926561867}
+  - {fileID: 8823720248340781283}
+  - {fileID: 919915554306821434}
+  - {fileID: 3974390228933151261}
+  entranceSprite: {fileID: 8960210736208679381}
+  step: 0.005
+  thisRoom: {fileID: 0}
+  interierPlaces:
+  - {fileID: 7222299588877665379}
+  - {fileID: 5300257032541014877}
+  - {fileID: 7318737235575625841}
+  - {fileID: 5253343761188197453}
+  - {fileID: 5198675321337876589}
+  - {fileID: 5485593461050790708}
+  - {fileID: 8800361284633373740}
+  - {fileID: 6109866302934415009}
+  - {fileID: 2883247613674705054}
+  - {fileID: 4793480120867677720}
+  - {fileID: 7771618007008287397}
+  - {fileID: 842625918895043219}
 --- !u!61 &743918712452220329
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -572,6 +585,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2432177244059762354, guid: a5435ceea7b13ce44956dda7683cec76, type: 3}
+      propertyPath: thisDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4098395903924994031, guid: a5435ceea7b13ce44956dda7683cec76, type: 3}
       propertyPath: m_Name
       value: DownWall
@@ -924,6 +941,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4465375478921336010, guid: 7a3e3d80dd8689a45b116603df96579d, type: 3}
+      propertyPath: thisDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7911734238775496893, guid: 7a3e3d80dd8689a45b116603df96579d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1078,6 +1099,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8879876536758043466}
     m_Modifications:
+    - target: {fileID: 289258276501061204, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
+      propertyPath: associatedWall
+      value: 
+      objectReference: {fileID: 3974390228933151261}
     - target: {fileID: 1562396720364094104, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1159,6 +1184,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8879876536758043466}
     m_Modifications:
+    - target: {fileID: 289258276501061204, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
+      propertyPath: associatedWall
+      value: 
+      objectReference: {fileID: 7011177441926561867}
     - target: {fileID: 1562396720364094104, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1248,6 +1277,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8879876536758043466}
     m_Modifications:
+    - target: {fileID: 289258276501061204, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
+      propertyPath: associatedWall
+      value: 
+      objectReference: {fileID: 919915554306821434}
     - target: {fileID: 1562396720364094104, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1430,6 +1463,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1962134214031234974, guid: f362f03030a3d834dae11efe1db2710f, type: 3}
+      propertyPath: thisDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2555469793696418745, guid: f362f03030a3d834dae11efe1db2710f, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1600,6 +1637,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8879876536758043466}
     m_Modifications:
+    - target: {fileID: 289258276501061204, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
+      propertyPath: associatedWall
+      value: 
+      objectReference: {fileID: 8823720248340781283}
     - target: {fileID: 1562396720364094104, guid: 4a29419d0fdcd254d9843f6523422a08, type: 3}
       propertyPath: m_RootOrder
       value: 2

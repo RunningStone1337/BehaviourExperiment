@@ -1,11 +1,10 @@
 using Common;
+using Extensions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Extensions;
-using System.Linq;
 
 namespace BuildingModule
 {
@@ -14,19 +13,25 @@ namespace BuildingModule
     /// </summary>
     public abstract class InterierPlaceBase : MonoBehaviour, ICurrentStateHandler, IPointerClickHandler
     {
-        [SerializeField] SpriteRenderer spriteRenderer;
-        [SerializeField] Collider2D collider2d;
-        [SerializeField] List<InterierBase> interier;
-        [SerializeField] Entrance entrance;
+        [SerializeField] private AvailableForPlacingInterierPlaceState availableForPlacingInterier;
+        [SerializeField] private Collider2D collider2d;
+        [SerializeField] private InterierPlaceStateBase currentState;
+        [SerializeField] private Entrance entrance;
         [Space]
-        [SerializeField] FreeInterierPlaceState freeInterierPlaceState;
-        [SerializeField] NotAvailableForPlacingInterierPlaceState occupedInterierPlaceState;
-        [SerializeField] AvailableForPlacingInterierPlaceState availableForPlacingInterier;
-        [SerializeField] InterierPlaceStateBase currentState;
-        public FreeInterierPlaceState FreeInterierPlaceState { get => freeInterierPlaceState; }
-        public NotAvailableForPlacingInterierPlaceState NotAvailableForPlacingInterierState { get => occupedInterierPlaceState; }
+        [SerializeField] private FreeInterierPlaceState freeInterierPlaceState;
+
+        [SerializeField] private List<PlacedInterier> interier;
+        [SerializeField] private NotAvailableForPlacingInterierPlaceState occupedInterierPlaceState;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+
+        private void Awake()
+        {
+            currentState = FreeInterierPlaceState;
+            Entrance = GetComponentInParent<Entrance>();
+        }
+
+        protected List<PlacedInterier> Interier => interier;
         public AvailableForPlacingInterierPlaceState AvailableForPlacingInterierPlaceState { get => availableForPlacingInterier; }
-        public Entrance Entrance { get => entrance; protected set => entrance = value; }
         public Collider2D Collider2D { get => collider2d; }
         public IState CurrentState
         {
@@ -39,14 +44,13 @@ namespace BuildingModule
             }
         }
 
-        protected List<InterierBase> Interier => interier;
-        public bool InterierContains<T>(T inter) where T : InterierBase => Interier.Contains(inter);
-        public int InterierCount<T>() where T : InterierBase =>
-            Interier.Count<InterierBase, T>();
-        public int InterierCount() =>
-            Interier.Count;
-        public InterierBase GetInterier() => Interier.Count >0? Interier[0]: null;
-        public static void ActivateAvailableInterierPlaces(InterierBase interier)
+        public Entrance Entrance { get => entrance; protected set => entrance = value; }
+
+        public FreeInterierPlaceState FreeInterierPlaceState { get => freeInterierPlaceState; }
+
+        public NotAvailableForPlacingInterierPlaceState NotAvailableForPlacingInterierState { get => occupedInterierPlaceState; }
+
+        public static void ActivateAvailableInterierPlaces(PlacedInterier interier)
         {
             var entrances = EntranceRoot.Root.Entrances;
             foreach (var entr in entrances)
@@ -55,60 +59,70 @@ namespace BuildingModule
                 places.AddRange(entr.Corners);
                 places.AddRange(entr.Underwalls);
                 foreach (var pl in places)
-                    pl.ResetCurrentState(interier);
+                    pl.SetStateForInterier(interier);
             }
-        }          
-
-        public void SetNotAvailForPlacingState() => CurrentState = NotAvailableForPlacingInterierState;
-        public void SetFreePlaceState() => CurrentState = FreeInterierPlaceState;
-        public void SetAvailForPlacingState() => CurrentState = AvailableForPlacingInterierPlaceState;
-        public void RemoveInterier(InterierBase interier)
-        {
-            Interier.Remove(interier);            
-            Destroy(interier.gameObject);
         }
 
-        public List<InterierBase> InterierWhere<T>() where T: InterierBase =>
-            Interier.Where(x => x is T).ToList();
-      
-        public void HandleInterierPlaceClick(PointerEventData eventData) =>
-            currentState.HandleInterierPlaceClick(eventData);
-
-
-        public void AddInterier(InterierBase newInterier)
+        public void AddInterier(PlacedInterier newInterier)
         {
             Interier.Add(newInterier);
             ResetCurrentStateWithDependentPlaces(newInterier);
         }
 
-        public void ResetCurrentStateWithDependentPlaces(InterierBase newInterier)
+        public PlacedInterier GetInterier() => Interier.Count > 0 ? Interier[0] : null;
+
+        public void HandleInterierPlaceClick(PointerEventData eventData) =>
+            currentState.HandleInterierPlaceClick(eventData);
+
+        public bool InterierContains<T>(T inter) where T : PlacedInterier => Interier.Contains(inter);
+
+        public int InterierCount<T>() where T : PlacedInterier =>
+            Interier.Count<PlacedInterier, T>();
+
+        public int InterierCount() =>
+            Interier.Count;
+
+        public List<PlacedInterier> InterierWhere<T>() where T : PlacedInterier =>
+            Interier.Where(x => x is T).ToList();
+
+        public void OnPointerClick(PointerEventData eventData) =>
+            InputSystem.InputListener.Listener.HandleInterierPlaceClick(this, eventData);
+
+        public void RemoveInterier(PlacedInterier interier)
         {
-            ResetCurrentState(newInterier);
-            if (newInterier.HaveInfluenceOnOtherPlaces())
-                ResetDependentPlaces(newInterier);
+            Interier.Remove(interier);
+            Destroy(interier.gameObject);
         }
 
-        public void ResetDependentPlaces(InterierBase interier)
+        public void ResetCurrentStateWithDependentPlaces(PlacedInterier newInterier)
         {
-            interier.ResetDependentPlaces(this);
+            SetStateForInterier(newInterier);
+            if (newInterier is IDependentFromChanges dep)
+                dep.ResetIfConditionsChanged(this);
+        }
+
+        public void SetAvailForPlacingState() => CurrentState = AvailableForPlacingInterierPlaceState;
+
+        public void SetFreePlaceState() => CurrentState = FreeInterierPlaceState;
+
+        public void SetNotAvailForPlacingState() => CurrentState = NotAvailableForPlacingInterierState;
+
+        public void SetState<S>() where S : IState
+        {
+            if (FreeInterierPlaceState is S)
+                SetFreePlaceState();
+            else if (AvailableForPlacingInterierPlaceState is S)
+                SetAvailForPlacingState();
+            else if (NotAvailableForPlacingInterierState is S)
+                SetNotAvailForPlacingState();
+            else throw new Exception($"Unexpected type {typeof(S)}");
         }
 
         /// <summary>
         /// Определяет, нужно ли менять состояние в текущих условиях.
         /// </summary>
         /// <param name="interier">Интерьер, для которого определяется, нужно ли менять состояние</param>
-        public void ResetCurrentState(InterierBase inter)
-        {
-            currentState.ResetState(inter);            
-        }
-
-        public void OnPointerClick(PointerEventData eventData)=>
-            InputSystem.InputListener.Listener.HandleInterierPlaceClick(this, eventData);
-
-        private void Awake()
-        {
-            currentState = FreeInterierPlaceState;
-            Entrance = GetComponentInParent<Entrance>();
-        }
+        public void SetStateForInterier(PlacedInterier inter) =>
+            currentState.SetStateForInterier(inter);
     }
 }

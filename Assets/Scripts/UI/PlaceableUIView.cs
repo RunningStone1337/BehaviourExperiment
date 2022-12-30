@@ -28,6 +28,7 @@ namespace UI
                     comp = correspondingObjectPrefab.GetComponent<IUIViewedObjectHandler>().CorrespondingObjectPrefab;
                 return comp;
             }
+            set => correspondingObjectPrefab = ((Component)value).gameObject;
         }
         public bool IsSelected
         {

@@ -1,7 +1,3 @@
-using BuildingModule;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BuildingModule
@@ -18,7 +14,9 @@ namespace BuildingModule
             Destroy(thisPlace.Entrance.gameObject);
             thisPlace.CurrentState = thisPlace.FreeState;
             foreach (var neigh in thisPlace.Neighbours)
+            {
                 EntranceBuilder.RebuildWalls(neigh);
+            }
             return true;
         }
     }

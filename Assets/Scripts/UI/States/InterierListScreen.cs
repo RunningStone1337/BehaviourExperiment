@@ -10,10 +10,8 @@ namespace UI
 {
     public class InterierListScreen : UIScreenBase, ISelectableUIComponentHandler
     {
-        [SerializeField] PlaceableUIView simpleTableView;
-        [SerializeField] PlaceableUIView oldTableView;
-        [SerializeField] PlaceableUIView newTableView;
-
+        [SerializeField] RectTransform contentTransform;
+        public RectTransform ContentTransform => contentTransform;
         public override void BeforeChangeState()
         {
             SceneMaster.Master.DeactivateAllInterierPlaces();

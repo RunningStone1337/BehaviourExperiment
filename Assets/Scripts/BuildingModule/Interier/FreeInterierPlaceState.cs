@@ -1,28 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingModule
 {
     /// <summary>
-    /// Состояние неопределённой свободы, место не занято в принципе, 
+    /// Состояние неопределённой свободы, место не занято в принципе,
     /// но требует уточнения для конкретного типа интерьера.
     /// </summary>
     public class FreeInterierPlaceState : InterierPlaceStateBase
     {
-     
-        public override void ResetState(InterierBase interier)
+        private void OnDrawGizmos()
         {
-            var princCOnd = interier.IsPrincipAvailableForPlacing(thisPlace);
-            var intCount = thisPlace.InterierCount();
-            if (intCount == 0 && princCOnd)
+            DrawSphereGizmo(Color.yellow);
+        }
+
+        public override void SetStateForInterier(PlacedInterier interier)
+        {
+            if (interier.IsAvailForPlacing(thisPlace))
                 thisPlace.SetAvailForPlacingState();
             else
                 thisPlace.SetNotAvailForPlacingState();
-        }
-        void OnDrawGizmos()
-        {
-            DrawSphereGizmo(Color.yellow);
         }
     }
 }

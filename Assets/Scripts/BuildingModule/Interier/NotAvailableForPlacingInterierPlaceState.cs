@@ -9,26 +9,20 @@ namespace BuildingModule
     /// Стейт недоступности размещения интерьера.
     /// </summary>
     public class NotAvailableForPlacingInterierPlaceState : InterierPlaceStateBase
-    {
-       
+    {       
         public override void HandleInterierPlaceClick(PointerEventData eventData)
         {
             EntranceBuilder.ReplaceInterierOrDeleteExist(thisPlace.GetInterier(), thisPlace);
         }
 
-        public override void ResetState(InterierBase interier)
+        public override void SetStateForInterier(PlacedInterier interier)
         {
-            ///после удаления интерьера
-            var intCount = thisPlace.InterierCount();
-            if (intCount == 0)
-            {
+            if (interier.IsAvailForPlacing(thisPlace))
                 thisPlace.SetAvailForPlacingState();
-            }
         }
         void OnDrawGizmos()
         {
             DrawSphereGizmo(Color.red);
-
         }
     }
 }

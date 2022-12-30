@@ -14,11 +14,11 @@ namespace Common
         {
             SceneMaster.Master.LastSelectedViewObject = placeableUIView.CorrespondingObjectPrefab;
             CanvasController.Controller.InterierListScreen.ActiveComponent = placeableUIView;
-            var interier = (InterierBase)placeableUIView.CorrespondingObjectPrefab;
+            var interier = (PlacedInterier)placeableUIView.CorrespondingObjectPrefab;
             //подсвечиваем доступные места и активируем мерцание
             InterierPlaceBase.ActivateAvailableInterierPlaces(interier);
         }
-        public override void HandleInterierClick(InterierBase interierBase, PointerEventData eventData) 
+        public override void HandleInterierClick(PlacedInterier interierBase, PointerEventData eventData) 
         {
             var place = interierBase.ThisInterierPlace;
             EntranceBuilder.ReplaceInterierOrDeleteExist(interierBase, place);
@@ -26,8 +26,14 @@ namespace Common
         public override void BeforeChangeOldState()
         {
             CanvasController.Controller.InterierListScreen.BeforeChangeState();
+            ///сбросить все стейты недоступных мест в свободные
+            foreach (var e in EntranceRoot.Root.Entrances)
+            {
+                e.InterierPlaces.SetStatesFromS1ToS2
+                    <InterierPlaceBase, NotAvailableForPlacingInterierPlaceState, FreeInterierPlaceState>();
+            }
+            
         }
-
         public override void Initiate()
         {
             CanvasController.Controller.InterierListScreen.InitiateState();//только активация UI списка предметов

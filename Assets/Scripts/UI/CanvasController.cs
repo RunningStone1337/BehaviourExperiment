@@ -1,4 +1,5 @@
 using Common;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,11 @@ namespace UI
                 return;
             }
             Destroy(this);
+        }
+
+        public void SetState<S2>() where S2 : IState
+        {
+            throw new NotImplementedException();
         }
     }
 }

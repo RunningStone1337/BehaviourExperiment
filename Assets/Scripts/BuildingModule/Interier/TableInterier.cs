@@ -1,24 +1,10 @@
-using UI;
-using UnityEngine;
+using Common;
 using Extensions;
 
 namespace BuildingModule
 {
-    public class TableInterier : InterierBase, IUIViewedObject
+    public class TableInterier : PlacedInterier, IDependentFromChanges
     {
-        [SerializeField] Sprite previewSprite;
-        [SerializeField] string objName;
-        [SerializeField] string objDescription;
-        public Sprite PreviewSprite => previewSprite;
-
-        public string ObjectName => objName;
-
-        public string ObjectDescription => objDescription;
-        public override bool IsAvailForPlacing(AvailableForPlacingInterierMiddlePlaceState state)
-        {
-            var place = state.ThisPlace;
-            return IsAvailForPlacing(place);
-        }
 
         public override bool IsAvailForPlacing(MiddlePlace place)
         {
@@ -34,30 +20,15 @@ namespace BuildingModule
                 return true;
             return false;
         }
-
-        public override bool IsAvailForPlacing(FreeInterierMiddlePlaceState state)
+        public void ResetIfConditionsChanged(object param)
         {
-            var place = state.ThisPlace;
-            return IsAvailForPlacing(place);           
-        }
-        public override bool IsAvailForPlacing(NotAvailableForPlacingInterierMiddlePlaceState state)
-        {
-            var place = state.ThisPlace;
-            return IsAvailForPlacing(place);
+            ResetMiddleOppAndSidePlaces((InterierPlaceBase)param);
         }
         public override bool IsPrincipAvailableForPlacing<T>(T interier)
         {
             if (typeof(T).Equals<MiddlePlace>())
-                    return true;
+                return true;
             return false;
         }
-        public override bool HaveInfluenceOnOtherPlaces() => true;
-        public override void ResetDependentPlaces(InterierPlaceBase interierPlaceBase)
-        {
-            if (interierPlaceBase is MiddlePlace mp)
-                ResetOppositeAndSidePlaces(mp);
-        }
-
-       
     }
 }

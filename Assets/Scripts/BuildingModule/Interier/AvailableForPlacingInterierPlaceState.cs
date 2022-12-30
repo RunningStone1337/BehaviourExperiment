@@ -1,6 +1,5 @@
 using Common;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,26 +10,22 @@ namespace BuildingModule
     /// </summary>
     public class AvailableForPlacingInterierPlaceState : InterierPlaceStateBase, IVisualEffectRoutineHandler
     {
-        [SerializeField] SpriteRenderer placeRenderer;
-        [SerializeField] Color targetColor;
-        [SerializeField] [Range(0f,1f)]float step;
-        Coroutine routine;
-        public Coroutine Routine { get => routine; set => routine = value; }
-    
-        public override void InitializeState()
+        [SerializeField] private SpriteRenderer placeRenderer;
+        private Coroutine routine;
+        [SerializeField] [Range(0f, 1f)] private float step;
+        [SerializeField] private Color targetColor;
+
+        private void OnDrawGizmos()
         {
-            thisPlace.Collider2D.enabled = true;
-            StartRoutine();
+            var color = Color.green;
+            DrawSphereGizmo(color);
         }
 
-        public IEnumerator VisualEffectRoutine()
+        public Coroutine Routine { get => routine; set => routine = value; }
+
+        public override void BeforeChangeState()
         {
-            var baseCOlor = new Color(1, 1, 1, 0);
-            yield return VisualEffectsProvider.ShiningEffect(baseCOlor,
-                targetColor, 
-                placeRenderer,
-                step,
-                () => thisPlace.CurrentState is AvailableForPlacingInterierPlaceState);
+            thisPlace.Collider2D.enabled = false;
         }
 
         public override void HandleInterierPlaceClick(PointerEventData eventData)
@@ -39,9 +34,16 @@ namespace BuildingModule
             EntranceBuilder.AddInterier(selected, thisPlace);
         }
 
-        public override void BeforeChangeState()
+        public override void InitializeState()
         {
-            thisPlace.Collider2D.enabled = false;
+            thisPlace.Collider2D.enabled = true;
+            StartRoutine();
+        }
+
+        public override void SetStateForInterier(PlacedInterier interier)
+        {
+            if (!interier.IsAvailForPlacing(thisPlace))
+                thisPlace.SetNotAvailForPlacingState();
         }
 
         public void StartRoutine()
@@ -51,17 +53,14 @@ namespace BuildingModule
             Routine = StartCoroutine(VisualEffectRoutine());
         }
 
-        public override void ResetState(InterierBase interier)
+        public IEnumerator VisualEffectRoutine()
         {
-            var intCount = thisPlace.InterierCount();
-            if (intCount > 0)//обычно нельзя размещать больше 1 предмета на место
-                thisPlace.SetNotAvailForPlacingState();
-
-        }
-        void OnDrawGizmos()
-        {
-            var color = Color.green;
-            DrawSphereGizmo(color);
+            var baseCOlor = new Color(1, 1, 1, 0);
+            yield return VisualEffectsProvider.ShiningEffect(baseCOlor,
+                targetColor,
+                placeRenderer,
+                step,
+                () => thisPlace.CurrentState is AvailableForPlacingInterierPlaceState);
         }
     }
 }
