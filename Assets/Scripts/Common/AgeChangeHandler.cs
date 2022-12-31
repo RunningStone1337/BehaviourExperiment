@@ -91,12 +91,12 @@ namespace Common
             }
         }
 
-        public void ResetExtremeValues(DropdownButtonPair target, KeyValuesHandler diapazoneHandler)
+        public void ResetExtremeValues(DropdownButtonPair target, ListVector3IntHandler diapazoneHandler)
         {
             var diap = diapazoneHandler.CreateDiapazonForKey(newValue);
             target.ClearDropdown();
             foreach (var v in diap)
-                target.AddOption(v.ToString());
+                target.AddOption(v.ToString(), v);
             target.ResetVisualDropdown();
         }
     }

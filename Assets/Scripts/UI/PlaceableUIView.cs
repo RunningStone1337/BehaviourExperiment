@@ -1,7 +1,4 @@
 using Common;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,19 +7,24 @@ namespace UI
 {
     public class PlaceableUIView : MonoBehaviour, ISelectableUIComponent, IPointerClickHandler, IUIViewedObjectHandler
     {
-        [SerializeField] Image backImage;
-        [SerializeField] Image previewImage;
-        [SerializeField] Text nameText;
-        [SerializeField] Text descriptionText;
-        [SerializeField] GameObject correspondingObjectPrefab;
-        [SerializeField] bool isSelected;
-        [SerializeField] [HideInInspector] Color defaultColor;
-        public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
+        [SerializeField] private Image backImage;
+        [SerializeField] private GameObject correspondingObjectPrefab;
+        [SerializeField] [HideInInspector] private Color defaultColor;
+        [SerializeField] private Text descriptionText;
+        [SerializeField] private bool isSelected;
+        [SerializeField] private Text nameText;
+        [SerializeField] private Image previewImage;
+
+        private void Awake()
+        {
+            InitUIView();
+            DefaultToken = backImage.color;
+        }
+
         public IUIViewedObject CorrespondingObjectPrefab
         {
             get
             {
-
                 var comp = correspondingObjectPrefab.GetComponent<IUIViewedObject>();
                 if (comp == null)
                     comp = correspondingObjectPrefab.GetComponent<IUIViewedObjectHandler>().CorrespondingObjectPrefab;
@@ -30,6 +32,8 @@ namespace UI
             }
             set => correspondingObjectPrefab = ((Component)value).gameObject;
         }
+
+        public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
         public bool IsSelected
         {
             get => isSelected;
@@ -43,17 +47,17 @@ namespace UI
             }
         }
 
+        public T GetThisViewObject<T>() where T : MonoBehaviour =>
+            correspondingObjectPrefab.GetComponent<T>();
 
         [ContextMenu("Init")]
         public void InitUIView()
         {
             previewImage.sprite = CorrespondingObjectPrefab.PreviewSprite;
-            nameText.text = CorrespondingObjectPrefab.ObjectName;
-            descriptionText.text = CorrespondingObjectPrefab.ObjectDescription;
+            nameText.text = CorrespondingObjectPrefab.Name;
+            descriptionText.text = CorrespondingObjectPrefab.ObjDescription;
         }
 
-        public T GetThisViewObject<T>() where T : MonoBehaviour=>
-            correspondingObjectPrefab.GetComponent<T>();
         public void OnPointerClick(PointerEventData eventData)
         {
             SceneMaster.Master.HandlePlaceableUIViewClick(this, eventData);
@@ -67,12 +71,6 @@ namespace UI
         public void SetHighlightedState()
         {
             backImage.color = Color.yellow;
-        }
-
-        private void Awake()
-        {
-            InitUIView();
-            DefaultToken = backImage.color;
         }
     }
 }

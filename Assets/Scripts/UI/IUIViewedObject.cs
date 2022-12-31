@@ -1,13 +1,15 @@
+using Common;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI
 {
-    public interface IUIViewedObject
+    /// <summary>
+    /// »нтерфейс, определ€ющий отображаемые первичные данные в элементах интерфейса
+    /// </summary>
+    public interface IUIViewedObject : INameHandler, IDescriptionHandler
     {
         Sprite PreviewSprite { get; }
-        string ObjectName { get; }
-        string ObjectDescription { get; }
     }
 }

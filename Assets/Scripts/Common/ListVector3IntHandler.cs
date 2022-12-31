@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Common
 {
-    public class KeyValuesHandler : MonoBehaviour
+    public class ListVector3IntHandler : MonoBehaviour
     {
         [SerializeField] List<Vector3Int> values;
 
@@ -19,9 +19,9 @@ namespace Common
             return res;
         }
 
-        public Vector2Int GetYZForValue(int key)
+        public Vector2Int GetYZForXValue(int xVal)
         {
-            var t = values.First(x => x.x == key);
+            var t = values.First(x => x.x == xVal);
             return new Vector2Int(t.y, t.z);
         }
     }

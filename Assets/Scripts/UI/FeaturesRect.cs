@@ -64,12 +64,12 @@ namespace UI
        
         private DropdownButtonPair TryAddFeatureSelectorDropdown(FeatureBase feature = null)
         {
-            if (unicValuesHandler.HasFreeValues())
+            if (unicValuesHandler.HasFreeContent())
             {
                 var drop = CreateNewDropdown();
                 unicValuesHandler.AddContentHandler(drop, (x) => { ActiveComponent = x; });
                 if (feature != null)
-                    drop.DropdownValue = feature.OptionName;
+                    drop.DropdownValue = feature.Name;
                 drop.AddPointerClickCallback((x) => { ActiveComponent = drop; });
                 drop.AddButtonClickCallback(() => {
                     drop.DropdownValue = drop.RandomValue;                

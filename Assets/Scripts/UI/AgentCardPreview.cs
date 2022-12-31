@@ -1,6 +1,5 @@
 using BehaviourModel;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,15 +8,14 @@ namespace UI
 {
     public class AgentCardPreview : MonoBehaviour
     {
-        [SerializeField] AgentRawData agentInitializator;
-        [SerializeField] Image agentImage;
-        [SerializeField] Text agentNameText;
+        [SerializeField] private Image agentImage;
+        [SerializeField] private AgentRawData agentInitializator;
+        [SerializeField] private Text agentNameText;
 
         public AgentRawData CardData { get => agentInitializator; set => agentInitializator = value; }
 
         public void Initiate(AgentCreationScreen acs, AgentRawData rawData)
         {
-            
             agentImage.sprite = acs.AgentImageHandler.Image.sprite;
             agentNameText.text = acs.NameInputFieldButtonPair.InputField.text;
             CardData = rawData;
@@ -26,7 +24,7 @@ namespace UI
         public void OnButtonChangeClick()
         {
             AgentCreationScreen acs = GameObject.FindGameObjectWithTag("AgentConfigureScreen").GetComponent<AgentsSelectionScreen>().AgentCreationScreen;
-            acs.InitiateState(agentInitializator, this);
+            acs.InitiateState<PupilAgent>(agentInitializator, this);
         }
 
         public void OnButtonDeleteClick()

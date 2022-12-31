@@ -6,13 +6,10 @@ using UnityEngine;
 
 namespace Common
 {
-    public class KeyValueHandler : MonoBehaviour
+    public class ListVector2IntHandler : MonoBehaviour
     {
         [SerializeField] List<Vector2Int> values;
-
-        public int GetValue(int dropdownValue)
-        {
-            return values.First(x => x.x == dropdownValue).y;
-        }
+        public List<Vector2Int> Values => values;
+        
     }
 }

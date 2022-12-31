@@ -15,8 +15,8 @@ namespace BuildingModule
 
         public Sprite PreviewSprite => previewSprite;
 
-        public string ObjectName => objName;
+        public string Name => objName;
 
-        public string ObjectDescription => Description;
+        public string ObjDescription => Description;
     }
 }

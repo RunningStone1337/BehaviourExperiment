@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace UI
 {
-    public interface IOption 
+    public interface INameHandler 
     {
-       string OptionName { get; }
+       string Name { get; }
     }
 }

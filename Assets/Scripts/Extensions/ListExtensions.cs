@@ -29,10 +29,10 @@ namespace Extensions
                 list.Add(obj);
         }
 
-        public static Content FirstOrDefaultMatchContent<Content, ContentHandler>(this List<Content> list, ContentHandler drop)
-            where Content: IOption
-            where ContentHandler: IOptionsHandler
+        public static Content FirstOrDefaultMatchContent<Content, ContentHandler>(this List<Content> list, ContentHandler ch)
+            where Content: INameHandler
+            where ContentHandler: IKeysValuesHandler
             =>
-            list.FirstOrDefault(x => x.OptionName.Equals(drop.SelectedOptionValue));
+            list.FirstOrDefault(x => x.Name.Equals(ch.SelectedOptionKey));
     }
 }

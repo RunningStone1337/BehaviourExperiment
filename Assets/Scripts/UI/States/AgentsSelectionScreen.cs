@@ -1,4 +1,5 @@
 using BehaviourModel;
+using Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,24 +12,28 @@ namespace UI
         [SerializeField] AgentCreationScreen agentCreationScreen;
         [SerializeField] AgentSaveLoadScreen agentSaveScreen;
         [SerializeField] AgentSaveLoadScreen agentLoadScreen;
-        [SerializeField] List<AgentRawData> agents;
+        [SerializeField] SelectedAgentsHandler agentsHandler;
         public AgentCreationScreen AgentCreationScreen { get => agentCreationScreen; }
         public AgentSaveLoadScreen AgentSaveScreen { get => agentSaveScreen; }
         public AgentSaveLoadScreen AgentLoadScreen { get => agentLoadScreen; }
         public void CreateAgentButtonClick()
         {
-            agentCreationScreen.InitiateState();
+            agentCreationScreen.InitiateState<PupilAgent>();
         }
 
         public void AddAgentData(AgentRawData currentData)
         {
-            if (currentData != null && !agents.Contains(currentData))
-                agents.Add(currentData);
+            agentsHandler.AddAgent(currentData);
+        }
+
+        public void CreateTeacherButtonClick()
+        {
+            agentCreationScreen.InitiateState<TeacherAgent>();
         }
 
         public void RemoveAgentData(AgentRawData agentInitializator)
         {
-            agents.Remove(agentInitializator);
+            agentsHandler.RemoveAgentData(agentInitializator);
         }
     }
 }

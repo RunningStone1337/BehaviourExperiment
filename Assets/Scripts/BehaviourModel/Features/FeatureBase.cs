@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class FeatureBase : ScriptableObject, IOption
+    public abstract class FeatureBase : ScriptableObject, INameHandler
     {
         [SerializeField] string featureName;
-        public string OptionName { get => featureName; }
+        public string Name { get => featureName; }
     }
 }

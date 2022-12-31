@@ -41,8 +41,8 @@ namespace BuildingModule
             mp.OppositeMiddlePlace.SetStateForInterier(this);
         }
 
-        public string ObjectDescription => objDescription;
-        public string ObjectName => objName;
+        public string ObjDescription => objDescription;
+        public string Name => objName;
         public Sprite PreviewSprite => previewSprite;
         public SpriteRenderer Renderer { get => spriteRenderer; }
         public ObjectUniqIdentifier ThisIdentifier { get => thisIdentifier; }

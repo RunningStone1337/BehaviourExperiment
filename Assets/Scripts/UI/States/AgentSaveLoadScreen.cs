@@ -2,7 +2,6 @@ using BehaviourModel;
 using Common;
 using SerializationModule;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,34 +11,12 @@ namespace UI
 {
     public class AgentSaveLoadScreen : UIScreenBase
     {
-        [SerializeField] List<AgentDataSaveLoadView> existAgents;
-        [SerializeField] RectTransform contentTransform;
-        [SerializeField] ContentOrderHandler contentOrderHandler;
-        [SerializeField] AgentDataSaveLoadView newAgentCreationView;
-        [SerializeField] AgentCreationScreen agentCreationScreen;
-        [SerializeField] Button saveButton;
-        public override ISelectableUIComponent ActiveComponent
-        {
-            get => selectedUIComponent;
-            set
-            {
-                base.ActiveComponent = value;
-                if (ActiveComponent == null)
-                    saveButton.interactable = false;
-                else
-                    saveButton.interactable = true;
-            }
-        }
-        public override void InitiateState()
-        {
-            base.InitiateState();
-            var serializeUtil = new SerializeUtility();
-            ///TODO загрузка не работает
-            var agentsData = serializeUtil.LoadDataList<AgentRawData>();
-            foreach (var ad in agentsData)
-                CreateNewViewForData(ad);
-            contentOrderHandler.ReorderContent();
-        }
+        [SerializeField] private AgentCreationScreen agentCreationScreen;
+        [SerializeField] private ContentOrderHandler contentOrderHandler;
+        [SerializeField] private RectTransform contentTransform;
+        [SerializeField] private List<AgentDataSaveLoadView> existAgents;
+        [SerializeField] private AgentDataSaveLoadView newAgentCreationView;
+        [SerializeField] private Button saveButton;
 
         private AgentDataSaveLoadView CreateNewViewForData((AgentRawData agent, string path) ad)
         {
@@ -51,39 +28,36 @@ namespace UI
             return view;
         }
 
-        public override void BeforeChangeState()
+        private void DeleteExistingAgent(string path)
         {
-            base.BeforeChangeState();
-            foreach (var ea in existAgents)
-            {
-                if (ea != null)
-                    Destroy(ea.gameObject);
-            }
-            existAgents.Clear();
-            ActiveComponent = null;
-        }
-
-        public void OnLoadButtonClick()
-        {
-            if (ActiveComponent != null)
-            {
-                LoadAgent();
-            }
+            var serializeUtil = new SerializeUtility();
+            serializeUtil.RemoveAgent(path);
         }
 
         private void LoadAgent()
         {
             var data = ((AgentDataSaveLoadView)ActiveComponent).AgentRawData;
-            agentCreationScreen.InitiateState(data);
+            agentCreationScreen.InitiateState<PupilAgent>(data);
             BeforeChangeState();
         }
 
-        public void OnSaveButtonClick()
+        /// <summary>
+        /// Удаляет выбранного агента и создаёт нового с текущими парамерами конфигуратора.
+        /// </summary>
+        private void OverwriteSelectedAgent()
         {
-            if (newAgentCreationView.Equals(ActiveComponent))
-                TrySaveNewAgent();
-            else if (ActiveComponent != null)
-                TryOverwriteAgent();
+            var actView = (AgentDataSaveLoadView)ActiveComponent;
+            DeleteExistingAgent(actView.DataPath);
+            AgentRawData agent = new AgentRawData();
+            agent.Initiate(agentCreationScreen);
+            var path = TrySave(agent);
+            if (path != null)
+                actView.Initiate(agent, path);
+            else
+            {
+                Destroy(actView.gameObject);
+                existAgents.RemoveAll(x => x == null);
+            }
         }
 
         private void TryOverwriteAgent()
@@ -104,6 +78,13 @@ namespace UI
                 );
         }
 
+        private string TrySave(AgentRawData agent)
+        {
+            var serializeUtil = new SerializeUtility();
+            var path = serializeUtil.SaveAgent(agent, agent.AgentName);
+            return path;
+        }
+
         private void TrySaveNewAgent()
         {
             ///TODO проверка на существование файла с текущим именем в конфигураторе
@@ -120,36 +101,53 @@ namespace UI
                 ActiveComponent = null;
         }
 
-        /// <summary>
-        /// Удаляет выбранного агента и создаёт нового с текущими парамерами конфигуратора.
-        /// </summary>
-        private void OverwriteSelectedAgent()
+        public override ISelectableUIComponent ActiveComponent
         {
-            var actView = (AgentDataSaveLoadView)ActiveComponent;
-            DeleteExistingAgent(actView.DataPath);           
-            AgentRawData agent = new AgentRawData();
-            agent.Initiate(agentCreationScreen);
-            var path = TrySave(agent);
-            if (path != null)
-                actView.Initiate(agent, path);
-            else
+            get => selectedUIComponent;
+            set
             {
-                Destroy(actView.gameObject);
-                existAgents.RemoveAll(x=>x == null);
+                base.ActiveComponent = value;
+                if (ActiveComponent == null)
+                    saveButton.interactable = false;
+                else
+                    saveButton.interactable = true;
             }
         }
 
-        private void DeleteExistingAgent(string path)
+        public override void BeforeChangeState()
         {
-            var serializeUtil = new SerializeUtility();
-            serializeUtil.RemoveAgent(path);
+            base.BeforeChangeState();
+            foreach (var ea in existAgents)
+            {
+                if (ea != null)
+                    Destroy(ea.gameObject);
+            }
+            existAgents.Clear();
+            ActiveComponent = null;
         }
 
-        string TrySave(AgentRawData agent)
+        public override void InitiateState()
         {
-            var serializeUtil = new SerializeUtility();            
-            var path = serializeUtil.SaveAgent(agent, agent.AgentName);
-            return path;
+            base.InitiateState();
+            var serializeUtil = new SerializeUtility();
+            var agentsData = serializeUtil.LoadDataList<AgentRawData>();
+            foreach (var ad in agentsData)
+                CreateNewViewForData(ad);
+            contentOrderHandler.ReorderContent();
+        }
+
+        public void OnLoadButtonClick()
+        {
+            if (ActiveComponent != null)
+                LoadAgent();
+        }
+
+        public void OnSaveButtonClick()
+        {
+            if (newAgentCreationView.Equals(ActiveComponent))
+                TrySaveNewAgent();
+            else if (ActiveComponent != null)
+                TryOverwriteAgent();
         }
     }
 }

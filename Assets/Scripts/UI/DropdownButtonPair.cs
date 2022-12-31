@@ -1,7 +1,5 @@
-using BehaviourModel;
 using Common;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,11 +9,24 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class DropdownButtonPair : UIButtonPairElement, IOptionsHandler, IValueChangedEventHandler
+    public class DropdownButtonPair : UIButtonPairElement, IKeysValuesHandler, IValueChangedEventHandler
     {
-        [SerializeField] Dropdown dropdown;
-        [SerializeField] object valueObject;
-        Dropdown Dropdown { get => dropdown; }
+        [SerializeField] private Dropdown dropdown;
+        private Dictionary<string, object> optionsDict;
+        private Dropdown Dropdown => dropdown;
+
+        private void Awake()
+        {
+            optionsDict = new Dictionary<string, object>();
+        }
+
+        private void OnDestroy()
+        {
+            onElementClick = null;
+        }
+
+        public int DropdownIndex { set => dropdown.value = value; get => dropdown.value; }
+        public int DropdownLength { get => dropdown.options.Count; }
         public string DropdownValue
         {
             get
@@ -43,12 +54,8 @@ namespace UI
                     ResetVisualDropdown();
                 }
             }
-        }        
-       
-        public int DropdownLength { get=>dropdown.options.Count;  }
-        public int DropdownIndex { set => dropdown.value = value; get => dropdown.value; }
-        public object ValueObject { get=> valueObject; set=> valueObject = value; }
-        public string SelectedOptionValue { get => DropdownValue; set => DropdownValue = value; }
+        }
+
         public string RandomValue
         {
             get
@@ -59,11 +66,23 @@ namespace UI
             }
         }
 
-        public void AddOption(string value)
+        public string SelectedOptionKey { get => DropdownValue; set => DropdownValue = value; }
+        public object SelectedOptionValue { get => optionsDict[DropdownValue]; }
+
+        public void AddButtonClickCallback(Action callback)
+        {
+            Button.onClick.AddListener(new UnityAction(callback));
+        }
+
+        public void AddOnValueChangedCallback(Action<int> action)
+            => dropdown.onValueChanged.AddListener(new UnityAction<int>(action));
+
+        public void AddOption(string key, object value)
         {
             var current = DropdownValue;
-            dropdown.options.Add(new Dropdown.OptionData(value));
+            dropdown.options.Add(new Dropdown.OptionData(key));
             DropdownValue = current;
+            optionsDict.Add(key, value);
         }
 
         public void AddPointerClickCallback(Action<PointerEventData> p)
@@ -71,34 +90,26 @@ namespace UI
             onElementClick += p;
         }
 
-        private void OnDestroy()
-        {
-            onElementClick = null;
-        }
-        public void AddOnValueChangedCallback(Action<int> action)
-            => dropdown.onValueChanged.AddListener(new UnityAction<int>(action));
-
         public void ClearDropdown()
-            => Dropdown.options.Clear();
-
-        public void ResetVisualDropdown()
-            => dropdown.RefreshShownValue();
-
-        public void RemoveOption(string removeValue)
         {
-            var current = DropdownValue;
-            dropdown.options.Remove(dropdown.options.FirstOrDefault(x => x.text.Equals(removeValue)));
-            DropdownValue = current;
-        }
-
-        public void AddButtonClickCallback(Action callback)
-        {
-            Button.onClick.AddListener(new UnityAction(callback));
+            Dropdown.options.Clear();
+            optionsDict.Clear();
         }
 
         public void RemoveOnValueChangedCallbacks()
         {
             dropdown.onValueChanged.RemoveAllListeners();
         }
+
+        public void RemoveOption(string key)
+        {
+            var current = DropdownValue;
+            dropdown.options.Remove(dropdown.options.FirstOrDefault(x => x.text.Equals(key)));
+            DropdownValue = current;
+            optionsDict.Remove(key);
+        }
+
+        public void ResetVisualDropdown()
+                            => dropdown.RefreshShownValue();
     }
 }

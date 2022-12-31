@@ -1,132 +1,89 @@
 using BehaviourModel;
 using Common;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI
 {
     public class AgentCreationScreen : UIScreenBase
     {
-        [SerializeField] ContentOrderHandler cardsOrderHandler;
-        [SerializeField] AgentRawData сurrentData;
-        [SerializeField] AgentCardPreview currentPreview;
-        [SerializeField] AgentsSelectionScreen agentsSelectionScreen;
-        [Header("Основные контролы")]
-        [SerializeField] AgentImageHandler agentImageHandler;
-        [SerializeField] TextButtonPair nameInputFieldButtonPair;
-        [SerializeField] DropdownButtonPair sexDropButtonPair;
-        [SerializeField] DropdownButtonPair ageDropButtonPair;
-        [SerializeField] DropdownButtonPair weightDropButtonPair;
-        [SerializeField] DropdownButtonPair heightDropButtonPair;
-        public AgentImageHandler AgentImageHandler { get => agentImageHandler; }
-        public TextButtonPair NameInputFieldButtonPair { get => nameInputFieldButtonPair; }
-        public DropdownButtonPair SexDropButtonPair { get => sexDropButtonPair; }  
-        public DropdownButtonPair AgeDropButtonPair { get => ageDropButtonPair; }
-        public DropdownButtonPair WeightDropButtonPair { get => weightDropButtonPair; }
-        public DropdownButtonPair HeightDropButtonPair { get => heightDropButtonPair; }
-        [Space]
-        [Header("Основные параметры")]
-        [SerializeField] int minAge;
-        [SerializeField] int maxAge;
-        public int MinAge => minAge;
-        public int MaxAge => maxAge;
-        [Space]
-        [Header("Настройки ЦНС")]
-        [SerializeField] NervousSystemRect nervousSystemRect;
-        public NervousSystemRect NervousSystemRect { get => nervousSystemRect; }
-        [Space]
-        [Header("Настройки характера")]
-        [SerializeField] CharacterRect characterRect;
-        public CharacterRect CharacterRect => characterRect;
-        [Space]
-        [Header("Настройки особенностей")]
-        [SerializeField] FeaturesRect featuresRect;
-        public FeaturesRect FeaturesRect => featuresRect;
-        [Space]
-        [Header("Контроллеры диапазонов значений веса и роста")]
-        [SerializeField] KeyValuesHandler ageWeightsHandler;
-        [SerializeField] KeyValuesHandler ageHeightsHandler;
-        public KeyValuesHandler AgeWeightsHandler { get => ageWeightsHandler; }
-        public KeyValuesHandler AgeHeightsHandler { get => ageHeightsHandler; }
-        public int SelectedAge { get => int.Parse(ageDropButtonPair.DropdownValue); }
+        #region common
+
+        [SerializeField] private AgentsSelectionScreen agentsSelectionScreen;
+        [SerializeField] private ContentOrderHandler cardsOrderHandler;
+        [SerializeField] private AgentCardPreview currentPreview;
+        [SerializeField] private AgentRawData сurrentData;
         public AgentRawData CurrentData { get => сurrentData; private set => сurrentData = value; }
         public AgentCardPreview CurrentPreview { get => currentPreview; private set => currentPreview = value; }
 
-        private void Awake()
-        {
-            
-            for (int age = minAge; age <= maxAge; age++)
-                ageDropButtonPair.AddOption(age.ToString());
-            var ageChangeHandler = new AgeChangeHandler(minAge, this);
-            ageChangeHandler.ResetCharacterExtremeValues();
-            ageChangeHandler.ResetWieghtAndHeightDropdowns();
-        }
-        public override void InitiateState()
-        {
-            base.InitiateState();
-            ResetControlls();
-        }
-        public void InitiateState(AgentRawData ard, AgentCardPreview acp)
-        {
-            InitiateState(ard);
-            CurrentPreview = acp;
-        }
-        public void InitiateState(AgentRawData ard)
-        {
-            base.InitiateState();
-            ResetControlls(ard);
-            CurrentData = ard;
-        }
+        #endregion common
 
-        public void ResetControlls(AgentRawData rawData = null)
-        {
-            if (rawData != null)
-                SetExistDataControls(rawData);
-            else
-                SetDefaultControls();
-        }
+        #region main
 
-        private void SetExistDataControls(AgentRawData rawData)
-        {
-            var helper = new AgentCreationScreenInitializer(this);
-            helper.SetControlsValues(rawData);           
-        }
+        [Header("Основные контролы")]
+        [SerializeField] private DropdownButtonPair ageDropButtonPair;
 
-        private void SetDefaultControls()
-        {
-            var helper = new AgentCreationScreenInitializer(this);
-            helper.SetDefaultControlsValues();           
-        }
+        [SerializeField] private AgentImageHandler agentImageHandler;
+        [SerializeField] private DropdownButtonPair heightDropButtonPair;
+        [SerializeField] private TextButtonPair nameInputFieldButtonPair;
+        [SerializeField] private DropdownButtonPair sexDropButtonPair;
+        [SerializeField] private DropdownButtonPair weightDropButtonPair;
+        public DropdownButtonPair AgeDropButtonPair { get => ageDropButtonPair; }
+        public AgentImageHandler AgentImageHandler { get => agentImageHandler; }
+        public DropdownButtonPair HeightDropButtonPair { get => heightDropButtonPair; }
+        public TextButtonPair NameInputFieldButtonPair { get => nameInputFieldButtonPair; }
+        public DropdownButtonPair SexDropButtonPair { get => sexDropButtonPair; }
+        public DropdownButtonPair WeightDropButtonPair { get => weightDropButtonPair; }
 
-        public void OnAgeSelectionChanged()
-        {
-            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
-            ageChangeHandler.ResetCharacterExtremeValues();
-            ageChangeHandler.ResetWieghtAndHeightDropdowns();           
-        }
+        #endregion main
 
-        public void SaveButtonClick()
-        {
-            CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState();
-        }
+        #region params
 
-        public void LoadAgentButtonClick()
-        {
-            CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState();
-        }
+        [Header("Основные параметры")]
+        [Space]
+        [SerializeField] private ListVector2IntHandler pupilsAgeHandler;
 
-        public void SetFullRandomValuesButtonClick()
-        {
-            var helper = new AgentCreationScreenInitializer(this);
-            helper.RandomizeControlsValues();           
-        }
+        [SerializeField] private ListVector2IntHandler teachersAgeHandler;
+        public ListVector2IntHandler PupilsAgeHandler => pupilsAgeHandler;
+        public int SelectedAge { get => int.Parse(ageDropButtonPair.DropdownValue); }
+        public ListVector2IntHandler TeachersAgeHandler => teachersAgeHandler;
 
-        public void OnConfirmCreationButtonClick()
+        #endregion params
+
+        #region character
+
+        [Space]
+        [Header("Настройки характера")]
+        [SerializeField] private CharacterRect characterRect;
+
+        [Space]
+        [Header("Настройки особенностей")]
+        [SerializeField] private FeaturesRect featuresRect;
+
+        [Space]
+        [Header("Настройки ЦНС")]
+        [SerializeField] private NervousSystemRect nervousSystemRect;
+
+        public CharacterRect CharacterRect => characterRect;
+        public FeaturesRect FeaturesRect => featuresRect;
+        public NervousSystemRect NervousSystemRect { get => nervousSystemRect; }
+
+        #endregion character
+
+        #region weight
+
+        [Space]
+        [Header("Контроллеры диапазонов значений веса и роста")]
+        [SerializeField] private ListVector3IntHandler ageHeightsHandler;
+
+        [SerializeField] private ListVector3IntHandler ageWeightsHandler;
+
+        public ListVector3IntHandler AgeHeightsHandler { get => ageHeightsHandler; }
+        public ListVector3IntHandler AgeWeightsHandler { get => ageWeightsHandler; }
+
+        #endregion weight
+
+        private void ConfirmAgentCreation()
         {
-            AgentRawData rawData;
             AgentCardPreview newCard;
             if (CurrentPreview == null)//новый агент
             {
@@ -139,10 +96,9 @@ namespace UI
             //создаём новую или редактируем существующую?
             if (CurrentData == null)
             {
-                rawData = new AgentRawData();
+                CurrentData = new AgentRawData();
                 //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
-                rawData.Initiate(this);
-                CurrentData = rawData;
+                CurrentData.Initiate(this);
             }
             else
                 CurrentData.Initiate(this);
@@ -151,12 +107,79 @@ namespace UI
             BeforeChangeState();
         }
 
+        private void SetDefaultControls<T>() where T : AgentBase
+        {
+            var helper = new AgentCreationScreenInitializer(this);
+            helper.SetDefaultControlsValues<T>();
+        }
+
+        private void SetExistDataControls<T>(AgentRawData rawData) where T : AgentBase
+        {
+            var helper = new AgentCreationScreenInitializer(this);
+            helper.SetControlsValues<T>(rawData);
+        }
+
         public override void BeforeChangeState()
         {
             base.BeforeChangeState();
             cardsOrderHandler.ReorderContent();
             CurrentData = null;
             CurrentPreview = null;
+        }
+
+        public void InitiateState<T>() where T : AgentBase
+        {
+            base.InitiateState();
+            ResetControlls<T>();
+        }
+
+        public void InitiateState<T>(AgentRawData ard, AgentCardPreview acp) where T : AgentBase
+        {
+            InitiateState<T>(ard);
+            CurrentPreview = acp;
+        }
+
+        public void InitiateState<T>(AgentRawData ard) where T : AgentBase
+        {
+            base.InitiateState();
+            ResetControlls<T>(ard);
+            CurrentData = ard;
+        }
+
+        public void LoadAgentButtonClick()
+        {
+            CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState();
+        }
+
+        public void OnAgeSelectionChanged()
+        {
+            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
+            ageChangeHandler.ResetCharacterExtremeValues();
+            ageChangeHandler.ResetWieghtAndHeightDropdowns();
+        }
+
+        public void OnConfirmCreationButtonClick()
+        {
+            ConfirmAgentCreation();
+        }
+
+        public void ResetControlls<T>(AgentRawData rawData = null) where T : AgentBase
+        {
+            if (rawData == null)
+                SetDefaultControls<T>();
+            else
+                SetExistDataControls<T>(rawData);
+        }
+
+        public void SaveButtonClick()
+        {
+            CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState();
+        }
+
+        public void SetFullRandomValuesButtonClick()
+        {
+            var helper = new AgentCreationScreenInitializer(this);
+            helper.RandomizeControlsValues();
         }
     }
 }
