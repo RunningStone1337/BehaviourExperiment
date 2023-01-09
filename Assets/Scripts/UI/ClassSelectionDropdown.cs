@@ -1,6 +1,4 @@
 using Events;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +7,15 @@ namespace UI
 {
     public class ClassSelectionDropdown : MonoBehaviour
     {
-        [SerializeField] Dropdown classDropdown;
-        [SerializeField] Toggle classToggle;
-        [SerializeField] List<DisciplineBase> disciplines;
-        [SerializeField] ClassSelectionDropdown nextDropdown;
+        [SerializeField] private Dropdown classDropdown;
+        [SerializeField] private Toggle classToggle;
+        [SerializeField] private List<DisciplineBase> disciplines;
+        [SerializeField] private ClassSelectionDropdown nextDropdown;
+
+        private void Activate()
+        {
+            gameObject.SetActive(true);
+        }
 
         private void Awake()
         {
@@ -20,21 +23,6 @@ namespace UI
             {
                 classDropdown.options.Add(new Dropdown.OptionData(d.DisciplineName));
             }
-        }
-        public void HandleDropdownSelectionChanged()
-        {
-        }
-        public void HandleSelectingToggleChanged()
-        {
-            if (classToggle.isOn && nextDropdown != null)
-                nextDropdown.Activate();
-            else if (nextDropdown != null)
-                nextDropdown.SetNextDropsState(false);
-        }
-
-        private void Activate()
-        {
-            gameObject.SetActive(true);
         }
 
         private void SetNextDropsState(bool state)
@@ -45,7 +33,19 @@ namespace UI
             if (nextDropdown != null)
             {
                 nextDropdown.SetNextDropsState(state);
-            }            
+            }
+        }
+
+        public void HandleDropdownSelectionChanged()
+        {
+        }
+
+        public void HandleSelectingToggleChanged()
+        {
+            if (classToggle.isOn && nextDropdown != null)
+                nextDropdown.Activate();
+            else if (nextDropdown != null)
+                nextDropdown.SetNextDropsState(false);
         }
     }
 }

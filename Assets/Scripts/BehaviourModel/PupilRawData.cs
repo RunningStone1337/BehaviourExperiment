@@ -10,67 +10,77 @@ namespace BehaviourModel
         Braked,
         Excitable
     }
+
     [Serializable]
-    public class AgentRawData
+    public class PupilRawData
     {
-        public int imageID;
-        public int ImageID { get => imageID; }
-        public string agentName;
-        public string AgentName { get => agentName; }
-        public bool sex;
-        public bool Sex { get => sex; }
+        private NervousSystemType GetNSType(int dropdownIndex)
+        {
+            if (dropdownIndex == 0)
+                return NervousSystemType.Balanced;
+            if (dropdownIndex == 1)
+                return NervousSystemType.Excitable;
+            if (dropdownIndex == 2)
+                return NervousSystemType.Braked;
+            throw new Exception($"Unexpected indexValue {dropdownIndex}");
+        }
+
         public ushort age;
-        public ushort Age { get => age; }
-        public ushort weight;
-        public ushort Weight { get => weight; }
-        public ushort height;
-        public ushort Height { get => height; }
-
-        public ushort nsPower;
-        public ushort NsPower { get => nsPower; }
-        public ushort nsMoveability;
-        public ushort NsMoveability { get => nsMoveability; }
-        public ushort nsActivity;
-        public ushort NsActivity { get => nsActivity; }
-        public ushort nsReactivity;
-        public ushort NsReactivity { get => nsReactivity; }
-        public NervousSystemType nsType;
-        public NervousSystemType NsType { get => nsType; }
-
-        public ushort closenessSociability;
-        public ushort ClosenessSociability { get => closenessSociability; }
+        public string agentName;
         public ushort calmnessAnxiety;
-        public ushort CalmnessAnxiety { get => calmnessAnxiety; }
+        public ushort closenessSociability;
         public ushort conformismNonconformism;
-        public ushort ConformismNonconformism { get => conformismNonconformism; }
         public ushort conservatismRadicalism;
-        public ushort ConservatismRadicalism { get => conservatismRadicalism; }
         public ushort credulitySuspicion;
-        public ushort CredulitySuspicion { get => credulitySuspicion; }
         public ushort emotionalInstabilityStability;
-        public ushort EmotionalInstabilityStability { get => emotionalInstabilityStability; }
-        public ushort intelligence;
-        public ushort Intelligence { get => intelligence; }
-        public ushort normativityOfBehaviour;
-        public ushort NormativityOfBehaviour { get => normativityOfBehaviour; }
-        public ushort practicalityDreaminess;
-        public ushort PracticalityDreaminess { get => practicalityDreaminess; }
-        public ushort relaxationTension;
-        public ushort RelaxationTension { get => relaxationTension; }
-        public ushort restraintExpressiveness;
-        public ushort RestraintExpressiveness { get => restraintExpressiveness; }
-        public ushort rigiditySensetivity;
-        public ushort RigiditySensetivity { get => rigiditySensetivity; }
-        public ushort selfcontrol;
-        public ushort Selfcontrol { get => selfcontrol; }
-        public ushort straightforwardnessDiplomacy;
-        public ushort StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; }
-        public ushort subordinationDomination;
-        public ushort SubordinationDomination { get => subordinationDomination; }
-        public ushort timidityCourage;
-        public ushort TimidityCourage { get => timidityCourage; }
-
         public List<FeatureBase> features;
+        public ushort height;
+        public int imageID;
+        public ushort intelligence;
+        public ushort normativityOfBehaviour;
+        public ushort nsActivity;
+        public ushort nsMoveability;
+        public ushort nsPower;
+        public ushort nsReactivity;
+        public NervousSystemType nsType;
+        public ushort practicalityDreaminess;
+        public ushort relaxationTension;
+        public ushort restraintExpressiveness;
+        public ushort rigiditySensetivity;
+        public ushort selfcontrol;
+        public bool sex;
+        public ushort straightforwardnessDiplomacy;
+        public ushort subordinationDomination;
+        public ushort timidityCourage;
+        public ushort weight;
+        public ushort Age { get => age; }
+        public string AgentName { get => agentName; }
+        public ushort CalmnessAnxiety { get => calmnessAnxiety; }
+        public ushort ClosenessSociability { get => closenessSociability; }
+        public ushort ConformismNonconformism { get => conformismNonconformism; }
+        public ushort ConservatismRadicalism { get => conservatismRadicalism; }
+        public ushort CredulitySuspicion { get => credulitySuspicion; }
+        public ushort EmotionalInstabilityStability { get => emotionalInstabilityStability; }
+        public ushort Height { get => height; }
+        public int ImageID { get => imageID; }
+        public ushort Intelligence { get => intelligence; }
+        public ushort NormativityOfBehaviour { get => normativityOfBehaviour; }
+        public ushort NsActivity { get => nsActivity; }
+        public ushort NsMoveability { get => nsMoveability; }
+        public ushort NsPower { get => nsPower; }
+        public ushort NsReactivity { get => nsReactivity; }
+        public NervousSystemType NsType { get => nsType; }
+        public ushort PracticalityDreaminess { get => practicalityDreaminess; }
+        public ushort RelaxationTension { get => relaxationTension; }
+        public ushort RestraintExpressiveness { get => restraintExpressiveness; }
+        public ushort RigiditySensetivity { get => rigiditySensetivity; }
+        public ushort Selfcontrol { get => selfcontrol; }
+        public bool Sex { get => sex; }
+        public ushort StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; }
+        public ushort SubordinationDomination { get => subordinationDomination; }
+        public ushort TimidityCourage { get => timidityCourage; }
+        public ushort Weight { get => weight; }
+
         public void Initiate(AgentCreationScreen acs)
         {
             imageID = acs.AgentImageHandler.ImageID;
@@ -104,17 +114,6 @@ namespace BehaviourModel
             timidityCourage = Convert.ToUInt16(acs.CharacterRect.TimidityCourageSlider.Value);
 
             features = acs.FeaturesRect.SelectedFeatures;
-        }
-
-        private NervousSystemType GetNSType(int dropdownIndex)
-        {
-            if (dropdownIndex == 0)
-                return NervousSystemType.Balanced;
-            if (dropdownIndex == 1)
-                return NervousSystemType.Excitable;
-            if (dropdownIndex == 2)
-                return NervousSystemType.Braked;
-            throw new Exception($"Unexpected indexValue {dropdownIndex}");
         }
     }
 }

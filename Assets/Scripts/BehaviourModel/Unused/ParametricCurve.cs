@@ -16,10 +16,63 @@ public enum ParametricCurveType
 public struct ParametricCurve
 {
     public ParametricCurveType CurveType;
-    public float Shape;
-    public float Scale;
-    public float VerticalShift;
     public float HorizontalShift;
+    public float Scale;
+    public float Shape;
+    public float VerticalShift;
+
+    public static ParametricCurve GetDefault(ParametricCurveType curveType)
+    {
+        ParametricCurve newCurve = new ParametricCurve();
+        newCurve.CurveType = curveType;
+
+        switch (curveType)
+        {
+            case ParametricCurveType.Step:
+                newCurve.Shape = 0f;
+                newCurve.Scale = 1f;
+                newCurve.VerticalShift = 0f;
+                newCurve.HorizontalShift = 0.5f;
+                break;
+
+            case ParametricCurveType.Linear:
+                newCurve.Shape = 0f;
+                newCurve.Scale = 1f;
+                newCurve.VerticalShift = 0f;
+                newCurve.HorizontalShift = 0f;
+                break;
+
+            case ParametricCurveType.Exponential:
+                newCurve.Shape = 2f;
+                newCurve.Scale = 1f;
+                newCurve.VerticalShift = 0f;
+                newCurve.HorizontalShift = 0f;
+                break;
+
+            case ParametricCurveType.Sine:
+                newCurve.Shape = 2f;
+                newCurve.Scale = 0.5f;
+                newCurve.VerticalShift = 0.5f;
+                newCurve.HorizontalShift = 0f;
+                break;
+
+            case ParametricCurveType.Logistic:
+                newCurve.Shape = 1f;
+                newCurve.Scale = 1f;
+                newCurve.VerticalShift = 0f;
+                newCurve.HorizontalShift = 0f;
+                break;
+
+            case ParametricCurveType.Logit:
+                newCurve.Shape = 3f;
+                newCurve.Scale = 1f;
+                newCurve.VerticalShift = 0f;
+                newCurve.HorizontalShift = 0f;
+                break;
+        }
+
+        return newCurve;
+    }
 
     public float Evaluate(float t)
     {
@@ -68,53 +121,5 @@ public struct ParametricCurve
         }
 
         return 0f;
-    }
-
-    public static ParametricCurve GetDefault(ParametricCurveType curveType)
-    {
-        ParametricCurve newCurve = new ParametricCurve();
-        newCurve.CurveType = curveType;
-
-        switch (curveType)
-        {
-            case ParametricCurveType.Step:
-                newCurve.Shape = 0f;
-                newCurve.Scale = 1f;
-                newCurve.VerticalShift = 0f;
-                newCurve.HorizontalShift = 0.5f;
-                break;
-            case ParametricCurveType.Linear:
-                newCurve.Shape = 0f;
-                newCurve.Scale = 1f;
-                newCurve.VerticalShift = 0f;
-                newCurve.HorizontalShift = 0f;
-                break;
-            case ParametricCurveType.Exponential:
-                newCurve.Shape = 2f;
-                newCurve.Scale = 1f;
-                newCurve.VerticalShift = 0f;
-                newCurve.HorizontalShift = 0f;
-                break;
-            case ParametricCurveType.Sine:
-                newCurve.Shape = 2f;
-                newCurve.Scale = 0.5f;
-                newCurve.VerticalShift = 0.5f;
-                newCurve.HorizontalShift = 0f;
-                break;
-            case ParametricCurveType.Logistic:
-                newCurve.Shape = 1f;
-                newCurve.Scale = 1f;
-                newCurve.VerticalShift = 0f;
-                newCurve.HorizontalShift = 0f;
-                break;
-            case ParametricCurveType.Logit:
-                newCurve.Shape = 3f;
-                newCurve.Scale = 1f;
-                newCurve.VerticalShift = 0f;
-                newCurve.HorizontalShift = 0f;
-                break;
-        }
-
-        return newCurve;
     }
 }

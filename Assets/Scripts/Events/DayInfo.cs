@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,10 +5,17 @@ namespace Events
 {
     public class DayInfo : MonoBehaviour
     {
-        [SerializeField] Toggle dayToggle;
-        [SerializeField] DaySchedule thisDaySchedule;
-        [SerializeField] string dayName;
+        [SerializeField] private string dayName;
+        [SerializeField] private Toggle dayToggle;
+        [SerializeField] private DaySchedule thisDaySchedule;
+
+        private void Start()
+        {
+            HandleToggleClick();
+        }
+
         public string DayName { get => dayName; }
+
         public void HandleToggleClick()
         {
             if (dayToggle.isOn)
@@ -18,10 +23,5 @@ namespace Events
             else
                 thisDaySchedule.gameObject.SetActive(false);
         }
-        private void Start()
-        {
-            HandleToggleClick();
-        }
-
     }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,12 +7,12 @@ namespace UI
 {
     public abstract class UIButtonPairElement : MonoBehaviour, IButtonHandler, ISelectableUIComponent, IPointerClickHandler
     {
-        [SerializeField] Button button;
-        [SerializeField] Color defaultColor;
-        [SerializeField] bool isSelected;
-        [SerializeField] Image backImage;
-        public Button Button => button;
+        [SerializeField] private Image backImage;
+        [SerializeField] private Button button;
+        [SerializeField] private Color defaultColor;
+        [SerializeField] private bool isSelected;
         protected Action<PointerEventData> onElementClick;
+        public Button Button => button;
         public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
         public bool IsSelected
         {

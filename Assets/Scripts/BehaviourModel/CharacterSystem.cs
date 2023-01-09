@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -11,25 +9,25 @@ namespace BehaviourModel
     /// </summary>
     public class CharacterSystem : MonoBehaviour
     {
-        [SerializeField] ClosenessSociability closenessSociability;
-        [SerializeField] CalmnessAnxiety calmnessAnxiety;
-        [SerializeField] ConformismNonconformism conformismNonconformism;
-        [SerializeField] ConservatismRadicalism conservatismRadicalism;
-        [SerializeField] CredulitySuspicion credulitySuspicion;
-        [SerializeField] EmotionalInstabilityStability emotionalInstabilityStability;
-        [SerializeField] Intelligence intelligence;
-        [SerializeField] NormativityOfBehaviour normativityOfBehaviour;
-        [SerializeField] PracticalityDreaminess practicalityDreaminess;
-        [SerializeField] RelaxationTension relaxationTension;
-        [SerializeField] RestraintExpressiveness restraintExpressiveness;
-        [SerializeField] RigiditySensetivity rigiditySensetivity;
-        [SerializeField] Selfcontrol selfcontrol;
-        [SerializeField] StraightforwardnessDiplomacy straightforwardnessDiplomacy;
-        [SerializeField] SubordinationDomination subordinationDomination;
-        [SerializeField] TimidityCourage timidityCourage;
-        
-        public ClosenessSociability ClosenessSociability { get => closenessSociability; private set => closenessSociability = value; }
+        [SerializeField] private CalmnessAnxiety calmnessAnxiety;
+        [SerializeField] private ClosenessSociability closenessSociability;
+        [SerializeField] private ConformismNonconformism conformismNonconformism;
+        [SerializeField] private ConservatismRadicalism conservatismRadicalism;
+        [SerializeField] private CredulitySuspicion credulitySuspicion;
+        [SerializeField] private EmotionalInstabilityStability emotionalInstabilityStability;
+        [SerializeField] private Intelligence intelligence;
+        [SerializeField] private NormativityOfBehaviour normativityOfBehaviour;
+        [SerializeField] private PracticalityDreaminess practicalityDreaminess;
+        [SerializeField] private RelaxationTension relaxationTension;
+        [SerializeField] private RestraintExpressiveness restraintExpressiveness;
+        [SerializeField] private RigiditySensetivity rigiditySensetivity;
+        [SerializeField] private Selfcontrol selfcontrol;
+        [SerializeField] private StraightforwardnessDiplomacy straightforwardnessDiplomacy;
+        [SerializeField] private SubordinationDomination subordinationDomination;
+        [SerializeField] private TimidityCourage timidityCourage;
+
         public CalmnessAnxiety CalmnessAnxiety { get => calmnessAnxiety; private set => calmnessAnxiety = value; }
+        public ClosenessSociability ClosenessSociability { get => closenessSociability; private set => closenessSociability = value; }
         public ConformismNonconformism ConformismNonconformism { get => conformismNonconformism; private set => conformismNonconformism = value; }
         public ConservatismRadicalism ConservatismRadicalism { get => conservatismRadicalism; private set => conservatismRadicalism = value; }
         public CredulitySuspicion CredulitySuspicion { get => credulitySuspicion; private set => credulitySuspicion = value; }

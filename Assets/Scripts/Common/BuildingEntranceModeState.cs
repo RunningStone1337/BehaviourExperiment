@@ -1,8 +1,4 @@
 using BuildingModule;
-using System.Collections;
-using System.Collections.Generic;
-using UI;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Common
@@ -19,6 +15,7 @@ namespace Common
                     throw new System.Exception("Unhandled exception in building module");
             }
         }
+
         public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
         {
             var isSucceed = entrance.EntrancePlace.TryRemoveExistEntrance(eventData);

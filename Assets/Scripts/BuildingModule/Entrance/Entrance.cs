@@ -37,7 +37,6 @@ namespace BuildingModule
         [SerializeField] private MiddlePlace upPlace;
         public MiddlePlace[] MiddlePlaces { get => middlePlaces; }
 
-     
         #endregion middles
 
         #region underwalls
@@ -125,19 +124,8 @@ namespace BuildingModule
             return util.FindRoomOrCreateNew();
         }
 
-        /// <summary>
-        /// Удаляет интерьеры, которые не могут располашаться из-за изменения условий здесь
-        /// и у соседей.
-        /// </summary>
-        public void RemoveInvalidInterierAndFromNeighbours()
-        {
-            RemoveInvalidInterier();
-            foreach (var n in Neighbours)
-                n.RemoveInvalidInterier();
-        }
-
         private bool HavePassageOnDirection(Direction mainDirection, Entrance mainDirectionNeighbour, Entrance secondaryDirection1,
-            Entrance secondaryDirection2)
+                    Entrance secondaryDirection2)
         {
             Direction[] directions = GetAdditionalDirections(mainDirection);
             if (IsPassage(mainDirection) &&
@@ -302,6 +290,17 @@ namespace BuildingModule
                 if (ip is IDependentFromChanges dep)
                     dep.ResetIfConditionsChanged(null);
             }
+        }
+
+        /// <summary>
+        /// Удаляет интерьеры, которые не могут располашаться из-за изменения условий здесь
+        /// и у соседей.
+        /// </summary>
+        public void RemoveInvalidInterierAndFromNeighbours()
+        {
+            RemoveInvalidInterier();
+            foreach (var n in Neighbours)
+                n.RemoveInvalidInterier();
         }
 
         public void StartRoutine()

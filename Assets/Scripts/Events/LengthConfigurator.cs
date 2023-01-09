@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,24 +8,25 @@ namespace UI
     /// </summary>
     public class LengthConfigurator : MonoBehaviour
     {
-        [SerializeField] Slider slider;
-        [SerializeField] InputField inputField;
+        [SerializeField] private InputField inputField;
+        [SerializeField] private Slider slider;
 
-        public int MinValue { get => (int)slider.minValue; set => slider.minValue = value; }
-        public int MaxValue { get => (int)slider.maxValue; set => slider.maxValue = value; }
-        public int Value { get => (int)slider.value;set { slider.value = value; SliderValueChanded(); } }
-
-        public void SliderValueChanded()
+        private void Awake()
         {
             inputField.text = ((int)slider.value).ToString();
         }
+
+        public int MaxValue { get => (int)slider.maxValue; set => slider.maxValue = value; }
+        public int MinValue { get => (int)slider.minValue; set => slider.minValue = value; }
+        public int Value
+        { get => (int)slider.value; set { slider.value = value; SliderValueChanded(); } }
+
         public void InputValueChanded()
         {
             if (int.TryParse(inputField.text, out int res))
             {
                 slider.value = res;
             }
-
         }
 
         public void SetExtremes(int min = 1, int max = 10)
@@ -38,7 +35,7 @@ namespace UI
             slider.maxValue = max;
         }
 
-        private void Awake()
+        public void SliderValueChanded()
         {
             inputField.text = ((int)slider.value).ToString();
         }

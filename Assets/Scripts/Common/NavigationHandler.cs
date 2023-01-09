@@ -6,14 +6,16 @@ namespace Common
 {
     public class NavigationHandler : MonoBehaviour
     {
-        [SerializeField][Range(0f, 1f)] float timeDelay = 0.5f;
+        private float pressingTimeStart;
+        [SerializeField] [Range(0f, 1f)] private float timeDelay = 0.5f;
+        public Action HoldingMouseLimitReachedEvent;
         public Action HoldingMouseStartedEvent;
         public Action MouseReleasedEvent;
-        public Action HoldingMouseLimitReachedEvent;
-        float pressingTimeStart;
+
         #region Public Properties
 
         public Vector3 CameraStartPos { get; private set; }
+        public bool FirstTimeInLoop { get; private set; }
         public bool FreezeSwipes { get => freezeSwipes; set => freezeSwipes = value; }
         public bool IsZoomPermissed { get; internal set; } = true;
         public Vector3 PointerStartPos { get; private set; }
@@ -26,8 +28,6 @@ namespace Common
                 scrollRoutine = value;
             }
         }
-
-        public bool FirstTimeInLoop { get; private set; }
 
         #endregion Public Properties
 
@@ -58,15 +58,8 @@ namespace Common
 
         #region Private Methods
 
-        private float GetCamSizeOnZoomConstarints(float scroll)=>
+        private float GetCamSizeOnZoomConstarints(float scroll) =>
             Mathf.Clamp(mainCam.orthographicSize - scroll * currentScrollSensetivity, cameraConstraints.MinCameraSize, cameraConstraints.MaxCameraSize);
-        
-
-        public void MouseScroll(float scroll)
-        {
-            if (scroll != 0.0f && IsZoomPermissed)
-                ZoomRoutine = StartCoroutine(MouseScrollRoutine(scroll));
-        }
 
         private IEnumerator MouseScrollRoutine(float scroll)
         {
@@ -86,11 +79,17 @@ namespace Common
             ZoomRoutine = null;
         }
 
+        public void MouseScroll(float scroll)
+        {
+            if (scroll != 0.0f && IsZoomPermissed)
+                ZoomRoutine = StartCoroutine(MouseScrollRoutine(scroll));
+        }
+
         public void Swipes()
         {
             if (!FreezeSwipes)
             {
-                if (Input.GetMouseButtonDown(0))//если левая нажата ВПЕРВЫЕ 
+                if (Input.GetMouseButtonDown(0))//если левая нажата ВПЕРВЫЕ
                 {
                     //Debug.Log("First click");
                     CameraStartPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
@@ -106,7 +105,7 @@ namespace Common
                         HoldingMouseStartedEvent?.Invoke();
                         FirstTimeInLoop = false;
                     }
-                    if (Time.time - pressingTimeStart>= timeDelay)
+                    if (Time.time - pressingTimeStart >= timeDelay)
                     {
                         //Debug.Log("Limit reached");
                         HoldingMouseLimitReachedEvent?.Invoke();

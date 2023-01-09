@@ -1,29 +1,27 @@
 using BehaviourModel;
 using Core;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI
 {
     public class AgentsSelectionScreen : UIScreenBase
     {
-        [SerializeField] AgentCreationScreen agentCreationScreen;
-        [SerializeField] AgentSaveLoadScreen agentSaveScreen;
-        [SerializeField] AgentSaveLoadScreen agentLoadScreen;
-        [SerializeField] SelectedAgentsHandler agentsHandler;
+        [SerializeField] private AgentCreationScreen agentCreationScreen;
+        [SerializeField] private AgentSaveLoadScreen agentLoadScreen;
+        [SerializeField] private AgentSaveLoadScreen agentSaveScreen;
+        [SerializeField] private SelectedAgentsHandler agentsHandler;
         public AgentCreationScreen AgentCreationScreen { get => agentCreationScreen; }
-        public AgentSaveLoadScreen AgentSaveScreen { get => agentSaveScreen; }
         public AgentSaveLoadScreen AgentLoadScreen { get => agentLoadScreen; }
+        public AgentSaveLoadScreen AgentSaveScreen { get => agentSaveScreen; }
+
+        public void AddAgentData(PupilRawData currentData)
+        {
+            agentsHandler.AddAgent(currentData);
+        }
+
         public void CreateAgentButtonClick()
         {
             agentCreationScreen.InitiateState<PupilAgent>();
-        }
-
-        public void AddAgentData(AgentRawData currentData)
-        {
-            agentsHandler.AddAgent(currentData);
         }
 
         public void CreateTeacherButtonClick()
@@ -31,7 +29,7 @@ namespace UI
             agentCreationScreen.InitiateState<TeacherAgent>();
         }
 
-        public void RemoveAgentData(AgentRawData agentInitializator)
+        public void RemoveAgentData(PupilRawData agentInitializator)
         {
             agentsHandler.RemoveAgentData(agentInitializator);
         }

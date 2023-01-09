@@ -15,6 +15,7 @@ namespace UI
         #endregion Public Properties
 
         #region Public Methods
+
         public override void BeforeChangeState()
         {
             ActiveComponent = null;

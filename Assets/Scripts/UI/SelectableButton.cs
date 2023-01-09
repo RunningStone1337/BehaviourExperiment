@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +5,9 @@ namespace UI
 {
     public class SelectableButton : Button, ISelectableUIComponent
     {
-        [SerializeField] bool isSelected;
+        [SerializeField] private bool isSelected;
+        public object DefaultToken
+        { get => colors.normalColor; set { } }
         public bool IsSelected
         {
             get => isSelected;
@@ -20,8 +20,6 @@ namespace UI
                     SetDisabledState();
             }
         }
-        public object DefaultToken { get => colors.normalColor; set { } }
-
 
         public void SetDisabledState()
         {

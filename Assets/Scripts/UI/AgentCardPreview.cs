@@ -9,12 +9,12 @@ namespace UI
     public class AgentCardPreview : MonoBehaviour
     {
         [SerializeField] private Image agentImage;
-        [SerializeField] private AgentRawData agentInitializator;
+        [SerializeField] private PupilRawData agentInitializator;
         [SerializeField] private Text agentNameText;
 
-        public AgentRawData CardData { get => agentInitializator; set => agentInitializator = value; }
+        public PupilRawData CardData { get => agentInitializator; set => agentInitializator = value; }
 
-        public void Initiate(AgentCreationScreen acs, AgentRawData rawData)
+        public void Initiate(AgentCreationScreen acs, PupilRawData rawData)
         {
             agentImage.sprite = acs.AgentImageHandler.Image.sprite;
             agentNameText.text = acs.NameInputFieldButtonPair.InputField.text;

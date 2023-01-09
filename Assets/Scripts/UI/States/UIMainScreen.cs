@@ -1,6 +1,5 @@
 using Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +12,8 @@ namespace UI
     /// </summary>
     public class UIMainScreen : UIScreenBase
     {
-        [SerializeField] Button buttonChooseMode;
-        [SerializeField] ExperimentValidator validator;
-        public override void InitiateState()
-        {
-            rootObject.SetActive(true);
-        }
+        [SerializeField] private Button buttonChooseMode;
+        [SerializeField] private ExperimentValidator validator;
 
         public override void BeforeChangeState()
         {
@@ -30,6 +25,12 @@ namespace UI
             Controller.CurrentState = Controller.ModeSelectionState;
             ActiveComponent = null;
         }
+
+        public override void InitiateState()
+        {
+            rootObject.SetActive(true);
+        }
+
         public void OnStartButtonClick()
         {
             var s = Controller.ConfirmSelectionScreen;
@@ -39,7 +40,7 @@ namespace UI
                     validator.Validate,
                     s.BeforeChangeState
                 },
-                new List<Action>() { 
+                new List<Action>() {
                     s.BeforeChangeState
                 }); ;
         }

@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UI;
+using UnityEngine;
 
 namespace BuildingModule
 {
     public class RoleWrapper : MonoBehaviour, IUIViewedObjectHandler
     {
-        [SerializeField] EntranceRoleBase role;
+        [SerializeField] private EntranceRoleBase role;
 
         public IUIViewedObject CorrespondingObjectPrefab => role;
     }

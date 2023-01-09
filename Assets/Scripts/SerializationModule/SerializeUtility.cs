@@ -1,17 +1,14 @@
-using BehaviourModel;
 using Common;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UI;
 using UnityEngine;
 
 namespace SerializationModule
 {
     public class SerializeUtility
     {
-        string appDirectory = $"{Application.dataPath}/SaveData";
+        private string appDirectory = $"{Application.dataPath}/SaveData";
+
         public List<(T data, string dataPath)> LoadDataList<T>()
         {
             var res = new List<(T agent, string path)>();
@@ -27,7 +24,7 @@ namespace SerializationModule
                         var json = File.ReadAllText(ap);
                         var rawData = JsonUtility.FromJson<T>(json);
                         res.Add((rawData, ap));
-                    }                    
+                    }
                 }
             }
             return res;
@@ -35,10 +32,11 @@ namespace SerializationModule
 
         public void RemoveAgent(string path)
         {
-            if (File.Exists(path)) {
+            if (File.Exists(path))
+            {
                 FileInfo fileInfo = new FileInfo(path);
                 if (fileInfo.Extension.Equals(".json"))
-                    File.Delete(path);                
+                    File.Delete(path);
             }
         }
 

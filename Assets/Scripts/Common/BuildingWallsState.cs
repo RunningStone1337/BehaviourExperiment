@@ -1,20 +1,10 @@
 using BuildingModule;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Extensions;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Common
 {
     public class BuildingWallsState : SceneStateBase
     {
-        public override void Initiate()
-        {
-            ActivateAllInactiveWalls();
-        }
-
         private static void ActivateAllInactiveWalls()
         {
             var root = EntranceRoot.Root;
@@ -29,6 +19,11 @@ namespace Common
             }
         }
 
+        public override void BeforeChangeOldState()
+        {
+            SceneMaster.Master.DeactivateAllBuildStateWalls();
+        }
+
         public override void HandleWallClick(Wall wall, PointerEventData eventData)
         {
             if (wall.CurrentState is AvailForBuildState)
@@ -39,9 +34,9 @@ namespace Common
             entr.RemoveInvalidInterierAndFromNeighbours();
         }
 
-        public override void BeforeChangeOldState()
+        public override void Initiate()
         {
-            SceneMaster.Master.DeactivateAllBuildStateWalls();
+            ActivateAllInactiveWalls();
         }
     }
 }

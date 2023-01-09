@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingModule
 {
     public class NewDecorator : InterierDecoratorBase
     {
-        [SerializeField] Color color;
+        [SerializeField] private Color color;
 
         private void Awake()
         {

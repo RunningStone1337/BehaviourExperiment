@@ -5,7 +5,6 @@ namespace BuildingModule
 {
     public class TableInterier : PlacedInterier, IDependentFromChanges
     {
-
         public override bool IsAvailForPlacing(MiddlePlace place)
         {
             //принципиально может размещаться на это месте
@@ -20,15 +19,17 @@ namespace BuildingModule
                 return true;
             return false;
         }
-        public void ResetIfConditionsChanged(object param)
-        {
-            ResetMiddleOppAndSidePlaces((InterierPlaceBase)param);
-        }
+
         public override bool IsPrincipAvailableForPlacing<T>(T interier)
         {
             if (typeof(T).Equals<MiddlePlace>())
                 return true;
             return false;
+        }
+
+        public void ResetIfConditionsChanged(object param)
+        {
+            ResetMiddleOppAndSidePlaces((InterierPlaceBase)param);
         }
     }
 }

@@ -4,6 +4,7 @@ using SerializationModule;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Extensions;
 using UnityEngine.UI;
 using static UI.CanvasController;
 
@@ -18,7 +19,7 @@ namespace UI
         [SerializeField] private AgentDataSaveLoadView newAgentCreationView;
         [SerializeField] private Button saveButton;
 
-        private AgentDataSaveLoadView CreateNewViewForData((AgentRawData agent, string path) ad)
+        private AgentDataSaveLoadView CreateNewViewForData((PupilRawData agent, string path) ad)
         {
             var saveLoadView = SceneDataStorage.Storage.AgentDataSaveLoadViewPrafab;
             var view = Instantiate(saveLoadView, contentTransform).GetComponent<AgentDataSaveLoadView>();
@@ -48,7 +49,7 @@ namespace UI
         {
             var actView = (AgentDataSaveLoadView)ActiveComponent;
             DeleteExistingAgent(actView.DataPath);
-            AgentRawData agent = new AgentRawData();
+            var agent = new PupilRawData();
             agent.Initiate(agentCreationScreen);
             var path = TrySave(agent);
             if (path != null)
@@ -78,7 +79,7 @@ namespace UI
                 );
         }
 
-        private string TrySave(AgentRawData agent)
+        private string TrySave(PupilRawData agent)
         {
             var serializeUtil = new SerializeUtility();
             var path = serializeUtil.SaveAgent(agent, agent.AgentName);
@@ -88,7 +89,7 @@ namespace UI
         private void TrySaveNewAgent()
         {
             ///TODO проверка на существование файла с текущим именем в конфигураторе
-            var agent = new AgentRawData();
+            var agent = new PupilRawData();
             agent.Initiate(agentCreationScreen);
             var path = TrySave(agent);
             if (path != null)
@@ -128,9 +129,11 @@ namespace UI
 
         public override void InitiateState()
         {
+            ///исправить загрузку учеников при загрузке агентов
+            ///нужно разделение по нижнему типу
             base.InitiateState();
             var serializeUtil = new SerializeUtility();
-            var agentsData = serializeUtil.LoadDataList<AgentRawData>();
+            var agentsData = serializeUtil.LoadDataList<PupilRawData>();
             foreach (var ad in agentsData)
                 CreateNewViewForData(ad);
             contentOrderHandler.ReorderContent();

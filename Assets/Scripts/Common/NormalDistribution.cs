@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Common
 {
-    public class NormalDistribution 
+    public class NormalDistribution
     {
         private Random _random = new Random();
         private double _z1 = double.NegativeInfinity;

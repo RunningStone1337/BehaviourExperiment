@@ -5,41 +5,155 @@ using UnityEngine.UIElements;
 
 public class CurveDrawerElement : VisualElement
 {
-    public float xRangeAttr { get; set; }
-    public float yRangeAttr { get; set; }
-    public float xIncrementsAttr { get; set; }
-    public float yIncrementsAttr { get; set; }
-    public bool xHasNegativeAttr { get; set; }
-    public bool yHasNegativeAttr { get; set; }
-    public float curveThicknessAttr { get; set; }
-    public Color curveColorAttr { get; set; }
-    public Color mainAxisColorAttr { get; set; }
-    public Color incrementAxisColorAttr { get; set; }
+    protected static float PixelToValue(int pixel, bool hasNegatives, int totalPixels, float valueRange)
+    {
+        float pixelRatio = (float)pixel / (float)totalPixels;
+
+        if (hasNegatives)
+        {
+            return Mathf.Lerp(-valueRange, valueRange, pixelRatio);
+        }
+        else
+        {
+            return Mathf.Lerp(0f, valueRange, pixelRatio);
+        }
+    }
+
+    protected static int ValueToPixel(float value, bool hasNegatives, int totalPixels, float valueRange)
+    {
+        float valueRatio = value / valueRange;
+        if (hasNegatives)
+        {
+            valueRatio = (valueRatio + 1f) * 0.5f;
+        }
+
+        return Mathf.RoundToInt(Mathf.Lerp(0f, (float)totalPixels, valueRatio));
+    }
 
     public Func<float, float> CurveEvaluator;
-
-    public List<Vertex> vertices = new List<Vertex>();
     public List<ushort> indices = new List<ushort>();
     public List<Vector2> points = new List<Vector2>();
+    public List<Vertex> vertices = new List<Vertex>();
+    public Color curveColorAttr { get; set; }
+    public float curveThicknessAttr { get; set; }
+    public Color incrementAxisColorAttr { get; set; }
+    public Color mainAxisColorAttr { get; set; }
+    public bool xHasNegativeAttr { get; set; }
+    public float xIncrementsAttr { get; set; }
+    public float xRangeAttr { get; set; }
+    public bool yHasNegativeAttr { get; set; }
+    public float yIncrementsAttr { get; set; }
+    public float yRangeAttr { get; set; }
 
-    public new class UxmlFactory : UxmlFactory<CurveDrawerElement, UxmlTraits> { }
+    public new class UxmlFactory : UxmlFactory<CurveDrawerElement, UxmlTraits>
+    { }
 
     public new class UxmlTraits : VisualElement.UxmlTraits
     {
-        UxmlFloatAttributeDescription m_xRange = new UxmlFloatAttributeDescription { name = "xRange-attr", defaultValue = 1f };
-        UxmlFloatAttributeDescription m_yRange = new UxmlFloatAttributeDescription { name = "yRange-attr", defaultValue = 1f };
-        UxmlFloatAttributeDescription m_xIncrements = new UxmlFloatAttributeDescription { name = "xIncrements-attr", defaultValue = 0.1f };
-        UxmlFloatAttributeDescription m_yIncrements = new UxmlFloatAttributeDescription { name = "yIncrements-attr", defaultValue = 0.1f };
-        UxmlBoolAttributeDescription m_xHasNegative = new UxmlBoolAttributeDescription { name = "xHasNegative-attr", defaultValue = true };
-        UxmlBoolAttributeDescription m_yHasNegative = new UxmlBoolAttributeDescription { name = "yHasNegative-attr", defaultValue = true };
-        UxmlFloatAttributeDescription m_curveThickness = new UxmlFloatAttributeDescription { name = "curveThickness-attr", defaultValue = 1f };
-        UxmlColorAttributeDescription m_curveColor = new UxmlColorAttributeDescription { name = "curveColor-attr", defaultValue = Color.green };
-        UxmlColorAttributeDescription m_mainAxisColor = new UxmlColorAttributeDescription { name = "mainAxisColor-attr", defaultValue = Color.white };
-        UxmlColorAttributeDescription m_incrementAxisColor = new UxmlColorAttributeDescription { name = "incrementAxisColor-attr", defaultValue = Color.gray };
-
+        private UxmlColorAttributeDescription m_curveColor = new UxmlColorAttributeDescription { name = "curveColor-attr", defaultValue = Color.green };
+        private UxmlFloatAttributeDescription m_curveThickness = new UxmlFloatAttributeDescription { name = "curveThickness-attr", defaultValue = 1f };
+        private UxmlColorAttributeDescription m_incrementAxisColor = new UxmlColorAttributeDescription { name = "incrementAxisColor-attr", defaultValue = Color.gray };
+        private UxmlColorAttributeDescription m_mainAxisColor = new UxmlColorAttributeDescription { name = "mainAxisColor-attr", defaultValue = Color.white };
+        private UxmlBoolAttributeDescription m_xHasNegative = new UxmlBoolAttributeDescription { name = "xHasNegative-attr", defaultValue = true };
+        private UxmlFloatAttributeDescription m_xIncrements = new UxmlFloatAttributeDescription { name = "xIncrements-attr", defaultValue = 0.1f };
+        private UxmlFloatAttributeDescription m_xRange = new UxmlFloatAttributeDescription { name = "xRange-attr", defaultValue = 1f };
+        private UxmlBoolAttributeDescription m_yHasNegative = new UxmlBoolAttributeDescription { name = "yHasNegative-attr", defaultValue = true };
+        private UxmlFloatAttributeDescription m_yIncrements = new UxmlFloatAttributeDescription { name = "yIncrements-attr", defaultValue = 0.1f };
+        private UxmlFloatAttributeDescription m_yRange = new UxmlFloatAttributeDescription { name = "yRange-attr", defaultValue = 1f };
         public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
         {
             get { yield break; }
+        }
+
+        public void DrawLine(List<Vertex> vertices, List<ushort> indices, Vector2 from, Vector2 to, float thickness, Color color)
+        {
+            Vector2 vec = to - from;
+            Vector3 perpenticularDirection = new Vector3(vec.y, -vec.x, 0f).normalized;
+
+            ushort startIndex = (ushort)vertices.Count;
+            float halfThickness = thickness * 0.5f;
+
+            vertices.Add(new Vertex()
+            {
+                position = new Vector3(from.x, from.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
+                tint = color
+            });
+            vertices.Add(new Vertex()
+            {
+                position = new Vector3(from.x, from.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
+                tint = color
+            });
+            vertices.Add(new Vertex()
+            {
+                position = new Vector3(to.x, to.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
+                tint = color
+            });
+            vertices.Add(new Vertex()
+            {
+                position = new Vector3(to.x, to.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
+                tint = color
+            });
+
+            indices.Add((ushort)(startIndex + 0));
+            indices.Add((ushort)(startIndex + 1));
+            indices.Add((ushort)(startIndex + 2));
+            indices.Add((ushort)(startIndex + 0));
+            indices.Add((ushort)(startIndex + 2));
+            indices.Add((ushort)(startIndex + 3));
+        }
+
+        public void DrawLine(List<Vertex> vertices, List<ushort> indices, List<Vector2> points, float thickness, Color color)
+        {
+            if (points.Count < 2)
+                return;
+
+            float halfThickness = thickness * 0.5f;
+
+            // Start with 2 initial vertices
+            {
+                Vector2 startPoint = points[0];
+                Vector2 nextPoint = points[1];
+                Vector2 vec = nextPoint - startPoint;
+                Vector3 perpenticularDirection = new Vector3(vec.y, -vec.x, 0f).normalized;
+                vertices.Add(new Vertex()
+                {
+                    position = new Vector3(startPoint.x, startPoint.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
+                    tint = color
+                });
+                vertices.Add(new Vertex()
+                {
+                    position = new Vector3(startPoint.x, startPoint.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
+                    tint = color
+                });
+            }
+
+            for (int i = 1; i < points.Count; i++)
+            {
+                Vector2 from = points[i - 1];
+                Vector2 to = points[i];
+                Vector2 vec = to - from;
+                Vector3 perpenticularDirection = new Vector3(vec.y, -vec.x, 0f).normalized;
+
+                ushort startIndex = (ushort)vertices.Count;
+
+                vertices.Add(new Vertex()
+                {
+                    position = new Vector3(to.x, to.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
+                    tint = color
+                });
+                vertices.Add(new Vertex()
+                {
+                    position = new Vector3(to.x, to.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
+                    tint = color
+                });
+
+                indices.Add((ushort)(startIndex - 2));
+                indices.Add((ushort)(startIndex - 1));
+                indices.Add((ushort)(startIndex + 1));
+                indices.Add((ushort)(startIndex - 2));
+                indices.Add((ushort)(startIndex + 1));
+                indices.Add((ushort)(startIndex + 0));
+            }
         }
 
         public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
@@ -161,121 +275,5 @@ public class CurveDrawerElement : VisualElement
                 }
             };
         }
-
-        public void DrawLine(List<Vertex> vertices, List<ushort> indices, Vector2 from, Vector2 to, float thickness, Color color)
-        {
-            Vector2 vec = to - from;
-            Vector3 perpenticularDirection = new Vector3(vec.y, -vec.x, 0f).normalized;
-
-            ushort startIndex = (ushort)vertices.Count;
-            float halfThickness = thickness * 0.5f;
-
-            vertices.Add(new Vertex()
-            {
-                position = new Vector3(from.x, from.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
-                tint = color
-            });
-            vertices.Add(new Vertex()
-            {
-                position = new Vector3(from.x, from.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
-                tint = color
-            });
-            vertices.Add(new Vertex()
-            {
-                position = new Vector3(to.x, to.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
-                tint = color
-            });
-            vertices.Add(new Vertex()
-            {
-                position = new Vector3(to.x, to.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
-                tint = color
-            });
-
-            indices.Add((ushort)(startIndex + 0));
-            indices.Add((ushort)(startIndex + 1));
-            indices.Add((ushort)(startIndex + 2));
-            indices.Add((ushort)(startIndex + 0));
-            indices.Add((ushort)(startIndex + 2));
-            indices.Add((ushort)(startIndex + 3));
-        }
-
-        public void DrawLine(List<Vertex> vertices, List<ushort> indices, List<Vector2> points, float thickness, Color color)
-        {
-            if (points.Count < 2)
-                return;
-
-            float halfThickness = thickness * 0.5f;
-
-            // Start with 2 initial vertices
-            {
-                Vector2 startPoint = points[0];
-                Vector2 nextPoint = points[1];
-                Vector2 vec = nextPoint - startPoint;
-                Vector3 perpenticularDirection = new Vector3(vec.y, -vec.x, 0f).normalized;
-                vertices.Add(new Vertex()
-                {
-                    position = new Vector3(startPoint.x, startPoint.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
-                    tint = color
-                });
-                vertices.Add(new Vertex()
-                {
-                    position = new Vector3(startPoint.x, startPoint.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
-                    tint = color
-                });
-            }
-
-            for (int i = 1; i < points.Count; i++)
-            {
-                Vector2 from = points[i - 1];
-                Vector2 to = points[i];
-                Vector2 vec = to - from;
-                Vector3 perpenticularDirection = new Vector3(vec.y, -vec.x, 0f).normalized;
-
-                ushort startIndex = (ushort)vertices.Count;
-
-                vertices.Add(new Vertex()
-                {
-                    position = new Vector3(to.x, to.y, Vertex.nearZ) - (perpenticularDirection * halfThickness),
-                    tint = color
-                });
-                vertices.Add(new Vertex()
-                {
-                    position = new Vector3(to.x, to.y, Vertex.nearZ) + (perpenticularDirection * halfThickness),
-                    tint = color
-                });
-
-                indices.Add((ushort)(startIndex - 2));
-                indices.Add((ushort)(startIndex - 1));
-                indices.Add((ushort)(startIndex + 1));
-                indices.Add((ushort)(startIndex - 2));
-                indices.Add((ushort)(startIndex + 1));
-                indices.Add((ushort)(startIndex + 0));
-            }
-        }
-    }
-
-    protected static float PixelToValue(int pixel, bool hasNegatives, int totalPixels, float valueRange)
-    {
-        float pixelRatio = (float)pixel / (float)totalPixels;
-
-        if (hasNegatives)
-        {
-            return Mathf.Lerp(-valueRange, valueRange, pixelRatio);
-        }
-        else
-        {
-            return Mathf.Lerp(0f, valueRange, pixelRatio);
-        }
-    }
-
-    protected static int ValueToPixel(float value, bool hasNegatives, int totalPixels, float valueRange)
-    {
-        float valueRatio = value / valueRange;
-        if (hasNegatives)
-        {
-            valueRatio = (valueRatio + 1f) * 0.5f;
-        }
-
-        return Mathf.RoundToInt(Mathf.Lerp(0f, (float)totalPixels, valueRatio));
     }
 }

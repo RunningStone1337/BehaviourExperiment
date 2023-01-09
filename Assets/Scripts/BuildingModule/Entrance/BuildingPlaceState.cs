@@ -9,6 +9,7 @@ namespace BuildingModule
         #region Public Methods
 
         public abstract bool TryPlaceNewEntrance(PointerEventData eventData);
+
         public abstract bool TryRemoveExistEntrance(PointerEventData eventData);
 
         #endregion Public Methods
@@ -26,7 +27,6 @@ namespace BuildingModule
             if (thisPlace == null)
                 thisPlace = GetComponent<BuildingPlace>();
         }
-
 
         #endregion Private Methods
     }

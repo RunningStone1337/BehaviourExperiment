@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +9,7 @@ namespace UI
         {
             InputSystem.InputListener.Listener.HandleUIScreenPointerDown(this, eventData);
         }
+
         public void OnPointerUp(PointerEventData eventData)
         {
             InputSystem.InputListener.Listener.HandleUIScreenPointerUp(this, eventData);

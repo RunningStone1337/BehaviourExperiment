@@ -12,13 +12,9 @@ namespace UI
     public class DropdownButtonPair : UIButtonPairElement, IKeysValuesHandler, IValueChangedEventHandler
     {
         [SerializeField] private Dropdown dropdown;
-        private Dictionary<string, object> optionsDict;
+        private Dictionary<string, object> optionsDict = new Dictionary<string, object>();
         private Dropdown Dropdown => dropdown;
 
-        private void Awake()
-        {
-            optionsDict = new Dictionary<string, object>();
-        }
 
         private void OnDestroy()
         {

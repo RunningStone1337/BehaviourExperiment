@@ -4,16 +4,6 @@ namespace BuildingModule
 {
     public class BoardInterier : PlacedInterier
     {
-        public override bool IsAvailForPlacing(Underwall place)
-        {
-            var princ = IsPrincipAvailableForPlacing(place);
-            var isFree = place.InterierCount() == 0;
-            var hasPass = place.AssociatedWall.HasPass();
-            var hasWall = place.AssociatedWall.IsActive();
-            if (princ && isFree && !hasPass && hasWall)
-                return true;
-            return false;
-        }
         public override bool CanExist(Underwall underwall)
         {
             var princ = IsPrincipAvailableForPlacing(underwall);
@@ -24,6 +14,18 @@ namespace BuildingModule
                 return true;
             return false;
         }
+
+        public override bool IsAvailForPlacing(Underwall place)
+        {
+            var princ = IsPrincipAvailableForPlacing(place);
+            var isFree = place.InterierCount() == 0;
+            var hasPass = place.AssociatedWall.HasPass();
+            var hasWall = place.AssociatedWall.IsActive();
+            if (princ && isFree && !hasPass && hasWall)
+                return true;
+            return false;
+        }
+
         public override bool IsPrincipAvailableForPlacing<T>(T interierPlace)
         {
             if (typeof(T).Equals<Underwall>())

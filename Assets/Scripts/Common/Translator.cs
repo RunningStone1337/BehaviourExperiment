@@ -1,14 +1,12 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 
 namespace Common
 {
     public class Translator
     {
-        Dictionary<char, string> rusEngPairs;
+        private Dictionary<char, string> rusEngPairs;
+
         public Translator()
         {
             rusEngPairs = new Dictionary<char, string>()
@@ -48,6 +46,7 @@ namespace Common
             {'ÿ',"ya" },
         };
         }
+
         public string ToEnglish(string agentName)
         {
             var sb = new StringBuilder();

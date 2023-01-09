@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UI;
+using UnityEngine;
 
 namespace Common
 {
     public sealed class DependentDropdownRandomizer : DropdownRandomizer
     {
-        [SerializeField] DropdownButtonPair influenceDropdown;
-        [SerializeField] ListVector3IntHandler maleValues;
-        [SerializeField] ListVector3IntHandler femaleValues;
+        [SerializeField] private ListVector3IntHandler femaleValues;
+        [SerializeField] private DropdownButtonPair influenceDropdown;
+        [SerializeField] private ListVector3IntHandler maleValues;
+
         public override void SetRandomValue()
         {
             var normal = new NormalDistribution();

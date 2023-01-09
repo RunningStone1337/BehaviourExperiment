@@ -52,8 +52,8 @@ namespace UI
 
         #region Private Fields
 
-        [SerializeField] protected ISelectableUIComponent selectedUIComponent;
         [SerializeField] protected GameObject rootObject;
+        [SerializeField] protected ISelectableUIComponent selectedUIComponent;
 
         #endregion Private Fields
     }

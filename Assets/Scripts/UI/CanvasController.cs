@@ -1,32 +1,36 @@
 using Common;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI
 {
     public class CanvasController : MonoBehaviour, ICurrentStateHandler
     {
-        [SerializeField] UIScreenBase currentState;
-        [SerializeField] UIModeSelectionScreen modeSelectionState;
-        [SerializeField] UIMainScreen mainState;
-        [SerializeField] UIBuildingScreen buildingState;
-        [SerializeField] InterierListScreen interierCollectionScreen;
-        [SerializeField] RolesScreen rolesScreen;
-        [SerializeField] EventsPlanningScreen eventsPlanningScreen;
-        [SerializeField] ConfirmSelectionScreen confirmSelectionScreen;
-        [SerializeField] AgentsSelectionScreen agentsConfigureScreen;
-        static CanvasController canvasController;
-        public AgentsSelectionScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
-        public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
-        public UIModeSelectionScreen ModeSelectionState { get => modeSelectionState; }
-        public EventsPlanningScreen EventsPlanningScreen { get => eventsPlanningScreen; }
-        public UIMainScreen MainScreen { get => mainState; }
-        public UIBuildingScreen BuildingState { get => buildingState; }
-        public InterierListScreen InterierListScreen { get => interierCollectionScreen; }
-        public RolesScreen RolesScreen { get => rolesScreen; }
+        private static CanvasController canvasController;
+        [SerializeField] private AgentsSelectionScreen agentsConfigureScreen;
+        [SerializeField] private UIBuildingScreen buildingState;
+        [SerializeField] private ConfirmSelectionScreen confirmSelectionScreen;
+        [SerializeField] private UIScreenBase currentState;
+        [SerializeField] private EventsPlanningScreen eventsPlanningScreen;
+        [SerializeField] private InterierListScreen interierCollectionScreen;
+        [SerializeField] private UIMainScreen mainState;
+        [SerializeField] private UIModeSelectionScreen modeSelectionState;
+        [SerializeField] private RolesScreen rolesScreen;
+
+        private void Awake()
+        {
+            if (Controller == null)
+            {
+                Controller = this;
+                return;
+            }
+            Destroy(this);
+        }
+
         public static CanvasController Controller { get => canvasController; private set => canvasController = value; }
+        public AgentsSelectionScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
+        public UIBuildingScreen BuildingState { get => buildingState; }
+        public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
         public IState CurrentState
         {
             get => currentState;
@@ -38,6 +42,12 @@ namespace UI
             }
         }
 
+        public EventsPlanningScreen EventsPlanningScreen { get => eventsPlanningScreen; }
+        public InterierListScreen InterierListScreen { get => interierCollectionScreen; }
+        public UIMainScreen MainScreen { get => mainState; }
+        public UIModeSelectionScreen ModeSelectionState { get => modeSelectionState; }
+        public RolesScreen RolesScreen { get => rolesScreen; }
+
         public static ISelectableUIComponent ResetSelectableComponent(ISelectableUIComponent oldValue, ISelectableUIComponent newValue)
         {
             if (oldValue != null)
@@ -47,16 +57,6 @@ namespace UI
             if (newValue == null && oldValue != null)
                 oldValue.IsSelected = false;
             return newValue;
-        }
-
-        private void Awake()
-        {
-            if (Controller == null)
-            {
-                Controller = this;
-                return;
-            }
-            Destroy(this);
         }
 
         public void SetState<S2>() where S2 : IState

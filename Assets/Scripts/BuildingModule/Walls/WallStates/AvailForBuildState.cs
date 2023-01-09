@@ -1,21 +1,27 @@
 using Common;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingModule
 {
     public class AvailForBuildState : WallStateBase, IVisualEffectRoutineHandler
     {
-        [SerializeField] [Range(0f, 1f)] float step = 0.005f;
-        [SerializeField] Color targetColor;
-        Coroutine routine;
-        public Coroutine Routine { get=> routine; set=> routine = value; }
+        private Coroutine routine;
+        [SerializeField] [Range(0f, 1f)] private float step = 0.005f;
+        [SerializeField] private Color targetColor;
+        public Coroutine Routine { get => routine; set => routine = value; }
+
         public override void Initiate()
         {
             ThisWall.Renderer.enabled = true;
             StartRoutine();
+        }
+
+        public void StartRoutine()
+        {
+            if (Routine != null)
+                StopCoroutine(Routine);
+            Routine = StartCoroutine(VisualEffectRoutine());
         }
 
         public IEnumerator VisualEffectRoutine()
@@ -26,13 +32,7 @@ namespace BuildingModule
                 targetColor,
                 targetGraphics,
                 step,
-                () =>  ThisWall.CurrentState is AvailForBuildState);
-        }
-        public void StartRoutine()
-        {
-            if (Routine != null)
-                StopCoroutine(Routine);
-            Routine = StartCoroutine(VisualEffectRoutine());
+                () => ThisWall.CurrentState is AvailForBuildState);
         }
     }
 }

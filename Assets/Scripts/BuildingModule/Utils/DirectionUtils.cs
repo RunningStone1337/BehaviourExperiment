@@ -1,8 +1,4 @@
-using BuildingModule;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BuildingModule
 {
@@ -19,6 +15,7 @@ namespace BuildingModule
                 _ => throw new Exception($"Неизвестное направление {mainDirection}"),
             };
         }
+
         public static Direction OppositeDirection(Direction d)
         {
             return d switch
@@ -31,5 +28,4 @@ namespace BuildingModule
             };
         }
     }
-    
 }

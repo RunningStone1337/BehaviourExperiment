@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,7 +7,12 @@ namespace BuildingModule
     /// —тейт недоступности размещени€ интерьера.
     /// </summary>
     public class NotAvailableForPlacingInterierPlaceState : InterierPlaceStateBase
-    {       
+    {
+        private void OnDrawGizmos()
+        {
+            DrawSphereGizmo(Color.red);
+        }
+
         public override void HandleInterierPlaceClick(PointerEventData eventData)
         {
             EntranceBuilder.ReplaceInterierOrDeleteExist(thisPlace.GetInterier(), thisPlace);
@@ -19,10 +22,6 @@ namespace BuildingModule
         {
             if (interier.IsAvailForPlacing(thisPlace))
                 thisPlace.SetAvailForPlacingState();
-        }
-        void OnDrawGizmos()
-        {
-            DrawSphereGizmo(Color.red);
         }
     }
 }

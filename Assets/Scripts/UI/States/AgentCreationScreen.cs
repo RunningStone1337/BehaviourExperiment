@@ -1,5 +1,7 @@
 using BehaviourModel;
 using Common;
+using Extensions;
+using System;
 using UnityEngine;
 
 namespace UI
@@ -11,8 +13,8 @@ namespace UI
         [SerializeField] private AgentsSelectionScreen agentsSelectionScreen;
         [SerializeField] private ContentOrderHandler cardsOrderHandler;
         [SerializeField] private AgentCardPreview currentPreview;
-        [SerializeField] private AgentRawData сurrentData;
-        public AgentRawData CurrentData { get => сurrentData; private set => сurrentData = value; }
+        [SerializeField] private PupilRawData сurrentData;
+        public PupilRawData CurrentData { get => сurrentData; private set => сurrentData = value; }
         public AgentCardPreview CurrentPreview { get => currentPreview; private set => currentPreview = value; }
 
         #endregion common
@@ -38,8 +40,8 @@ namespace UI
 
         #region params
 
-        [Header("Основные параметры")]
         [Space]
+        [Header("Основные параметры")]
         [SerializeField] private ListVector2IntHandler pupilsAgeHandler;
 
         [SerializeField] private ListVector2IntHandler teachersAgeHandler;
@@ -63,9 +65,14 @@ namespace UI
         [Header("Настройки ЦНС")]
         [SerializeField] private NervousSystemRect nervousSystemRect;
 
+        [Space]
+        [Header("Настройки шаблонов поведения")]
+        [SerializeField] private PrefferedBehaviourRect prefferedBehaviourRect;
+
         public CharacterRect CharacterRect => characterRect;
         public FeaturesRect FeaturesRect => featuresRect;
-        public NervousSystemRect NervousSystemRect { get => nervousSystemRect; }
+        public NervousSystemRect NervousSystemRect => nervousSystemRect;
+        public PrefferedBehaviourRect PrefferedBehaviourRect => prefferedBehaviourRect;
 
         #endregion character
 
@@ -73,12 +80,17 @@ namespace UI
 
         [Space]
         [Header("Контроллеры диапазонов значений веса и роста")]
-        [SerializeField] private ListVector3IntHandler ageHeightsHandler;
+        [SerializeField] private ListVector3IntHandler pupilAgeHeightsHandler;
 
-        [SerializeField] private ListVector3IntHandler ageWeightsHandler;
+        [SerializeField] private ListVector3IntHandler pupilAgeWeightsHandler;
+        [SerializeField] private ListVector3IntHandler teacherAgeHeightsHandler;
+        [SerializeField] private ListVector3IntHandler teacherAgeWeightsHandler;
 
-        public ListVector3IntHandler AgeHeightsHandler { get => ageHeightsHandler; }
-        public ListVector3IntHandler AgeWeightsHandler { get => ageWeightsHandler; }
+        public Type CreatedType { get; private set; }
+        public ListVector3IntHandler PupilAgeHeightsHandler { get => pupilAgeHeightsHandler; }
+        public ListVector3IntHandler PupilAgeWeightsHandler { get => pupilAgeWeightsHandler; }
+        public ListVector3IntHandler TeacherAgeHeightsHandler { get => teacherAgeHeightsHandler; }
+        public ListVector3IntHandler TeacherAgeWeightsHandler { get => teacherAgeWeightsHandler; }
 
         #endregion weight
 
@@ -96,7 +108,7 @@ namespace UI
             //создаём новую или редактируем существующую?
             if (CurrentData == null)
             {
-                CurrentData = new AgentRawData();
+                CurrentData = new PupilRawData();
                 //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
                 CurrentData.Initiate(this);
             }
@@ -109,14 +121,14 @@ namespace UI
 
         private void SetDefaultControls<T>() where T : AgentBase
         {
-            var helper = new AgentCreationScreenInitializer(this);
-            helper.SetDefaultControlsValues<T>();
+            var helper = new AgentCreationScreenInitializer<T>(this);
+            helper.SetDefaultControlsValues();
         }
 
-        private void SetExistDataControls<T>(AgentRawData rawData) where T : AgentBase
+        private void SetExistDataControls<T>(PupilRawData rawData) where T : AgentBase
         {
-            var helper = new AgentCreationScreenInitializer(this);
-            helper.SetControlsValues<T>(rawData);
+            var helper = new AgentCreationScreenInitializer<T>(this);
+            helper.SetControlsValues(rawData);
         }
 
         public override void BeforeChangeState()
@@ -131,15 +143,16 @@ namespace UI
         {
             base.InitiateState();
             ResetControlls<T>();
+            CreatedType = typeof(T);
         }
 
-        public void InitiateState<T>(AgentRawData ard, AgentCardPreview acp) where T : AgentBase
+        public void InitiateState<T>(PupilRawData ard, AgentCardPreview acp) where T : AgentBase
         {
             InitiateState<T>(ard);
             CurrentPreview = acp;
         }
 
-        public void InitiateState<T>(AgentRawData ard) where T : AgentBase
+        public void InitiateState<T>(PupilRawData ard) where T : AgentBase
         {
             base.InitiateState();
             ResetControlls<T>(ard);
@@ -151,11 +164,9 @@ namespace UI
             CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState();
         }
 
-        public void OnAgeSelectionChanged()
+        public void OnCloseButtonCLick()
         {
-            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
-            ageChangeHandler.ResetCharacterExtremeValues();
-            ageChangeHandler.ResetWieghtAndHeightDropdowns();
+            BeforeChangeState();
         }
 
         public void OnConfirmCreationButtonClick()
@@ -163,7 +174,7 @@ namespace UI
             ConfirmAgentCreation();
         }
 
-        public void ResetControlls<T>(AgentRawData rawData = null) where T : AgentBase
+        public void ResetControlls<T>(PupilRawData rawData = null) where T : AgentBase
         {
             if (rawData == null)
                 SetDefaultControls<T>();
@@ -178,8 +189,16 @@ namespace UI
 
         public void SetFullRandomValuesButtonClick()
         {
-            var helper = new AgentCreationScreenInitializer(this);
-            helper.RandomizeControlsValues();
+            if (CreatedType.Equals<PupilAgent>())
+            {
+                var helper = new AgentCreationScreenInitializer<PupilAgent>(this);
+                helper.RandomizeControlsValues();
+            }
+            else if (CreatedType.Equals<TeacherAgent>())
+            {
+                var helper = new AgentCreationScreenInitializer<TeacherAgent>(this);
+                helper.RandomizeControlsValues();
+            }
         }
     }
 }

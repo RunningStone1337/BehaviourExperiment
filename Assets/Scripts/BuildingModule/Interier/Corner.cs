@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace BuildingModule {
+namespace BuildingModule
+{
     public class Corner : InterierPlaceBase
     {
-        
     }
 }

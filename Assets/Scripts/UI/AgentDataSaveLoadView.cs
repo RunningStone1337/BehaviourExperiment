@@ -1,7 +1,4 @@
 using BehaviourModel;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,14 +7,21 @@ namespace UI
 {
     public class AgentDataSaveLoadView : MonoBehaviour, ISelectableUIComponent, IPointerClickHandler
     {
-        [SerializeField] Text agentNameText;
-        [SerializeField] Text agentPathText;
-        [SerializeField] AgentSaveLoadScreen agentSaveScreen;
-        [SerializeField] bool isSelected;
-        [SerializeField] Color defaultColor;
-        [SerializeField] Image backgroundImage;
-        [SerializeField] AgentRawData agentRawData;
-        public AgentRawData AgentRawData => agentRawData;
+        [SerializeField] private Text agentNameText;
+        [SerializeField] private Text agentPathText;
+        [SerializeField] private PupilRawData agentRawData;
+        [SerializeField] private AgentSaveLoadScreen agentSaveScreen;
+        [SerializeField] private Image backgroundImage;
+        [SerializeField] private Color defaultColor;
+        [SerializeField] private bool isSelected;
+
+        private void Awake()
+        {
+            agentSaveScreen = GetComponentInParent<AgentSaveLoadScreen>();
+        }
+
+        public PupilRawData AgentRawData => agentRawData;
+        public string DataPath { get => agentPathText.text; }
         public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
         public bool IsSelected
         {
@@ -31,18 +35,11 @@ namespace UI
             }
         }
 
-        public string DataPath { get=> agentPathText.text;  }
-
-        public void Initiate(AgentRawData ard, string savePath)
+        public void Initiate(PupilRawData ard, string savePath)
         {
             agentRawData = ard;
             agentNameText.text = ard.AgentName;
             agentPathText.text = savePath;
-        }
-
-        private void Awake()
-        {
-            agentSaveScreen = GetComponentInParent<AgentSaveLoadScreen>();
         }
 
         public void OnPointerClick(PointerEventData eventData)

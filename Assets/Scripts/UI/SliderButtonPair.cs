@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI
 {
     public class SliderButtonPair : UIButtonPairElement
     {
-        [SerializeField] LengthConfigurator lengthConfigurator;
-        public int Value { get => lengthConfigurator.Value; set => lengthConfigurator.Value = value; }
+        [SerializeField] private LengthConfigurator lengthConfigurator;
         public int MinValue { get => lengthConfigurator.MinValue; set => lengthConfigurator.MinValue = value; }
+        public int Value { get => lengthConfigurator.Value; set => lengthConfigurator.Value = value; }
 
         public void RandomizeValue()
         {

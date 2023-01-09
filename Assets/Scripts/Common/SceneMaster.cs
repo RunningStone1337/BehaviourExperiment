@@ -12,21 +12,21 @@ namespace Common
 
         private static SceneMaster master;
         [SerializeField] private BuildingEntranceModeState buildingModeState;
-        [SerializeField] private EventsPlanningState eventsPlanningState;
         [SerializeField] private BuildingWallsState buildingWallsState;
         [SerializeField] private SceneStateBase currentState;
         [SerializeField] private EntranceRoleEditingState entranceRoleEditingState;
+        [SerializeField] private EventsPlanningState eventsPlanningState;
         [SerializeField] private IUIViewedObject lastSelectedViewObject;
         [SerializeField] private NavigationState navigationState;
         [SerializeField] private PlacingInterierSceneState placingInterierState;
         [SerializeField] private RoomSplittingState roomSplittingState;
 
         #endregion Private Fields
+
         #region Public Properties
 
         public static SceneMaster Master { get => master; private set => master = value; }
         public BuildingEntranceModeState BuildingModeState { get => buildingModeState; }
-        public EventsPlanningState EventsPlanningState { get => eventsPlanningState; }
         public BuildingWallsState BuildingWallsState { get => buildingWallsState; }
         public SceneStateBase CurrentState
         {
@@ -39,6 +39,7 @@ namespace Common
         }
 
         public EntranceRoleEditingState EntranceRoleEditingState { get => entranceRoleEditingState; }
+        public EventsPlanningState EventsPlanningState { get => eventsPlanningState; }
         public IUIViewedObject LastSelectedViewObject
         {
             get
@@ -55,10 +56,10 @@ namespace Common
         public PlacingInterierSceneState PlacingInterierState { get => placingInterierState; }
         public RoomSplittingState RoomSplittingState { get => roomSplittingState; }
 
-
         #endregion Public Properties
 
         #region Public Methods
+
         public void ClearEntrances()
         {
             var entr = EntranceRoot.Root.Entrances;
@@ -67,6 +68,7 @@ namespace Common
                 e.EntrancePlace.TryRemoveExistEntrance(null);
             }
         }
+
         public void DeactivateAllBuildStateWalls()
         {
             var entrances = EntranceRoot.Root.Entrances;
@@ -127,8 +129,6 @@ namespace Common
         }
 
         #endregion Public Methods
-
-        
 
         #region Private Methods
 

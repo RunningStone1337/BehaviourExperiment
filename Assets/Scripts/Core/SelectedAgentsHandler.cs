@@ -6,15 +6,15 @@ namespace Core
 {
     public class SelectedAgentsHandler : MonoBehaviour
     {
-        [SerializeField] private List<AgentRawData> agents;
+        [SerializeField] private List<PupilRawData> agents;
 
-        public void AddAgent(AgentRawData currentData)
+        public void AddAgent(PupilRawData currentData)
         {
             if (currentData != null && !agents.Contains(currentData))
                 agents.Add(currentData);
         }
 
-        public void RemoveAgentData(AgentRawData agentInitializator)
+        public void RemoveAgentData(PupilRawData agentInitializator)
         {
             agents.Remove(agentInitializator);
         }

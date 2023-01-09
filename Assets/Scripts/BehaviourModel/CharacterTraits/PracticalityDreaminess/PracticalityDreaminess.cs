@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace BehaviourModel
 {
     /// <summary>
@@ -15,6 +11,5 @@ namespace BehaviourModel
     /// </summary>
     public abstract class PracticalityDreaminess : CharacterTraitBase
     {
-       
     }
 }
