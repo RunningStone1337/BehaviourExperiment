@@ -9,7 +9,7 @@ namespace UI
     {
         [SerializeField] private Text agentNameText;
         [SerializeField] private Text agentPathText;
-        [SerializeField] private PupilRawData agentRawData;
+        [SerializeField] private HumanRawData agentRawData;
         [SerializeField] private AgentSaveLoadScreen agentSaveScreen;
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Color defaultColor;
@@ -20,7 +20,7 @@ namespace UI
             agentSaveScreen = GetComponentInParent<AgentSaveLoadScreen>();
         }
 
-        public PupilRawData AgentRawData => agentRawData;
+        public HumanRawData AgentRawData => agentRawData;
         public string DataPath { get => agentPathText.text; }
         public object DefaultToken { get => defaultColor; set => defaultColor = (Color)value; }
         public bool IsSelected
@@ -35,7 +35,7 @@ namespace UI
             }
         }
 
-        public void Initiate(PupilRawData ard, string savePath)
+        public void Initiate(HumanRawData ard, string savePath)
         {
             agentRawData = ard;
             agentNameText.text = ard.AgentName;

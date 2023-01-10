@@ -1,7 +1,7 @@
 using BehaviourModel;
 using Common;
-using Extensions;
 using System;
+using Extensions;
 using UnityEngine;
 
 namespace UI
@@ -13,8 +13,8 @@ namespace UI
         [SerializeField] private AgentsSelectionScreen agentsSelectionScreen;
         [SerializeField] private ContentOrderHandler cardsOrderHandler;
         [SerializeField] private AgentCardPreview currentPreview;
-        [SerializeField] private PupilRawData сurrentData;
-        public PupilRawData CurrentData { get => сurrentData; private set => сurrentData = value; }
+        [SerializeField] private HumanRawData сurrentData;
+        public HumanRawData CurrentData { get => сurrentData; private set => сurrentData = value; }
         public AgentCardPreview CurrentPreview { get => currentPreview; private set => currentPreview = value; }
 
         #endregion common
@@ -94,15 +94,44 @@ namespace UI
 
         #endregion weight
 
-        private void ConfirmAgentCreation()
+        private void ConfirmAgentCreation(Type createdType)
         {
-            AgentCardPreview newCard;
+            if (createdType.Equals<PupilAgent>())
+                ConfirmPupilCreation();
+            else if (createdType.Equals<TeacherAgent>())
+                ConfirmTeacherCreation();
+            else throw new Exception($"Unexpected type {createdType.FullName}");
+        }
+
+        private void ConfirmTeacherCreation()
+        {
             if (CurrentPreview == null)//новый агент
             {
                 //создать карточку на панели выбора
-                newCard = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
+                CurrentPreview = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
                     cardsOrderHandler.transform).GetComponent<AgentCardPreview>();
-                CurrentPreview = newCard;
+                cardsOrderHandler.FirstTransform = (RectTransform)CurrentPreview.transform;
+                cardsOrderHandler.ReorderContent();
+            }
+            //создаём новую или редактируем существующую?
+            if (CurrentData == null)
+            {
+                CurrentData = new TeacherRawData();
+                //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
+            }
+            CurrentData.Initiate(this);
+            CurrentPreview.Initiate(this, CurrentData);
+            agentsSelectionScreen.SelectedTeacher = (TeacherRawData)CurrentData;
+            BeforeChangeState();
+        }
+
+        private void ConfirmPupilCreation()
+        {
+            if (CurrentPreview == null)//новый агент
+            {
+                //создать карточку на панели выбора
+                CurrentPreview = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
+                    cardsOrderHandler.transform).GetComponent<AgentCardPreview>();
             }
 
             //создаём новую или редактируем существующую?
@@ -110,24 +139,29 @@ namespace UI
             {
                 CurrentData = new PupilRawData();
                 //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
-                CurrentData.Initiate(this);
             }
-            else
-                CurrentData.Initiate(this);
+            CurrentData.Initiate(this);
             CurrentPreview.Initiate(this, CurrentData);
-            agentsSelectionScreen.AddAgentData(CurrentData);
+            agentsSelectionScreen.AddAgentData((PupilRawData)CurrentData);
             BeforeChangeState();
         }
 
-        private void SetDefaultControls<T>() where T : AgentBase
+        /// <summary>
+        /// Инициализирует контролы по умолчанию
+        /// </summary>
+        private void ResetControls()
         {
-            var helper = new AgentCreationScreenInitializer<T>(this);
+            var helper = new AgentCreationScreenInitializer(this);
             helper.SetDefaultControlsValues();
         }
 
-        private void SetExistDataControls<T>(PupilRawData rawData) where T : AgentBase
+        /// <summary>
+        /// Инициализирует контролы на основании существующих данных
+        /// </summary>
+        /// <param name="rawData"></param>
+        private void ResetControls(HumanRawData rawData)
         {
-            var helper = new AgentCreationScreenInitializer<T>(this);
+            var helper = new AgentCreationScreenInitializer(this);
             helper.SetControlsValues(rawData);
         }
 
@@ -139,29 +173,38 @@ namespace UI
             CurrentPreview = null;
         }
 
-        public void InitiateState<T>() where T : AgentBase
+        /// <summary>
+        /// Инициализация по известному типу - создание нового
+        /// </summary>
+        /// <param name="type"></param>
+        public void InitiateState(Type type)
         {
             base.InitiateState();
-            ResetControlls<T>();
-            CreatedType = typeof(T);
+            CreatedType = type;
+            ResetControls();
         }
 
-        public void InitiateState<T>(PupilRawData ard, AgentCardPreview acp) where T : AgentBase
+        public void InitiateState(HumanRawData ard, AgentCardPreview acp)
         {
-            InitiateState<T>(ard);
+            InitiateState(ard);
             CurrentPreview = acp;
         }
 
-        public void InitiateState<T>(PupilRawData ard) where T : AgentBase
+        public void InitiateState(HumanRawData ard)
         {
             base.InitiateState();
-            ResetControlls<T>(ard);
+            var type = Type.GetType(ard.AgentType);
+            CreatedType = type;
+            ResetControls(ard);
             CurrentData = ard;
         }
 
         public void LoadAgentButtonClick()
         {
-            CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState();
+            if (CreatedType.IsEquivalentTo(typeof(PupilAgent)))
+                CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<PupilRawData>();
+            else
+                CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<TeacherRawData>();
         }
 
         public void OnCloseButtonCLick()
@@ -171,34 +214,28 @@ namespace UI
 
         public void OnConfirmCreationButtonClick()
         {
-            ConfirmAgentCreation();
-        }
+            ConfirmAgentCreation(CreatedType);
+        }        
 
-        public void ResetControlls<T>(PupilRawData rawData = null) where T : AgentBase
+        public void OnAgeSelectionChanged()
         {
-            if (rawData == null)
-                SetDefaultControls<T>();
-            else
-                SetExistDataControls<T>(rawData);
+            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
+            ageChangeHandler.ResetCharacterExtremeValues();
+            ageChangeHandler.ResetWeightAndHeightDropdowns();
         }
 
         public void SaveButtonClick()
         {
-            CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState();
+            if (CreatedType.IsEquivalentTo(typeof(PupilAgent)))
+                CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState<PupilRawData>();
+            else
+                CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState<TeacherRawData>();
         }
 
         public void SetFullRandomValuesButtonClick()
         {
-            if (CreatedType.Equals<PupilAgent>())
-            {
-                var helper = new AgentCreationScreenInitializer<PupilAgent>(this);
-                helper.RandomizeControlsValues();
-            }
-            else if (CreatedType.Equals<TeacherAgent>())
-            {
-                var helper = new AgentCreationScreenInitializer<TeacherAgent>(this);
-                helper.RandomizeControlsValues();
-            }
+            var helper = new AgentCreationScreenInitializer(this);
+            helper.RandomizeControlsValues();
         }
     }
 }

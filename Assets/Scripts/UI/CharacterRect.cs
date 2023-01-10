@@ -49,7 +49,7 @@ namespace UI
                 s.PushButton();
         }
 
-        public void SetControlsValues(PupilRawData rawData)
+        public void SetControlsValues(HumanRawData rawData)
         {
             ClosenessSociabilitySlider.Value = rawData.ClosenessSociability;
             CalmnessAnxietySlider.Value = rawData.CalmnessAnxiety;

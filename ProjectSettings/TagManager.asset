@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CreateAgentCard
   - AgentConfigureScreen
+  - AgentsPreview
   layers:
   - Default
   - TransparentFX

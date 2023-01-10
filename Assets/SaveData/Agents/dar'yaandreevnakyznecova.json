@@ -1,0 +1,44 @@
+{
+    "age": 16,
+    "agentName": "Дарья Андреевна Кузнецова",
+    "agentType": "BehaviourModel.PupilAgent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "calmnessAnxiety": 9,
+    "closenessSociability": 7,
+    "conformismNonconformism": 10,
+    "conservatismRadicalism": 3,
+    "credulitySuspicion": 1,
+    "emotionalInstabilityStability": 1,
+    "features": [
+        {
+            "instanceID": 24706
+        },
+        {
+            "instanceID": 24720
+        },
+        {
+            "instanceID": 24710
+        },
+        {
+            "instanceID": 24704
+        }
+    ],
+    "height": 162,
+    "imageID": -1,
+    "intelligence": 3,
+    "normativityOfBehaviour": 8,
+    "nsActivity": 3,
+    "nsMoveability": 7,
+    "nsPower": 2,
+    "nsReactivity": 6,
+    "nsType": 0,
+    "practicalityDreaminess": 7,
+    "relaxationTension": 9,
+    "restraintExpressiveness": 7,
+    "rigiditySensetivity": 3,
+    "selfcontrol": 7,
+    "sex": false,
+    "straightforwardnessDiplomacy": 1,
+    "subordinationDomination": 3,
+    "timidityCourage": 6,
+    "weight": 49
+}

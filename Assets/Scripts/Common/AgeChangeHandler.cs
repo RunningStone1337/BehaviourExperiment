@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Common
 {
-    public class AgeChangeHandler<T> where T : AgentBase
+    public class AgeChangeHandler
     {
         private AgentCreationScreen acs;
         private int newValue;
@@ -108,17 +108,17 @@ namespace Common
             var weightDrop = acs.WeightDropButtonPair;
             var heightDrop = acs.HeightDropButtonPair;
             List<int> diapW, diapH;
-            if (typeof(T).Equals<PupilAgent>())
+            if (acs.CreatedType.Equals<PupilAgent>())
             {
                 diapW = acs.PupilAgeWeightsHandler.GetDiapazoneYZForXValue(newValue);
                 diapH = acs.PupilAgeHeightsHandler.GetDiapazoneYZForXValue(newValue);
             }
-            else if (typeof(T).Equals<TeacherAgent>())
+            else if (acs.CreatedType.Equals<TeacherAgent>())
             {
                 diapW = new Vector2Int(60, 120).GetDiapazoneBetweenXY();
                 diapH = new Vector2Int(150, 210).GetDiapazoneBetweenXY();
             }
-            else throw new System.Exception($"Unexpected type {typeof(T).FullName}");
+            else throw new System.Exception($"Unexpected type {acs.CreatedType.FullName}");
             ResetExtremeValues(weightDrop, diapW);
             ResetExtremeValues(heightDrop, diapH);
         }

@@ -22,7 +22,7 @@ namespace UI
             return drop;
         }
 
-        private void EqualDropdownsCountOnFeaturesCount(PupilRawData rawData)
+        private void EqualDropdownsCountOnFeaturesCount(HumanRawData rawData)
         {
             var existedDrops = dropdowns.Count;
             var featuresCount = rawData.features.Count;
@@ -123,7 +123,7 @@ namespace UI
                 d.PushButton();
         }
 
-        public void SetControlsValues(PupilRawData rawData)
+        public void SetControlsValues(HumanRawData rawData)
         {
             var c = dropdowns.Count;
             for (int i = 0; i < c; i++)
@@ -143,7 +143,8 @@ namespace UI
             if (dropdowns.Count > 0)
             {
                 ActiveComponent = dropdowns[dropdowns.Count - 1];
-                for (int i = 0; i < dropdowns.Count; i++)
+                var count = dropdowns.Count;
+                for (int i = 0; i < count; i++)
                     RemoveSelectedFeatureDrop();
             }
         }

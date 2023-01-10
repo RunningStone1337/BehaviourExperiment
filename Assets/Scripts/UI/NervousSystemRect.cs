@@ -25,7 +25,7 @@ namespace UI
             NsBalanceDropButtonPair.PushButton();
         }
 
-        public void SetControlsValues(PupilRawData rawData)
+        public void SetControlsValues(HumanRawData rawData)
         {
             NsPowerSlider.Value = rawData.NsPower;
             NsMoveabilitySlider.Value = rawData.NsMoveability;

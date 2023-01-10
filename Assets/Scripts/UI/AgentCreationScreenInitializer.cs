@@ -6,48 +6,52 @@ using System.Collections.Generic;
 
 namespace UI
 {
-    public class AgentCreationScreenInitializer<T> where T : AgentBase
+    public class AgentCreationScreenInitializer
     {
         private AgentCreationScreen acs;
 
         private void GetMinMaxAges(out int minAge, out int maxAge)
         {
-            if (typeof(T).Equals<PupilAgent>())
+            if (acs.CreatedType.Equals<PupilAgent>())
             {
                 minAge = acs.PupilsAgeHandler.Values[0].x;
                 maxAge = acs.PupilsAgeHandler.Values[0].y;
             }
-            else if (typeof(T).Equals<TeacherAgent>())
+            else if (acs.CreatedType.Equals<TeacherAgent>())
             {
                 minAge = acs.TeachersAgeHandler.Values[0].x;
                 maxAge = acs.TeachersAgeHandler.Values[0].y;
             }
-            else throw new Exception($"Unexpected type {typeof(T)}");
+            else throw new Exception($"Unexpected type {acs.CreatedType}");
         }
 
-        private void ResetAgeDrop()
+        private void ResetAgeDrop(Type type)
         {
             List<int> diap;
-            if (typeof(T).Equals<PupilAgent>())
+            if (type.Equals<PupilAgent>())
                 diap = acs.PupilsAgeHandler.Values[0].GetDiapazoneBetweenXY();
-            else if (typeof(T).Equals<TeacherAgent>())
+            else if (type.Equals<TeacherAgent>())
                 diap = acs.TeachersAgeHandler.Values[0].GetDiapazoneBetweenXY();
-            else throw new Exception($"Unexpected type {typeof(T).FullName}");
+            else throw new Exception($"Unexpected type {acs.CreatedType.FullName}");
             acs.AgeDropButtonPair.ClearDropdown();
             foreach (var val in diap)
-            {
                 acs.AgeDropButtonPair.AddOption(val.ToString(), val);
-            }
         }
 
-        private void ResetBehaviourPatternsRect()
+        private void ResetAgeDrop(string typeName) =>
+            ResetAgeDrop(Type.GetType(typeName));
+
+        private void ResetBehaviourPatternsRect(Type type)
         {
-            if (typeof(T).Equals<PupilAgent>())
+            if (type.Equals<PupilAgent>())
                 acs.PrefferedBehaviourRect.Deactivate();
             else
-            {
                 acs.PrefferedBehaviourRect.Activate();
-            }
+        }
+
+        private void ResetBehaviourPatternsRect(string typeName)
+        {
+            ResetBehaviourPatternsRect(Type.GetType(typeName));
         }
 
         private void ResetMinMaxAges()
@@ -84,14 +88,17 @@ namespace UI
 
             var features = acs.FeaturesRect;
             features.RandomizeControlsValues();
+
+            var model = acs.PrefferedBehaviourRect;
+            model.RandomizeControlsValues();
         }
 
-        public void SetControlsValues(PupilRawData rawData)
+        public void SetControlsValues(HumanRawData rawData)
         {
             acs.AgentImageHandler.Image.sprite = acs.AgentImageHandler.GetImage(rawData.ImageID);
             acs.NameInputFieldButtonPair.Text = rawData.AgentName;
             acs.SexDropButtonPair.DropdownValue = rawData.Sex ? "ì" : "æ";
-            ResetAgeDrop();
+            ResetAgeDrop(rawData.AgentType);
             acs.AgeDropButtonPair.DropdownValue = rawData.Age.ToString();
             acs.WeightDropButtonPair.DropdownValue = rawData.Weight.ToString();
             acs.HeightDropButtonPair.DropdownValue = rawData.Height.ToString();
@@ -106,11 +113,11 @@ namespace UI
             features.SetControlsValues(rawData);
             ResetMinMaxAges();
             var age = acs.SelectedAge;
-            var ageChangeHandler = new AgeChangeHandler<T>(age, acs);
+            var ageChangeHandler = new AgeChangeHandler(age, acs);
             ageChangeHandler.ResetCharacterExtremeValues();
             ageChangeHandler.ResetWeightAndHeightDropdowns();
 
-            ResetBehaviourPatternsRect();
+            ResetBehaviourPatternsRect(rawData.AgentType);
         }
 
         public void SetDefaultControlsValues()
@@ -118,9 +125,9 @@ namespace UI
             acs.AgentImageHandler.Image.sprite = acs.AgentImageHandler.DefaultImage;
             acs.NameInputFieldButtonPair.Text = string.Empty;
             GetMinMaxAges(out int minAge, out _);
-            ResetAgeDrop();
+            ResetAgeDrop(acs.CreatedType);
             acs.AgeDropButtonPair.DropdownValue = minAge.ToString();
-            var ageChangeHandler = new AgeChangeHandler<T>(minAge, acs);
+            var ageChangeHandler = new AgeChangeHandler(minAge, acs);
             ageChangeHandler.ResetCharacterExtremeValues();
             ageChangeHandler.ResetWeightAndHeightDropdowns();
 
@@ -133,7 +140,7 @@ namespace UI
             var features = acs.FeaturesRect;
             features.SetDefaultValues();
 
-            ResetBehaviourPatternsRect();
+            ResetBehaviourPatternsRect(acs.CreatedType);
         }
     }
 }

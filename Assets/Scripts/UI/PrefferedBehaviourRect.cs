@@ -16,6 +16,8 @@ namespace UI
 
         public DropdownButtonPair ModelDropdownPair => modelDropdownPair;
 
+        public BehaviourPatternBase SelectedModel => (BehaviourPatternBase)ModelDropdownPair.SelectedOptionValue;
+
         public void Activate()
         {
             gameObject.SetActive(true);
@@ -30,6 +32,11 @@ namespace UI
         {
             foreach (var b in behaviours)
                 modelDropdownPair.AddOption(b.Name, b);
+        }
+
+        public void RandomizeControlsValues()
+        {
+            modelDropdownPair.PushButton();
         }
     }
 }

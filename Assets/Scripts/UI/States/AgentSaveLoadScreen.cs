@@ -4,7 +4,6 @@ using SerializationModule;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Extensions;
 using UnityEngine.UI;
 using static UI.CanvasController;
 
@@ -19,7 +18,7 @@ namespace UI
         [SerializeField] private AgentDataSaveLoadView newAgentCreationView;
         [SerializeField] private Button saveButton;
 
-        private AgentDataSaveLoadView CreateNewViewForData((PupilRawData agent, string path) ad)
+        private AgentDataSaveLoadView CreateNewViewForData((HumanRawData agent, string path) ad)
         {
             var saveLoadView = SceneDataStorage.Storage.AgentDataSaveLoadViewPrafab;
             var view = Instantiate(saveLoadView, contentTransform).GetComponent<AgentDataSaveLoadView>();
@@ -38,7 +37,7 @@ namespace UI
         private void LoadAgent()
         {
             var data = ((AgentDataSaveLoadView)ActiveComponent).AgentRawData;
-            agentCreationScreen.InitiateState<PupilAgent>(data);
+            agentCreationScreen.InitiateState(data);
             BeforeChangeState();
         }
 
@@ -49,7 +48,9 @@ namespace UI
         {
             var actView = (AgentDataSaveLoadView)ActiveComponent;
             DeleteExistingAgent(actView.DataPath);
-            var agent = new PupilRawData();
+
+            HumanRawData agent = actView.AgentRawData;
+
             agent.Initiate(agentCreationScreen);
             var path = TrySave(agent);
             if (path != null)
@@ -79,17 +80,21 @@ namespace UI
                 );
         }
 
-        private string TrySave(PupilRawData agent)
+        private string TrySave<T>(T agent) where T : HumanRawData
         {
             var serializeUtil = new SerializeUtility();
-            var path = serializeUtil.SaveAgent(agent, agent.AgentName);
+            var path = serializeUtil.SaveAgent(agent, "Agents", agent.AgentName);
             return path;
         }
 
         private void TrySaveNewAgent()
         {
             ///TODO проверка на существование файла с текущим именем в конфигураторе
-            var agent = new PupilRawData();
+            HumanRawData agent;
+            if (agentCreationScreen.CreatedType.IsEquivalentTo(typeof(PupilAgent)))
+                agent = new PupilRawData();
+            else
+                agent = new TeacherRawData();
             agent.Initiate(agentCreationScreen);
             var path = TrySave(agent);
             if (path != null)
@@ -127,15 +132,17 @@ namespace UI
             ActiveComponent = null;
         }
 
-        public override void InitiateState()
+        public  void InitiateState<T>() where T: HumanRawData
         {
-            ///исправить загрузку учеников при загрузке агентов
-            ///нужно разделение по нижнему типу
             base.InitiateState();
             var serializeUtil = new SerializeUtility();
-            var agentsData = serializeUtil.LoadDataList<PupilRawData>();
+            var agentsData = serializeUtil.LoadDataList<T>("Agents");
+            var typeName = typeof(T).AssemblyQualifiedName;
             foreach (var ad in agentsData)
-                CreateNewViewForData(ad);
+            {
+                if (typeName.Equals(ad.data.AgentType))
+                    CreateNewViewForData(ad);
+            }
             contentOrderHandler.ReorderContent();
         }
 

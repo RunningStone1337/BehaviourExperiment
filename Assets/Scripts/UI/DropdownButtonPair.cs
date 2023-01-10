@@ -21,7 +21,15 @@ namespace UI
             onElementClick = null;
         }
 
-        public int DropdownIndex { set => dropdown.value = value; get => dropdown.value; }
+        public int DropdownIndex
+        {
+            set
+            {
+                dropdown.value = value;
+                ResetVisualDropdown();
+            }
+            get => dropdown.value;
+        }
         public int DropdownLength { get => dropdown.options.Count; }
         public string DropdownValue
         {

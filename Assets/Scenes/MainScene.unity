@@ -3200,6 +3200,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7494dd482fbe8fb4e9ce62b7518e58fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &148359633 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8239278576703279611, guid: b4e4b876baed219428f3d3d3c2ca89cb, type: 3}
+  m_PrefabInstance: {fileID: 1812835240}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c9ada10680e174686fa1d45a54f2d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &148533260 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6439758859283898413, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -8703,7 +8714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6087095181135103875, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
       propertyPath: m_Name
-      value: SquareButton
+      value: CloseButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
@@ -15827,6 +15838,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7494dd482fbe8fb4e9ce62b7518e58fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &708278185 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8239278576703279611, guid: b4e4b876baed219428f3d3d3c2ca89cb, type: 3}
+  m_PrefabInstance: {fileID: 818029819615382945}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c9ada10680e174686fa1d45a54f2d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &708885700 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3562613909563979374, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -18956,6 +18978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastTransform: {fileID: 818029819615382946}
+  firstTransform: {fileID: 1812835241}
 --- !u!114 &837842418 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5487132028906356564, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -23643,7 +23666,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsDropdown: {fileID: 2059580605}
   femaleValues: {fileID: 1006593423}
-  influenceDropdown: {fileID: 272701635}
+  sexDropdown: {fileID: 137728980}
+  ageDropdown: {fileID: 272701635}
   maleValues: {fileID: 1006593424}
 --- !u!114 &1006787249 stripped
 MonoBehaviour:
@@ -24317,6 +24341,34 @@ PrefabInstance:
     - target: {fileID: 4611881220998871821, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1689841145}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetRandomValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Common.DropdownRandomizer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6136823919700592435, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_AnchorMax.y
@@ -31276,7 +31328,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsDropdown: {fileID: 1940585175}
   femaleValues: {fileID: 1351336325}
-  influenceDropdown: {fileID: 272701635}
+  sexDropdown: {fileID: 137728980}
+  ageDropdown: {fileID: 272701635}
   maleValues: {fileID: 1351336326}
 --- !u!114 &1351336325
 MonoBehaviour:
@@ -38717,9 +38770,10 @@ GameObject:
   - component: {fileID: 1637880356}
   - component: {fileID: 1637880358}
   - component: {fileID: 1637880357}
+  - component: {fileID: 1637880359}
   m_Layer: 5
   m_Name: AgentsViewsList
-  m_TagString: Untagged
+  m_TagString: AgentsPreview
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38783,6 +38837,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637880355}
   m_CullTransparentMesh: 1
+--- !u!114 &1637880359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637880355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc2cce8926c8ac43b7884701dd8ecf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pupilButton: {fileID: 708278185}
+  teacherButton: {fileID: 148359633}
 --- !u!114 &1637904853 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2584686040739459027, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -39514,6 +39582,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1689841143}
   - component: {fileID: 1689841144}
+  - component: {fileID: 1689841145}
   m_Layer: 5
   m_Name: PrefferedBehaviourSelectorRect
   m_TagString: Untagged
@@ -39559,6 +39628,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 584ad7d8fabe3fb45a679550a59c1a7c, type: 2}
   - {fileID: 11400000, guid: eb88bb77cf74d0c4ba355c520b21f123, type: 2}
   modelDropdownPair: {fileID: 519009730}
+--- !u!114 &1689841145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689841142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ec5949e04cfb249a0e441eccb703b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionsDropdown: {fileID: 519009730}
 --- !u!114 &1690722467 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2653566237196940308, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -45817,35 +45899,6 @@ MonoBehaviour:
   agentsSelectionScreen: {fileID: 2136065155}
   cardsOrderHandler: {fileID: 837574375}
   currentPreview: {fileID: 0}
-  "\u0441urrentData":
-    age: 0
-    agentName: 
-    calmnessAnxiety: 0
-    closenessSociability: 0
-    conformismNonconformism: 0
-    conservatismRadicalism: 0
-    credulitySuspicion: 0
-    emotionalInstabilityStability: 0
-    features: []
-    height: 0
-    imageID: 0
-    intelligence: 0
-    normativityOfBehaviour: 0
-    nsActivity: 0
-    nsMoveability: 0
-    nsPower: 0
-    nsReactivity: 0
-    nsType: 0
-    practicalityDreaminess: 0
-    relaxationTension: 0
-    restraintExpressiveness: 0
-    rigiditySensetivity: 0
-    selfcontrol: 0
-    sex: 0
-    straightforwardnessDiplomacy: 0
-    subordinationDomination: 0
-    timidityCourage: 0
-    weight: 0
   ageDropButtonPair: {fileID: 272701635}
   agentImageHandler: {fileID: 1176266766}
   heightDropButtonPair: {fileID: 2059580605}
@@ -45858,8 +45911,8 @@ MonoBehaviour:
   featuresRect: {fileID: 945611364}
   nervousSystemRect: {fileID: 1708796057}
   prefferedBehaviourRect: {fileID: 1689841144}
-  pupilAgeHeightsHandler: {fileID: 1964741201}
-  pupilAgeWeightsHandler: {fileID: 1964741200}
+  pupilAgeHeightsHandler: {fileID: 1964741200}
+  pupilAgeWeightsHandler: {fileID: 1964741201}
   teacherAgeHeightsHandler: {fileID: 1964741205}
   teacherAgeWeightsHandler: {fileID: 1964741204}
 --- !u!114 &1964741200
@@ -45951,39 +46004,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   values:
-  - {x: 18, y: 0, z: 0}
-  - {x: 19, y: 0, z: 0}
-  - {x: 20, y: 0, z: 0}
-  - {x: 21, y: 0, z: 0}
-  - {x: 22, y: 0, z: 0}
-  - {x: 23, y: 0, z: 0}
-  - {x: 24, y: 0, z: 0}
-  - {x: 25, y: 0, z: 0}
-  - {x: 26, y: 0, z: 0}
-  - {x: 27, y: 0, z: 0}
-  - {x: 28, y: 0, z: 0}
-  - {x: 29, y: 0, z: 0}
-  - {x: 30, y: 0, z: 0}
-  - {x: 31, y: 0, z: 0}
-  - {x: 32, y: 0, z: 0}
-  - {x: 33, y: 0, z: 0}
-  - {x: 34, y: 0, z: 0}
-  - {x: 35, y: 0, z: 0}
-  - {x: 36, y: 0, z: 0}
-  - {x: 37, y: 0, z: 0}
-  - {x: 38, y: 0, z: 0}
-  - {x: 39, y: 0, z: 0}
-  - {x: 40, y: 0, z: 0}
-  - {x: 41, y: 0, z: 0}
-  - {x: 42, y: 0, z: 0}
-  - {x: 43, y: 0, z: 0}
-  - {x: 44, y: 0, z: 0}
-  - {x: 45, y: 0, z: 0}
-  - {x: 46, y: 0, z: 0}
-  - {x: 47, y: 0, z: 0}
-  - {x: 48, y: 0, z: 0}
-  - {x: 49, y: 0, z: 0}
-  - {x: 50, y: 0, z: 0}
+  - {x: 18, y: 65, z: 120}
+  - {x: 19, y: 65, z: 120}
+  - {x: 20, y: 65, z: 120}
+  - {x: 21, y: 65, z: 120}
+  - {x: 22, y: 65, z: 120}
+  - {x: 23, y: 65, z: 120}
+  - {x: 24, y: 65, z: 120}
+  - {x: 25, y: 65, z: 120}
+  - {x: 26, y: 65, z: 120}
+  - {x: 27, y: 65, z: 120}
+  - {x: 28, y: 65, z: 120}
+  - {x: 29, y: 65, z: 120}
+  - {x: 30, y: 65, z: 120}
+  - {x: 31, y: 65, z: 120}
+  - {x: 32, y: 65, z: 120}
+  - {x: 33, y: 65, z: 120}
+  - {x: 34, y: 65, z: 120}
+  - {x: 35, y: 65, z: 120}
+  - {x: 36, y: 65, z: 120}
+  - {x: 37, y: 65, z: 120}
+  - {x: 38, y: 65, z: 120}
+  - {x: 39, y: 65, z: 120}
+  - {x: 40, y: 65, z: 120}
+  - {x: 41, y: 65, z: 120}
+  - {x: 42, y: 65, z: 120}
+  - {x: 43, y: 65, z: 120}
+  - {x: 44, y: 65, z: 120}
+  - {x: 45, y: 65, z: 120}
+  - {x: 46, y: 65, z: 120}
+  - {x: 47, y: 65, z: 120}
+  - {x: 48, y: 65, z: 120}
+  - {x: 49, y: 65, z: 120}
+  - {x: 50, y: 65, z: 120}
 --- !u!114 &1964741205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45997,39 +46050,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   values:
-  - {x: 18, y: 0, z: 0}
-  - {x: 19, y: 0, z: 0}
-  - {x: 20, y: 0, z: 0}
-  - {x: 21, y: 0, z: 0}
-  - {x: 22, y: 0, z: 0}
-  - {x: 23, y: 0, z: 0}
-  - {x: 24, y: 0, z: 0}
-  - {x: 25, y: 0, z: 0}
-  - {x: 26, y: 0, z: 0}
-  - {x: 27, y: 0, z: 0}
-  - {x: 28, y: 0, z: 0}
-  - {x: 29, y: 0, z: 0}
-  - {x: 30, y: 0, z: 0}
-  - {x: 31, y: 0, z: 0}
-  - {x: 32, y: 0, z: 0}
-  - {x: 33, y: 0, z: 0}
-  - {x: 34, y: 0, z: 0}
-  - {x: 35, y: 0, z: 0}
-  - {x: 36, y: 0, z: 0}
-  - {x: 37, y: 0, z: 0}
-  - {x: 38, y: 0, z: 0}
-  - {x: 39, y: 0, z: 0}
-  - {x: 40, y: 0, z: 0}
-  - {x: 41, y: 0, z: 0}
-  - {x: 42, y: 0, z: 0}
-  - {x: 43, y: 0, z: 0}
-  - {x: 44, y: 0, z: 0}
-  - {x: 45, y: 0, z: 0}
-  - {x: 46, y: 0, z: 0}
-  - {x: 47, y: 0, z: 0}
-  - {x: 48, y: 0, z: 0}
-  - {x: 49, y: 0, z: 0}
-  - {x: 50, y: 0, z: 0}
+  - {x: 18, y: 155, z: 190}
+  - {x: 19, y: 155, z: 190}
+  - {x: 20, y: 155, z: 190}
+  - {x: 21, y: 155, z: 190}
+  - {x: 22, y: 155, z: 190}
+  - {x: 23, y: 155, z: 190}
+  - {x: 24, y: 155, z: 190}
+  - {x: 25, y: 155, z: 190}
+  - {x: 26, y: 155, z: 190}
+  - {x: 27, y: 155, z: 190}
+  - {x: 28, y: 155, z: 190}
+  - {x: 29, y: 155, z: 190}
+  - {x: 30, y: 155, z: 190}
+  - {x: 31, y: 155, z: 190}
+  - {x: 32, y: 155, z: 190}
+  - {x: 33, y: 155, z: 190}
+  - {x: 34, y: 155, z: 190}
+  - {x: 35, y: 155, z: 190}
+  - {x: 36, y: 155, z: 190}
+  - {x: 37, y: 155, z: 190}
+  - {x: 38, y: 155, z: 190}
+  - {x: 39, y: 155, z: 190}
+  - {x: 40, y: 155, z: 190}
+  - {x: 41, y: 155, z: 190}
+  - {x: 42, y: 155, z: 190}
+  - {x: 43, y: 155, z: 190}
+  - {x: 44, y: 155, z: 190}
+  - {x: 45, y: 155, z: 190}
+  - {x: 46, y: 155, z: 190}
+  - {x: 47, y: 155, z: 190}
+  - {x: 48, y: 155, z: 190}
+  - {x: 49, y: 155, z: 190}
+  - {x: 50, y: 155, z: 190}
 --- !u!114 &1964814119 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3562613909563979374, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -52345,11 +52398,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1418941483}
     - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1964741199}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
@@ -52357,11 +52422,23 @@ PrefabInstance:
       value: SetRandomValue
       objectReference: {fileID: 0}
     - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnRandomizeAgeButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Common.Randomizer, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UI.AgentCreationScreen, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029490177771205486, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6136823919700592435, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
@@ -53076,7 +53153,39 @@ MonoBehaviour:
   agentCreationScreen: {fileID: 1964741199}
   agentLoadScreen: {fileID: 1334442754}
   agentSaveScreen: {fileID: 622514737}
+  agentsPreviewsRect: {fileID: 1637880359}
   agentsHandler: {fileID: 1084230175}
+  teacher:
+    age: 0
+    agentName: 
+    agentType: 
+    calmnessAnxiety: 0
+    closenessSociability: 0
+    conformismNonconformism: 0
+    conservatismRadicalism: 0
+    credulitySuspicion: 0
+    emotionalInstabilityStability: 0
+    features: []
+    height: 0
+    imageID: 0
+    intelligence: 0
+    normativityOfBehaviour: 0
+    nsActivity: 0
+    nsMoveability: 0
+    nsPower: 0
+    nsReactivity: 0
+    nsType: 0
+    practicalityDreaminess: 0
+    relaxationTension: 0
+    restraintExpressiveness: 0
+    rigiditySensetivity: 0
+    selfcontrol: 0
+    sex: 0
+    straightforwardnessDiplomacy: 0
+    subordinationDomination: 0
+    timidityCourage: 0
+    weight: 0
+    behModel: {fileID: 0}
 --- !u!224 &2136065156
 RectTransform:
   m_ObjectHideFlags: 0

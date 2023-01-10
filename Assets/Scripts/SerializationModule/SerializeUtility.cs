@@ -9,10 +9,10 @@ namespace SerializationModule
     {
         private string appDirectory = $"{Application.dataPath}/SaveData";
 
-        public List<(T data, string dataPath)> LoadDataList<T>()
+        public List<(T data, string dataPath)> LoadDataList<T>(string directoryName) where T: class
         {
             var res = new List<(T agent, string path)>();
-            var fullPath = $"{appDirectory}/{typeof(T).Name}";
+            var fullPath = $"{appDirectory}/{directoryName}";
             if (Directory.Exists(fullPath))
             {
                 var agentsPaths = Directory.GetFiles(fullPath);
@@ -21,9 +21,10 @@ namespace SerializationModule
                     var fi = new FileInfo(ap);
                     if (fi.Extension.Equals(".json"))
                     {
+                        // ¿—“”≈“ ¬≈–ÕŒ ƒ¿∆≈ ≈—À» ∆—ŒÕ Õ≈ ﬂ¬Àﬂ≈“—ﬂ “–≈¡”≈Ã€Ã “»œŒÃ
                         var json = File.ReadAllText(ap);
                         var rawData = JsonUtility.FromJson<T>(json);
-                        res.Add((rawData, ap));
+                            res.Add((rawData, ap));
                     }
                 }
             }
@@ -45,10 +46,10 @@ namespace SerializationModule
         /// </summary>
         /// <param name="agent"></param>
         /// <returns></returns>
-        public string SaveAgent<T>(T agent, string fileName)
+        public string SaveAgent<T>(T agent, string directoryName, string fileName)
         {
             var translator = new Translator();
-            var fullPath = $"{appDirectory}/{typeof(T).Name}";
+            var fullPath = $"{appDirectory}/{directoryName}";
             var filePath = $"{fullPath}/{translator.ToEnglish(fileName)}.json";
             if (File.Exists(filePath))
                 return default;
