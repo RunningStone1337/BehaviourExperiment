@@ -4,6 +4,17 @@ namespace BuildingModule
 {
     public class PlantInterier : PlacedInterier
     {
+        private void OnDestroy()
+        {
+            InterierHandler.Handler.Plants.Remove(this);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            InterierHandler.Handler.Plants.Add(this);
+        }
+
         public override bool IsAvailForPlacing(Corner place)
         {
             var princ = IsPrincipAvailableForPlacing(place);

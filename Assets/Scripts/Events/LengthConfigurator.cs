@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,15 +12,23 @@ namespace UI
         [SerializeField] private InputField inputField;
         [SerializeField] private Slider slider;
 
-        private void Awake()
+        private void Start()
         {
             inputField.text = ((int)slider.value).ToString();
         }
 
+        public Action<int> ValueChangedEvent;
         public int MaxValue { get => (int)slider.maxValue; set => slider.maxValue = value; }
         public int MinValue { get => (int)slider.minValue; set => slider.minValue = value; }
         public int Value
-        { get => (int)slider.value; set { slider.value = value; SliderValueChanded(); } }
+        {
+            get => (int)slider.value;
+            set
+            {
+                slider.value = value;
+                SliderValueChanded();
+            }
+        }
 
         public void InputValueChanded()
         {
@@ -38,6 +47,7 @@ namespace UI
         public void SliderValueChanded()
         {
             inputField.text = ((int)slider.value).ToString();
+            ValueChangedEvent?.Invoke((int)slider.value);
         }
     }
 }

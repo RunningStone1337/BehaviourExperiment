@@ -1,4 +1,5 @@
 using BehaviourModel;
+using Common;
 using Core;
 using UnityEngine;
 
@@ -9,19 +10,18 @@ namespace UI
         [SerializeField] private AgentCreationScreen agentCreationScreen;
         [SerializeField] private AgentSaveLoadScreen agentLoadScreen;
         [SerializeField] private AgentSaveLoadScreen agentSaveScreen;
-        [SerializeField] private AgentsPreviewsRect agentsPreviewsRect;
         [SerializeField] private SelectedAgentsHandler agentsHandler;
-        [SerializeField] private TeacherRawData teacher;
+        [SerializeField] private AgentsPreviewsRect agentsPreviewsRect;
         public AgentCreationScreen AgentCreationScreen { get => agentCreationScreen; }
         public AgentSaveLoadScreen AgentLoadScreen { get => agentLoadScreen; }
         public AgentSaveLoadScreen AgentSaveScreen { get => agentSaveScreen; }
         public TeacherRawData SelectedTeacher
         {
-            get => teacher;
+            get => agentsHandler.Teacher;
             set
             {
-                teacher = value;
-                if (teacher == null)
+                agentsHandler.Teacher = value;
+                if (value == null)
                 {
                     //включить кнопку создания
                     agentsPreviewsRect.SetTeacherButtonOn();
@@ -52,6 +52,13 @@ namespace UI
         public void RemoveAgentData(PupilRawData agentInitializator)
         {
             agentsHandler.RemoveAgentData(agentInitializator);
+        }
+
+        public void SetPreviousScreen()
+        {
+            SceneMaster.Master.CurrentState = SceneMaster.Master.NavigationState;
+            CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
+            ActiveComponent = null;
         }
     }
 }

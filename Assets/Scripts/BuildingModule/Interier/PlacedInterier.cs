@@ -15,11 +15,10 @@ namespace BuildingModule
         [SerializeField] private ObjectUniqIdentifier thisIdentifier;
         [SerializeField] private InterierPlaceBase thisInterierPlace;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             thisInterierPlace = GetComponentInParent<InterierPlaceBase>();
         }
-
         protected virtual void ResetMiddleOppAndSidePlaces(InterierPlaceBase interierPlaceBase)
         {
             if (interierPlaceBase is MiddlePlace mp)

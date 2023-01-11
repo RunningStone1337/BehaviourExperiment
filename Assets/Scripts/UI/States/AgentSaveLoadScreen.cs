@@ -132,12 +132,12 @@ namespace UI
             ActiveComponent = null;
         }
 
-        public  void InitiateState<T>() where T: HumanRawData
+        public  void InitiateState<TData, TVerifyInstanceType>() where TData: HumanRawData where TVerifyInstanceType:AgentBase
         {
             base.InitiateState();
             var serializeUtil = new SerializeUtility();
-            var agentsData = serializeUtil.LoadDataList<T>("Agents");
-            var typeName = typeof(T).AssemblyQualifiedName;
+            var agentsData = serializeUtil.LoadDataList<TData>("Agents");
+            var typeName = typeof(TVerifyInstanceType).AssemblyQualifiedName;
             foreach (var ad in agentsData)
             {
                 if (typeName.Equals(ad.data.AgentType))

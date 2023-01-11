@@ -6,57 +6,14 @@ namespace Common
 {
     public class NavigationHandler : MonoBehaviour
     {
-        private float pressingTimeStart;
-        [SerializeField] [Range(0f, 1f)] private float timeDelay = 0.5f;
-        public Action HoldingMouseLimitReachedEvent;
-        public Action HoldingMouseStartedEvent;
-        public Action MouseReleasedEvent;
-
-        #region Public Properties
-
-        public Vector3 CameraStartPos { get; private set; }
-        public bool FirstTimeInLoop { get; private set; }
-        public bool FreezeSwipes { get => freezeSwipes; set => freezeSwipes = value; }
-        public bool IsZoomPermissed { get; internal set; } = true;
-        public Vector3 PointerStartPos { get; private set; }
-        public Coroutine ZoomRoutine
-        {
-            get => scrollRoutine; private set
-            {
-                if (scrollRoutine != null)
-                    StopCoroutine(scrollRoutine);
-                scrollRoutine = value;
-            }
-        }
-
-        #endregion Public Properties
-
-        #region Public Methods
-
-        public Vector3 GetCamPosOnBoundsConstraints(Vector3 expectedCamPos)
-        {
-            var posX = expectedCamPos.x;
-            var posY = expectedCamPos.y;
-            return new Vector3(
-                Mathf.Clamp(posX, cameraConstraints.LeftPositionConstraint, cameraConstraints.RightPositionConstraint),
-                Mathf.Clamp(posY, cameraConstraints.DownPositionConstraint, cameraConstraints.UpPositionConstraint),
-                -100f);
-        }
-
-        #endregion Public Methods
-
-        #region Private Fields
-
         [SerializeField] private CameraConstraints cameraConstraints;
         [SerializeField] [Range(0.01f, 20f)] private float currendScrollSpeed;
         [SerializeField] [Range(1f, 1000f)] private float currentScrollSensetivity;
         [SerializeField] private bool freezeSwipes;
         [SerializeField] private Camera mainCam;
+        private float pressingTimeStart;
         private Coroutine scrollRoutine;
-
-        #endregion Private Fields
-
-        #region Private Methods
+        [SerializeField] [Range(0f, 1f)] private float timeDelay = 0.5f;
 
         private float GetCamSizeOnZoomConstarints(float scroll) =>
             Mathf.Clamp(mainCam.orthographicSize - scroll * currentScrollSensetivity, cameraConstraints.MinCameraSize, cameraConstraints.MaxCameraSize);
@@ -79,6 +36,40 @@ namespace Common
             ZoomRoutine = null;
         }
 
+        public Action HoldingMouseLimitReachedEvent;
+        public Action HoldingMouseStartedEvent;
+        public Action MouseReleasedEvent;
+
+        public Vector3 CameraStartPos { get; private set; }
+        public bool FirstTimeInLoop { get; private set; }
+        public bool FreezeSwipes { get => freezeSwipes; set => freezeSwipes = value; }
+        public bool IsZoomPermissed { get; internal set; } = true;
+        public Vector3 PointerStartPos { get; private set; }
+        public Coroutine ZoomRoutine
+        {
+            get => scrollRoutine; private set
+            {
+                if (scrollRoutine != null)
+                    StopCoroutine(scrollRoutine);
+                scrollRoutine = value;
+            }
+        }
+
+        public Vector3 GetCamPosOnBoundsConstraints(Vector3 expectedCamPos)
+        {
+            var posX = expectedCamPos.x;
+            var posY = expectedCamPos.y;
+            return new Vector3(
+                Mathf.Clamp(posX, cameraConstraints.LeftPositionConstraint, cameraConstraints.RightPositionConstraint),
+                Mathf.Clamp(posY, cameraConstraints.DownPositionConstraint, cameraConstraints.UpPositionConstraint),
+                -100f);
+        }
+        private void OnDestroy()
+        {
+            HoldingMouseLimitReachedEvent = null;
+            HoldingMouseStartedEvent = null;
+            MouseReleasedEvent = null;
+        }
         public void MouseScroll(float scroll)
         {
             if (scroll != 0.0f && IsZoomPermissed)
@@ -126,7 +117,5 @@ namespace Common
                 }
             }
         }
-
-        #endregion Private Methods
     }
 }

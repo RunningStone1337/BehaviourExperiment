@@ -1,4 +1,5 @@
 using Events;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ namespace UI
 
         private void Awake()
         {
+            //TODO заменить нативный дропдаун на свой
             foreach (var d in disciplines)
             {
                 classDropdown.options.Add(new Dropdown.OptionData(d.DisciplineName));
@@ -36,9 +38,7 @@ namespace UI
             }
         }
 
-        public void HandleDropdownSelectionChanged()
-        {
-        }
+        public Action<ClassSelectionDropdown, bool> ClassSelectionChangedEvent;
 
         public void HandleSelectingToggleChanged()
         {
@@ -46,6 +46,7 @@ namespace UI
                 nextDropdown.Activate();
             else if (nextDropdown != null)
                 nextDropdown.SetNextDropsState(false);
+            ClassSelectionChangedEvent?.Invoke(this, classToggle.isOn);
         }
     }
 }

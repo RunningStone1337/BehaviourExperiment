@@ -4,6 +4,17 @@ namespace BuildingModule
 {
     public class BoardInterier : PlacedInterier
     {
+        private void OnDestroy()
+        {
+            InterierHandler.Handler.Boards.Remove(this);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            InterierHandler.Handler.Boards.Add(this);
+        }
+
         public override bool CanExist(Underwall underwall)
         {
             var princ = IsPrincipAvailableForPlacing(underwall);

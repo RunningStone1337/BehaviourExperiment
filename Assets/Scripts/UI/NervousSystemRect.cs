@@ -6,12 +6,12 @@ namespace UI
     public class NervousSystemRect : MonoBehaviour
     {
         [SerializeField] private SliderButtonPair nsActivitySlider;
-        [SerializeField] private DropdownButtonPair nsBalanceDropButtonPair;
+        [SerializeField] private NervousBalanceRect nsBalanceRect;
         [SerializeField] private SliderButtonPair nsMoveabilitySlider;
         [SerializeField] private SliderButtonPair nsPowerSlider;
         [SerializeField] private SliderButtonPair nsReactivitySlider;
         public SliderButtonPair NsActivitySlider { get => nsActivitySlider; }
-        public DropdownButtonPair NsBalanceDropButtonPair { get => nsBalanceDropButtonPair; }
+        public NervousBalanceRect NsBalanceRect { get => nsBalanceRect; }
         public SliderButtonPair NsMoveabilitySlider { get => nsMoveabilitySlider; }
         public SliderButtonPair NsPowerSlider { get => nsPowerSlider; }
         public SliderButtonPair NsReactivitySlider { get => nsReactivitySlider; }
@@ -22,14 +22,14 @@ namespace UI
             NsMoveabilitySlider.PushButton();
             NsActivitySlider.PushButton();
             NsReactivitySlider.PushButton();
-            NsBalanceDropButtonPair.PushButton();
+            NsBalanceRect.BalanceDropdownButtonPair.PushButton();
         }
 
         public void SetControlsValues(HumanRawData rawData)
         {
             NsPowerSlider.Value = rawData.NsPower;
             NsMoveabilitySlider.Value = rawData.NsMoveability;
-            NsBalanceDropButtonPair.DropdownIndex = (int)rawData.NsType;
+            NsBalanceRect.BalanceDropdownButtonPair.DropdownValue = rawData.NsType.Name;
             NsActivitySlider.Value = rawData.NsActivity;
             NsReactivitySlider.Value = rawData.NsReactivity;
         }
@@ -38,7 +38,7 @@ namespace UI
         {
             NsPowerSlider.SetMinValue();
             NsMoveabilitySlider.SetMinValue();
-            NsBalanceDropButtonPair.DropdownIndex = 0;
+            NsBalanceRect.BalanceDropdownButtonPair.DropdownIndex = 0;
             NsActivitySlider.SetMinValue();
             NsReactivitySlider.SetMinValue();
         }

@@ -4,27 +4,9 @@ using UI;
 
 namespace BehaviourModel
 {
-    public enum NervousSystemType
-    {
-        Balanced,
-        Braked,
-        Excitable
-    }
-
     [Serializable]
     public abstract class HumanRawData
     {
-        private NervousSystemType GetNSType(int dropdownIndex)
-        {
-            if (dropdownIndex == 0)
-                return NervousSystemType.Balanced;
-            if (dropdownIndex == 1)
-                return NervousSystemType.Excitable;
-            if (dropdownIndex == 2)
-                return NervousSystemType.Braked;
-            throw new Exception($"Unexpected indexValue {dropdownIndex}");
-        }
-
         public ushort age;
         public string agentName;
         public string agentType;
@@ -43,7 +25,7 @@ namespace BehaviourModel
         public ushort nsMoveability;
         public ushort nsPower;
         public ushort nsReactivity;
-        public NervousSystemType nsType;
+        public NervousBalanceType nsType;
         public ushort practicalityDreaminess;
         public ushort relaxationTension;
         public ushort restraintExpressiveness;
@@ -71,7 +53,7 @@ namespace BehaviourModel
         public ushort NsMoveability { get => nsMoveability; }
         public ushort NsPower { get => nsPower; }
         public ushort NsReactivity { get => nsReactivity; }
-        public NervousSystemType NsType { get => nsType; }
+        public NervousBalanceType NsType { get => nsType; }
         public ushort PracticalityDreaminess { get => practicalityDreaminess; }
         public ushort RelaxationTension { get => relaxationTension; }
         public ushort RestraintExpressiveness { get => restraintExpressiveness; }
@@ -97,7 +79,7 @@ namespace BehaviourModel
             nsMoveability = Convert.ToUInt16(acs.NervousSystemRect.NsMoveabilitySlider.Value);
             nsActivity = Convert.ToUInt16(acs.NervousSystemRect.NsActivitySlider.Value);
             nsReactivity = Convert.ToUInt16(acs.NervousSystemRect.NsReactivitySlider.Value);
-            nsType = GetNSType(acs.NervousSystemRect.NsBalanceDropButtonPair.DropdownIndex);
+            nsType = (NervousBalanceType)acs.NervousSystemRect.NsBalanceRect.BalanceDropdownButtonPair.SelectedOptionValue;
 
             closenessSociability = Convert.ToUInt16(acs.CharacterRect.ClosenessSociabilitySlider.Value);
             calmnessAnxiety = Convert.ToUInt16(acs.CharacterRect.CalmnessAnxietySlider.Value);

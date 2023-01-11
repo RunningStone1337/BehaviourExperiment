@@ -5,6 +5,17 @@ namespace BuildingModule
 {
     public class TableInterier : PlacedInterier, IDependentFromChanges
     {
+        private void OnDestroy()
+        {
+            InterierHandler.Handler.Tables.Remove(this);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            InterierHandler.Handler.Tables.Add(this);
+        }
+
         public override bool IsAvailForPlacing(MiddlePlace place)
         {
             //принципиально может размещаться на это месте

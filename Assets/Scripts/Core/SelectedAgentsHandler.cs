@@ -1,4 +1,5 @@
 using BehaviourModel;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,13 @@ namespace Core
     public class SelectedAgentsHandler : MonoBehaviour
     {
         [SerializeField] private List<PupilRawData> agents;
+        [SerializeField] private TeacherRawData teacher;
+
+        public TeacherRawData Teacher
+        {
+            get => teacher; 
+            set => teacher = value;
+        }
 
         public void AddAgent(PupilRawData currentData)
         {
@@ -18,5 +26,7 @@ namespace Core
         {
             agents.Remove(agentInitializator);
         }
+
+        public int AgentsCount() => agents.Count;
     }
 }

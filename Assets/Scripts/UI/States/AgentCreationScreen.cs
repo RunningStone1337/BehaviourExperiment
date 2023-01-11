@@ -1,7 +1,7 @@
 using BehaviourModel;
 using Common;
-using System;
 using Extensions;
+using System;
 using UnityEngine;
 
 namespace UI
@@ -12,6 +12,7 @@ namespace UI
 
         [SerializeField] private AgentsSelectionScreen agentsSelectionScreen;
         [SerializeField] private ContentOrderHandler cardsOrderHandler;
+        [SerializeField] private RectTransform createdCardsPreviewsRect;
         [SerializeField] private AgentCardPreview currentPreview;
         [SerializeField] private HumanRawData сurrentData;
         public HumanRawData CurrentData { get => сurrentData; private set => сurrentData = value; }
@@ -103,13 +104,34 @@ namespace UI
             else throw new Exception($"Unexpected type {createdType.FullName}");
         }
 
+        private void ConfirmPupilCreation()
+        {
+            if (CurrentPreview == null)//новый агент
+            {
+                //создать карточку на панели выбора
+                CurrentPreview = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
+                    createdCardsPreviewsRect).GetComponent<AgentCardPreview>();
+            }
+
+            //создаём новую или редактируем существующую?
+            if (CurrentData == null)
+            {
+                CurrentData = new PupilRawData();
+                //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
+            }
+            CurrentData.Initiate(this);
+            CurrentPreview.Initiate(this, CurrentData);
+            agentsSelectionScreen.AddAgentData((PupilRawData)CurrentData);
+            BeforeChangeState();
+        }
+
         private void ConfirmTeacherCreation()
         {
             if (CurrentPreview == null)//новый агент
             {
                 //создать карточку на панели выбора
                 CurrentPreview = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
-                    cardsOrderHandler.transform).GetComponent<AgentCardPreview>();
+                    createdCardsPreviewsRect).GetComponent<AgentCardPreview>();
                 cardsOrderHandler.FirstTransform = (RectTransform)CurrentPreview.transform;
                 cardsOrderHandler.ReorderContent();
             }
@@ -125,25 +147,14 @@ namespace UI
             BeforeChangeState();
         }
 
-        private void ConfirmPupilCreation()
+        private bool CreationAllowed()
         {
-            if (CurrentPreview == null)//новый агент
-            {
-                //создать карточку на панели выбора
-                CurrentPreview = Instantiate(SceneDataStorage.Storage.AgentCardPrafab,
-                    cardsOrderHandler.transform).GetComponent<AgentCardPreview>();
-            }
+            return !string.IsNullOrEmpty(NameInputFieldButtonPair.InputField.text);
+        }
 
-            //создаём новую или редактируем существующую?
-            if (CurrentData == null)
-            {
-                CurrentData = new PupilRawData();
-                //сохранить дату с выбранными параметрами в класс для инициализации GO с этими параметрами
-            }
-            CurrentData.Initiate(this);
-            CurrentPreview.Initiate(this, CurrentData);
-            agentsSelectionScreen.AddAgentData((PupilRawData)CurrentData);
-            BeforeChangeState();
+        private void NotifyUser()
+        {
+            Debug.Log("Creation failed");
         }
 
         /// <summary>
@@ -171,6 +182,7 @@ namespace UI
             cardsOrderHandler.ReorderContent();
             CurrentData = null;
             CurrentPreview = null;
+            InputSystem.InputListener.Listener.SwipesAllowed = true;
         }
 
         /// <summary>
@@ -182,6 +194,7 @@ namespace UI
             base.InitiateState();
             CreatedType = type;
             ResetControls();
+            InputSystem.InputListener.Listener.SwipesAllowed = false;
         }
 
         public void InitiateState(HumanRawData ard, AgentCardPreview acp)
@@ -197,14 +210,22 @@ namespace UI
             CreatedType = type;
             ResetControls(ard);
             CurrentData = ard;
+            InputSystem.InputListener.Listener.SwipesAllowed = false;
         }
 
         public void LoadAgentButtonClick()
         {
             if (CreatedType.IsEquivalentTo(typeof(PupilAgent)))
-                CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<PupilRawData>();
+                CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<PupilRawData, PupilAgent>();
             else
-                CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<TeacherRawData>();
+                CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<TeacherRawData, TeacherAgent>();
+        }
+
+        public void OnAgeSelectionChanged()
+        {
+            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
+            ageChangeHandler.ResetCharacterExtremeValues();
+            ageChangeHandler.ResetWeightAndHeightDropdowns();
         }
 
         public void OnCloseButtonCLick()
@@ -214,22 +235,18 @@ namespace UI
 
         public void OnConfirmCreationButtonClick()
         {
-            ConfirmAgentCreation(CreatedType);
-        }        
-
-        public void OnAgeSelectionChanged()
-        {
-            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
-            ageChangeHandler.ResetCharacterExtremeValues();
-            ageChangeHandler.ResetWeightAndHeightDropdowns();
+            if (CreationAllowed())
+                ConfirmAgentCreation(CreatedType);
+            else
+                NotifyUser();
         }
 
         public void SaveButtonClick()
         {
             if (CreatedType.IsEquivalentTo(typeof(PupilAgent)))
-                CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState<PupilRawData>();
+                CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState<PupilRawData, PupilAgent>();
             else
-                CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState<TeacherRawData>();
+                CanvasController.Controller.AgentsConfigureScreen.AgentSaveScreen.InitiateState<TeacherRawData, TeacherAgent>();
         }
 
         public void SetFullRandomValuesButtonClick()

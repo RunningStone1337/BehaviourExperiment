@@ -7,6 +7,11 @@ namespace BuildingModule
 {
     public class ChairInterier : PlacedInterier, IDependentFromChanges
     {
+        private void OnDestroy()
+        {
+            InterierHandler.Handler.Chairs.Remove(this);
+        }
+
         private Vector3 ReplacePosition(float v)
         {
             var oldPos = transform.localPosition;
@@ -14,6 +19,12 @@ namespace BuildingModule
             if (chairs != null && chairs.Count() == 2)
                 v = -chairs.First(x => !x.Equals(this)).transform.localPosition.y;
             return new Vector3(oldPos.x, v, oldPos.z);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            InterierHandler.Handler.Chairs.Add(this);
         }
 
         public override void Initiate(InterierPlaceBase ipb)

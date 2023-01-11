@@ -1,0 +1,33 @@
+{
+    "age": 15,
+    "agentName": "Михаил Ярославович Иванов",
+    "agentType": "BehaviourModel.PupilAgent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "calmnessAnxiety": 10,
+    "closenessSociability": 1,
+    "conformismNonconformism": 5,
+    "conservatismRadicalism": 10,
+    "credulitySuspicion": 9,
+    "emotionalInstabilityStability": 6,
+    "features": [],
+    "height": 170,
+    "imageID": -1,
+    "intelligence": 1,
+    "normativityOfBehaviour": 10,
+    "nsActivity": 7,
+    "nsMoveability": 10,
+    "nsPower": 6,
+    "nsReactivity": 6,
+    "nsType": {
+        "instanceID": -79534
+    },
+    "practicalityDreaminess": 7,
+    "relaxationTension": 2,
+    "restraintExpressiveness": 2,
+    "rigiditySensetivity": 7,
+    "selfcontrol": 6,
+    "sex": true,
+    "straightforwardnessDiplomacy": 3,
+    "subordinationDomination": 8,
+    "timidityCourage": 5,
+    "weight": 55
+}
