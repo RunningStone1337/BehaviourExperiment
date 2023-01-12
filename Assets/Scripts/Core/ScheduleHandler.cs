@@ -51,5 +51,7 @@ namespace Core
         public int BreaksLength => breaksLength;
         public int ExperimentLength => experimentLength;
         public WorkDaysSelector WorkDaysSelector => workDaysSelector;
+
+       
     }
 }

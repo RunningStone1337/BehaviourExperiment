@@ -29,7 +29,7 @@ namespace UI
 
         public static CanvasController Controller { get => canvasController; private set => canvasController = value; }
         public AgentsSelectionScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
-        public UIBuildingScreen BuildingState { get => buildingState; }
+        public UIBuildingScreen BuildingScreen { get => buildingState; }
         public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
         public IState CurrentState
         {

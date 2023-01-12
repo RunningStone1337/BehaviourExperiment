@@ -43,6 +43,7 @@ namespace BuildingModule
 
         public bool TrySeparateRoom()
         {
+            //Работает некорректно, пересмотреть логику
             if (entrance.IsOnBoard(out Direction direction))
             {
                 var newRoom = EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();

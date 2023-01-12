@@ -22,9 +22,18 @@ namespace UI
             }
         }
 
+        public bool IsInitialized => isInitialized;
+
         #endregion Public Properties
 
-        #region Public Methods
+        [SerializeField] [HideInInspector] private bool isInitialized;
+        [SerializeField] protected GameObject rootObject;
+        [SerializeField] protected ISelectableUIComponent selectedUIComponent;
+
+        protected virtual void Awake()
+        {
+            isInitialized = true;
+        }
 
         public virtual void BeforeChangeState()
         {
@@ -47,14 +56,5 @@ namespace UI
 
         public virtual void OnPointerUp(PointerEventData eventData)
         { }
-
-        #endregion Public Methods
-
-        #region Private Fields
-
-        [SerializeField] protected GameObject rootObject;
-        [SerializeField] protected ISelectableUIComponent selectedUIComponent;
-
-        #endregion Private Fields
     }
 }

@@ -12,8 +12,6 @@ namespace Common
         public override void BeforeChangeOldState()
         {
             CanvasController.Controller.RolesScreen.BeforeChangeState();
-
-            //SceneMaster.Master.CurrentState = SceneMaster.Master.EntranceRoleEditingState;
         }
 
         public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)

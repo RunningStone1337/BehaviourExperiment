@@ -14,7 +14,7 @@ namespace UI
 
         private void Start()
         {
-            inputField.text = ((int)slider.value).ToString();
+            SliderValueChanded();
         }
 
         public Action<int> ValueChangedEvent;

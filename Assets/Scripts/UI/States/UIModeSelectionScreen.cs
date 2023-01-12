@@ -19,7 +19,7 @@ namespace UI
 
         public void SetBuildingState()
         {
-            Controller.CurrentState = Controller.BuildingState;
+            Controller.CurrentState = Controller.BuildingScreen;
             ActiveComponent = buttonBuildingMode;
         }
 

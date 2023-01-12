@@ -26,7 +26,7 @@ namespace Common
 
         public void SendNotification(string message)
         {
-
+            screen.InitiateState(message);
         }
     }
 }
