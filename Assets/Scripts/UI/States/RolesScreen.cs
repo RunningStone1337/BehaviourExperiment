@@ -6,15 +6,12 @@ namespace UI
 {
     public class RolesScreen : UIScreenBase
     {
-        #region Public Properties
-
+        [SerializeField] private PlaceableUIView classRoleView;
+        [SerializeField] private PlaceableUIView corridorRoleView;
+        [SerializeField] private SelectableButton roomsSplitterButton;
         public PlaceableUIView ClassRoleView { get => classRoleView; }
         public PlaceableUIView CorridorRoleView { get => corridorRoleView; }
         public SelectableButton RoomsSplitterButton { get => roomsSplitterButton; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public override void BeforeChangeState()
         {
@@ -37,15 +34,5 @@ namespace UI
             SceneMaster.Master.CurrentState = SceneMaster.Master.RoomSplittingState;
             ActiveComponent = roomsSplitterButton;
         }
-
-        #endregion Public Methods
-
-        #region Private Fields
-
-        [SerializeField] private PlaceableUIView classRoleView;
-        [SerializeField] private PlaceableUIView corridorRoleView;
-        [SerializeField] private SelectableButton roomsSplitterButton;
-
-        #endregion Private Fields
     }
 }

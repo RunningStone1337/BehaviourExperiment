@@ -47,16 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7494dd482fbe8fb4e9ce62b7518e58fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coordinates: {x: 0, y: 0}
   colldier: {fileID: 4605258416983778647}
-  currentState: {fileID: 3012826239519211629}
+  coordinates: {x: 0, y: 0}
+  currentState: {fileID: 2213652307188027130}
+  downNeighbour: {fileID: 0}
+  freeState: {fileID: 2213652307188027130}
+  isOccuped: 0
   leftNeighbour: {fileID: 0}
+  occupedState: {fileID: 3012826239519211629}
   rightNeighbour: {fileID: 0}
   upNeighbour: {fileID: 0}
-  downNeighbour: {fileID: 0}
-  freeState: {fileID: 3012826239519211629}
-  isOccuped: 0
-  occupedState: {fileID: 2213652307188027130}
 --- !u!61 &4605258416983778647
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1912355483489719843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af746f67fea6e1547862071d9349e787, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dd70f122b22abd448a61b0aedd5205a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisPlace: {fileID: 0}
+  thisPlace: {fileID: 2701926279867988152}
 --- !u!114 &2213652307188027130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,10 +105,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1912355483489719843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d51c29ac22ce7f64abeac4ee27361def, type: 3}
+  m_Script: {fileID: 11500000, guid: 66ff6f3325ec85940a1194c5702dbf0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisPlace: {fileID: 0}
+  thisPlace: {fileID: 2701926279867988152}
 --- !u!1 &5098525247978099144
 GameObject:
   m_ObjectHideFlags: 0

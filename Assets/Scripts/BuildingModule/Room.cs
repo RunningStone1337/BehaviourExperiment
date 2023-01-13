@@ -12,6 +12,8 @@ namespace BuildingModule
         [SerializeField] private EntranceRoleBase role;
         [SerializeField] private List<Entrance> thisRoomEntrances;
 
+        private List<Entrance> ThisRoomEntrances { get => thisRoomEntrances; }
+
         private void Awake()
         {
             thisRoomEntrances = new List<Entrance>();
@@ -33,21 +35,18 @@ namespace BuildingModule
         }
 
         public EntranceRoleBase Role { get => role; set => role = value; }
-        public List<Entrance> ThisRoomEntrances { get => thisRoomEntrances; }
+        public int ThisRoomEntrancesCount => ThisRoomEntrances.Count;
 
-        public void HandleRoomSeparation(Entrance senarationEntrance)
+        public void AddEntrance(Entrance entrance)
         {
-            ///определить стороны разделения.
-            //if (senarationEntrance.VerticalConnection())
-            //{
-            //    var entrances = senarationEntrance.UpNeighbour.GetCurrentRoomEntrancesExcept(senarationEntrance);
-            //}
-            //else
-            //{
-            //}
-            ///среди соседей по одну из сторон(взять наименьшую)
-            ///создать новую комнату
-            ///указать её в качестве новой для всех соседей соседа с выбранной стороны
+            ThisRoomEntrances.Add(entrance);
+        }
+
+        public void RemoveEntrance(Entrance entrance)
+        {
+            ThisRoomEntrances.Remove(entrance);
+            if (ThisRoomEntrances.Count == 0)
+                Destroy(this);
         }
     }
 }

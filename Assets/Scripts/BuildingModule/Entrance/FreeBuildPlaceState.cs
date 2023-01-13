@@ -2,7 +2,7 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public class FreeState : BuildingPlaceState
+    public class FreeBuildPlaceState : BuildingPlaceState
     {
         public override bool TryPlaceNewEntrance(PointerEventData eventData)
         {

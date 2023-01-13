@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static BuildingModule.DirectionUtils;
 
 namespace BuildingModule
 {
@@ -55,16 +54,66 @@ namespace BuildingModule
         #region neighbours
 
         [Space]
-        [SerializeField] private Entrance downNeighbour;
-
-        [SerializeField] private Entrance leftNeighbour;
         [SerializeField] private List<Entrance> neighbours;
+        [SerializeField] private Entrance downNeighbour;
+        [SerializeField] private Entrance leftNeighbour;
         [SerializeField] private Entrance rightNeighbour;
         [SerializeField] private Entrance upNeighbour;
-        public Entrance DownNeighbour { get => downNeighbour; }
-        public Entrance LeftNeighbour { get => leftNeighbour; }
-        public Entrance RightNeighbour { get => rightNeighbour; }
-        public Entrance UpNeighbour { get => upNeighbour; }
+        public Entrance DownNeighbour
+        {
+            get => downNeighbour;
+            set
+            {
+                if (downNeighbour != null)
+                {
+                    Neighbours.Remove(downNeighbour);
+                    Neighbours.Add(value);
+                }
+                downNeighbour = value;
+            }
+        }
+
+        public Entrance LeftNeighbour
+        {
+            get => leftNeighbour;
+            set
+            {
+                if (leftNeighbour != null)
+                {
+                    Neighbours.Remove(leftNeighbour);
+                    Neighbours.Add(value);
+                }
+                leftNeighbour = value;
+            }
+        }
+
+        public Entrance RightNeighbour
+        {
+            get => rightNeighbour;
+            set
+            {
+                if (rightNeighbour != null)
+                {
+                    Neighbours.Remove(rightNeighbour);
+                    Neighbours.Add(value);
+                }
+                rightNeighbour = value;
+            }
+        }
+
+        public Entrance UpNeighbour
+        {
+            get => upNeighbour;
+            set
+            {
+                if (upNeighbour != null)
+                {
+                    Neighbours.Remove(upNeighbour);
+                    Neighbours.Add(value);
+                }
+                upNeighbour = value;
+            }
+        }
 
         #endregion neighbours
 
@@ -94,6 +143,9 @@ namespace BuildingModule
         [SerializeField] private Room thisRoom;
         public BuildingPlace EntrancePlace { get; private set; }
         public List<InterierPlaceBase> InterierPlaces => interierPlaces;
+        /// <summary>
+        /// ТОЛЬКО ДЛЯ ПЕРЕБОРА В ЦИКЛЕ, НАПРЯМУЮ НЕ ДОБАВЛЯТЬ И НЕ УДАЛЯТЬ!!!
+        /// </summary>
         public List<Entrance> Neighbours { get => neighbours; }
 
         public Coroutine Routine { get => routine; set => routine = value; }
@@ -124,21 +176,44 @@ namespace BuildingModule
             return util.FindRoomOrCreateNew();
         }
 
-        private bool HavePassageOnDirection(Direction mainDirection, Entrance mainDirectionNeighbour, Entrance secondaryDirection1,
-                    Entrance secondaryDirection2)
+        /// <summary>
+        /// Есть ли проход между помещениями в указанном направлении?
+        /// </summary>
+        /// <param name="mainDirNeighbour">Сосед с проверяемого направления</param>
+        /// <param name="leftToMainDirNeigh">Помещение с одной из сторон по соседству этим и главным соседом</param>
+        /// <param name="rightToMainDirNeigh">Помещение с одной из сторон по соседству этим и главным соседом</param>
+        /// <param name="thisLeftByDirWall">Левая стена относительно отделяемого помещения</param>
+        /// <param name="thisRightByDirWall">Правая стена относительно отделяемого помещения</param>
+        /// <param name="leftToLeftMDNeighWall">Левая стена относительно направления главного соседа leftToMainDirNeigh</param>
+        /// <param name="rightToRightMDNeighWall">Правая стена относительно направления главного соседа rightToMainDirNeigh</param>
+        /// <returns></returns>
+        private bool HavePassageOnDirection(Entrance mainDirNeighbour, Entrance leftToMainDirNeigh, Entrance rightToMainDirNeigh,
+            Wall thisLeftByDirWall, Wall thisRightByDirWall, Wall leftToLeftMDNeighWall, Wall rightToRightMDNeighWall)
         {
-            Direction[] directions = GetAdditionalDirections(mainDirection);
-            if (IsPassage(mainDirection) &&
-                            mainDirectionNeighbour.ThisRoom == ThisRoom &&
-                            (IsPassage(directions[0]) || IsPassage(directions[1]) || IsPassage(directions[2])))//проход есть
+            if (mainDirNeighbour)
             {
-                //проверяем соседей по сторонам от главного направления
-                if (secondaryDirection1 && !secondaryDirection1.IsPassage(mainDirection))//он есть
-                    return true;
-                else if (secondaryDirection2 && !secondaryDirection2.IsPassage(mainDirection))
-                    return true;
+                var isPassable = IsPassage(mainDirNeighbour);
+                var sameRoom = mainDirNeighbour.ThisRoom == ThisRoom;
+                if (isPassable && sameRoom)
+                {
+                    //хотя бы 1 сосед со стороны от главного направления для mainDirectionNeighbour
+                    if (leftToMainDirNeigh)
+                    {
+                        var secEntrPassage1 = mainDirNeighbour.IsPassage(leftToMainDirNeigh) &&
+                            HasWallOnCallerOrNeighSide(thisLeftByDirWall, leftToLeftMDNeighWall);
+                        if (secEntrPassage1) return true;
+                    }
+                    if (rightToMainDirNeigh)
+                    {
+                        var secEntrPassage2 = mainDirNeighbour.IsPassage(rightToMainDirNeigh) &&
+                            HasWallOnCallerOrNeighSide(rightToRightMDNeighWall, thisRightByDirWall);
+                        if (secEntrPassage2) return true;
+                    }
+                }
             }
             return default;
+
+            static bool HasWallOnCallerOrNeighSide(Wall thisLeftByDirWall, Wall leftToLeftMDNeighWall) => leftToLeftMDNeighWall.CurrentState is ActiveState || thisLeftByDirWall.CurrentState is ActiveState;
         }
 
         /// <summary>
@@ -146,16 +221,20 @@ namespace BuildingModule
         /// </summary>
         /// <param name="directionFormCaller">Направление, где находится проверяемый сосед</param>
         /// <returns></returns>
-        private bool IsPassage(Direction directionFormCaller)
+        private bool IsPassage(Entrance neighbour)
         {
-            return directionFormCaller switch
+            if (neighbour && Neighbours.Contains(neighbour))
             {
-                Direction.Up => UpWall.CurrentState is InactiveState && UpNeighbour?.DownWall.CurrentState is InactiveState,
-                Direction.Down => DownWall.CurrentState is InactiveState && downNeighbour?.UpWall.CurrentState is InactiveState,
-                Direction.Right => RightWall.CurrentState is InactiveState && RightNeighbour?.LeftWall.CurrentState is InactiveState,
-                Direction.Left => LeftWall.CurrentState is InactiveState && LeftNeighbour?.RightWall.CurrentState is InactiveState,
-                _ => throw new Exception($"Неизвестное направление {directionFormCaller}"),
-            };
+                if (neighbour.Equals(UpNeighbour))
+                    return UpWall.CurrentState is InactiveState && neighbour.DownWall.CurrentState is InactiveState;
+                if (neighbour.Equals(DownNeighbour))
+                    return DownWall.CurrentState is InactiveState && neighbour.UpWall.CurrentState is InactiveState;
+                if (neighbour.Equals(RightNeighbour))
+                    return RightWall.CurrentState is InactiveState && neighbour.LeftWall.CurrentState is InactiveState;
+                if (neighbour.Equals(LeftNeighbour))
+                    return LeftWall.CurrentState is InactiveState && neighbour.RightWall.CurrentState is InactiveState;
+            }
+            return default;
         }
 
         private void OnDestroy()
@@ -163,7 +242,7 @@ namespace BuildingModule
             EntranceRoot.Root.Entrances.Remove(this);
             foreach (var n in neighbours)
                 n.neighbours.Remove(this);
-            ThisRoom.ThisRoomEntrances.Remove(this);
+            ThisRoom.RemoveEntrance(this);
         }
 
         private void Start()
@@ -172,23 +251,82 @@ namespace BuildingModule
                 n.FindNeighbours();
         }
 
+        public int NeighboursCount => Neighbours.Count;
         public Room ThisRoom
         {
-            get => thisRoom; set
+            get => thisRoom;
+            set
             {
-                ThisRoom.ThisRoomEntrances.Remove(this);
+                ThisRoom.RemoveEntrance(this);
                 thisRoom = value;
-                ThisRoom.ThisRoomEntrances.Add(this);
+                ThisRoom.AddEntrance(this);
             }
+        }
+
+        /// <summary>
+        /// Находится ли комната на вероятном месте разделения?
+        /// true если есть проход со стенами хотя бы с одной стороны от главного направления.
+        /// </summary>
+        /// <returns></returns>
+        public bool CanBeSeparated(out Direction boardDirection)
+        {
+            boardDirection = default;
+            var mainNeigh = UpNeighbour;
+            var firstToMainN = NullCheckShortcutLeft(mainNeigh);
+            var secondToMainN = NullCheckShortcutRight(mainNeigh);
+            if (HavePassageOnDirection(mainNeigh, firstToMainN, secondToMainN, LeftWall, RightWall,
+                NullCheckShortcutDownWall(firstToMainN), NullCheckShortcutDownWall(secondToMainN)))
+            {
+                boardDirection = Direction.Up;
+                return true;
+            }
+            mainNeigh = DownNeighbour;
+            firstToMainN = NullCheckShortcutLeft(mainNeigh);
+            secondToMainN = NullCheckShortcutRight(mainNeigh);
+            if (HavePassageOnDirection(mainNeigh, firstToMainN, secondToMainN, RightWall, LeftWall,
+                 NullCheckShortcutUpWall(firstToMainN), NullCheckShortcutUpWall(secondToMainN)))
+            {
+                boardDirection = Direction.Down;
+                return true;
+            }
+            mainNeigh = LeftNeighbour;
+            firstToMainN = NullCheckShortcutUp(mainNeigh);
+            secondToMainN = NullCheckShortcutDown(mainNeigh);
+            if (HavePassageOnDirection(mainNeigh, firstToMainN, secondToMainN, UpWall, DownWall,
+                 NullCheckShortcutRightWall(firstToMainN), NullCheckShortcutRightWall(secondToMainN)))
+            {
+                boardDirection = Direction.Left;
+                return true;
+            }
+            mainNeigh = RightNeighbour;
+            firstToMainN = NullCheckShortcutUp(mainNeigh);
+            secondToMainN = NullCheckShortcutDown(mainNeigh);
+            if (HavePassageOnDirection(mainNeigh, firstToMainN, secondToMainN, DownWall, UpWall,
+                 NullCheckShortcutLeftWall(firstToMainN), NullCheckShortcutLeftWall(secondToMainN)))
+            {
+                boardDirection = Direction.Right;
+                return true;
+            }
+            return default;
+
+            Entrance NullCheckShortcutUp(Entrance e) => e != null ? e.UpNeighbour : null;
+            Entrance NullCheckShortcutDown(Entrance e) => e != null ? e.DownNeighbour : null;
+            Entrance NullCheckShortcutLeft(Entrance e) => e != null ? e.LeftNeighbour : null;
+            Entrance NullCheckShortcutRight(Entrance e) => e != null ? e.RightNeighbour : null;
+
+            Wall NullCheckShortcutUpWall(Entrance e) => e != null ? e.UpWall : null;
+            Wall NullCheckShortcutDownWall(Entrance e) => e != null ? e.DownWall : null;
+            Wall NullCheckShortcutLeftWall(Entrance e) => e != null ? e.LeftWall : null;
+            Wall NullCheckShortcutRightWall(Entrance e) => e != null ? e.RightWall : null;
         }
 
         public List<Entrance> FindNeighbours()
         {
             List<Entrance> neighs = new List<Entrance>();
-            upNeighbour = FindNeighbour(neighs, new Vector2Int(0, 2));
-            rightNeighbour = FindNeighbour(neighs, new Vector2Int(2, 0));
-            downNeighbour = FindNeighbour(neighs, new Vector2Int(0, -2));
-            leftNeighbour = FindNeighbour(neighs, new Vector2Int(-2, 0));
+            UpNeighbour = FindNeighbour(neighs, new Vector2Int(0, 2));
+            RightNeighbour = FindNeighbour(neighs, new Vector2Int(2, 0));
+            DownNeighbour = FindNeighbour(neighs, new Vector2Int(0, -2));
+            LeftNeighbour = FindNeighbour(neighs, new Vector2Int(-2, 0));
             return neighs;
         }
 
@@ -211,22 +349,22 @@ namespace BuildingModule
         /// <returns></returns>
         public bool HasWallBetween(Entrance neigh)
         {
-            if (neigh == upNeighbour)
+            if (neigh == UpNeighbour)
             {
                 if (UpWall.CurrentState is ActiveState)
                     return true;
             }
-            else if (neigh == rightNeighbour)
+            else if (neigh == RightNeighbour)
             {
                 if (RightWall.CurrentState is ActiveState)
                     return true;
             }
-            else if (neigh == downNeighbour)
+            else if (neigh == DownNeighbour)
             {
                 if (DownWall.CurrentState is ActiveState)
                     return true;
             }
-            else if (neigh == leftNeighbour)
+            else if (neigh == LeftNeighbour)
             {
                 if (LeftWall.CurrentState is ActiveState)
                     return true;
@@ -241,38 +379,7 @@ namespace BuildingModule
             EntrancePlace.Entrance = this;
             neighbours = FindNeighbours();
             thisRoom = FindRoomOrCreateNew();
-            thisRoom.ThisRoomEntrances.Add(this);
-        }
-
-        /// <summary>
-        /// Находится ли комната на вероятном месте разделения?
-        /// true если есть проход со стенами хотя бы с одной стороны от главного направления.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsOnBoard(out Direction boardDirection)
-        {
-            boardDirection = default;
-            if (HavePassageOnDirection(Direction.Up, UpNeighbour, LeftNeighbour, RightNeighbour))
-            {
-                boardDirection = Direction.Up;
-                return true;
-            }
-            if (HavePassageOnDirection(Direction.Down, DownNeighbour, LeftNeighbour, RightNeighbour))
-            {
-                boardDirection = Direction.Down;
-                return true;
-            }
-            if (HavePassageOnDirection(Direction.Left, LeftNeighbour, UpNeighbour, DownNeighbour))
-            {
-                boardDirection = Direction.Left;
-                return true;
-            }
-            if (HavePassageOnDirection(Direction.Right, RightNeighbour, UpNeighbour, DownNeighbour))
-            {
-                boardDirection = Direction.Right;
-                return true;
-            }
-            return default;
+            thisRoom.AddEntrance(this);
         }
 
         public void OnPointerClick(PointerEventData eventData)

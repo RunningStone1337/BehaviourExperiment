@@ -8,6 +8,23 @@ namespace BuildingModule
 {
     public class BuildingPlace : MonoBehaviour, IPointerClickHandler, ICanBeOccuped, ICurrentStateHandler
     {
+        [SerializeField] private BoxCollider2D colldier;
+        [SerializeField] private Vector2Int coordinates;
+        [SerializeField] private BuildingPlaceState currentState;
+        [SerializeField] private FreeBuildPlaceState freeState;
+        [SerializeField] private bool isOccuped;
+        [SerializeField] private OccupedBuildPlaceState occupedState;
+
+        #region neighs
+
+        [SerializeField] private List<BuildingPlace> neighbours;
+        [SerializeField] private BuildingPlace downNeighbour;
+        [SerializeField] private BuildingPlace leftNeighbour;
+        [SerializeField] private BuildingPlace rightNeighbour;
+        [SerializeField] private BuildingPlace upNeighbour;
+
+        #endregion neighs
+
         private void AddIfNotNull(BuildingPlace n)
         {
             if (n != null)
@@ -22,7 +39,7 @@ namespace BuildingModule
 
         private void Awake()
         {
-            Neighbours = new List<BuildingPlace>();
+            neighbours = new List<BuildingPlace>();
             coordinates = new Vector2Int((int)transform.position.x, (int)transform.position.y);
             EntranceRoot.Root.PlacesDict.Add(coordinates, this);
         }
@@ -52,7 +69,7 @@ namespace BuildingModule
             set
             {
                 currentState = (BuildingPlaceState)value;
-                IsOccuped = currentState is OccupedState;
+                IsOccuped = currentState is OccupedBuildPlaceState;
             }
         }
 
@@ -68,7 +85,7 @@ namespace BuildingModule
 
         public Entrance Entrance { get; internal set; }
 
-        public FreeState FreeState { get => freeState; }
+        public FreeBuildPlaceState FreeState { get => freeState; }
 
         public bool IsOccuped { get => isOccuped; set => isOccuped = value; }
 
@@ -82,9 +99,12 @@ namespace BuildingModule
             }
         }
 
-        public List<BuildingPlace> Neighbours { get; internal set; }
+        /// <summary>
+        /// “ŒÀ‹ Œ ƒÀﬂ œ≈–≈¡Œ–¿ ¬ ÷» À≈, Õ≈ ƒŒ¡¿¬Àﬂ“‹/”ƒ¿Àﬂ“‹ Õ¿œ–ﬂÃ”ﬁ
+        /// </summary>
+        public List<BuildingPlace> Neighbours => neighbours;
 
-        public OccupedState OccupedState { get => occupedState; }
+        public OccupedBuildPlaceState OccupedState { get => occupedState; }
 
         public BuildingPlace RightNeighbour
         {
@@ -131,20 +151,5 @@ namespace BuildingModule
         {
             return currentState.TryRemoveExistEntrance(eventData);
         }
-
-        #region Private Fields
-
-        [SerializeField] private BoxCollider2D colldier;
-        [SerializeField] private Vector2Int coordinates;
-        [SerializeField] private BuildingPlaceState currentState;
-        [SerializeField] private BuildingPlace downNeighbour;
-        [SerializeField] private FreeState freeState;
-        [SerializeField] private bool isOccuped;
-        [SerializeField] private BuildingPlace leftNeighbour;
-        [SerializeField] private OccupedState occupedState;
-        [SerializeField] private BuildingPlace rightNeighbour;
-        [SerializeField] private BuildingPlace upNeighbour;
-
-        #endregion Private Fields
     }
 }

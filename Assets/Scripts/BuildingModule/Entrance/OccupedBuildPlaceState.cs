@@ -2,7 +2,7 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public class OccupedState : BuildingPlaceState
+    public class OccupedBuildPlaceState : BuildingPlaceState
     {
         public override bool TryPlaceNewEntrance(PointerEventData eventData)
         {
@@ -15,7 +15,7 @@ namespace BuildingModule
             thisPlace.CurrentState = thisPlace.FreeState;
             foreach (var neigh in thisPlace.Neighbours)
             {
-                EntranceBuilder.RebuildWalls(neigh);
+                EntranceBuilder.TryRebuildWalls(neigh);
             }
             return true;
         }

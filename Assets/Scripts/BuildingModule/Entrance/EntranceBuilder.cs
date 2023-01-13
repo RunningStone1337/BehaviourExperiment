@@ -59,7 +59,7 @@ namespace BuildingModule
                 AddInterier(inter, place);
         }
 
-        public static void BuildWalls(Entrance newEntrance)
+        public static void BuildNewWallsIfNeed(Entrance newEntrance)
         {
             if (NeedRightWall(newEntrance.EntrancePlace))
                 newEntrance.RightWall.SetActiveState();
@@ -69,19 +69,6 @@ namespace BuildingModule
                 newEntrance.UpWall.SetActiveState();
             if (NeedDownWall(newEntrance.EntrancePlace))
                 newEntrance.DownWall.SetActiveState();
-        }
-
-        /// <summary>
-        /// Удаляет лишние стены на месте новых соединений комнат
-        /// </summary>
-        public static void RebuildWalls(BuildingPlace neigh)
-        {
-            if (neigh.IsOccuped)
-            {
-                RemoveExcessWalls(neigh.Entrance);
-                BuildWalls(neigh.Entrance);
-                neigh.RemoveInvalidInterier();
-            }
         }
 
         public static void RemoveExcessWalls(Entrance entrance)
@@ -97,7 +84,7 @@ namespace BuildingModule
         }
 
         public static void RemoveInterier(PlacedInterier oldInterier, InterierPlaceBase place) =>
-            place.RemoveInterier(oldInterier);
+                    place.RemoveInterier(oldInterier);
 
         /// <summary>
         /// Удаляет интерьер или заменяет его новым в зависимости от текущего выбранного компонента.
@@ -112,19 +99,35 @@ namespace BuildingModule
             AddInterierIfNewAndAvail(newInter, oldID, place);
         }
 
+        /// <summary>
+        /// Удаляет лишние стены на месте новых соединений комнат при условии, что новое помещение принадлежит
+        /// той же комнате
+        /// </summary>
+        public static void TryRebuildWalls(BuildingPlace neigh)
+        {
+            if (neigh.IsOccuped)
+            {
+                RemoveExcessWalls(neigh.Entrance);
+                BuildNewWallsIfNeed(neigh.Entrance);
+                neigh.RemoveInvalidInterier();
+            }
+        }
+
         public Entrance BuildNewEntrance(BuildingPlace thisPlace)
         {
             var newEntrance = Instantiate(SceneDataStorage.Storage.EntrancePrefab, thisPlace.transform).GetComponent<Entrance>();
             newEntrance.Initiate(thisPlace);
-            BuildWalls(newEntrance);
-            RebuildNeighboursWalls(thisPlace);
+            //TODO пересмотреть перестройку стен при создании
+            //разграничивающи разные помещения стны нужно оставлять
+            BuildNewWallsIfNeed(newEntrance);
+            TryRebuildNeighboursWalls(thisPlace);
             return newEntrance;
         }
 
-        public void RebuildNeighboursWalls(BuildingPlace thisPlace)
+        public void TryRebuildNeighboursWalls(BuildingPlace thisPlace)
         {
             foreach (var neigh in thisPlace.Neighbours)
-                RebuildWalls(neigh);
+                TryRebuildWalls(neigh);
         }
     }
 }

@@ -9371,6 +9371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19c7589d76416fd4e8ed77aed6e0d1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 426527841}
   classRoleView: {fileID: 2069705972}
   corridorRoleView: {fileID: 1093774669}
@@ -10177,7 +10178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 410.39014
+      value: 409.93445
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10213,7 +10214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 240.19507
+      value: 239.96722
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -12151,6 +12152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7efa6c0cd01334bb708dc468afce88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 523361371}
   buttonChooseMode: {fileID: 874133803}
   validator: {fileID: 1084230174}
@@ -12447,8 +12449,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240.19507, y: -85}
-  m_SizeDelta: {x: 410.39014, y: 100}
+  m_AnchoredPosition: {x: 239.96722, y: -85}
+  m_SizeDelta: {x: 409.93445, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &532976917 stripped
 MonoBehaviour:
@@ -12962,6 +12964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2373c2d997e4eed40a7adb7fcb88efaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 553134935}
   animator: {fileID: 553134938}
   isPointerEntered: 0
@@ -13264,6 +13267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b0a2728b5d02d40b186f992aba86fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 564780212}
   buttonEntranceBuildMode: {fileID: 1735985767}
   buttonEntranceRoleMode: {fileID: 1840050765}
@@ -19142,7 +19146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 410.39014
+      value: 409.93445
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_SizeDelta.y
@@ -19178,7 +19182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 240.19507
+      value: 239.96722
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -21077,7 +21081,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 410.39014
+      value: 409.93445
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_SizeDelta.y
@@ -21113,7 +21117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 240.19507
+      value: 239.96722
       objectReference: {fileID: 0}
     - target: {fileID: 4552642221913338854, guid: a56b2c3e7d502fd49b14c7293447c419, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -26725,6 +26729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677544a13c9ef5745adc5c70faa66ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 1110565860}
   contentTransform: {fileID: 935166234}
 --- !u!114 &1110565864
@@ -36305,6 +36310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607dac900e5dd6543a3fa2070d712cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 1495298480}
   noButton: {fileID: 1260639894}
   titleText: {fileID: 2030794869}
@@ -39239,6 +39245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8cea4008bf7974f8f7442e87eb47b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 1611606865}
   buttonAgentsCreationMode: {fileID: 0}
   buttonBuildingMode: {fileID: 392941778}
@@ -46071,6 +46078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11026318625d1b345aa9b61edb8e191c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 1903628352}
 --- !u!224 &1903628355
 RectTransform:
@@ -47186,6 +47194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615c344be45c29c4696cdcaa681d32a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 1964741195}
   agentsSelectionScreen: {fileID: 2136065155}
   cardsOrderHandler: {fileID: 1637880360}
@@ -50966,6 +50975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da1336a256baa1418363f27f1f4bcba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 2002263610}
 --- !u!114 &2002263613
 MonoBehaviour:
@@ -54346,6 +54356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882247535c9334745b75999e6c52dcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInitialized: 0
   rootObject: {fileID: 2136065154}
   agentCreationScreen: {fileID: 1964741199}
   agentLoadScreen: {fileID: 1334442754}
