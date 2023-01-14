@@ -152,10 +152,7 @@ namespace BuildingModule
 
         #endregion common
 
-        private void Awake()
-        {
-            EntranceRoot.Root.Entrances.Add(this);
-        }
+        
 
         private Entrance FindNeighbour(List<Entrance> neighs, Vector2Int offset)
         {
@@ -245,11 +242,11 @@ namespace BuildingModule
             ThisRoom.RemoveEntrance(this);
         }
 
-        private void Start()
-        {
-            foreach (var n in neighbours)
-                n.FindNeighbours();
-        }
+        //private void Start()
+        //{
+        //    foreach (var n in neighbours)
+        //        n.FindNeighbours();
+        //}
 
         public int NeighboursCount => Neighbours.Count;
         public Room ThisRoom
@@ -320,6 +317,10 @@ namespace BuildingModule
             Wall NullCheckShortcutRightWall(Entrance e) => e != null ? e.RightWall : null;
         }
 
+        public void StartFindNeighbours()
+        {
+            neighbours = FindNeighbours();
+        }
         public List<Entrance> FindNeighbours()
         {
             List<Entrance> neighs = new List<Entrance>();
@@ -377,7 +378,10 @@ namespace BuildingModule
             buildingPlace.CurrentState = buildingPlace.OccupedState;
             EntrancePlace = buildingPlace;
             EntrancePlace.Entrance = this;
+            EntranceRoot.Root.Entrances.Add(this);
             neighbours = FindNeighbours();
+            foreach (var n in neighbours)
+                n.StartFindNeighbours();
             thisRoom = FindRoomOrCreateNew();
             thisRoom.AddEntrance(this);
         }

@@ -42,12 +42,13 @@ namespace BuildingModule
             if (entrance.Neighbours.Count == 0)
                 return EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();
             ///отсекаем тех соседей, между которыми есть стены.
-            var potentialRooms = new List<Room>();
+            var potentialRooms = new HashSet<Room>();
+            //закончил здесь. Условие со стенами нужно пересмотреть или раскомментить
             foreach (var n in entrance.Neighbours)
             {
-                if (!n.HasWallBetween(entrance) && !entrance.HasWallBetween(n))
+                //if (!n.HasWallBetween(entrance) && !entrance.HasWallBetween(n))
                 {
-                    if (!potentialRooms.Contains(n.ThisRoom))
+                    //if (!potentialRooms.Contains(n.ThisRoom))
                         potentialRooms.Add(n.ThisRoom);
                 }
             }
@@ -55,7 +56,7 @@ namespace BuildingModule
             if (potentialRooms.Count > 1)
                 return potentialRooms.OrderBy(x => x.ThisRoomEntrancesCount).Last();
             else
-                return potentialRooms[0];
+                return potentialRooms.ToList()[0];
             ///между остальными выбираем наибольшее и присасываемся к нему.
             ///дополнительные ограничения?
         }

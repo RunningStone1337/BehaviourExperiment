@@ -13,13 +13,16 @@ namespace BuildingModule
         private static bool IsNew(PlacedInterier newInter, PlacedInterier oldInterier) =>
             IsNew(newInter.ThisIdentifier.ID, oldInterier.ThisIdentifier.ID);
 
-        private static bool NeedDownWall(BuildingPlace bp) => !bp.DownNeighbour.IsOccuped;
-
-        private static bool NeedLeftWall(BuildingPlace bp) => !bp.LeftNeighbour.IsOccuped;
-
-        private static bool NeedRightWall(BuildingPlace bp) => !bp.RightNeighbour.IsOccuped;
-
-        private static bool NeedUpWall(BuildingPlace bp) => !bp.UpNeighbour.IsOccuped;
+        /// <summary>
+        /// Нужна ли стена между caller и neigh НА СТОРОНЕ caller? 
+        /// Расчёт на 1 Entrance
+        /// </summary>
+        /// <param name="caller"></param>
+        /// <param name="neigh"></param>
+        /// <returns></returns>
+        private static bool NeedWall(Entrance caller, Entrance neigh) => 
+            //соседа нет        соседа скоро не будет               сосед есть, но он от другого помещения
+            neigh == null || !neigh.EntrancePlace.IsOccuped || (neigh.EntrancePlace.IsOccuped && !caller.ThisRoom.Equals(neigh.ThisRoom));
 
         private void Awake()
         {
@@ -61,25 +64,40 @@ namespace BuildingModule
 
         public static void BuildNewWallsIfNeed(Entrance newEntrance)
         {
-            if (NeedRightWall(newEntrance.EntrancePlace))
+            if (NeedWall(newEntrance, newEntrance.RightNeighbour))
                 newEntrance.RightWall.SetActiveState();
-            if (NeedLeftWall(newEntrance.EntrancePlace))
+            if (NeedWall(newEntrance, newEntrance.LeftNeighbour))
                 newEntrance.LeftWall.SetActiveState();
-            if (NeedUpWall(newEntrance.EntrancePlace))
+            if (NeedWall(newEntrance, newEntrance.UpNeighbour))
                 newEntrance.UpWall.SetActiveState();
-            if (NeedDownWall(newEntrance.EntrancePlace))
+            if (NeedWall(newEntrance, newEntrance.DownNeighbour))
                 newEntrance.DownWall.SetActiveState();
+        }
+
+        /// <summary>
+        /// Удаляет лишние стены на месте новых соединений комнат при условии, что новое помещение принадлежит
+        /// той же комнате
+        /// </summary>
+        public static void RebuildEntrance(Entrance entr)
+        {
+            if (entr)
+            {
+                //if (NeedWall( entr.ThisRoom.Equals(neigh.ThisRoom))
+                RemoveExcessWalls(entr);
+                BuildNewWallsIfNeed(entr);
+                entr.RemoveInvalidInterier();
+            }
         }
 
         public static void RemoveExcessWalls(Entrance entrance)
         {
-            if (!NeedRightWall(entrance.EntrancePlace))
+            if (!NeedWall(entrance, entrance.RightNeighbour))
                 entrance.RightWall.SetInactiveState();
-            if (!NeedLeftWall(entrance.EntrancePlace))
+            if (!NeedWall(entrance, entrance.LeftNeighbour))
                 entrance.LeftWall.SetInactiveState();
-            if (!NeedUpWall(entrance.EntrancePlace))
+            if (!NeedWall(entrance, entrance.UpNeighbour))
                 entrance.UpWall.SetInactiveState();
-            if (!NeedDownWall(entrance.EntrancePlace))
+            if (!NeedWall(entrance, entrance.DownNeighbour))
                 entrance.DownWall.SetInactiveState();
         }
 
@@ -99,20 +117,6 @@ namespace BuildingModule
             AddInterierIfNewAndAvail(newInter, oldID, place);
         }
 
-        /// <summary>
-        /// Удаляет лишние стены на месте новых соединений комнат при условии, что новое помещение принадлежит
-        /// той же комнате
-        /// </summary>
-        public static void TryRebuildWalls(BuildingPlace neigh)
-        {
-            if (neigh.IsOccuped)
-            {
-                RemoveExcessWalls(neigh.Entrance);
-                BuildNewWallsIfNeed(neigh.Entrance);
-                neigh.RemoveInvalidInterier();
-            }
-        }
-
         public Entrance BuildNewEntrance(BuildingPlace thisPlace)
         {
             var newEntrance = Instantiate(SceneDataStorage.Storage.EntrancePrefab, thisPlace.transform).GetComponent<Entrance>();
@@ -120,14 +124,9 @@ namespace BuildingModule
             //TODO пересмотреть перестройку стен при создании
             //разграничивающи разные помещения стны нужно оставлять
             BuildNewWallsIfNeed(newEntrance);
-            TryRebuildNeighboursWalls(thisPlace);
+            foreach (var neigh in newEntrance.Neighbours)
+                RebuildEntrance(neigh);
             return newEntrance;
-        }
-
-        public void TryRebuildNeighboursWalls(BuildingPlace thisPlace)
-        {
-            foreach (var neigh in thisPlace.Neighbours)
-                TryRebuildWalls(neigh);
         }
     }
 }

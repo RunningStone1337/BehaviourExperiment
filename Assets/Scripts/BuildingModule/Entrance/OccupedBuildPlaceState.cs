@@ -15,7 +15,7 @@ namespace BuildingModule
             thisPlace.CurrentState = thisPlace.FreeState;
             foreach (var neigh in thisPlace.Neighbours)
             {
-                EntranceBuilder.TryRebuildWalls(neigh);
+                EntranceBuilder.RebuildEntrance(neigh.Entrance);
             }
             return true;
         }
