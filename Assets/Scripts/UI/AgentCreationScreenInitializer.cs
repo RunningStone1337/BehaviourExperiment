@@ -74,7 +74,7 @@ namespace UI
 
         public void RandomizeControlsValues()
         {
-            acs.SexDropButtonPair.PushButton();
+            acs.SexRect.PushButton();
             acs.NameInputFieldButtonPair.PushButton();
             acs.AgeDropButtonPair.PushButton();
             acs.WeightDropButtonPair.PushButton();
@@ -97,7 +97,7 @@ namespace UI
         {
             acs.AgentImageHandler.Image.sprite = acs.AgentImageHandler.GetImage(rawData.ImageID);
             acs.NameInputFieldButtonPair.Text = rawData.AgentName;
-            acs.SexDropButtonPair.DropdownValue = rawData.Sex ? "ì" : "æ";
+            acs.SexRect.SelectedSex = rawData.Sex;
             ResetAgeDrop(rawData.AgentType);
             acs.AgeDropButtonPair.DropdownValue = rawData.Age.ToString();
             acs.WeightDropButtonPair.DropdownValue = rawData.Weight.ToString();

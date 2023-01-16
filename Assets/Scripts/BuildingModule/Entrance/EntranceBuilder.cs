@@ -121,8 +121,6 @@ namespace BuildingModule
         {
             var newEntrance = Instantiate(SceneDataStorage.Storage.EntrancePrefab, thisPlace.transform).GetComponent<Entrance>();
             newEntrance.Initiate(thisPlace);
-            //TODO пересмотреть перестройку стен при создании
-            //разграничивающи разные помещения стны нужно оставлять
             BuildNewWallsIfNeed(newEntrance);
             foreach (var neigh in newEntrance.Neighbours)
                 RebuildEntrance(neigh);

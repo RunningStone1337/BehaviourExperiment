@@ -8,8 +8,11 @@ namespace Core
     public class SelectedAgentsHandler : MonoBehaviour
     {
         [SerializeField] private List<PupilRawData> agents;
-        [SerializeField] private TeacherRawData teacher;
-
+        private TeacherRawData teacher;
+        /// <summary>
+        /// Только дя перечисления.
+        /// </summary>
+        public List<PupilRawData> Agents => agents;
         public TeacherRawData Teacher
         {
             get => teacher; 

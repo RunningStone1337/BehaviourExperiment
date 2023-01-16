@@ -17,9 +17,9 @@ namespace Events
             HandleToggleClick();
         }
 
-        public Action<DaySwitcher, bool> ValueChangedEvent;
         public string DayName { get => dayName; }
         public List<ClassSelectionDropdown> EnabledOptions { get => thisDaySchedule.SelectedOptions; }
+        public Action<DaySwitcher, bool> ValueChangedEvent { get; set; }
 
         public void HandleToggleClick()
         {

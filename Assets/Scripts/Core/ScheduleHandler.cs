@@ -1,5 +1,4 @@
 using Events;
-using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -9,12 +8,11 @@ namespace Core
     public class ScheduleHandler : MonoBehaviour
     {
         [SerializeField] private int breaksLength;
-        [SerializeField] private int experimentLength;
-        [SerializeField] List<DaySwitcher> workDays;
         [SerializeField] private LengthConfigurator breaksLengthSlider;
+        [SerializeField] private int experimentLength;
         [SerializeField] private LengthConfigurator experimentLengthSlider;
+        [SerializeField] private List<DaySwitcher> workDays;
         [SerializeField] private WorkDaysSelector workDaysSelector;
-        public List<DaySwitcher> WorkDays => workDays;
 
         private void Awake()
         {
@@ -23,17 +21,17 @@ namespace Core
             workDaysSelector.DaySelectionChangedEvent += OnDaySelectionChangedCallback;
         }
 
+        private void OnBreaksLengthChangedCallback(int newVal)
+        {
+            breaksLength = newVal;
+        }
+
         private void OnDaySelectionChangedCallback(DaySwitcher sender, bool newValue)
         {
             if (newValue)
                 workDays.Add(sender);
             else
                 workDays.Remove(sender);
-        }
-
-        private void OnBreaksLengthChangedCallback(int newVal)
-        {
-            breaksLength = newVal;
         }
 
         private void OnDestroy()
@@ -50,8 +48,7 @@ namespace Core
 
         public int BreaksLength => breaksLength;
         public int ExperimentLength => experimentLength;
+        public List<DaySwitcher> WorkDays => workDays;
         public WorkDaysSelector WorkDaysSelector => workDaysSelector;
-
-       
     }
 }

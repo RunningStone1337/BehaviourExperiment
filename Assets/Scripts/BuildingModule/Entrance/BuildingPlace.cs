@@ -40,7 +40,7 @@ namespace BuildingModule
         private void Awake()
         {
             neighbours = new List<BuildingPlace>();
-            coordinates = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+            Coordinates = new Vector2Int(Mathf.RoundToInt(transform.position.x), (Mathf.RoundToInt(transform.position.y)));
             EntranceRoot.Root.PlacesDict.Add(coordinates, this);
         }
 
@@ -61,7 +61,7 @@ namespace BuildingModule
             SetNeighbours();
         }
 
-        public Vector2Int Cordinates { get => coordinates; }
+        public Vector2Int Coordinates { get => coordinates; private set => coordinates = value; }
 
         public IState CurrentState
         {

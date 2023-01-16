@@ -85,7 +85,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 646763804223178604}
-        m_TargetAssemblyTypeName: Events.DayInfo, Assembly-CSharp
+        m_TargetAssemblyTypeName: Events.DaySwitcher, Assembly-CSharp
         m_MethodName: HandleToggleClick
         m_Mode: 1
         m_Arguments:

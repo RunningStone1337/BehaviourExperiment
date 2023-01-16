@@ -28,13 +28,13 @@ namespace UI
         [SerializeField] private AgentImageHandler agentImageHandler;
         [SerializeField] private DropdownButtonPair heightDropButtonPair;
         [SerializeField] private TextButtonPair nameInputFieldButtonPair;
-        [SerializeField] private DropdownButtonPair sexDropButtonPair;
+        [SerializeField] private SexRect sexRect;
         [SerializeField] private DropdownButtonPair weightDropButtonPair;
         public DropdownButtonPair AgeDropButtonPair { get => ageDropButtonPair; }
         public AgentImageHandler AgentImageHandler { get => agentImageHandler; }
         public DropdownButtonPair HeightDropButtonPair { get => heightDropButtonPair; }
         public TextButtonPair NameInputFieldButtonPair { get => nameInputFieldButtonPair; }
-        public DropdownButtonPair SexDropButtonPair { get => sexDropButtonPair; }
+        public SexRect SexRect { get => sexRect; }
         public DropdownButtonPair WeightDropButtonPair { get => weightDropButtonPair; }
 
         #endregion main

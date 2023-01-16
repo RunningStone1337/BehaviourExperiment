@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UI;
+using Random = UnityEngine.Random;
 using UnityEngine;
 
 namespace BuildingModule
@@ -33,6 +35,8 @@ namespace BuildingModule
                 entrance.StartRoutine();
             }
         }
+
+        public Entrance RandomEntrance() => ThisRoomEntrances[Random.Range(0, ThisRoomEntrances.Count)];
 
         public EntranceRoleBase Role { get => role; set => role = value; }
         public int ThisRoomEntrancesCount => ThisRoomEntrances.Count;

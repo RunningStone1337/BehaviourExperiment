@@ -7,6 +7,7 @@ namespace BuildingModule
     {
         private static EntranceRoot entranceRoot;
         [SerializeField] private List<Entrance> entrances;
+        [SerializeField] private TemplateBuilder  templateBuilder;
         [SerializeField] private BuildingPlace[] places;
         [SerializeField] private List<Room> rooms;
         [SerializeField] private Transform roomsPlace;

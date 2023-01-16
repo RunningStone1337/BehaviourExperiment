@@ -53,10 +53,11 @@ namespace BuildingModule
 
         #region neighbours
 
-        [Space]
-        [SerializeField] private List<Entrance> neighbours;
         [SerializeField] private Entrance downNeighbour;
         [SerializeField] private Entrance leftNeighbour;
+        [Space]
+        [SerializeField] private List<Entrance> neighbours;
+
         [SerializeField] private Entrance rightNeighbour;
         [SerializeField] private Entrance upNeighbour;
         public Entrance DownNeighbour
@@ -152,11 +153,9 @@ namespace BuildingModule
 
         #endregion common
 
-        
-
         private Entrance FindNeighbour(List<Entrance> neighs, Vector2Int offset)
         {
-            var coords = EntrancePlace.Cordinates + offset;
+            var coords = EntrancePlace.Coordinates + offset;
             var entr = EntranceRoot.Root.PlacesDict[coords].Entrance;
             if (entr != null)
             {
@@ -317,10 +316,6 @@ namespace BuildingModule
             Wall NullCheckShortcutRightWall(Entrance e) => e != null ? e.RightWall : null;
         }
 
-        public void StartFindNeighbours()
-        {
-            neighbours = FindNeighbours();
-        }
         public List<Entrance> FindNeighbours()
         {
             List<Entrance> neighs = new List<Entrance>();
@@ -412,6 +407,11 @@ namespace BuildingModule
             RemoveInvalidInterier();
             foreach (var n in Neighbours)
                 n.RemoveInvalidInterier();
+        }
+
+        public void StartFindNeighbours()
+        {
+            neighbours = FindNeighbours();
         }
 
         public void StartRoutine()

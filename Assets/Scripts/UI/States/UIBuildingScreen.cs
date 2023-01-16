@@ -25,6 +25,21 @@ namespace UI
                 }});
         }
 
+        public void OnCreateTemplateEntrancesClick()
+        {
+            var confirm = CanvasController.Controller.ConfirmSelectionScreen;
+            confirm.InitiateState();
+            confirm.InitiateButtonsCallbacks(
+                new List<Action> {
+                    SceneMaster.Master.ClearEntrances,
+                    SceneMaster.Master.CreateTemplateEntrances,
+                    confirm.BeforeChangeState
+                },
+                new List<Action> {
+                    () => { confirm.BeforeChangeState();
+                }});
+        }
+
         public void SetBuildingEntranceState()
         {
             SceneMaster.Master.CurrentState = SceneMaster.Master.BuildingModeState;

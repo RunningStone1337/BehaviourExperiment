@@ -31,7 +31,7 @@ namespace BehaviourModel
         public ushort restraintExpressiveness;
         public ushort rigiditySensetivity;
         public ushort selfcontrol;
-        public bool sex;
+        public SexBase sex;
         public ushort straightforwardnessDiplomacy;
         public ushort subordinationDomination;
         public ushort timidityCourage;
@@ -59,7 +59,7 @@ namespace BehaviourModel
         public ushort RestraintExpressiveness { get => restraintExpressiveness; }
         public ushort RigiditySensetivity { get => rigiditySensetivity; }
         public ushort Selfcontrol { get => selfcontrol; }
-        public bool Sex { get => sex; }
+        public SexBase Sex { get => sex; }
         public ushort StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; }
         public ushort SubordinationDomination { get => subordinationDomination; }
         public ushort TimidityCourage { get => timidityCourage; }
@@ -70,7 +70,7 @@ namespace BehaviourModel
             imageID = acs.AgentImageHandler.ImageID;
             agentName = acs.NameInputFieldButtonPair.InputField.text;
             agentType = acs.CreatedType.AssemblyQualifiedName;
-            sex = acs.SexDropButtonPair.DropdownValue == "ì";
+            sex = acs.SexRect.SelectedSex;
             age = Convert.ToUInt16(ushort.Parse(acs.AgeDropButtonPair.DropdownValue));
             weight = Convert.ToUInt16(ushort.Parse(acs.WeightDropButtonPair.DropdownValue));
             height = Convert.ToUInt16(ushort.Parse(acs.HeightDropButtonPair.DropdownValue));

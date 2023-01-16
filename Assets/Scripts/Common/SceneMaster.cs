@@ -1,4 +1,5 @@
 using BuildingModule;
+using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -23,11 +24,20 @@ namespace Common
 
         #endregion Private Fields
 
-        #region Public Properties
+        private void Awake()
+        {
+            if (master == null)
+            {
+                master = this;
+                return;
+            }
+            Destroy(this);
+        }
 
         public static SceneMaster Master { get => master; private set => master = value; }
         public BuildingEntranceModeState BuildingModeState { get => buildingModeState; }
         public BuildingWallsState BuildingWallsState { get => buildingWallsState; }
+
         public SceneStateBase CurrentState
         {
             get => currentState; set
@@ -42,31 +52,24 @@ namespace Common
         public EventsPlanningState EventsPlanningState { get => eventsPlanningState; }
         public IUIViewedObject LastSelectedViewObject
         {
-            get
-            {
-                return lastSelectedViewObject;
-            }
-            set
-            {
-                lastSelectedViewObject = value;
-            }
+            get => lastSelectedViewObject;
+            set => lastSelectedViewObject = value;
         }
 
         public NavigationState NavigationState { get => navigationState; }
         public PlacingInterierSceneState PlacingInterierState { get => placingInterierState; }
         public RoomSplittingState RoomSplittingState { get => roomSplittingState; }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         public void ClearEntrances()
         {
             var entr = EntranceRoot.Root.Entrances;
             foreach (var e in entr)
-            {
                 e.EntrancePlace.TryRemoveExistEntrance(null);
-            }
+        }
+
+        public void CreateTemplateEntrances()
+        {
+            TemplateBuilder.Instance.BuildRandomTemplate();
         }
 
         public void DeactivateAllBuildStateWalls()
@@ -127,21 +130,5 @@ namespace Common
         {
             CurrentState.HandleWallClick(wall, eventData);
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
-
-        private void Awake()
-        {
-            if (master == null)
-            {
-                master = this;
-                return;
-            }
-            Destroy(this);
-        }
-
-        #endregion Private Methods
     }
 }

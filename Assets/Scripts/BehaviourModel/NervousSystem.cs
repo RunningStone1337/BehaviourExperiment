@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -11,37 +12,35 @@ namespace BehaviourModel
     public class NervousSystem : MonoBehaviour
     {
         [SerializeField] [Range(1, 10)] private int activity;
-        [SerializeField] [Range(1f, 10f)] private float actReactRelation;
-        [SerializeField] private int[] nervousBalance;
+        [SerializeField] [Range(1, 10)] private int reactivity;
         [SerializeField] [Range(1, 10)] private int nervousMobility;
         [SerializeField] [Range(1, 10)] private int nervousPower;
-        [SerializeField] [Range(1, 10)] private int reactivity;
-        ///добавить текущий уровень возбуждени€ Ќ—
-        ///разделение неуравновшенности на тормозную и возбудимую
+        [SerializeField] [Range(1, 10)] private int currentExcitement;
+        [SerializeField] NervousBalanceType nervousBalance;
 
         /// <summary>
         /// —тепень активности воздействи€ на мир и целеустремлЄнность.
         /// </summary>
-        public int Activity { get => activity; set => activity = Mathf.Clamp(value, 1, 10); }
+        public int Activity { get => activity; private set => activity = Mathf.Clamp(value, 1, 10); }
 
         /// <summary>
         /// ќтношение активности к реактивности, определ€ет мотивы действий - зависимость от внешних сили или внутренних побуждений.
         /// ѕри == 1 веро€тность 0.5, выше 1 - высока€ активность, ниже 1 - высока€ реактивность.
         /// </summary>
-        public float ActReactRelation { get => actReactRelation; set => actReactRelation = activity / reactivity; }
+        public float ActReactRelation { get => ((float)activity) / reactivity; }
 
         /// <summary>
         /// ”равновешенность Ќ— Ч свойство нервной системы, выражающее соотношение между возбуждением
         /// и торможением, баланс этих процессов. явл€етс€ самосто€тельным свойством нервной системы,
         /// образующее в сочетании с другими (с силой и подвижностью) определенный тип высшей нервной де€тельности.
         /// </summary>
-        public int[] NervousBalance { get => nervousBalance; set => nervousBalance = value; }
+        public NervousBalanceType NervousBalance { get => nervousBalance; private set => nervousBalance = value; }
 
         /// <summary>
         /// ѕодвижность Ќ— - свойство нервной системы, состо€щее в способности быстро реагировать на изменени€ в окружающей среде,
         /// способности переключатьс€ с возбудительного процесса на тормозный и наоборот.
         /// </summary>
-        public int NervousMobility { get => nervousMobility; set => nervousMobility = Mathf.Clamp(value, 1, 10); }
+        public int NervousMobility { get => nervousMobility; private set => nervousMobility = Mathf.Clamp(value, 1, 10); }
 
         /// <summary>
         /// —ила Ќ— - свойство нервной системы, отражающее предел работоспособности клеток коры головного мозга,
@@ -51,11 +50,20 @@ namespace BehaviourModel
         /// более слаба€ нервна€ система €вл€етс€ и более чувствительной, т.е.
         /// она способна реагировать на стимулы более низкой интенсивности, чем сильна€.
         /// </summary>
-        public int NervousPower { get => nervousPower; set => nervousPower = Mathf.Clamp(value, 1, 10); }
+        public int NervousPower { get => nervousPower; private set => nervousPower = Mathf.Clamp(value, 1, 10); }
 
         /// <summary>
         /// —тепень непроизвольности реакций на внешние и внутренние импульсы.
         /// </summary>
-        public int Reactivity { get => reactivity; set => reactivity = Mathf.Clamp(value, 1, 10); }
+        public int Reactivity { get => reactivity; private set => reactivity = Mathf.Clamp(value, 1, 10); }
+
+        public void Initiate(HumanRawData data)
+        {
+            Activity = data.NsActivity;
+            NervousBalance = data.NsType;
+            NervousMobility = data.NsMoveability;
+            NervousPower = data.NsPower;
+            Reactivity = data.NsReactivity;
+        }
     }
 }

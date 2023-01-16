@@ -35,6 +35,6 @@ namespace Events
             }
         }
 
-        public Action<DaySwitcher, bool> DaySelectionChangedEvent;
+        public Action<DaySwitcher, bool> DaySelectionChangedEvent { get; set; }
     }
 }
