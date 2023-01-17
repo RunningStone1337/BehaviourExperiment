@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interier: {fileID: 898191411847240596}
-  color: {r: 0.017432975, g: 0.6698113, b: 0.015797434, a: 1}
+  influenceValue: 2
+  sprite: {fileID: 0}
 --- !u!1001 &1981182722827117054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3287489016382446592, guid: bdc4c4f6d19a98b4091376f1e3352bdd, type: 3}
       propertyPath: m_Name
-      value: NewBoardPrefab
+      value: NewBoardPrefab Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc4c4f6d19a98b4091376f1e3352bdd, type: 3}

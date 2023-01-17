@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BuildingModule
@@ -21,7 +22,8 @@ namespace BuildingModule
             }
             private set => entranceRoot = value;
         }
-
+       
+       
         public List<Entrance> Entrances { get => entrances; private set => entrances = value; }
         public Dictionary<Vector2Int, BuildingPlace> PlacesDict { get; set; } = new Dictionary<Vector2Int, BuildingPlace>();
         public List<Room> Rooms { get => rooms; }

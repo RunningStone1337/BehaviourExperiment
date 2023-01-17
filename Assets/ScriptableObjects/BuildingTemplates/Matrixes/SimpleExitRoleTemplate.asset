@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf0012761d3bb614f9eaa3801957d69c, type: 3}
-  m_Name: SimpleClassTemplate
+  m_Name: SimpleExitRoleTemplate
   m_EditorClassIdentifier: 
-  serializationList: 0001010101000101010100010101010101010000010101000001010100000001000000
+  serializationList: 0000000000000000000000000000000000000000000000000000000000000001000000
   xSerialize: 5
   ySerialize: 7

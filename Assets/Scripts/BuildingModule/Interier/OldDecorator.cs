@@ -6,9 +6,10 @@ namespace BuildingModule
     {
         private void Awake()
         {
-            interier.Renderer.color = interierColor;
+            interier.Renderer.sprite = sprite;
+            interier.InfluenceValue -= influenceValue;
         }
 
-        [SerializeField] protected Color interierColor;
+        [SerializeField] protected Sprite sprite;
     }
 }

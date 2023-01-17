@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c293b5823c143d647ac8ba026b9701a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
-  collider2d: {fileID: 0}
-  thisInterierPlace: {fileID: 0}
   interier: {fileID: 6187758628626347132}
-  color: {r: 0.6226415, g: 0.5513501, b: 0, a: 1}
+  influenceValue: 3
+  sprite: {fileID: 21300000, guid: bb8209db757fd314e9d4138e1180c89c, type: 3}
 --- !u!1001 &1134515026116949825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24,10 +22,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1562430425123793661, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562430425123793661, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562430425123793661, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: objName
       value: "\u041D\u043E\u0432\u044B\u0439 \u0441\u0442\u043E\u043B"
       objectReference: {fileID: 0}
+    - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: previewSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bb8209db757fd314e9d4138e1180c89c, type: 3}
     - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: objDescription
       value: "\u041E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u043F\u043E\u043B\u043E\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435
@@ -91,15 +105,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8550153596203979650, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8550153596203979650, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_Color.g
-      value: 0.5513501
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8550153596203979650, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_Color.r
-      value: 0.6226415
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}

@@ -152,6 +152,13 @@ public abstract class CustomEditorBase : Editor
             list.Add(null);
         GUILayout.EndHorizontal();
     }
+    private void DrawPreferedAddingButtons<T1,T2>(List<(T1,T2)> list, string givePlaceFOR) where T1 : Object where T2 : Object
+    {
+        GUILayout.BeginHorizontal("box");
+        if (GUILayout.Button(givePlaceFOR))
+            list.Add(default);
+        GUILayout.EndHorizontal();
+    }
     protected void DrawPreferedAddingButtons<T>(List<T> list, MonoBehaviour callerScript, Action<T, int> afterAddingDelegate, string addNAMEinPLACE, string givePlaceFOR) where T : MonoBehaviour
     {
         GUILayout.BeginHorizontal("box");
@@ -397,6 +404,40 @@ public abstract class CustomEditorBase : Editor
             return DrawPreferedAddingButtonsForAbstract(list, afterAddingDelegate, addNAMEinPLACE, givePlaceFOR, inputTuple, showInheritorsOptions);
     }
 
+    protected virtual List<(T1,T2)> DrawPreferedViewedList<T1,T2>(List<(T1,T2)> list, string listMemberName, string emptyEntityName, string addNAMEinPLACE, string givePlaceFOR, bool showInheritorsOptions = default, (int index, string abstractTypeFullName) inputTuple = default,
+       Action<int> afterRemovingDelegate = null, Action<(T1,T2), int> afterAddingDelegate = null, Action<(T1, T2)> typeCheckingDelegate = null, Action<int> beforeDrawingItemDelegate = null) where T1 : Object where T2 : Object
+    {
+        if (list == null)
+            list = new List<(T1, T2)>();
+        if (list.Count > 0)
+        {
+            for (int index = 0; index < list.Count; index++)
+            {
+                DrawListItem(ref list, listMemberName, index, afterRemovingDelegate, typeCheckingDelegate, beforeDrawingItemDelegate);
+            }
+        }
+        else
+            LabelField($"Список объектов {emptyEntityName} пуст");
+        return DrawTupleAddingButtons(ref list, givePlaceFOR);
+    }
+
+    private List<(T1, T2)> DrawTupleAddingButtons<T1, T2>
+        (ref List<(T1, T2)> list, string givePlaceFOR)
+        where T1 : Object
+        where T2 : Object
+    {      
+        ((string, int, string), bool, List<(T1, T2)>) res = (default,default,list);
+        //if (!type1.IsAbstract)
+        //{
+        //    DrawPreferedAddingButtons(ref list, afterAddingDelegate, addNAMEinPLACE, givePlaceFOR);
+        //    res=(default, default, list);
+        //}
+        //else
+        //    res= DrawPreferedAddingButtonsForAbstract(list, afterAddingDelegate, addNAMEinPLACE, givePlaceFOR, inputTuple, showInheritorsOptions);
+        DrawPreferedAddingButtons(list, givePlaceFOR);
+        return list;
+    }
+
     /// <summary>
     /// Метод отрисовки листа по определённому шаблону с возможностью опциональных вставок до отрисовки основного контента.
     /// </summary>
@@ -478,6 +519,43 @@ public abstract class CustomEditorBase : Editor
             list[itemIndex] = DrawObjectField("Зарезервированное место", list[itemIndex]);
             EndHorizontal();
         }
+    }
+    private void DrawListItem<T1,T2>(ref List<(T1,T2)> list, string listMemberName, int itemIndex, Action<int> afterRemovingDelegate, Action<(T1, T2)> typeCheckingDelegate, Action<int> beforeDrawingItemDelegate) where T1 : Object where T2 : Object
+    {
+        beforeDrawingItemDelegate?.Invoke(itemIndex);
+        if (GUILayout.Button("x", GUILayout.Width(25)))
+        {
+            list.RemoveAt(itemIndex);
+            afterRemovingDelegate?.Invoke(itemIndex);
+            return;
+        }
+        T1 item1;
+        T2 item2;
+        if (list[itemIndex].Item1 != null)
+            item1= DrawObjectField($"{listMemberName} {itemIndex + 1}", list[itemIndex].Item1);
+        else
+            item1 = DrawObjectField("Зарезервированное место", list[itemIndex].Item1);
+        if (list[itemIndex].Item2 != null)
+            item2 = DrawObjectField($"{listMemberName} {itemIndex + 1}", list[itemIndex].Item2);
+        else
+            item2 = DrawObjectField("Зарезервированное место", list[itemIndex].Item2);
+        if (item1 != null)
+        {
+            BeginVertical("box");
+            var ed = CreateEditor(item1);
+            ed.OnInspectorGUI();
+            typeCheckingDelegate?.Invoke(list[itemIndex]);
+            EndVertical();
+        }
+        if (item2 != null)
+        {
+            BeginVertical("box");
+            var ed = CreateEditor(item2);
+            ed.OnInspectorGUI();
+            typeCheckingDelegate?.Invoke(list[itemIndex]);
+            EndVertical();
+        }
+        list[itemIndex] = (item1, item2);
     }
     private void DrawListItem<T>(List<T> list, string listMemberName, int itemIndex, bool drawItemEditor) where T : Object
     {

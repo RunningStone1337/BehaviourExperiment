@@ -13,3 +13,11 @@ MonoBehaviour:
   m_Name: Config
   m_EditorClassIdentifier: 
   entrancePlacingTemplate: {fileID: 11400000, guid: ff6693c7de5c8b846a10884516899f22, type: 2}
+  rolesTemplates:
+  - {fileID: 11400000, guid: 1cd6778f51844884eac6c643fb3a6e78, type: 2}
+  - {fileID: 11400000, guid: 1d750f1b7ec73044db826008a97ff763, type: 2}
+  - {fileID: 11400000, guid: ffb55b17a4eb040478334fccba0ac406, type: 2}
+  roles:
+  - {fileID: 11400000, guid: 244248b95b9e2024288cc31795290066, type: 2}
+  - {fileID: 11400000, guid: e94c0d4989d18d84b9472f4e7b318db2, type: 2}
+  - {fileID: 11400000, guid: 491aeb1d9736abc4e94d8a6d05978eb5, type: 2}

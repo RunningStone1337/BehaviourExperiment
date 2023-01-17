@@ -26093,10 +26093,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5721c8c1ac8cad438978cdf251f12c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakEvent: {fileID: 11400000, guid: 77ea512a55903204c97a444fd3b23b98, type: 2}
+  currentEvent: {fileID: 0}
+  lessonEvent: {fileID: 11400000, guid: c0d3984f7898e0141b96adf7ac74e384, type: 2}
   agentsHandler: {fileID: 1084230175}
-  schedule: {fileID: 1084230176}
   pupilPrefab: {fileID: 4328003032107239062, guid: 2c229f81f1bfb054091b8522691ed330, type: 3}
+  schedule: {fileID: 1084230176}
   teacherPrefab: {fileID: 0}
+  temporaryEffects: []
 --- !u!114 &1085384972 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5194044050575041988, guid: d28920fee0d6d5f4ba67c5c3c3a8e722, type: 3}
@@ -46336,7 +46340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1925363036
 RectTransform:
   m_ObjectHideFlags: 0

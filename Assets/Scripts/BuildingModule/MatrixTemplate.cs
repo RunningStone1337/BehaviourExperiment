@@ -42,8 +42,11 @@ namespace BuildingModule
         public void OnBeforeSerialize()
         {
             serializationList = new List<bool>();
-            ySerialize = placesMatrix.Count;
-            xSerialize = placesMatrix.Count > 0 ? placesMatrix[0].Length : 0;
+            ySerialize = placesMatrix != null? placesMatrix.Count : 0;
+            if (placesMatrix != null)
+                xSerialize = placesMatrix.Count > 0 ? placesMatrix[0].Length : 0;
+            else
+                xSerialize = 0;
             for (int i = 0; i < ySerialize; i++)
                 serializationList.AddRange(placesMatrix[i]);
         }

@@ -4,11 +4,12 @@ namespace BuildingModule
 {
     public class NewDecorator : InterierDecoratorBase
     {
-        [SerializeField] private Color color;
+        [SerializeField] private Sprite sprite;
 
         private void Awake()
         {
-            interier.Renderer.color = color;
+            interier.Renderer.sprite = sprite;
+            interier.InfluenceValue += influenceValue;
         }
     }
 }

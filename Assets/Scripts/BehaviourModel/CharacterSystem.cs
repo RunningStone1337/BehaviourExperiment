@@ -1,3 +1,4 @@
+using Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace BehaviourModel
     /// импульсов нервной системы, возникающих вследствие внешних или внутренних или
     ///  факторов.
     /// </summary>
-    public class CharacterSystem : MonoBehaviour
+    public class CharacterSystem : MonoBehaviour, IContextCreator
     {
         [SerializeField] private CalmnessAnxiety calmnessAnxiety;
         [SerializeField] private ClosenessSociability closenessSociability;
@@ -35,7 +36,7 @@ namespace BehaviourModel
             where THigh : TRes
             where TRes : CharacterTraitBase
         {
-            TRes res;
+            TRes res = null;
             var range = Enumerable.Range(1, 3);
             if (range.Contains(characterValue))
             {
@@ -54,25 +55,52 @@ namespace BehaviourModel
                 res = gameObject.AddComponent<THigh>();
                 res.Initiate(characterValue);
             }
+            if (res != null)
+                return res;
             throw new Exception($"Value {nameof(characterValue)} was out of range [1;10]");
         }
 
         public CalmnessAnxiety CalmnessAnxiety { get => calmnessAnxiety; private set => calmnessAnxiety = value; }
+
         public ClosenessSociability ClosenessSociability { get => closenessSociability; private set => closenessSociability = value; }
+
         public ConformismNonconformism ConformismNonconformism { get => conformismNonconformism; private set => conformismNonconformism = value; }
+
         public ConservatismRadicalism ConservatismRadicalism { get => conservatismRadicalism; private set => conservatismRadicalism = value; }
+
         public CredulitySuspicion CredulitySuspicion { get => credulitySuspicion; private set => credulitySuspicion = value; }
+
         public EmotionalInstabilityStability EmotionalInstabilityStability { get => emotionalInstabilityStability; private set => emotionalInstabilityStability = value; }
+
         public Intelligence Intelligence { get => intelligence; private set => intelligence = value; }
+
         public NormativityOfBehaviour NormativityOfBehaviour { get => normativityOfBehaviour; private set => normativityOfBehaviour = value; }
+
         public PracticalityDreaminess PracticalityDreaminess { get => practicalityDreaminess; private set => practicalityDreaminess = value; }
+
         public RelaxationTension RelaxationTension { get => relaxationTension; private set => relaxationTension = value; }
+
         public RestraintExpressiveness RestraintExpressiveness { get => restraintExpressiveness; private set => restraintExpressiveness = value; }
+
         public RigiditySensetivity RigiditySensetivity { get => rigiditySensetivity; private set => rigiditySensetivity = value; }
+
         public Selfcontrol Selfcontrol { get => selfcontrol; private set => selfcontrol = value; }
+
         public StraightforwardnessDiplomacy StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; private set => straightforwardnessDiplomacy = value; }
+
         public SubordinationDomination SubordinationDomination { get => subordinationDomination; private set => subordinationDomination = value; }
+
         public TimidityCourage TimidityCourage { get => timidityCourage; private set => timidityCourage = value; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<IContext> CreateContext()
+        {
+            var result = new List<IContext>();
+            return result;
+        }
 
         public void Initiate(HumanRawData data)
         {

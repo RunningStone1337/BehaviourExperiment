@@ -18,8 +18,7 @@ public class EntranceTemplateConfigEditor : CustomEditorBase
     {
         base.OnInspectorGUI();
         etc.EntrancePlacingTemplate = DrawObjectField("Шаблон размещения", etc.EntrancePlacingTemplate, true);
-        //TODO прлдумать отрисовку кортежей
-        //etc.EntrancesRolesTemplates = DrawPreferedViewedList("Шаблоны ролей","Пара шаблон-роль","Выделить место для пары","пара", etc.EntrancesRolesTemplates, true);
+        etc.EntrancesRolesTemplates = DrawPreferedViewedList(etc.EntrancesRolesTemplates, "Шаблоны ролей", "Пара шаблон-роль", "Добавить пару в лист", "Выделить место для пары", true);
         CheckDirty();
     }
 }

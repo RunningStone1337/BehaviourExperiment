@@ -97,15 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97eeafbe0e043904bb4b2fb6616013c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5238219662315018093}
   collider2d: {fileID: 6095224493026633613}
-  thisInterierPlace: {fileID: 0}
-  thisIdentifier: {fileID: 917818194238383277}
-  previewSprite: {fileID: 0}
-  objName: "\u041F\u0440\u043E\u0441\u0442\u043E\u0439 \u0441\u0442\u0443\u043B"
   objDescription: "\u041D\u0435 \u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442
     \u043D\u0438\u043A\u0430\u043A\u043E\u0433\u043E \u0432\u043B\u0438\u044F\u043D\u0438\u044F
     \u043D\u0430 \u043A\u043E\u043C\u0444\u043E\u0440\u0442"
+  objName: "\u041F\u0440\u043E\u0441\u0442\u043E\u0439 \u0441\u0442\u0443\u043B"
+  previewSprite: {fileID: 0}
+  spriteRenderer: {fileID: 5238219662315018093}
+  thisIdentifier: {fileID: 917818194238383277}
+  thisInterierPlace: {fileID: 0}
 --- !u!58 &6095224493026633613
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -116,7 +116,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

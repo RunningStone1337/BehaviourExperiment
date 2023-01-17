@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -12,12 +11,11 @@ namespace BehaviourModel
     public class NervousSystem : MonoBehaviour
     {
         [SerializeField] [Range(1, 10)] private int activity;
-        [SerializeField] [Range(1, 10)] private int reactivity;
+        [SerializeField] [Range(1, 10)] private int currentExcitement;
+        [SerializeField] private NervousBalanceType nervousBalance;
         [SerializeField] [Range(1, 10)] private int nervousMobility;
         [SerializeField] [Range(1, 10)] private int nervousPower;
-        [SerializeField] [Range(1, 10)] private int currentExcitement;
-        [SerializeField] NervousBalanceType nervousBalance;
-
+        [SerializeField] [Range(1, 10)] private int reactivity;
         /// <summary>
         /// Степень активности воздействия на мир и целеустремлённость.
         /// </summary>

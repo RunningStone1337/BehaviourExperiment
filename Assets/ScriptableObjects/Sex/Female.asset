@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9a88abf7651654db419fe5c4b0e399, type: 3}
   m_Name: Female
   m_EditorClassIdentifier: 
+  sexName: "\u0416"

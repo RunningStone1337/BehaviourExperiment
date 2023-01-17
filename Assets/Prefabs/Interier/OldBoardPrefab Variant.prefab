@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interier: {fileID: 4749020655512528568}
-  interierColor: {r: 0, g: 0.09433961, b: 0.004387891, a: 1}
+  influenceValue: 5
+  sprite: {fileID: 0}
 --- !u!1001 &6264083202573819090
 PrefabInstance:
   m_ObjectHideFlags: 0
