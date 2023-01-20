@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IContextCreator, IInfluenceSource
+    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IEmotionSource
     {
         [SerializeField] private Collider2D collider2d;
         [SerializeField] private int influenceValue;
@@ -46,7 +46,7 @@ namespace BuildingModule
             mp.OppositeMiddlePlace.SetStateForInterier(this);
         }
 
-        public int InfluenceValue { get => influenceValue; set => influenceValue = value; }
+        public int PhenomenonPower { get => influenceValue; set => influenceValue = value; }
         public string Name => objName;
         public string ObjDescription => objDescription;
         public Sprite PreviewSprite => previewSprite;
@@ -61,51 +61,28 @@ namespace BuildingModule
         /// <returns></returns>
         public virtual bool CanExist(Underwall underwall) => true;
 
-        public List<IContext> CreateContext()
-        {
-            var res = new List<IContext>();
-            if (InfluenceValue > 0)
-                res.Add(new PositiveInterierImpression(this));
-            else if (InfluenceValue < 0)
-                res.Add(new NegativeInterierImpression(this));
-            else
-                res.Add(new NeutralInterierImpression(this));
-            return res;
-        }
-
-        ///// <summary>
-        /////  онтекст дл€ данного интерьера, если он есть
-        ///// в радиусе окружени€.
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<IContext> GetFeltInterierContext()
+        /// <summary>
+        /// Ёмоции, возникающие при воспри€тии данного интерьера
+        /// </summary>
+        /// <returns></returns>
+        //public List<EmotionBase> GetEmotions()
         //{
-        //    var res = new List<IContext>();
-        //    if (InfluenceValue > 0)
-        //        res.Add(new PositiveInterierImpression(this));
-        //    else if (InfluenceValue < 0)
-        //        res.Add(new NeutralInterierImpression(this));
+        //    var res = new List<EmotionBase>();
+        //    if (PhenomenonPower > 0)
+        //    {
+        //        res.Add(new HappyHappinessEmotion(this));
+        //        res.Add(new ApprovalApprovalEmotion(this));
+        //    }
+        //    else if (PhenomenonPower < 0)
+        //    {
+        //        res.Add(new AnnoyanceAngerEmotion(this));
+        //        res.Add(new DislikeDisgustEmotion(this));
+        //        res.Add(new DespondencySadEmotion(this));
+        //    }
         //    else
-        //        res.Add(new NeutralInterierImpression(this));
+        //        res.Add(new SerenityHappinessEmotion(this));
         //    return res;
-        //}
-
-        ///// <summary>
-        /////  онтекст дл€ данного интерьера, если он есть
-        ///// в зоне пр€мой видимости.
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<IContext> GetSeenInterierContext()
-        //{
-        //    var res = new List<IContext>();
-        //    if (InfluenceValue > 0)
-        //        res.Add(new PositiveInterierImpression(this));
-        //    else if (InfluenceValue < 0)
-        //        res.Add(new NegativeInterierImpression(this));
-        //    else
-        //        res.Add(new NeutralInterierImpression(this));
-        //    return res;
-        //}
+        //}      
 
         public virtual bool IsAvailForPlacing(MiddlePlace place) => default;
 

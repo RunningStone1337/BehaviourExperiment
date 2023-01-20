@@ -10,5 +10,6 @@ namespace BehaviourModel
     /// </summary>
     public abstract class CalmnessAnxiety : CharacterTraitBase
     {
+        
     }
 }

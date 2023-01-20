@@ -8,6 +8,7 @@ namespace BehaviourModel
     {
         [SerializeField] string objName;
         [SerializeField] string objDescription;
+        [SerializeField] int[] balanceGraph;
         public string Name => objName;
         public string ObjDescription => objDescription;
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BuildingModule
 {
-    public abstract class InterierDecoratorBase : InterierBase, IInfluenceSource
+    public abstract class InterierDecoratorBase : InterierBase
     {
         [SerializeField] protected PlacedInterier interier;
         [SerializeField] protected int influenceValue;

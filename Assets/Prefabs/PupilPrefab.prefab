@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28fc7657bb0160949931c0857e5a5e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewCollider: {fileID: 3968854371583691687}
   thisAgent: {fileID: 7657761990782980065}
+  viewCollider: {fileID: 3968854371583691687}
 --- !u!60 &3968854371583691687
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -208,23 +208,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentAge: 0
+  agentCollider: {fileID: 0}
   agentDescription: 
   agentHeight: 0
   agentName: 
   agentRenderer: {fileID: 8473486698693941904}
   agentSex: {fileID: 0}
+  agentValue: 5
   agentWeight: 0
-  characterSystem: {fileID: 2241077677054598208}
   experimentHandler: {fileID: 0}
-  featuresSystem: {fileID: 4345080000005487050}
   idleWaiting: 0
-  seengInterier: []
   isActing: 0
+  previewSprite: {fileID: 0}
+  characterSystem: {fileID: 2241077677054598208}
+  featuresSystem: {fileID: 4345080000005487050}
   movementComponent: {fileID: 5648346406576308527}
   nervousSystem: {fileID: 2509135949452900917}
-  previewSprite: {fileID: 0}
   thisEyes: {fileID: 930825565177353055}
-  nearestFeelingCollider: {fileID: 3462251564297644261}
 --- !u!114 &2241077677054598208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c6f2c4003c5ef42b42940a51f2c643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisAgent: {fileID: 7657761990782980065}
   calmnessAnxiety: {fileID: 0}
+  characterTraits: []
   closenessSociability: {fileID: 0}
   conformismNonconformism: {fileID: 0}
   conservatismRadicalism: {fileID: 0}
@@ -266,11 +268,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activity: 0
+  currentActivity: 0
   currentExcitement: 0
+  currentReactivity: 0
   nervousBalance: {fileID: 0}
   nervousMobility: 0
   nervousPower: 0
   reactivity: 0
+  thisAgent: {fileID: 0}
 --- !u!114 &4345080000005487050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +316,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.037
 --- !u!50 &5039681430419798386
 Rigidbody2D:
   serializedVersion: 4

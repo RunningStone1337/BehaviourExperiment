@@ -1,5 +1,5 @@
-using Core;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,9 +11,11 @@ namespace BehaviourModel
     /// импульсов нервной системы, возникающих вследствие внешних или внутренних или
     ///  факторов.
     /// </summary>
-    public class CharacterSystem : MonoBehaviour, IContextCreator
+    public class CharacterSystem : MonoBehaviour/*, IPhenomenonsCreator*/, IEnumerable<CharacterTraitBase>
     {
+        [SerializeField] AgentBase thisAgent;
         [SerializeField] private CalmnessAnxiety calmnessAnxiety;
+        [SerializeField] [HideInInspector] private List<CharacterTraitBase> characterTraits;
         [SerializeField] private ClosenessSociability closenessSociability;
         [SerializeField] private ConformismNonconformism conformismNonconformism;
         [SerializeField] private ConservatismRadicalism conservatismRadicalism;
@@ -31,7 +33,7 @@ namespace BehaviourModel
         [SerializeField] private TimidityCourage timidityCourage;
 
         private TRes CreateCharacter<TLow, TMid, THigh, TRes>(int characterValue)
-            where TLow : TRes
+                    where TLow : TRes
             where TMid : TRes
             where THigh : TRes
             where TRes : CharacterTraitBase
@@ -39,67 +41,47 @@ namespace BehaviourModel
             TRes res = null;
             var range = Enumerable.Range(1, 3);
             if (range.Contains(characterValue))
-            {
                 res = gameObject.AddComponent<TLow>();
-                res.Initiate(characterValue);
-            }
             range = Enumerable.Range(4, 4);
             if (range.Contains(characterValue))
-            {
                 res = gameObject.AddComponent<TMid>();
-                res.Initiate(characterValue);
-            }
             range = Enumerable.Range(8, 3);
             if (range.Contains(characterValue))
-            {
                 res = gameObject.AddComponent<THigh>();
-                res.Initiate(characterValue);
-            }
             if (res != null)
+            {
+                res.Initiate(characterValue, thisAgent);
+                characterTraits.Add(res);
                 return res;
+            }
             throw new Exception($"Value {nameof(characterValue)} was out of range [1;10]");
         }
 
         public CalmnessAnxiety CalmnessAnxiety { get => calmnessAnxiety; private set => calmnessAnxiety = value; }
-
         public ClosenessSociability ClosenessSociability { get => closenessSociability; private set => closenessSociability = value; }
-
         public ConformismNonconformism ConformismNonconformism { get => conformismNonconformism; private set => conformismNonconformism = value; }
-
         public ConservatismRadicalism ConservatismRadicalism { get => conservatismRadicalism; private set => conservatismRadicalism = value; }
-
         public CredulitySuspicion CredulitySuspicion { get => credulitySuspicion; private set => credulitySuspicion = value; }
-
         public EmotionalInstabilityStability EmotionalInstabilityStability { get => emotionalInstabilityStability; private set => emotionalInstabilityStability = value; }
-
         public Intelligence Intelligence { get => intelligence; private set => intelligence = value; }
-
         public NormativityOfBehaviour NormativityOfBehaviour { get => normativityOfBehaviour; private set => normativityOfBehaviour = value; }
-
         public PracticalityDreaminess PracticalityDreaminess { get => practicalityDreaminess; private set => practicalityDreaminess = value; }
-
         public RelaxationTension RelaxationTension { get => relaxationTension; private set => relaxationTension = value; }
-
         public RestraintExpressiveness RestraintExpressiveness { get => restraintExpressiveness; private set => restraintExpressiveness = value; }
-
         public RigiditySensetivity RigiditySensetivity { get => rigiditySensetivity; private set => rigiditySensetivity = value; }
-
         public Selfcontrol Selfcontrol { get => selfcontrol; private set => selfcontrol = value; }
-
         public StraightforwardnessDiplomacy StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; private set => straightforwardnessDiplomacy = value; }
-
         public SubordinationDomination SubordinationDomination { get => subordinationDomination; private set => subordinationDomination = value; }
-
         public TimidityCourage TimidityCourage { get => timidityCourage; private set => timidityCourage = value; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public List<IContext> CreateContext()
+        public CharacterTraitBase this[int index]
         {
-            var result = new List<IContext>();
-            return result;
+            get { return characterTraits[index]; }
+            set { characterTraits[index] = value; }
+        }
+
+        public IEnumerator<CharacterTraitBase> GetEnumerator()
+        {
+            return characterTraits.GetEnumerator();
         }
 
         public void Initiate(HumanRawData data)
@@ -120,6 +102,11 @@ namespace BehaviourModel
             StraightforwardnessDiplomacy = CreateCharacter<LowDiplomacy, MiddleDiplomacy, HighDiplomacy, StraightforwardnessDiplomacy>(data.StraightforwardnessDiplomacy);
             SubordinationDomination = CreateCharacter<LowDomination, MiddleDomination, HighDomination, SubordinationDomination>(data.SubordinationDomination);
             TimidityCourage = CreateCharacter<LowCourage, MiddleCourage, HighCourage, TimidityCourage>(data.TimidityCourage);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return characterTraits.GetEnumerator();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BuildingModule
         private void Awake()
         {
             interier.Renderer.sprite = sprite;
-            interier.InfluenceValue += influenceValue;
+            interier.PhenomenonPower += influenceValue;
         }
     }
 }
