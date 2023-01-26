@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class FeaturesSystem : MonoBehaviour/*, IPhenomenonsCreator*/, IEnumerable<FeatureBase>
+    public class FeaturesSystem : MonoBehaviour, IEnumerable<FeatureBase>
     {
         [SerializeField] private List<FeatureBase> features;
 
@@ -22,16 +22,5 @@ namespace BehaviourModel
         {
             return features.GetEnumerator();
         }
-
-        //public List<IPhenomenon> GetPhenomenons()
-        //{
-        //    //var res = new List<IActionsSource>();
-        //    //foreach (var f in features)
-        //    //{
-        //    //    res.AddRange(f.Crea)
-        //    //}
-        //    //return res;
-        //    return new List<IPhenomenon>(features);
-        //}
     }
 }

@@ -7,6 +7,15 @@ namespace BehaviourModel
     /// </summary>
     public sealed class HighAnxiety : CalmnessAnxiety
     {
+        protected override float CalculateImportanceForFamiliar(AgentBase agent)
+        {
+            float res = default;
+            var currentRelation = ThisAgent.GetCurrentRelationTo(agent);
+            if (currentRelation.HasImportanceFor(this))
+                res += currentRelation.GetImportanceValueFor(this);
+            return res;
+        }
+
         /// <summary>
         /// Как важен человек для тревожного характера?
         /// Я его знаю? Если нет, то скорее всего, это источник проблем и неприятностей.

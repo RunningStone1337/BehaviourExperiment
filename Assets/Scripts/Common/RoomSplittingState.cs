@@ -18,7 +18,7 @@ namespace Common
         {
             if (entrance.TrySeparateRoom())
             {
-                entrance.ThisRoom.StartEntrancesRoutine();
+                entrance.CurrentRoom.StartEntrancesRoutine();
             }
         }
 

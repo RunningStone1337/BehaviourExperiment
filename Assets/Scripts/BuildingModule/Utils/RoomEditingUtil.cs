@@ -15,14 +15,14 @@ namespace BuildingModule
         private void SeparateRoomFromDirection(Entrance entr, Direction direction, Room oldRoom, Room newRoom, List<Entrance> checkedEntrances)
         {
             var directions = GetAdditionalDirections(direction);
-            entr.ThisRoom = newRoom;
+            entr.CurrentRoom = newRoom;
             foreach (var d in directions)
             {
                 var n = entr.GetNeighbourFromDirection(d);
                 if (n != null && !checkedEntrances.Contains(n))
                 {
                     checkedEntrances.Add(n);
-                    if (n.ThisRoom == oldRoom && !entr.HasWallBetween(n))
+                    if (n.CurrentRoom == oldRoom && !entr.HasWallBetween(n))
                     {
                         var inverse = OppositeDirection(d);
                         SeparateRoomFromDirection(n, inverse, oldRoom, newRoom, checkedEntrances);
@@ -48,9 +48,9 @@ namespace BuildingModule
             foreach (var n in entrance.Neighbours)
             {
                 if (!n.HasWallBetween(entrance) && !entrance.HasWallBetween(n))
-                    nonSeparatedRooms.Add(n.ThisRoom);
+                    nonSeparatedRooms.Add(n.CurrentRoom);
                 else
-                    separatedRooms.Add(n.ThisRoom);
+                    separatedRooms.Add(n.CurrentRoom);
             }
             ///смотрим к каким комнатам они принадлежат.
             if (nonSeparatedRooms.Count > 0)
@@ -67,7 +67,7 @@ namespace BuildingModule
             if (entrance.CanBeSeparated(out Direction direction))
             {
                 var newRoom = EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();
-                SeparateRoomFromDirection(entrance, direction, entrance.ThisRoom, newRoom, new List<Entrance>());
+                SeparateRoomFromDirection(entrance, direction, entrance.CurrentRoom, newRoom, new List<Entrance>());
                 return true;
             }
             return default;

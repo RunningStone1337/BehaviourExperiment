@@ -130,16 +130,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce73ae67231040428d1755ad81d2e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 2150807712747624199}
+  availableForPlacingInterier: {fileID: -3737803376458897554}
   collider2d: {fileID: 1846455819449293299}
-  interier: []
+  currentState: {fileID: 0}
   entrance: {fileID: 0}
   freeInterierPlaceState: {fileID: 2234253822949170710}
+  interier: []
   occupedInterierPlaceState: {fileID: 9156079413956901801}
-  availableForPlacingInterier: {fileID: -3737803376458897554}
-  currentState: {fileID: 0}
-  oppositeMiddlePlace: {fileID: 0}
+  spriteRenderer: {fileID: 2150807712747624199}
   leftMiddlePlace: {fileID: 0}
+  oppositeMiddlePlace: {fileID: 0}
   rightMiddlePlace: {fileID: 0}
 --- !u!61 &1846455819449293299
 BoxCollider2D:
@@ -165,7 +165,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.03, y: 0.1}
+  m_Size: {x: 0.1875, y: 0.625}
   m_EdgeRadius: 0
 --- !u!114 &-3737803376458897554
 MonoBehaviour:
@@ -181,8 +181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
   placeRenderer: {fileID: 2150807712747624199}
-  targetColor: {r: 0.6313726, g: 0.33333334, b: 0.15686275, a: 0.7490196}
   step: 0.005
+  targetColor: {r: 0.6313726, g: 0.33333334, b: 0.15686275, a: 0.7490196}
 --- !u!114 &9156079413956901801
 MonoBehaviour:
   m_ObjectHideFlags: 0

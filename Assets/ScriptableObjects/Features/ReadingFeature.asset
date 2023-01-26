@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac83dc933de13ef4eafe9babd3286b55, type: 3}
   m_Name: ReadingFeature
   m_EditorClassIdentifier: 
+  categoricalMatchMultiplier: 1.5
+  exactMatchMultiplier: 3
   featureName: "\u0427\u0442\u0435\u043D\u0438\u0435"
+  featurePower: 1

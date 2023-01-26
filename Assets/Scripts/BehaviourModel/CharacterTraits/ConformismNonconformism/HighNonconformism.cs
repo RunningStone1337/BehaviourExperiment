@@ -14,10 +14,7 @@ namespace BehaviourModel
         /// </summary>
         /// <param name="ab"></param>
         /// <returns></returns>
-        protected override bool CanBeImportantForAgent(AgentBase ab)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override bool CanBeImportantForAgent(AgentBase ab) => true;
 
         public override void Initiate(int characterValue, AgentBase agent)
         {

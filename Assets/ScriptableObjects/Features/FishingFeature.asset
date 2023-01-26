@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49770403a9c6e6b4880fd2891a82aed2, type: 3}
   m_Name: FishingFeature
   m_EditorClassIdentifier: 
+  categoricalMatchMultiplier: 1.5
+  exactMatchMultiplier: 3
   featureName: "\u0420\u044B\u0431\u0430\u043B\u043A\u0430"
+  featurePower: 1

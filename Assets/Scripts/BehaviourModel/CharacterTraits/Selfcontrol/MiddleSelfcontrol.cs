@@ -20,6 +20,7 @@ namespace BehaviourModel
         public override void Initiate(int characterValue, AgentBase agent)
         {
             base.Initiate(characterValue, agent);
+            recognitionChance = GetRecognitionChanceForMiddle();
             ImportanceInfluencHandlersDict.Add(typeof(LessonEvent), 3 * CharacterValue);
             ImportanceInfluencHandlersDict.Add(typeof(BreakEvent), -3 * CharacterValue);
         }

@@ -17,10 +17,10 @@ namespace Common
         public override void HandleEntranceClick(Entrance entrance, PointerEventData eventData)
         {
             var currentView = (EntranceRoleBase)SceneMaster.Master.LastSelectedViewObject;
-            if (entrance.ThisRoom.Role != currentView)
+            if (entrance.CurrentRoom.Role != currentView)
             {
-                entrance.ThisRoom.Role = currentView;
-                entrance.ThisRoom.StartEntrancesRoutine();
+                entrance.CurrentRoom.Role = currentView;
+                entrance.CurrentRoom.StartEntrancesRoutine();
             }
         }
 

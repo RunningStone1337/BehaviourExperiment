@@ -17,6 +17,7 @@ namespace BehaviourModel
         public override void Initiate(int characterValue, AgentBase agent)
         {
             base.Initiate(characterValue, agent);
+            recognitionChance = (7 + CharacterValue)/10f;
             ImportanceInfluencHandlersDict.Add(typeof(EmotionBase), 3 * CharacterValue);
         }
     }

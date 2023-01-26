@@ -111,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6214730061173427353}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7805700204773506397}
@@ -130,13 +130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e23c35d31c467947944f95558f50e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 3215405853686389565}
-  collider2d: {fileID: 7681338605785271420}
-  isOccuped: 0
-  freeInterierPlaceState: {fileID: 979023045484023851}
-  occupedInterierPlaceState: {fileID: 4804221251204782837}
   availableForPlacingInterier: {fileID: 1207608337726734205}
+  collider2d: {fileID: 7681338605785271420}
   currentState: {fileID: 0}
+  entrance: {fileID: 0}
+  freeInterierPlaceState: {fileID: 979023045484023851}
+  interier: []
+  occupedInterierPlaceState: {fileID: 4804221251204782837}
+  spriteRenderer: {fileID: 3215405853686389565}
 --- !u!58 &7681338605785271420
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -152,7 +153,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.03
+  m_Radius: 0.1875
 --- !u!114 &979023045484023851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,5 +194,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisPlace: {fileID: 0}
   placeRenderer: {fileID: 3215405853686389565}
-  targetColor: {r: 0.7830189, g: 0.3511652, b: 0.15143289, a: 0.74509805}
   step: 0.005
+  targetColor: {r: 0.7830189, g: 0.3511652, b: 0.15143289, a: 0.74509805}

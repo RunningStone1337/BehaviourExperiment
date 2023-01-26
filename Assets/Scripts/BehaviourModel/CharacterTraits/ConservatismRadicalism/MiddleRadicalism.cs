@@ -8,11 +8,19 @@ namespace BehaviourModel
         /// Если будешь мне что-то доказывать, я не буду слушать - может, ты и прав, но 
         /// мне всё равно. 
         /// Мы знакомы? Если да, то какие у нас отношения? Если хорошие - может и пообщаемся,
-        /// только не умничай.
+        /// только не лезь в душу.
         /// Нет - не интересен.
         /// </summary>
         /// <param name="ab"></param>
         /// <returns></returns>
         protected override bool CanBeImportantForAgent(AgentBase ab) => true;
+        protected override float CalculateImportanceForFamiliar(AgentBase ab)
+        {
+            float res = default;
+            var currentRelation = ThisAgent.GetCurrentRelationTo(ab);
+            if (currentRelation.HasImportanceFor(this))
+                res += currentRelation.GetImportanceValueFor(this);
+            return res;
+        }
     }
 }

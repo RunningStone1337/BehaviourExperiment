@@ -17,6 +17,11 @@
 # Recordings can get excessive in size
 /[Rr]ecordings/
 
+#NN trainig folders
+/[Dd]emos/
+/[Rr]esults/
+/[Vv]env/
+
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
 

@@ -16,7 +16,7 @@ namespace BuildingModule
 
         private void Awake()
         {
-            currentState.Initiate();
+            //currentState.Initiate();//пока трейнятся агенты
             thisEntrance = GetComponentInParent<Entrance>();
         }
 

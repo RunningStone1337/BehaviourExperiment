@@ -22,7 +22,7 @@ namespace BuildingModule
         /// <returns></returns>
         private static bool NeedWall(Entrance caller, Entrance neigh) => 
             //соседа нет        соседа скоро не будет               сосед есть, но он от другого помещения
-            neigh == null || !neigh.EntrancePlace.IsOccuped || (neigh.EntrancePlace.IsOccuped && !caller.ThisRoom.Equals(neigh.ThisRoom));
+            neigh == null || !neigh.EntrancePlace.IsOccuped || (neigh.EntrancePlace.IsOccuped && !caller.CurrentRoom.Equals(neigh.CurrentRoom));
 
         private void Awake()
         {

@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0ab14fff457274789a2e6decf11e9c, type: 3}
   m_Name: WalksFeature
   m_EditorClassIdentifier: 
+  categoricalMatchMultiplier: 1.5
+  exactMatchMultiplier: 3
   featureName: "\u041F\u0440\u043E\u0433\u0443\u043B\u043A\u0438"
+  featurePower: 1

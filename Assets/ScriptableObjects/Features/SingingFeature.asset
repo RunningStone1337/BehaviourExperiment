@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d88c62a3623b246b5f1d607201f787, type: 3}
   m_Name: SingingFeature
   m_EditorClassIdentifier: 
+  categoricalMatchMultiplier: 1.5
+  exactMatchMultiplier: 3
   featureName: "\u041F\u0435\u043D\u0438\u0435"
+  featurePower: 1

@@ -31,5 +31,10 @@ namespace Extensions
                     p.SetState<S2>();
             }
         }
+        public static void AddIfNotContains<T>(this List<T> lst, T obj)
+        {
+            if (!lst.Contains(obj))
+                lst.Add(obj);
+        }
     }
 }

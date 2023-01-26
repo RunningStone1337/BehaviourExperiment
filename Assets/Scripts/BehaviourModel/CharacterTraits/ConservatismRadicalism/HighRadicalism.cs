@@ -5,37 +5,27 @@ namespace BehaviourModel
     /// </summary>
     public sealed class HighRadicalism : ConservatismRadicalism
     {
+        protected override float CalculateImportanceForFamiliar(AgentBase ab)
+        {
+            float res = default;
+            var currentRelation = ThisAgent.GetCurrentRelationTo(ab);
+            if (currentRelation.HasImportanceFor(this))
+                res += currentRelation.GetImportanceValueFor(this);
+            return res;
+        }
+
         /// <summary>
         /// Я очень прогрессивная личность и уважаю только таких же как я,
         /// остальные мне мало интересны. Скорее всего, они не очень
         /// умны и интересны. Если мне покажется, что ты представляешь
         /// интеллектуальный потенциал, я могу проявить интерес. Иначе нет.
-        /// Мы знакомы? Если да, то какой у тебя кругозор и интеллект? Если 
-        /// хотя бы не ниже моего, может попробовать общаться. 
+        /// Мы знакомы? Если да, то какой у тебя кругозор и интеллект? Если
+        /// хотя бы не ниже моего, может попробовать общаться.
         /// Если нет - я пока не определился, интересен ли ты как собеседник.
         /// В любом случае нужно провести анализ.
         /// </summary>
         /// <param name="ab"></param>
         /// <returns></returns>
         protected override bool CanBeImportantForAgent(AgentBase ab) => true;
-
-        protected override float GetImportanceForAgent(AgentBase ab)
-        {
-            float res = default;
-            //уровень радикализма ниже чем у меня - --
-            //уровень радикализма выше или равен - ++
-            //уровень конформизма ниже чем у меня - -
-            //уровень конформизма выше или равен - +
-            //уровень интеллекта ниже чем у меня - -
-            //уровень интеллекта выше или равен - +
-            //низкая нормативность - +
-            //высокая нормативность - -
-            //высокая дипломатичность - -
-            //низкая дипломатичность - +(?)
-            //высокая смелость - ++
-            //низкая смелость - --
-            //наличие неигровых увлечений - +
-            return res;
-        }
     }
 }

@@ -12,7 +12,7 @@ namespace BuildingModule
         Up, Down, Right, Left
     }
 
-    public class Entrance : MonoBehaviour, IPointerClickHandler, IVisualEffectRoutineHandler
+    public class Entrance : MonoBehaviour, IPointerClickHandler, IVisualEffectRoutineHandler, ICurrentRoomHandler
     {
         #region corners
 
@@ -152,7 +152,6 @@ namespace BuildingModule
         public Coroutine Routine { get => routine; set => routine = value; }
 
         #endregion common
-
         private Entrance FindNeighbour(List<Entrance> neighs, Vector2Int offset)
         {
             var coords = EntrancePlace.Coordinates + offset;
@@ -189,7 +188,7 @@ namespace BuildingModule
             if (mainDirNeighbour)
             {
                 var isPassable = IsPassage(mainDirNeighbour);
-                var sameRoom = mainDirNeighbour.ThisRoom == ThisRoom;
+                var sameRoom = mainDirNeighbour.CurrentRoom == CurrentRoom;
                 if (isPassable && sameRoom)
                 {
                     //хотя бы 1 сосед со стороны от главного направления для mainDirectionNeighbour
@@ -233,13 +232,13 @@ namespace BuildingModule
             return default;
         }
 
-        private void OnDestroy()
-        {
-            EntranceRoot.Root.Entrances.Remove(this);
-            foreach (var n in neighbours)
-                n.neighbours.Remove(this);
-            ThisRoom.RemoveEntrance(this);
-        }
+        //private void OnDestroy()//TODO раскомментить после тренировки
+        //{
+        //    EntranceRoot.Root.Entrances.Remove(this);
+        //    foreach (var n in neighbours)
+        //        n.neighbours.Remove(this);
+        //    ThisRoom.RemoveEntrance(this);
+        //}
 
         //private void Start()
         //{
@@ -248,14 +247,14 @@ namespace BuildingModule
         //}
 
         public int NeighboursCount => Neighbours.Count;
-        public Room ThisRoom
+        public Room CurrentRoom
         {
             get => thisRoom;
             set
             {
-                ThisRoom.RemoveEntrance(this);
+                CurrentRoom.RemoveEntrance(this);
                 thisRoom = value;
-                ThisRoom.AddEntrance(this);
+                CurrentRoom.AddEntrance(this);
             }
         }
 
@@ -430,7 +429,7 @@ namespace BuildingModule
         public IEnumerator VisualEffectRoutine()
         {
             var baseColor = new Color(1, 1, 1, 1);
-            yield return VisualEffectsProvider.ShiningEffect(baseColor, ThisRoom.Role.RoleColor, entranceSprite, step,
+            yield return VisualEffectsProvider.ShiningEffect(baseColor, CurrentRoom.Role.RoleColor, entranceSprite, step,
                 () => SceneMaster.Master.CurrentState is EntranceRoleEditingState || SceneMaster.Master.CurrentState is RoomSplittingState);
         }
     }

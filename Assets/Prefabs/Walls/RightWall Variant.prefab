@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 151538706327393987, guid: f362f03030a3d834dae11efe1db2710f, type: 3}
       propertyPath: m_Name
-      value: RightWall
+      value: RightWall Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5408530279434425321, guid: f362f03030a3d834dae11efe1db2710f, type: 3}
       propertyPath: m_RootOrder
@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5408530279434425321, guid: f362f03030a3d834dae11efe1db2710f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.145
+      value: 0.95
       objectReference: {fileID: 0}
     - target: {fileID: 5408530279434425321, guid: f362f03030a3d834dae11efe1db2710f, type: 3}
       propertyPath: m_LocalPosition.y

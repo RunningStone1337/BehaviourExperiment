@@ -1,3 +1,5 @@
+using System;
+
 namespace BehaviourModel
 {
     /// <summary>
@@ -11,7 +13,27 @@ namespace BehaviourModel
     /// Развитое чувство долга и ответственности, осознанное соблюдение общепринятых моральных правил и норм,
     /// настойчивость в достижении цели, деловая направленность.
     /// </summary>
-    public abstract class NormativityOfBehaviour : CharacterTraitBase
+    public abstract class NormativityOfBehaviour : CharacterTraitBase, IComparable<NormativityOfBehaviour>
     {
+        public static bool operator <(NormativityOfBehaviour c1, NormativityOfBehaviour c2) =>
+            Char1LessChar2<LowNormativityOfBehaviour, MiddleNormativityOfBehaviour, HighNormativityOfBehaviour, NormativityOfBehaviour>(c1, c2);
+
+        public static bool operator <=(NormativityOfBehaviour c1, NormativityOfBehaviour c2) =>
+            Char1LessOrEqualChar2<LowNormativityOfBehaviour, MiddleNormativityOfBehaviour, HighNormativityOfBehaviour, NormativityOfBehaviour>(c1, c2);
+
+        public static bool operator >(NormativityOfBehaviour c1, NormativityOfBehaviour c2) =>
+                    Char1MoreChar2<LowNormativityOfBehaviour, MiddleNormativityOfBehaviour, HighNormativityOfBehaviour, NormativityOfBehaviour>(c1, c2);
+
+        public static bool operator >=(NormativityOfBehaviour c1, NormativityOfBehaviour c2) =>
+            Char1MoreOrEqualChar2<LowNormativityOfBehaviour, MiddleNormativityOfBehaviour, HighNormativityOfBehaviour, NormativityOfBehaviour>(c1, c2);
+
+        public int CompareTo(NormativityOfBehaviour other)
+        {
+            if (this > other)
+                return -1;
+            if (this < other)
+                return 1;
+            return 0;
+        }
     }
 }
