@@ -33,9 +33,6 @@ behaviors:
           memory: null
           goal_conditioning_type: hyper
           deterministic: false
-      gail:
-        strength: 0.5
-        demo_path: G:\Unity\BehaviourExperiment\Demos\AgentSearchDemo.demo
     init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 50000
@@ -65,7 +62,7 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: MoveToTarget2601
+  run_id: null
   initialize_from: null
   load_model: false
   train_model: false

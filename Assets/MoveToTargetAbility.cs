@@ -2,6 +2,7 @@ using BehaviourModel;
 using BuildingModule;
 using Common;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -10,84 +11,114 @@ using UnityEngine;
 public class MoveToTargetAbility : Agent
 {
     [SerializeField] private EnvironmentController environmentController;
-    [SerializeField] private float lastDistanceToTarget;
+    private RayCastsInfo lastCastInfo;
     [SerializeField] [Range(0.01f, 50f)] private float moveSpeed;
     [SerializeField] [Range(0.1f, 360f)] private float rotationSpeed;
+    [SerializeField] private float startDistanceToTarget;
     [SerializeField] private GameObject target;
     [SerializeField] private Vector2 targetStartPosition;
     [SerializeField] private string targetTag;
     [SerializeField] private AgentBase thisAgent;
     [SerializeField] private Vector2 thisStartPosition;
 
-    /// <summary>
-    /// 1 параметр
-    /// </summary>
-    /// <param name="sensor"></param>
-    /// <param name="distance"></param>
-    private void HandleCurrentRoomKnowledge(VectorSensor sensor, float distance)
+    private static List<float> GetAnglesForRays()
     {
-        bool matchRooms = IsRoomMatch();
-        if (matchRooms)
-            AddReward(3f / distance);
-        sensor.AddObservation(matchRooms);
+        List<float> angles = new List<float>() { 0 };
+        for (int angle = 1; angle <= 45; angle += 2)
+        {
+            angles.Add(angle);
+            angles.Add(-angle);
+        }
+        for (int angle = 50; angle <= 90; angle += 5)
+        {
+            angles.Add(angle);
+            angles.Add(-angle);
+        }
+        for (int angle = 105; angle < 180; angle += 15)
+        {
+            angles.Add(angle);
+            angles.Add(-angle);
+        }
+        angles.Add(180);
+        return angles;
     }
 
-    /// <summary>
-    /// 27 параметров
-    /// </summary>
-    /// <param name="sensor"></param>
-    /// <param name="posV2"></param>
-    private void HandleRaycasts(VectorSensor sensor, Vector2 posV2)
+    private void CreateRaycastToDirection(ref RayCastsInfo castsInfo, (Vector3 directionVector, float angleFormForward) direction, int dirIndex)
     {
         var filter = new ContactFilter2D() { useTriggers = true };
-        List<float> angles = new List<float>() {
-            /*0.3f*/0,15,-15,30,-30,45,-45,60,-60,/*0.15f*/75,-75,90,-90,/*-0.15f*/105,-105,120,-120,/*-0.3f*/135,-135,150,-150,165,-165,180//24 угла
+        Vector2 posV2 = transform.position;
+        var hits = new RaycastHit2D[64];
+        var hitsCount = Physics2D.Raycast(posV2, direction.directionVector, filter, hits);
+        var hitTarget = HitTarget(hits, hitsCount, out int hitIndex);
+        var currentCast = castsInfo.AllCasts[dirIndex] = new RayCastInfo()
+        {
+            rayIndex = dirIndex,
+            SubrayHitIndex = hitIndex,
+            HitTarget = hitTarget,
+            rayAngle = direction.angleFormForward,
+            RaycastHits = hits,
         };
-        List<Vector3> directions = new List<Vector3>();
+        castsInfo.UpdateInfo(currentCast);
+    }
+
+    private void DrawRays()
+    {
+        var hitInfo = GetRaycastsInfo();
+        Vector2 startPos = transform.position;
+        foreach (var ray in hitInfo.AllCasts)
+        {
+            var currentInfo = ray.RaycastHits;
+            for (int subRay = 0; subRay < currentInfo.Length; subRay++)
+            {
+                if (currentInfo[subRay].point == new Vector2(0, 0))
+                    break;
+                if (ray.HitTarget && subRay == ray.SubrayHitIndex)
+                    Gizmos.color = Color.green;
+                else
+                    Gizmos.color = Color.red;
+                var endPoint = currentInfo[subRay].point;
+                Gizmos.DrawRay(startPos, endPoint - startPos);
+                startPos = endPoint;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (target != null)
+        {
+            RequestDecision();
+        }
+    }
+
+    private float GetCurrentDistanceToTarget()
+    {
+        Vector2 globalPosV2 = transform.position;
+        Vector2 targetGlobalPosV2 = target.transform.position;
+        return Vector2.Distance(targetGlobalPosV2, globalPosV2);
+    }
+
+    private List<(Vector3 directionVector, float angleFormForward)> GetDirectionVectorsWithAnglesFromForward(List<float> angles)
+    {
+        List<(Vector3 directionVector, float angleFormForward)> directions = new List<(Vector3, float)>();
         foreach (var a in angles)
         {
             var vectorRotation = RotateFrom(transform.up, a);
-            directions.Add(vectorRotation);
+            directions.Add((vectorRotation, a));
         }
-        bool hitTarget = false;
-        bool hitDirectly = false;
-        int rayIndex = 0;
-        for (int d = 0; d < directions.Count; d++)
-        {
-            var hits = new RaycastHit2D[10];
-            var c = Physics2D.Raycast(posV2, directions[d], filter, hits);
-            hitTarget = HitTarget(hits, c);
-            if (hitTarget)
-            {
-                var roomMatch = IsRoomMatch();
-                //Debug.Log($"Hit! Ray index {d}");
-                rayIndex = d + 1;
-                if (d >= 0 && d <= 8)
-                {
-                    if (d == 0)
-                        AddReward(5f);
-                    else if (d > 0 && d <= 4)
-                    {
-                        hitDirectly = true;
-                        if (roomMatch)
-                            AddReward(2f);
-                    }
-                    else if (roomMatch)
-                        AddReward(0.5f);
-                }
-                else if (d >= 9 && d <= 12 && roomMatch)
-                    AddReward(0.1f);
-                else if (d >= 13 && d <= 16 && roomMatch)
-                    AddReward(-1f);
-                else if (roomMatch)
-                    AddReward(-5f);
-                if (d == 0)
-                    break;
-            }
-        }
-        sensor.AddOneHotObservation(rayIndex, directions.Count + 1);
-        sensor.AddObservation(hitTarget);
-        sensor.AddObservation(hitDirectly);
+
+        return directions;
+    }
+
+    private RayCastsInfo GetRaycastsInfo()
+    {
+        List<float> angles = GetAnglesForRays();
+        List<(Vector3 directionVector, float angleFormForward)> directions = GetDirectionVectorsWithAnglesFromForward(angles);
+        RayCastInfo[] allHits = new RayCastInfo[directions.Count];
+        RayCastsInfo result = new RayCastsInfo() { AllCasts = allHits, RaysCount = allHits.Length };
+        for (int dirCount = 0; dirCount < directions.Count; dirCount++)
+            CreateRaycastToDirection(ref result, directions[dirCount], dirCount);
+        return result;
     }
 
     /// <summary>
@@ -96,8 +127,9 @@ public class MoveToTargetAbility : Agent
     /// <param name="hits"></param>
     /// <param name="count"></param>
     /// <returns></returns>
-    private bool HitTarget(RaycastHit2D[] hits, int count)
+    private bool HitTarget(RaycastHit2D[] hits, int count, out int hitIndex)
     {
+        hitIndex = -1;
         if (count != 0)
         {
             for (int ray = 0; ray < count; ray++)
@@ -105,8 +137,11 @@ public class MoveToTargetAbility : Agent
                 var temp = hits[ray];
                 if (temp.collider != null && temp.collider != thisAgent.AgentCollider)//не в себя
                 {
-                    if (temp.collider.gameObject.CompareTag(targetTag) && target.GetInstanceID() == temp.collider.transform.GetInstanceID())
+                    if (temp.collider.gameObject.CompareTag(targetTag) && target.GetInstanceID() == temp.collider.gameObject.GetInstanceID())
+                    {
+                        hitIndex = ray;
                         return true;
+                    }
                 }
             }
         }
@@ -133,7 +168,7 @@ public class MoveToTargetAbility : Agent
         {
             if (collision.transform == target.transform)
             {
-                AddReward(1000f);
+                AddReward(10000f);
                 EndEpisode();
             }
             else if (collision.collider.TryGetComponent(out Wall wall))
@@ -166,11 +201,66 @@ public class MoveToTargetAbility : Agent
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        //DrawRays();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        DrawRays();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out Entrance ent))
         {
             thisAgent.CurrentRoom = ent.CurrentRoom;
+        }
+    }
+
+   
+
+    private struct RayCastInfo
+    {
+        internal int SubrayHitIndex;
+        public bool HitTarget;
+        public float rayAngle;
+        public RaycastHit2D[] RaycastHits;
+        public int rayIndex;
+    }
+
+    private struct RayCastsInfo
+    {
+        public RayCastInfo[] AllCasts;
+        public RayCastInfo? bestHitInfo;
+        public bool IsHitDirectly;
+        public bool IsHitFront;
+        public bool IsHitPerifery;
+        public bool IsHitTarget;
+        public int RaysCount;
+        public float TotalHitsCount;
+        public int DirectHitsCount;
+        public int PeriferyHitsCount;      
+
+        public void UpdateInfo(RayCastInfo currentCast)
+        {
+            if (bestHitInfo == null)
+                bestHitInfo = currentCast;
+            if (!IsHitTarget)
+                IsHitTarget = currentCast.HitTarget;
+            if (currentCast.HitTarget)
+                TotalHitsCount++;
+            var angle = currentCast.rayAngle;
+            var absAngle = Mathf.Abs(angle);
+            if (!IsHitDirectly)
+                IsHitDirectly = absAngle <= 15;
+            DirectHitsCount += absAngle <= 15 ? 1 : 0;
+            if (!IsHitPerifery)
+                IsHitPerifery = absAngle > 15 && absAngle <= 45;
+            PeriferyHitsCount += absAngle > 15 && absAngle <= 45 ? 1 : 0;
+            if (!IsHitFront)
+                IsHitFront = absAngle <= 90;
         }
     }
 
@@ -190,18 +280,28 @@ public class MoveToTargetAbility : Agent
         Vector2 targetLocalPosV2 = target.transform.localPosition;
         Vector2 globalPosV2 = transform.position;
         Vector2 targetGlobalPosV2 = target.transform.position;
-        sensor.AddObservation(targetGlobalPosV2- globalPosV2);
-        //sensor.AddObservation(globalPosV2);
         var currentDistToTarget = Vector2.Distance(targetGlobalPosV2, globalPosV2);
-        //сотношение расстояний до цели в прошлое наблюдение и в это
-        sensor.AddObservation(currentDistToTarget / lastDistanceToTarget);
-        lastDistanceToTarget = currentDistToTarget;
-        //3 параметра
+        //сотношение расстояний до сейчас и в начале
+        var currentDistanceRelation = currentDistToTarget / startDistanceToTarget;
+        sensor.AddObservation(currentDistanceRelation);
+
+        var currentStartPositionRelation = (globalPosV2 - thisStartPosition).normalized;
+        var targetCrrentStartPositionRelation = (targetGlobalPosV2 - targetStartPosition).normalized;
+        sensor.AddObservation(currentStartPositionRelation);
+        sensor.AddObservation(targetCrrentStartPositionRelation);
+        //5 параметра
 
         //Ориентация в простанстве и знание о видимости цели
-        HandleRaycasts(sensor, globalPosV2);
+        lastCastInfo = GetRaycastsInfo();
+        //Debug.Log("Hit count" + lastCastInfo.AllCasts.Count(x => x.HitTarget));
+        //sensor.AddObservation(info.rayIndex);
+        sensor.AddObservation(lastCastInfo.IsHitTarget);
+        sensor.AddObservation(lastCastInfo.IsHitDirectly);
+        sensor.AddObservation(lastCastInfo.IsHitPerifery);
+        sensor.AddObservation(lastCastInfo.IsHitFront);
         //знание о совпадении комнат или нет
-        HandleCurrentRoomKnowledge(sensor, currentDistToTarget);
+        bool matchRooms = IsRoomMatch();
+        sensor.AddObservation(matchRooms);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -224,6 +324,8 @@ public class MoveToTargetAbility : Agent
         var move = a[0];
         var turnSide = a[1];
         var maxAngle = 360f;
+        var posBeforeMove = transform.position;
+        var DistToTargetBeforeMove = Vector2.Distance(posBeforeMove, target.transform.position);
         if (move == 1)
             thisAgent.AgentRigidbody.MovePosition(thisAgent.AgentRigidbody.position + moveSpeed * Time.fixedDeltaTime * new Vector2(transform.up.x, transform.up.y));
         if (turnSide == 1)
@@ -232,6 +334,50 @@ public class MoveToTargetAbility : Agent
             thisAgent.AgentRigidbody.SetRotation((thisAgent.AgentRigidbody.rotation - rotationSpeed * Time.fixedDeltaTime) % maxAngle);
         else
             thisAgent.AgentRigidbody.SetRotation((thisAgent.AgentRigidbody.rotation) % maxAngle);
+
+        var info = GetRaycastsInfo();
+        //сценарии:
+        //попал в наблюдение
+        if (info.IsHitTarget && !lastCastInfo.IsHitTarget)
+        {
+            if (info.IsHitDirectly)
+                AddReward(5f* info.DirectHitsCount);
+            else if (info.IsHitPerifery)
+                AddReward(2.5f * info.PeriferyHitsCount);
+            else if (info.IsHitFront)
+                AddReward(1f);
+        }
+        //продолжается наблюдение
+        else if (info.IsHitTarget && lastCastInfo.IsHitTarget)
+        {
+            var currentPos = transform.position;
+            var DistToTargetAfterMove = Vector2.Distance(currentPos, target.transform.position);
+            //если стал ближе - награда
+            if (DistToTargetAfterMove < DistToTargetBeforeMove)
+            {
+                if (info.IsHitDirectly)
+                    AddReward(5f * info.DirectHitsCount);
+                else if (info.IsHitPerifery)
+                    AddReward(2.5f * info.PeriferyHitsCount);
+                else if (info.IsHitFront)
+                    AddReward(1f);
+            }
+            //иначе штраф
+            else
+            {
+                if (info.IsHitDirectly)
+                    AddReward(-5f * info.DirectHitsCount);
+                else if (info.IsHitPerifery)
+                    AddReward(-2.5f * info.PeriferyHitsCount);
+                else if (info.IsHitFront)
+                    AddReward(-1f);
+            }
+        }
+        //исчез из наблюдения
+        else if (!info.IsHitTarget && lastCastInfo.IsHitTarget)
+        {
+            AddReward(-10f * info.DirectHitsCount);
+        }
     }
 
     public override void OnEpisodeBegin()
@@ -239,6 +385,6 @@ public class MoveToTargetAbility : Agent
         environmentController.ResetEnvironment();
         targetStartPosition = target.transform.position;
         thisStartPosition = transform.position;
-        lastDistanceToTarget = Vector2.Distance(thisStartPosition, targetStartPosition);
+        startDistanceToTarget = Vector2.Distance(thisStartPosition, targetStartPosition);
     }
 }

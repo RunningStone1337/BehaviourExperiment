@@ -339,9 +339,6 @@ GameObject:
   - component: {fileID: 3462251564297644261}
   - component: {fileID: 5039681430419798386}
   - component: {fileID: 837080862518575492}
-  - component: {fileID: 1737500337853609231}
-  - component: {fileID: 6207229641382573659}
-  - component: {fileID: 2222866565114895003}
   m_Layer: 0
   m_Name: PupilPrefab
   m_TagString: Agent
@@ -525,7 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 30
+    VectorObservationSize: 10
     NumStackedVectorObservations: 25
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -542,58 +539,3 @@ MonoBehaviour:
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &1737500337853609231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aba5fa19e6119114a84390e20d44ed24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
-  environmentController: {fileID: 0}
-  lastDistanceToTarget: 0
-  moveSpeed: 5
-  rotationSpeed: 160
-  target: {fileID: 0}
-  targetStartPosition: {x: 0, y: 0}
-  targetTag: Agent
-  thisAgent: {fileID: 7657761990782980065}
-  thisStartPosition: {x: 0, y: 0}
---- !u!114 &6207229641382573659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 1
-  TakeActionsBetweenDecisions: 1
---- !u!114 &2222866565114895003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Record: 0
-  NumStepsToRecord: 0
-  DemonstrationName: AgentSearchDemo
-  DemonstrationDirectory: Assets/Demos
