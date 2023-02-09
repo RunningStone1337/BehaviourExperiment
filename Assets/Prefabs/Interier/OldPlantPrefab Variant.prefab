@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21aec16863ea4634abeeaa14fa9ae6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
-  collider2d: {fileID: 0}
-  thisInterierPlace: {fileID: 0}
-  thisIdentifier: {fileID: 0}
   interier: {fileID: 1354544349621096751}
-  interierColor: {r: 0.7075472, g: 0.398096, b: 0.15018693, a: 1}
+  influenceValue: 0
+  sprite: {fileID: 0}
 --- !u!1001 &5178179436497665962
 PrefabInstance:
   m_ObjectHideFlags: 0

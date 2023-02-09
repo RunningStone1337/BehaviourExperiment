@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: History
   m_EditorClassIdentifier: 
   disciplineName: "\u0418\u0441\u0442\u043E\u0440\u0438\u044F"
+  disciplinePower: 2

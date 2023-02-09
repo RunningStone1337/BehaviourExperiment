@@ -1,7 +1,7 @@
 using BehaviourModel;
 using Common;
-using Core;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -9,9 +9,11 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IEmotionSource
+    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler,
+        IMovementTarget,
+        IPhenomenon
     {
-        [SerializeField] private Collider2D collider2d;
+        [SerializeField] protected Collider2D collider2d;
         [SerializeField] private int influenceValue;
         [SerializeField] private string objDescription;
         [SerializeField] private string objName;
@@ -113,5 +115,8 @@ namespace BuildingModule
         {
             InputSystem.InputListener.Listener.HandleInterierClick(this, eventData);
         }
+
+        public virtual IEnumerator OnTargetReached(SchoolAgentBase moveAgent)
+        { yield break; }
     }
 }

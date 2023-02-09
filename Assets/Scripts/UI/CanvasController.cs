@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class CanvasController : MonoBehaviour, ICurrentStateHandler
+    public class CanvasController : MonoBehaviour, ICurrentStateHandler<UIScreenBase>
     {
         private static CanvasController canvasController;
         [SerializeField] private AgentsSelectionScreen agentsConfigureScreen;
@@ -31,7 +31,7 @@ namespace UI
         public AgentsSelectionScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
         public UIBuildingScreen BuildingScreen { get => buildingState; }
         public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
-        public IState CurrentState
+        public UIScreenBase CurrentState
         {
             get => currentState;
             set
@@ -59,7 +59,7 @@ namespace UI
             return newValue;
         }
 
-        public void SetState<S2>() where S2 : IState
+        public void SetState<S2>() where S2 : UIScreenBase
         {
             throw new NotImplementedException();
         }

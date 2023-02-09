@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UI;
-using Random = UnityEngine.Random;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BuildingModule
 {
@@ -28,17 +27,8 @@ namespace BuildingModule
             EntranceRoot.Root.Rooms.Remove(this);
         }
 
-        internal void StartEntrancesRoutine()
-        {
-            foreach (var entrance in ThisRoomEntrances)
-            {
-                entrance.StartRoutine();
-            }
-        }
-
-        public Entrance RandomEntrance() => ThisRoomEntrances[Random.Range(0, ThisRoomEntrances.Count)];
-
         public EntranceRoleBase Role { get => role; set => role = value; }
+
         public int ThisRoomEntrancesCount => ThisRoomEntrances.Count;
 
         public void AddEntrance(Entrance entrance)
@@ -46,11 +36,21 @@ namespace BuildingModule
             ThisRoomEntrances.Add(entrance);
         }
 
+        public Entrance RandomEntrance() => ThisRoomEntrances[Random.Range(0, ThisRoomEntrances.Count)];
+
         public void RemoveEntrance(Entrance entrance)
         {
             ThisRoomEntrances.Remove(entrance);
             if (ThisRoomEntrances.Count == 0)
                 Destroy(this);
+        }
+
+        public void StartEntrancesRoutine()
+        {
+            foreach (var entrance in ThisRoomEntrances)
+            {
+                entrance.StartRoutine();
+            }
         }
     }
 }

@@ -11,10 +11,7 @@ namespace UI
 {
     public class DropdownButtonPair : UIButtonPairElement, IKeysValuesHandler, IValueChangedEventHandler
     {
-        [SerializeField] private Dropdown dropdown;
-        private Dictionary<string, object> optionsDict = new Dictionary<string, object>();
-        private Dropdown Dropdown => dropdown;
-
+        [SerializeField] OptionsDropdown customDrop;
 
         private void OnDestroy()
         {
@@ -25,53 +22,26 @@ namespace UI
         {
             set
             {
-                dropdown.value = value;
-                ResetVisualDropdown();
+                customDrop.DropdownIndex = value;
+                
             }
-            get => dropdown.value;
+            get => customDrop.DropdownIndex;
         }
-        public int DropdownLength { get => dropdown.options.Count; }
+        public int DropdownLength { get => customDrop.DropdownLength; }
         public string DropdownValue
         {
-            get
-            {
-                if (dropdown.options.Count > 0 && DropdownIndex < dropdown.options.Count)
-                    return Dropdown.options[DropdownIndex].text;
-                else
-                    return null;
-            }
+            get => customDrop.DropdownValue;
 
-            set
-            {
-                int index = -1;
-                for (int i = 0; i < Dropdown.options.Count; i++)
-                {
-                    if (Dropdown.options[i].text.Equals(value))
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-                if (index != -1)
-                {
-                    Dropdown.value = index;
-                    ResetVisualDropdown();
-                }
-            }
+            set => customDrop.DropdownValue = value;
         }
 
         public string RandomValue
         {
-            get
-            {
-                if (dropdown.options.Count > 0)
-                    return dropdown.options[UnityEngine.Random.Range(0, dropdown.options.Count)].text;
-                return default;
-            }
+            get => customDrop.RandomValue;
         }
 
-        public string SelectedOptionKey { get => DropdownValue; set => DropdownValue = value; }
-        public object SelectedOptionValue { get => optionsDict[DropdownValue]; }
+        public string SelectedOptionKey { get => customDrop.SelectedOptionKey; set => customDrop.SelectedOptionKey = value; }
+        public object SelectedOptionValue { get => customDrop.SelectedOptionValue; }
 
         public void AddButtonClickCallback(Action callback)
         {
@@ -79,14 +49,11 @@ namespace UI
         }
 
         public void AddOnValueChangedCallback(Action<int> action)
-            => dropdown.onValueChanged.AddListener(new UnityAction<int>(action));
+            => customDrop.AddOnValueChangedCallback(action);
 
         public void AddOption(string key, object value)
         {
-            var current = DropdownValue;
-            dropdown.options.Add(new Dropdown.OptionData(key));
-            DropdownValue = current;
-            optionsDict.Add(key, value);
+            customDrop.AddOption(key, value);
         }
 
         public void AddPointerClickCallback(Action<PointerEventData> p)
@@ -96,24 +63,20 @@ namespace UI
 
         public void ClearDropdown()
         {
-            Dropdown.options.Clear();
-            optionsDict.Clear();
+            customDrop.ClearDropdown();
         }
 
         public void RemoveOnValueChangedCallbacks()
         {
-            dropdown.onValueChanged.RemoveAllListeners();
+            customDrop.RemoveOnValueChangedCallbacks();
         }
 
         public void RemoveOption(string key)
         {
-            var current = DropdownValue;
-            dropdown.options.Remove(dropdown.options.FirstOrDefault(x => x.text.Equals(key)));
-            DropdownValue = current;
-            optionsDict.Remove(key);
+            customDrop.RemoveOption(key);
         }
 
         public void ResetVisualDropdown()
-                            => dropdown.RefreshShownValue();
+            => customDrop.ResetVisualDropdown();
     }
 }

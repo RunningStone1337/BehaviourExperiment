@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Physics
   m_EditorClassIdentifier: 
   disciplineName: "\u0424\u0438\u0437\u0438\u043A\u0430"
+  disciplinePower: 2

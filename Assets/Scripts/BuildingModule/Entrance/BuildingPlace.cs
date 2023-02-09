@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public class BuildingPlace : MonoBehaviour, IPointerClickHandler, ICanBeOccuped, ICurrentStateHandler
+    public class BuildingPlace : MonoBehaviour, IPointerClickHandler, ICanBeOccuped, ICurrentStateHandler<BuildingPlaceState>
     {
         [SerializeField] private BoxCollider2D colldier;
         [SerializeField] private Vector2Int coordinates;
@@ -63,7 +63,7 @@ namespace BuildingModule
 
         public Vector2Int Coordinates { get => coordinates; private set => coordinates = value; }
 
-        public IState CurrentState
+        public BuildingPlaceState CurrentState
         {
             get => currentState;
             set
@@ -137,7 +137,7 @@ namespace BuildingModule
                 Entrance.RemoveInvalidInterier();
         }
 
-        public void SetState<S2>() where S2 : IState
+        public void SetState<S2>() where S2 : BuildingPlaceState
         {
             throw new System.NotImplementedException();
         }

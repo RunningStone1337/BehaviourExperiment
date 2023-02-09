@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
+    /// <summary>
+    /// Испортить вещь
+    /// </summary>
     public class MessUpThingPhysicAction : NegativePhysicAction
     {
         public MessUpThingPhysicAction(IPhenomenon context) : base(context)

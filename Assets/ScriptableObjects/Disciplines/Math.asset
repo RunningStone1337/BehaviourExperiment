@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Math
   m_EditorClassIdentifier: 
   disciplineName: "\u041C\u0430\u0442\u0435\u043C\u0430\u0442\u0438\u043A\u0430"
+  disciplinePower: 3

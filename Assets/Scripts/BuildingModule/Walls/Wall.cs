@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public class Wall : MonoBehaviour, IPointerClickHandler, ICurrentStateHandler
+    public class Wall : MonoBehaviour, IPointerClickHandler, ICurrentStateHandler<WallStateBase>
     {
         [SerializeField] private ActiveState activeState;
         [SerializeField] private AvailForBuildState availForBuildState;
@@ -13,10 +13,12 @@ namespace BuildingModule
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Direction thisDirection;
         [SerializeField] private Entrance thisEntrance;
+        [SerializeField] private Collider2D wallCollider;
+        public Collider2D WallCollider => wallCollider;
 
         private void Awake()
         {
-            //currentState.Initiate();//пока трейнятся агенты
+            currentState.Initiate();
             thisEntrance = GetComponentInParent<Entrance>();
         }
 
@@ -33,12 +35,12 @@ namespace BuildingModule
             return default;
         }
 
-        public IState CurrentState
+        public WallStateBase CurrentState
         {
             get => currentState;
             set
             {
-                currentState = (WallStateBase)value;
+                currentState = value;
                 currentState.Initiate();
             }
         }
@@ -81,7 +83,7 @@ namespace BuildingModule
         public void SetInactiveState() =>
             CurrentState = inactiveState;
 
-        public void SetState<S2>() where S2 : IState
+        public void SetState<S2>() where S2 : WallStateBase
         {
             if (availForBuildState is S2)
                 SetBuildingState();

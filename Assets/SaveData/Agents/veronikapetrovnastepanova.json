@@ -1,0 +1,28 @@
+{
+    "age": 9,
+    "agentName": "Вероника Петровна Степанова",
+    "agentType": "BehaviourModel.PupilAgent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "calmnessAnxiety": 3,
+    "closenessSociability": 2,
+    "conformismNonconformism": 10,
+    "conservatismRadicalism": 1,
+    "credulitySuspicion": 10,
+    "emotionalInstabilityStability": 5,
+    "features": [],
+    "height": 138,
+    "imageID": -1,
+    "intelligence": 8,
+    "normativityOfBehaviour": 10,
+    "practicalityDreaminess": 1,
+    "relaxationTension": 10,
+    "restraintExpressiveness": 9,
+    "rigiditySensetivity": 3,
+    "selfcontrol": 5,
+    "sex": {
+        "instanceID": 55888
+    },
+    "straightforwardnessDiplomacy": 4,
+    "subordinationDomination": 10,
+    "timidityCourage": 5,
+    "weight": 28
+}

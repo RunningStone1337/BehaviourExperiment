@@ -1,3 +1,4 @@
+using BehaviourModel;
 using Extensions;
 
 namespace BuildingModule
@@ -30,5 +31,6 @@ namespace BuildingModule
                 return true;
             return default;
         }
+
     }
 }

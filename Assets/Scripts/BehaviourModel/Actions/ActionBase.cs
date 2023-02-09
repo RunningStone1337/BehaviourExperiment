@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class ActionBase
+    public abstract class ActionBase :IAction
     {
         protected ActionBase(IPhenomenon context)
         {

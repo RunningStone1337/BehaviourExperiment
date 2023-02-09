@@ -132,7 +132,7 @@ namespace UI
             ActiveComponent = null;
         }
 
-        public  void InitiateState<TData, TVerifyInstanceType>() where TData: HumanRawData where TVerifyInstanceType:AgentBase
+        public  void InitiateState<TData, TVerifyInstanceType>() where TData: HumanRawData where TVerifyInstanceType:SchoolAgentBase
         {
             base.InitiateState();
             var serializeUtil = new SerializeUtility();

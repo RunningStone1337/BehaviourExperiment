@@ -3,11 +3,11 @@ namespace BehaviourModel
     /// <summary>
     /// Базовый класс для впечатлений/эмоций.
     /// </summary>
-    public abstract class EmotionBase : IPhenomenon
+    public abstract class EmotionBase : IPhenomenon, IReaction
     {
-        protected const int WEAK_EMOTION_POWER = 1;
-        protected const int MIDDLE_EMOTION_POWER = 2;
-        protected const int STRONG_EMOTION_POWER = 3;
+        public static readonly int WEAK_EMOTION_POWER = 1;
+        public static readonly int MIDDLE_EMOTION_POWER = 2;
+        public static readonly int STRONG_EMOTION_POWER = 3;
         public IEmotionSource EmotionSource { get; private set; }
         public int PhenomenonPower { get; set; }
 

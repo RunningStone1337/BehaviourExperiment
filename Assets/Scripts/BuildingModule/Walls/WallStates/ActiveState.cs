@@ -5,6 +5,7 @@ namespace BuildingModule
         public override void Initiate()
         {
             ThisWall.Renderer.enabled = true;
+            ThisWall.WallCollider.enabled = true;
         }
     }
 }

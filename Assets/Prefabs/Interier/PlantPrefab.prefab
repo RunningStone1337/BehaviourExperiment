@@ -97,13 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568cf0128f65abf4aaa7715c9133dc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1554823715443077822}
   collider2d: {fileID: 8077087235327628187}
-  thisInterierPlace: {fileID: 0}
-  thisIdentifier: {fileID: 916344281809804441}
-  previewSprite: {fileID: 0}
-  objName: "\u0420\u0430\u0441\u0442\u0435\u043D\u0438\u0435"
+  influenceValue: 0
   objDescription: "\u041E\u0431\u044B\u0447\u043D\u043E\u0435 \u0440\u0430\u0441\u0442\u0435\u043D\u0438\u0435"
+  objName: "\u0420\u0430\u0441\u0442\u0435\u043D\u0438\u0435"
+  previewSprite: {fileID: 0}
+  spriteRenderer: {fileID: 1554823715443077822}
+  thisIdentifier: {fileID: 916344281809804441}
+  thisInterierPlace: {fileID: 0}
 --- !u!114 &916344281809804441
 MonoBehaviour:
   m_ObjectHideFlags: 0

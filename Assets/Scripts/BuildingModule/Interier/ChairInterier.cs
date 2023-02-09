@@ -1,7 +1,7 @@
+using BehaviourModel;
 using Common;
-using Core;
 using Extensions;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +9,9 @@ namespace BuildingModule
 {
     public class ChairInterier : PlacedInterier, IDependentFromChanges
     {
+        [SerializeField] [Range(0f, 2f)] private float chairOffset;
+        [SerializeField] private SchoolAgentBase thisAgent;
+
         private void OnDestroy()
         {
             InterierHandler.Handler.Chairs.Remove(this);
@@ -29,9 +32,11 @@ namespace BuildingModule
             InterierHandler.Handler.Chairs.Add(this);
         }
 
+        public SchoolAgentBase ThisAgent { get => thisAgent; set => thisAgent = value; }
+
         public override void Initiate(InterierPlaceBase ipb)
         {
-            transform.localPosition = ReplacePosition(0.035f);
+            transform.localPosition = ReplacePosition(chairOffset);
         }
 
         public override bool IsAvailForPlacing(MiddlePlace place)
@@ -53,10 +58,37 @@ namespace BuildingModule
             return false;
         }
 
+        public IEnumerator OnLeaveChair()
+        {
+            collider2d.isTrigger = false;
+            thisAgent.Chair = null;
+            var body = thisAgent.AgentRigidbody;
+            Collider2D[] contacts = new Collider2D[5];
+            body.GetContacts(contacts);
+            while (contacts.Contains(thisAgent.AgentCollider))
+            {
+                thisAgent.AgentRigidbody.MovePosition(thisAgent.transform.position + new Vector3(0.05f, 0, 0));
+                body.GetContacts(contacts);
+                yield return new WaitForFixedUpdate();
+            }
+            thisAgent.AgentRigidbody.MovePosition(thisAgent.transform.position + new Vector3(0.05f, 0, 0));
+            yield return new WaitForFixedUpdate();
+            thisAgent = null;
+        }
+
+        public override IEnumerator OnTargetReached(SchoolAgentBase moveAgent)
+        {
+            collider2d.isTrigger = true;
+            thisAgent = moveAgent;
+            thisAgent.AgentRigidbody.MovePosition(transform.position);
+            yield return thisAgent.RotateRoutine(transform.up);
+            //thisAgent.AgentRigidbody.SetRotation(transform.rotation.eulerAngles.z);
+            thisAgent.Chair = this;
+        }
+
         public void ResetIfConditionsChanged(object param)
         {
             ResetMiddleOppAndSidePlaces((InterierPlaceBase)param);
         }
-       
     }
 }

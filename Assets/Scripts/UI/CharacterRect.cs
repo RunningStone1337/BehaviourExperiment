@@ -6,6 +6,11 @@ namespace UI
 {
     public class CharacterRect : MonoBehaviour
     {
+        #region builder
+        [SerializeField] RawCharacterValuesHandler characterBuilder;
+        public RawCharacterValuesHandler CharacterBuilder => characterBuilder;
+        #endregion
+        [Space]
         [SerializeField] private SliderButtonPair calmnessAnxietySlider;
         [SerializeReference] private List<SliderButtonPair> characterSliders;
         [SerializeField] private SliderButtonPair closenessSociabilitySlider;
@@ -18,7 +23,6 @@ namespace UI
         [SerializeField] private SliderButtonPair practicalityDreaminessSlider;
         [SerializeField] private SliderButtonPair relaxationTensionSlider;
         [SerializeField] private SliderButtonPair restraintExpressivenessSlider;
-
         [SerializeField] private SliderButtonPair rigiditySensetivitySlider;
         [SerializeField] private SliderButtonPair selfcontrolSlider;
         [SerializeField] private SliderButtonPair straightforwardnessDiplomacySlider;
@@ -51,22 +55,22 @@ namespace UI
 
         public void SetControlsValues(HumanRawData rawData)
         {
-            ClosenessSociabilitySlider.Value = rawData.ClosenessSociability;
-            CalmnessAnxietySlider.Value = rawData.CalmnessAnxiety;
-            ConformismNonconformismSlider.Value = rawData.ConformismNonconformism;
-            ConservatismRadicalismSlider.Value = rawData.ConservatismRadicalism;
-            CredulitySuspicionSlider.Value = rawData.CredulitySuspicion;
-            EmotionalInstabilityStabilitySlider.Value = rawData.EmotionalInstabilityStability;
-            IntelligenceSlider.Value = rawData.Intelligence;
-            NormativityOfBehaviourSlider.Value = rawData.NormativityOfBehaviour;
-            PracticalityDreaminessSlider.Value = rawData.PracticalityDreaminess;
-            RelaxationTensionSlider.Value = rawData.RelaxationTension;
-            RestraintExpressivenessSlider.Value = rawData.RestraintExpressiveness;
-            RigiditySensetivitySlider.Value = rawData.RigiditySensetivity;
-            SelfcontrolSlider.Value = rawData.Selfcontrol;
-            StraightforwardnessDiplomacySlider.Value = rawData.StraightforwardnessDiplomacy;
-            SubordinationDominationSlider.Value = rawData.SubordinationDomination;
-            TimidityCourageSlider.Value = rawData.TimidityCourage;
+            CharacterBuilder.ClosenessSociability = ClosenessSociabilitySlider.Value = rawData.ClosenessSociability;
+            CharacterBuilder.CalmnessAnxiety = CalmnessAnxietySlider.Value = rawData.CalmnessAnxiety;
+            CharacterBuilder.ConformismNonconformism = ConformismNonconformismSlider.Value = rawData.ConformismNonconformism;
+            CharacterBuilder.ConservatismRadicalism = ConservatismRadicalismSlider.Value = rawData.ConservatismRadicalism;
+            CharacterBuilder.CredulitySuspicion = CredulitySuspicionSlider.Value = rawData.CredulitySuspicion;
+            CharacterBuilder.EmotionalInstabilityStability = EmotionalInstabilityStabilitySlider.Value = rawData.EmotionalInstabilityStability;
+            CharacterBuilder.Intelligence = IntelligenceSlider.Value = rawData.Intelligence;
+            CharacterBuilder.NormativityOfBehaviour = NormativityOfBehaviourSlider.Value = rawData.NormativityOfBehaviour;
+            CharacterBuilder.PracticalityDreaminess = PracticalityDreaminessSlider.Value = rawData.PracticalityDreaminess;
+            CharacterBuilder.RelaxationTension = RelaxationTensionSlider.Value = rawData.RelaxationTension;
+            CharacterBuilder.RestraintExpressiveness = RestraintExpressivenessSlider.Value = rawData.RestraintExpressiveness;
+            CharacterBuilder.RigiditySensetivity = RigiditySensetivitySlider.Value = rawData.RigiditySensetivity;
+            CharacterBuilder.Selfcontrol = SelfcontrolSlider.Value = rawData.Selfcontrol;
+            CharacterBuilder.StraightforwardnessDiplomacy = StraightforwardnessDiplomacySlider.Value = rawData.StraightforwardnessDiplomacy;
+            CharacterBuilder.SubordinationDomination = SubordinationDominationSlider.Value = rawData.SubordinationDomination;
+            CharacterBuilder.TimidityCourage = TimidityCourageSlider.Value = rawData.TimidityCourage;
         }
 
         public void SetDefaultValues()

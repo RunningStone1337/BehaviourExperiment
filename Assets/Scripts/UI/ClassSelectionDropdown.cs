@@ -3,16 +3,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
 namespace UI
 {
     public class ClassSelectionDropdown : MonoBehaviour
     {
-        [SerializeField] private Dropdown classDropdown;
+        [SerializeField] private OptionsDropdown classDropdown;
         [SerializeField] private Toggle classToggle;
         [SerializeField] private List<DisciplineBase> disciplines;
         [SerializeField] private ClassSelectionDropdown nextDropdown;
-
+        [SerializeField] private DisciplineBase selectedDiscipline;
+        public bool IsLessonSelected => classToggle.isOn;
         private void Activate()
         {
             gameObject.SetActive(true);
@@ -20,11 +22,8 @@ namespace UI
 
         private void Awake()
         {
-            //TODO заменить нативный дропдаун на свой
             foreach (var d in disciplines)
-            {
-                classDropdown.options.Add(new Dropdown.OptionData(d.DisciplineName));
-            }
+                classDropdown.AddOption(d.DisciplineName, d);
         }
 
         private void SetNextDropsState(bool state)
@@ -38,7 +37,9 @@ namespace UI
             }
         }
 
-        public Action<ClassSelectionDropdown, bool> ClassSelectionChangedEvent;
+        //public Action<ClassSelectionDropdown, bool> ClassSelectionToggleChangedEvent;
+
+        public DisciplineBase SelectedLesson => (DisciplineBase)classDropdown.SelectedOptionValue;
 
         public void HandleSelectingToggleChanged()
         {
@@ -46,7 +47,8 @@ namespace UI
                 nextDropdown.Activate();
             else if (nextDropdown != null)
                 nextDropdown.SetNextDropsState(false);
-            ClassSelectionChangedEvent?.Invoke(this, classToggle.isOn);
+            //ClassSelectionToggleChangedEvent?.Invoke(this, classToggle.isOn);
         }
+       
     }
 }

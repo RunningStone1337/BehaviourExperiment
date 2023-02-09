@@ -1,3 +1,4 @@
+using BehaviourModel;
 using Common;
 using Extensions;
 
@@ -42,5 +43,6 @@ namespace BuildingModule
         {
             ResetMiddleOppAndSidePlaces((InterierPlaceBase)param);
         }
+
     }
 }

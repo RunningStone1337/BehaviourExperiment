@@ -1,0 +1,31 @@
+{
+    "age": 44,
+    "agentName": "Вера Олеговна Алексеева",
+    "agentType": "BehaviourModel.TeacherAgent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "calmnessAnxiety": 7,
+    "closenessSociability": 2,
+    "conformismNonconformism": 2,
+    "conservatismRadicalism": 6,
+    "credulitySuspicion": 6,
+    "emotionalInstabilityStability": 9,
+    "features": [],
+    "height": 166,
+    "imageID": -1,
+    "intelligence": 10,
+    "normativityOfBehaviour": 7,
+    "practicalityDreaminess": 7,
+    "relaxationTension": 4,
+    "restraintExpressiveness": 8,
+    "rigiditySensetivity": 9,
+    "selfcontrol": 10,
+    "sex": {
+        "instanceID": 55888
+    },
+    "straightforwardnessDiplomacy": 9,
+    "subordinationDomination": 2,
+    "timidityCourage": 3,
+    "weight": 72,
+    "behModel": {
+        "instanceID": 56014
+    }
+}

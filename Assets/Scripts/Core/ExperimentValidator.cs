@@ -21,7 +21,7 @@ namespace Core
         {
             foreach (var day in scheduleHandler.WorkDays)
             {
-                if (day.EnabledOptions.Count == 0)
+                if (day.Lessons.Count == 0)
                     return false;
             }
             return true;
@@ -116,6 +116,7 @@ namespace Core
 
         private string WorkDaysCondition()
         {
+            scheduleHandler.CreateSchedule();
             return ConditionCheck(() => scheduleHandler.WorkDays.Count > 0,
                 "Необходимо выбрать как минимум 1 рабочий день недели.");
         }

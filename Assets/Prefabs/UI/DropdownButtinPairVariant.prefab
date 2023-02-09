@@ -107,6 +107,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6568774276764020083}
     - target: {fileID: 3213974931542146812, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+      propertyPath: customDrop
+      value: 
+      objectReference: {fileID: 3799420574508969532}
+    - target: {fileID: 3213974931542146812, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
       propertyPath: defaultColor.a
       value: 1
       objectReference: {fileID: 0}
@@ -251,5 +255,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3799420574508969532 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6214146741878664526, guid: e7c897f6b15f5af4095704c25870f320, type: 3}
+  m_PrefabInstance: {fileID: 7099737244688106354}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e138798937b3e534384a8948ae4e81b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

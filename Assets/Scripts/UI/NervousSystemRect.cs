@@ -27,11 +27,11 @@ namespace UI
 
         public void SetControlsValues(HumanRawData rawData)
         {
-            NsPowerSlider.Value = rawData.NsPower;
-            NsMoveabilitySlider.Value = rawData.NsMoveability;
-            NsBalanceRect.BalanceDropdownButtonPair.DropdownValue = rawData.NsType.Name;
-            NsActivitySlider.Value = rawData.NsActivity;
-            NsReactivitySlider.Value = rawData.NsReactivity;
+            //NsPowerSlider.Value = rawData.NsPower;
+            //NsMoveabilitySlider.Value = rawData.NsMoveability;
+            //NsBalanceRect.BalanceDropdownButtonPair.DropdownValue = rawData.NsType.Name;
+            //NsActivitySlider.Value = rawData.NsActivity;
+            //NsReactivitySlider.Value = rawData.NsReactivity;
         }
 
         public void SetDefaultValues()

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Chimestry
   m_EditorClassIdentifier: 
   disciplineName: "\u0425\u0438\u043C\u0438\u044F"
+  disciplinePower: 3

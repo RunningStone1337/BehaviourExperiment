@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class FeatureBase : ScriptableObject, INameHandler, IPhenomenon, IImportanceInfluenceHandler, ICanReactOnPhenomenon
+    public abstract class FeatureBase : ScriptableObject, INameHandler, IPhenomenon, IFeature
     {
         [SerializeField] [Range(1f, 5f)] private float categoricalMatchMultiplier = 1.5f;
         [SerializeField] [Range(1f, 5f)] private float exactMatchMultiplier = 3f;
@@ -49,16 +49,13 @@ namespace BehaviourModel
         /// <typeparam name="T"></typeparam>
         /// <param name="phenomenon"></param>
         /// <returns></returns>
-        public bool HasImportanceFor<T>(T phenomenon) where T : IPhenomenon
-        {
-            if (phenomenon is FeatureBase)
-                return true;
-            return default;
-        }
+        //public bool HasImportanceFor<T>(T phenomenon) where T : IPhenomenon
+        //{
+        //    if (phenomenon is FeatureBase)
+        //        return true;
+        //    return default;
+        //}
 
-        public bool HasReactionOn<T>(T action, out List<EmotionBase> reaction) where T : IPhenomenon
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

@@ -1,15 +1,19 @@
 using BehaviourModel;
+using Core;
+using Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core
+namespace Events
 {
     [CreateAssetMenu(menuName = "Events/Global/Lesson", fileName = "Lesson")]
     public class LessonEvent : GlobalEvent
     {
         [SerializeField] int defaultEventDuration;
-
+        [SerializeField] DisciplineBase currentDiscipline;
+        public DisciplineBase CurrentDiscipline => currentDiscipline;
+       
         //public override List<ActionBase> CreateActions()
         //{
         //    //TODO дополнить список другими типами действий
@@ -22,6 +26,7 @@ namespace Core
 
         public override void Initiate(ScheduleHandler schedule)
         {
+            eventType = EventType.Lesson;
             eventDuration = defaultEventDuration;
         }
     }

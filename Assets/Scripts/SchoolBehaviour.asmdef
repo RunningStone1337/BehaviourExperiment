@@ -1,0 +1,17 @@
+{
+    "name": "SchoolBehaviour",
+    "rootNamespace": "BehaviourModel",
+    "references": [
+        "GUID:88749ddfe2b4fb244a682f4f5a1e61bb",
+        "GUID:85e0054f8e64b47309646d35f8851f81"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 6736580241669623400}
   - component: {fileID: 6736580241669623383}
   - component: {fileID: 6736580241669623382}
-  - component: {fileID: 6736580241669623401}
+  - component: {fileID: 9119627195346573391}
   m_Layer: 5
   m_Name: ClassDrop
   m_TagString: Untagged
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6736580241669623401
+--- !u!114 &9119627195346573391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6736580241669623403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d0b652f32a2cc243917e4028fa0f046, type: 3}
+  m_Script: {fileID: 11500000, guid: e138798937b3e534384a8948ae4e81b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -434,7 +434,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4263139076147975524}
         m_TargetAssemblyTypeName: UI.ClassSelectionDropdown, Assembly-CSharp
-        m_MethodName: HandleDropdownSelectionChanged
+        m_MethodName: OnDropdownSelectionChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0e6d669004b48449e8d4eb48c6ff75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classDropdown: {fileID: 6736580241669623401}
+  classDropdown: {fileID: 9119627195346573391}
   classToggle: {fileID: 6736580242128012031}
   disciplines:
   - {fileID: 11400000, guid: 530cd0f094234284cbc41995fb5582c6, type: 2}
@@ -586,6 +586,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2063f713c6782c34f8f4fa275613d6a3, type: 2}
   - {fileID: 11400000, guid: 651085d0e064e6e46a022c8d4571bde1, type: 2}
   nextDropdown: {fileID: 0}
+  selectedDiscipline: {fileID: 0}
 --- !u!1 &6736580242107507427
 GameObject:
   m_ObjectHideFlags: 0

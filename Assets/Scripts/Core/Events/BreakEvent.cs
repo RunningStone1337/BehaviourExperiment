@@ -1,14 +1,17 @@
 using BehaviourModel;
+using Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core
+namespace Events
 {
     [CreateAssetMenu(menuName = "Events/Global/Break", fileName = "Break")]
     public class BreakEvent : GlobalEvent
     {
+       
+
         //public override List<ActionBase> CreateActions()
         //{
         //    //TODO дополнить список другими типами действий
@@ -22,7 +25,10 @@ namespace Core
 
         public override void Initiate(ScheduleHandler schedule)
         {
+            eventType = EventType.Break;
             eventDuration = schedule.BreaksLength;
         }
+
+       
     }
 }

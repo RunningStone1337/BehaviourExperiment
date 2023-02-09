@@ -232,13 +232,13 @@ namespace BuildingModule
             return default;
         }
 
-        //private void OnDestroy()//TODO раскомментить после тренировки
-        //{
-        //    EntranceRoot.Root.Entrances.Remove(this);
-        //    foreach (var n in neighbours)
-        //        n.neighbours.Remove(this);
-        //    ThisRoom.RemoveEntrance(this);
-        //}
+        private void OnDestroy()
+        {
+            EntranceRoot.Root.Entrances.Remove(this);
+            foreach (var n in neighbours)
+                n.neighbours.Remove(this);
+            CurrentRoom.RemoveEntrance(this);
+        }
 
         //private void Start()
         //{

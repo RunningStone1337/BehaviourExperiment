@@ -11,7 +11,7 @@ namespace BuildingModule
     /// <summary>
     /// Иерархия типов мест размещения интерьера.
     /// </summary>
-    public abstract class InterierPlaceBase : MonoBehaviour, ICurrentStateHandler, IPointerClickHandler
+    public abstract class InterierPlaceBase : MonoBehaviour, ICurrentStateHandler<InterierPlaceStateBase>, IPointerClickHandler
     {
         [SerializeField] private AvailableForPlacingInterierPlaceState availableForPlacingInterier;
         [SerializeField] private Collider2D collider2d;
@@ -33,7 +33,7 @@ namespace BuildingModule
         protected List<PlacedInterier> Interier => interier;
         public AvailableForPlacingInterierPlaceState AvailableForPlacingInterierPlaceState { get => availableForPlacingInterier; }
         public Collider2D Collider2D { get => collider2d; }
-        public IState CurrentState
+        public InterierPlaceStateBase CurrentState
         {
             get => currentState;
             set
@@ -107,7 +107,7 @@ namespace BuildingModule
 
         public void SetNotAvailForPlacingState() => CurrentState = NotAvailableForPlacingInterierState;
 
-        public void SetState<S>() where S : IState
+        public void SetState<S>() where S : InterierPlaceStateBase
         {
             if (FreeInterierPlaceState is S)
                 SetFreePlaceState();

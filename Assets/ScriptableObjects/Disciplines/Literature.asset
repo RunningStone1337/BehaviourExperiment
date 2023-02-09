@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Literature
   m_EditorClassIdentifier: 
   disciplineName: "\u041B\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+  disciplinePower: 3

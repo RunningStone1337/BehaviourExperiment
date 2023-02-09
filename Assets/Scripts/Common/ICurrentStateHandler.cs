@@ -1,9 +1,9 @@
 namespace Common
 {
-    public interface ICurrentStateHandler
+    public interface ICurrentStateHandler<T> where T: IState
     {
-        IState CurrentState { get; set; }
+        T CurrentState { get; set; }
 
-        void SetState<S2>() where S2 : IState;
+        void SetState<S2>() where S2 : T;
     }
 }

@@ -50,11 +50,12 @@ MonoBehaviour:
   colldier: {fileID: 4605258416983778647}
   coordinates: {x: 0, y: 0}
   currentState: {fileID: 2213652307188027130}
-  downNeighbour: {fileID: 0}
   freeState: {fileID: 2213652307188027130}
   isOccuped: 0
-  leftNeighbour: {fileID: 0}
   occupedState: {fileID: 3012826239519211629}
+  neighbours: []
+  downNeighbour: {fileID: 0}
+  leftNeighbour: {fileID: 0}
   rightNeighbour: {fileID: 0}
   upNeighbour: {fileID: 0}
 --- !u!61 &4605258416983778647
@@ -67,7 +68,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -120,7 +121,7 @@ GameObject:
   - component: {fileID: 8749392274379438395}
   - component: {fileID: 1740903854411639304}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BuildPlaceSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +136,7 @@ Transform:
   m_GameObject: {fileID: 5098525247978099144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.25, y: 6.25, z: 1}
+  m_LocalScale: {x: 0.78125, y: 0.78125, z: 1}
   m_Children: []
   m_Father: {fileID: 1742654976710126482}
   m_RootOrder: 0
@@ -180,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 232742b851a1bf74ea32ed4dd1afda6a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee95b14a0b3bfdc41a912a2161878b61, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

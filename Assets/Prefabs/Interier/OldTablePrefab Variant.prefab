@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interier: {fileID: 7817371434570333427}
   influenceValue: 5
-  sprite: {fileID: 21300000, guid: 4b141456b4147ba49ab914ae29f7a550, type: 3}
+  sprite: {fileID: 21300000, guid: e26af2a5f7696fc4489c78a811f944d2, type: 3}
 --- !u!1001 &3899324741113298894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,6 +33,18 @@ PrefabInstance:
     - target: {fileID: 1562430425123793661, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3998847898199298369, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5912161804425516278, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e26af2a5f7696fc4489c78a811f944d2, type: 3}
+    - target: {fileID: 5912161804425516278, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: objName
@@ -54,6 +66,14 @@ PrefabInstance:
     - target: {fileID: 6887706217668509638, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887706217668509638, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887706217668509638, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6887706217668509638, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: m_LocalPosition.x

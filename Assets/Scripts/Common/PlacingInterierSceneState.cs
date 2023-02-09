@@ -14,7 +14,7 @@ namespace Common
             foreach (var e in EntranceRoot.Root.Entrances)
             {
                 e.InterierPlaces.SetStatesFromS1ToS2
-                    <InterierPlaceBase, NotAvailableForPlacingInterierPlaceState, FreeInterierPlaceState>();
+                    <InterierPlaceBase, NotAvailableForPlacingInterierPlaceState, FreeInterierPlaceState, InterierPlaceStateBase>();
             }
         }
 

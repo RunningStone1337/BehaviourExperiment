@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interier: {fileID: 6187758628626347132}
   influenceValue: 3
-  sprite: {fileID: 21300000, guid: bb8209db757fd314e9d4138e1180c89c, type: 3}
+  sprite: {fileID: 21300000, guid: a65788313202e454ba01b5c8b2c19b62, type: 3}
 --- !u!1001 &1134515026116949825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,6 +34,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 5912161804425516278, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a65788313202e454ba01b5c8b2c19b62, type: 3}
     - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: objName
       value: "\u041D\u043E\u0432\u044B\u0439 \u0441\u0442\u043E\u043B"
