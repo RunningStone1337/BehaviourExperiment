@@ -1,0 +1,16 @@
+{
+    "name": "AIKatell",
+    "rootNamespace": "BehaviourModel",
+    "references": [
+        "GUID:3cc78e41dea20b541822d09dd15b3994"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

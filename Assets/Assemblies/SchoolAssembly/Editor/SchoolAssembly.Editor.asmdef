@@ -1,0 +1,21 @@
+{
+    "name": "SchoolAssembly.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:32d8f689bc4b8f8469b2920a29d727a4",
+        "GUID:e32ef8b5b05e7384597d60b0ad186ec2",
+        "GUID:88749ddfe2b4fb244a682f4f5a1e61bb",
+        "GUID:db524febe9c0a19419be8aa6036ab21c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

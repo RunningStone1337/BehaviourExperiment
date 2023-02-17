@@ -1,0 +1,20 @@
+{
+    "name": "ClassGenerator.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:32d8f689bc4b8f8469b2920a29d727a4",
+        "GUID:f72e3f845b36d5a45940c38bd9acf155",
+        "GUID:85eeccdb9009449478018eac0bd46ef7"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
