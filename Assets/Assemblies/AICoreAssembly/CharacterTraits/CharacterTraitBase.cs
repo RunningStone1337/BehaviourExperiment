@@ -87,7 +87,7 @@ namespace BehaviourModel
         where TAgent : ICurrentStateHandler<TState>
         where TReaction : IReaction
         where TFeature : IFeature
-        where TState : IState 
+        where TState : IState
         where TSensor : ISensor
     {
         [SerializeField] private int characterCalculatedValue;

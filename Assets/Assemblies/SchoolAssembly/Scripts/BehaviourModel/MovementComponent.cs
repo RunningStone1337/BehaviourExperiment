@@ -1,6 +1,6 @@
 using Aoiti.Pathfinding;
 using BuildingModule;
-using Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +9,6 @@ namespace BehaviourModel
 {
     [RequireComponent(typeof(Rigidbody2D))]
     //[RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(SchoolAgentBase<>))]
     public class MovementComponent<T> : MonoBehaviour
         where T : SchoolAgentBase<T>
     {
@@ -25,6 +24,7 @@ namespace BehaviourModel
         [SerializeField] private LayerMask obstacles;
         [SerializeField] private bool searchShortcut = false;
         [SerializeField] private bool snapToGrid = false;
+        [SerializeField, Range(1, 1024)] private int recalcPerFrames = 100;
         private List<Vector2> path;
         private List<Vector2> pathLeftToGo = new List<Vector2>();
         [SerializeField] private bool drawDebugLines;
@@ -34,54 +34,66 @@ namespace BehaviourModel
         [SerializeField] [HideInInspector] T thisAgent;
         [SerializeField] [HideInInspector] private bool isAbleToMove;
         [SerializeField] [HideInInspector] private bool targetReached;
+        [SerializeField] [HideInInspector] private RotationHandler rotationHandler;
         #endregion fields
         public bool StopMovement { get => stopMovement; set => stopMovement = value; }
         private void Awake()
         {
             thisBody = GetComponent<Rigidbody2D>();
             thisAgent = GetComponent<T>();
+            rotationHandler = new RotationHandler();
         }
         private void Start()
         {
             pathfinder = new Pathfinder<Vector2>(GetDistance, GetNeighbourNodes, 1000); //increase patience or gridSize for larger maps
         }
 
-        public IEnumerator StartMoveToTarget(Vector2 target)
+        public IEnumerator StartMoveToPoint(Vector2 target, Func<bool> movementCondition = default)
         {
             targetVector = target;
             isAbleToMove = true;
             targetReached = false;
             pathLeftToGo = CreatePath(targetVector);
             if (pathLeftToGo != null)
-                yield return MoveRoutine();
+                yield return MoveRoutine(movementCondition);
             else throw new System.Exception("Path not founded");
             if (targetReached)
-                yield return thisAgent.MovementTarget.OnTargetReached(thisAgent);
+                yield return thisAgent.OnTargetReached();
+            //Debug.Log("After target reached");
             isAbleToMove = false;
         }
 
-        private IEnumerator MoveRoutine()
+        public IEnumerator RotateToFaceDirection(Vector3 directionVector)
         {
-            //int counter = 0;
-            //int standingDetection = Mathf.RoundToInt(gridSize*512);
-            while (NeedToMove())
+            yield return rotationHandler.RotateToFaceDirection(directionVector, thisBody, rotationSpeed, rotationOffset, rotationAnglePrecision);
+        }
+
+        private IEnumerator MoveRoutine(Func<bool> movementCondition)
+        {
+            int recalcCounter = 0;
+            while (NeedToMove() && (movementCondition == null || movementCondition.Invoke()))
             {
                 Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
-                yield return RotateToFaceDirection(dir);
+                yield return rotationHandler.RotateToFaceDirection(dir, thisBody, rotationSpeed, rotationOffset, rotationAnglePrecision);
                 float normSpeed = movementSpeed * Time.fixedDeltaTime;
                 thisBody.MovePosition((Vector3)thisBody.position + dir.normalized * normSpeed);
-                if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < normSpeed /*|| counter == standingDetection*/)
+                if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < normSpeed)
                 {
                     thisBody.MovePosition(pathLeftToGo[0]);
                     pathLeftToGo.RemoveAt(0);
-                    //counter = 0;
                 }
 #if UNITY_EDITOR
                 DrawPathLines();
 #endif
-                //counter++;
-                //Debug.Log($"—чЄтчик затупа {counter}/{standingDetection}");
+               
                 yield return null;
+                recalcCounter++;
+                if (recalcCounter == recalcPerFrames)
+                {
+                    recalcCounter = 0;
+                    pathLeftToGo = CreatePath(targetVector);
+                }
+                //Debug.Log("Movement cycle");
             }
         }
 
@@ -97,21 +109,7 @@ namespace BehaviourModel
             }
         }
 #endif
-        public IEnumerator RotateToFaceDirection(Vector3 dir)
-        {
-            var existAngle = Vector2.SignedAngle(transform.right, dir);
-            var diff = Mathf.Abs(existAngle - rotationOffset);
-            while (rotationAnglePrecision < diff)
-            {
-                existAngle = Vector2.SignedAngle(transform.right, dir);
-                diff = Mathf.Abs(existAngle - rotationOffset);
-                if (existAngle > rotationOffset)
-                    thisBody.SetRotation(thisBody.rotation + rotationSpeed);
-                else if (existAngle < rotationOffset)
-                    thisBody.SetRotation(thisBody.rotation - rotationSpeed);
-                yield return null;
-            }
-        }
+       
 
         public bool NeedToMove() =>
            pathLeftToGo.Count > 0 && !stopMovement;

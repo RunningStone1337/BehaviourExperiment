@@ -7,7 +7,7 @@ using UnityEngine;
 /// Square table for character floats values.
 /// </summary>
 [CreateAssetMenu(menuName = "RelationshipTables/CharacterFloatLists", fileName = "NewFloatLists")]
-public class CharacterToPhenomFloatRelationsLists : CharacterToPhenomContainerBase<ListsViewDimension<float>, float>
+public class CharacterToPhenomFloatRelationsLists : CharacterToPhenomContainerBase<SimpleFoldoutListsViewDimension<float>, float>
 {
     public override float GetTableValueFor(string pageName, CharTraitTypeExtended characterTraitRow, string columnName)
     {

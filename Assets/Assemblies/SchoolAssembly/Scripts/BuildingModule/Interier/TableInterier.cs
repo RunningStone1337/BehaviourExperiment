@@ -1,11 +1,13 @@
 using BehaviourModel;
 using Common;
-using Extensions;
+using UnityEngine;
 
 namespace BuildingModule
 {
     public class TableInterier : PlacedInterier, IDependentFromChanges
     {
+        [SerializeField] TableInfo tableInfo;
+        public TableInfo TableInfo=> tableInfo;
         private void OnDestroy()
         {
             InterierHandler.Handler.Tables.Remove(this);

@@ -8,7 +8,8 @@ public class MatrixViewDimension<T>: ViewDimensionBase<T>
 {
     #region fields
     [SerializeField, ListDrawerSettings(IsReadOnly = true)]
-    private StringWrapper[] columnsNames;
+    public override StringWrapper[] ColumnsNames { get => columnsNames; set => columnsNames = value; }
+    //private StringWrapper[] columnsNames;
     #region calm
     [SerializeField, HideInInspector] protected T[,] calmMatrix;
     [ShowInInspector, TableMatrix(IsReadOnly = true), FoldoutGroup("Calmness")]
@@ -149,7 +150,6 @@ public class MatrixViewDimension<T>: ViewDimensionBase<T>
     }
 
 
-    public override StringWrapper[] ColumnsNames { get => columnsNames; set => columnsNames = value; }
     public override T[] HighAnxietyVector {
         get => calmMatrix.GetRowFromMatrix(2);
         set => calmMatrix.InsertRow(value, 2);

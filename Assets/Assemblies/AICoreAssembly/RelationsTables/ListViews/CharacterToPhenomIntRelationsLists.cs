@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName ="RelationshipTables/CharacterIntLists", fileName ="NewIntLists")]
-public class CharacterToPhenomIntRelationsLists : CharacterToPhenomContainerBase<ListsViewDimension<int>, int>
+public class CharacterToPhenomIntRelationsLists : CharacterToPhenomContainerBase<SimpleFoldoutListsViewDimension<int>, int>
 {
     public override int GetTableValueFor(string pageName, CharTraitTypeExtended characterTraitRow, string columnName)
     {

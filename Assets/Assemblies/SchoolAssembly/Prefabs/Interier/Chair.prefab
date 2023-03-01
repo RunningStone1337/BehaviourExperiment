@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6095224493026633613}
   - component: {fileID: 917818194238383277}
   - component: {fileID: 8637154339098589898}
+  - component: {fileID: 2716097290901205926}
   m_Layer: 7
   m_Name: Chair
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MonoBehaviour:
   thisIdentifier: {fileID: 917818194238383277}
   thisInterierPlace: {fileID: 0}
   chairOffset: 0.23
-  thisAgent: {fileID: 0}
+  thisChairInfo: {fileID: 2716097290901205926}
 --- !u!58 &6095224493026633613
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -109,6 +110,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2716097290901205926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5262757250265380782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022ed445c39c25e41ba9e63cae8d17c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7665617009514317933
 GameObject:
   m_ObjectHideFlags: 0

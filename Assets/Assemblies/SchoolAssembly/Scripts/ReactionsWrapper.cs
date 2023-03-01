@@ -9,35 +9,42 @@ using UnityEngine;
 namespace BehaviourModel
 {
     [Serializable]
-    public class ReactionsWrapper
+    public class ReactionsWrapper:IReactionsCreator
     {
-
-        [SerializeField, TypeFilter("GetTypes")]
-        ReactionBase[] reactions;
-        public ReactionBase[] Reactions => reactions;
-        public ReactionsWrapper()
+        [SerializeField, ValueDropdown("GetTypesFullNames", IsUniqueList = true)]
+        string[] reactions = new string[0];
+      
+        public IEnumerable<string> GetTypesFullNames()
         {
-            reactions = new ReactionBase[1];
-            //actionsToDo = new ActionBase[10];
+            var actionsToShow = typeof(ICompletedAction);
+            var types = actionsToShow.Assembly.GetTypes()
+                .Where(x => actionsToShow.IsAssignableFrom(x))
+                .Where(x => !x.IsAbstract)
+                .Where(x => !x.IsGenericTypeDefinition)
+                ;
+            return types.Select(x => x.AssemblyQualifiedName).ToList();
         }
-
-        public List<Type> GetTypes()
+        public IEnumerable<string> GetTypesNames()
         {
             var reactBase = typeof(ReactionBase);
             var types = reactBase.Assembly.GetTypes()
                 .Where(x => reactBase.IsAssignableFrom(x))
                 .Where(x => !x.IsAbstract)
+                .Where(x => !x.IsGenericTypeDefinition)
                 ;
-            return types.ToList();
+            return types.Select(x=>x.Name).ToList();
         }
-        //public T[] GetReactions()
-        //{
-        //    T[] res = new T[typesNames.Length];
-        //    for (int i = 0; i < typesNames.Length; i++)
-        //    {
-        //        res[i] = (T)Activator.CreateInstance(Type.GetType(typesNames[i]));
-        //    }
-        //    return res;
-        //}
+
+        public ReactionBase[] GetReactions()
+        {
+            ReactionBase[] res = new ReactionBase[reactions.Length];
+            for (int i = 0; i < res.Length; i++)
+            {
+                var type = Type.GetType(reactions[i]);
+                var instance = (ReactionBase)Activator.CreateInstance(type);
+                res[i] = instance;
+            }
+            return res;
+        }
     }
 }

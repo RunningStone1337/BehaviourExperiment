@@ -18,8 +18,8 @@ namespace BehaviourModel
     /// </summary>
     public abstract class BrainBase<TAgent, TReaction, TFeature, TState, TSensor>
         : SystemBase<TAgent, TReaction, TFeature, TState, TSensor>,
-        ICanReactOnPhenomenon<IPhenomenon, TReaction>,
-        IAttentionCalculator<IPhenomenon>
+        ICanReactOnPhenomenon<IPhenomenon, TReaction>
+        //IAttentionCalculator<IPhenomenon>
 
         where TAgent : ICurrentStateHandler<TState>
         where TReaction : IReaction
@@ -35,22 +35,22 @@ namespace BehaviourModel
             " Otherwise, the call will occur according to the time interval."), SerializeField]
         private ActionsMode actionsMode;
 
-        [Tooltip("Interval of trying setting new state in scalled seconds."), SerializeField, Range(0f, 256f)]
-        private float actionsTakingInterval;
+        //[Tooltip("Interval of trying setting new state in scalled seconds."), SerializeField, Range(0f, 256f)]
+        //private float actionsTakingInterval;
 
-        [Space, SerializeField, Range(0f, 256f), Tooltip("Seed of trying setting new state interval for some randomizing in scalled seconds." +
-            " Value is random between negative and positive. Can't be more then actionsTakingInterval")]
-        private float actionsTakingIntervalSeed;
+        //[Space, SerializeField, Range(0f, 256f), Tooltip("Seed of trying setting new state interval for some randomizing in scalled seconds." +
+        //    " Value is random between negative and positive. Can't be more then actionsTakingInterval")]
+        //private float actionsTakingIntervalSeed;
         
-        [SerializeField] private bool actionSelected;
+        //[SerializeField] private bool actionSelected;
 
-        public float ActionsTakingInterval { get => actionsTakingInterval; set => actionsTakingInterval = value; }
-        public float ActionsTakingIntervalSeed
-        {
-            get => actionsTakingIntervalSeed;
-            set => actionsTakingIntervalSeed = Mathf.Clamp(value, 0, actionsTakingInterval);
-        }
-        public ActionsMode ActionsMode { get => actionsMode; set => actionsMode = value; }
+        //public float ActionsTakingInterval { get => actionsTakingInterval; set => actionsTakingInterval = value; }
+        //public float ActionsTakingIntervalSeed
+        //{
+        //    get => actionsTakingIntervalSeed;
+        //    set => actionsTakingIntervalSeed = Mathf.Clamp(value, 0, actionsTakingInterval);
+        //}
+        //public ActionsMode ActionsMode { get => actionsMode; set => actionsMode = value; }
 
 
         #endregion
@@ -66,13 +66,16 @@ namespace BehaviourModel
         [SerializeField] private TReaction lastReaction;
         private List<IPhenomenon> newPhenomens;
 
-        private Dictionary<IPhenomenon, float> phenomensToReact;
+        private List<IPhenomenon> phenomensToReact;
+        //private Dictionary<IPhenomenon, float> phenomensToReact;
         private List<TReaction> temporaryReactions;
         protected List<IPhenomenon> NewPhenomens { get => newPhenomens; }
+
         /// <summary>
         /// Contains phenomenons to react at and current interest value for it.
         /// </summary>
-        protected Dictionary<IPhenomenon, float> PhenomensToReact { get => phenomensToReact; }
+        public List<IPhenomenon> PhenomensToReact { get => phenomensToReact; protected set => phenomensToReact = value; }
+        //public Dictionary<IPhenomenon, float> PhenomensToReact { get => phenomensToReact; protected set => phenomensToReact = value; }
 
       
 
@@ -106,6 +109,16 @@ namespace BehaviourModel
             if (x.Item2 < y.Item2)
                 return 1;
             return 0;
+        }
+        IReaction manualAction;
+        public IReaction ManualAction { get=> manualAction; set => manualAction = value; }
+        internal IEnumerator ManuallySettedAction()
+        {
+            if (manualAction != null)
+            {
+                yield return manualAction.TryPerformAction();
+            }
+            manualAction = null;
         }
 
         //{
@@ -172,7 +185,8 @@ namespace BehaviourModel
         {
             temporaryReactions = new List<TReaction>();
             newPhenomens = new List<IPhenomenon>();
-            phenomensToReact = new Dictionary<IPhenomenon, float>();
+            //phenomensToReact = new Dictionary<IPhenomenon, float>();
+            phenomensToReact = new List<IPhenomenon>();
         }
 
         /// <summary>
@@ -186,7 +200,7 @@ namespace BehaviourModel
         ///
         /// </summary>
         /// <returns></returns>
-        protected abstract bool CanSetNewState();
+        //protected abstract bool CanSetNewState();
 
         /// <summary>
         /// Used to reduce the importance of the phenomenon over time. When the importance reaches 0,
@@ -195,19 +209,19 @@ namespace BehaviourModel
         /// </summary>
         protected virtual void DecreasePhenomsValue()
         {
-            if (PhenomensToReact.Count > 0)
-            {
-                var decreaseValue = DecreaseStep;
-                var lst = PhenomensToReact.ToList();
-                for (int i = 0; i < lst.Count; i++)
-                {
-                    var temp = lst[i];
-                    if (temp.Value - decreaseValue <= 0)
-                        PhenomensToReact.Remove(temp.Key);
-                    else
-                        PhenomensToReact[temp.Key] -= decreaseValue;
-                }
-            }
+            //if (PhenomensToReact.Count > 0)
+            //{
+            //    var decreaseValue = DecreaseStep;
+            //    var lst = PhenomensToReact.ToList();
+            //    for (int i = 0; i < lst.Count; i++)
+            //    {
+            //        var temp = lst[i];
+            //        if (temp.Value - decreaseValue <= 0)
+            //            PhenomensToReact.Remove(temp.Key);
+            //        else
+            //            PhenomensToReact[temp.Key] -= decreaseValue;
+            //    }
+            //}
         }
 
         /// <summary>
@@ -221,8 +235,8 @@ namespace BehaviourModel
         {
             foreach (var np in NewPhenomens)
             {
-                if (!PhenomensToReact.ContainsKey(np))
-                    PhenomensToReact.Add(np, np.PhenomenonPower);
+                if (!PhenomensToReact.Contains(np))
+                    PhenomensToReact.Add(np);
                 yield return null;
             }
             NewPhenomens.Clear();
@@ -234,7 +248,7 @@ namespace BehaviourModel
         /// <param name="reason"></param>
         /// <param name="reaction"></param>
         /// <returns></returns>
-        protected abstract void MakeReaction(TReaction reactions);
+        //protected abstract void MakeReaction(TReaction reactions);
 
         /// <summary>
         /// Обработка явлений. Фильтрация.
@@ -245,45 +259,60 @@ namespace BehaviourModel
             yield return AddNewPhenomenons(observationSources);
             //Debug.Log($"Phenoms detected {NewPhenomens.Count}");
             yield return FilterNewPhenomenons();
-            Debug.Log($"Phenoms after filtering {PhenomensToReact.Count}");
-            if (autoDecreasePhenomsValuePerStep)
-            {
-                DecreasePhenomsValue();
-            }
-            Debug.Log($"Phenoms to react count {PhenomensToReact.Count}");
+            //Debug.Log($"Phenoms after filtering {PhenomensToReact.Count}");
+            //if (autoDecreasePhenomsValuePerStep)
+            //{
+            //    DecreasePhenomsValue();
+            //}
+            //Debug.Log($"Phenoms to react count {PhenomensToReact.Count}");
         }
 
         /// <summary>
         /// React if has observable phenomena to react and current state is able to force change it
         /// </summary>
-        public void TryReactAtSomePhenom()
+        public IEnumerator TryReactAtSomePhenom()
         {
-            if (phenomensToReact.Count > 0)
+            while (PhenomensToReact.Count > 0)
             {
-                var lsPhToReact = phenomensToReact.ToList();
-                while (lsPhToReact.Count > 0)
+                var selectedPhenom = SelectPhenomToReact(PhenomensToReact);
+               
+                //var normalized = tempPhenomsToCheck.Normalize();
+                //var selectedPhenom = normalized.SelectRandomFromNormalized();
+                //lstPhenomsTOReact.Sort(PhenonemonComparer);
+                if (HasReactionsOnPhenom(selectedPhenom, out List<TReaction> allReactions))
                 {
-                    var normalized = lsPhToReact.Normalize();
-                    var selected = normalized.SelectRandom();
-                    //lstPhenomsTOReact.Sort(PhenonemonComparer);
-                    if (HasReactionsOnPhenom(selected.Key, out List<TReaction> rs))
+                    //если реакция есть, необязательно, что её можно реализовать в текущий момент по определенным причинам
+                    if (allReactions.Count == 0)
                     {
-                        if (rs.Count == 0)
-                            throw new System.Exception(
-                                "HasReactionsOnPhenom return true but has no reactions to do, make sure your implementation" +
-                                $"returns at least one {typeof(TReaction)} at phenom {selected.Key}.");
-
-                        for (int i = 0; i < rs.Count; i++)
-                            MakeReaction(rs[i]);
-                        phenomensToReact.Remove(selected.Key);
-                        break;
+                        PhenomensToReact.Remove(selectedPhenom);
+                        continue;
                     }
-                    else
-                        lsPhToReact.Remove(selected);
+                    //throw new System.Exception(
+                    //    "HasReactionsOnPhenom return true but has no reactions to do, make sure your implementation " +
+                    //    $"returns at least one {typeof(TReaction)} at phenom {selected.Key}.");
+                    TReaction selectedReaction;
+                    do
+                    {
+                        selectedReaction = SelectReaction(allReactions);
+                        yield return selectedReaction.TryPerformAction();
+                        allReactions.Remove(selectedReaction);
+                    } while (!selectedReaction.WasPerformed && allReactions.Count > 0);
+
+                    //if (selectedReaction.WasPerformed)
+                        //Debug.Log($"Some reaction performed! Reaction was: \n{selectedReaction}");
+
+                    PhenomensToReact.Remove(selectedPhenom);
+                    break;
+                }
+                else
+                {
+                    PhenomensToReact.Remove(selectedPhenom);
                 }
             }
         }
 
+        protected abstract IPhenomenon SelectPhenomToReact(List<IPhenomenon> phenomensToReact);
+        protected abstract TReaction SelectReaction(List<TReaction> reactions);
 
         public IReaction LastReaction => lastReaction;
 
@@ -296,6 +325,6 @@ namespace BehaviourModel
         }
 
         public abstract bool HasReactionsOnPhenom(IPhenomenon reason, out List<TReaction> reaction);
-        public abstract float CalculateAttentionForPhenomenon(IPhenomenon phenom);
+        //public abstract float CalculateAttentionForPhenomenon(IPhenomenon phenom);
     }
 }

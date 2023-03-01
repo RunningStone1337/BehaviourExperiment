@@ -1,6 +1,6 @@
 using BehaviourModel;
 using Common;
-using Extensions;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -8,10 +8,14 @@ using UnityEngine;
 namespace BuildingModule
 {
     public class ChairInterier : PlacedInterier, IDependentFromChanges
+
     {
         [SerializeField] [Range(0f, 2f)] private float chairOffset;
-        [SerializeField] private SchoolAgentBase<PupilAgent> thisAgent;
-
+        [SerializeField] ChairInfo thisChairInfo;
+        public ChairInfo ChairInfo => thisChairInfo;
+        public override Func<bool> MoveToTargetCondition =>
+            () => ChairInfo.ThisAgent == null;
+       
         private void OnDestroy()
         {
             InterierHandler.Handler.Chairs.Remove(this);
@@ -32,7 +36,7 @@ namespace BuildingModule
             InterierHandler.Handler.Chairs.Add(this);
         }
 
-        public SchoolAgentBase<PupilAgent> ThisAgent { get => thisAgent; set => thisAgent = value; }
+        //public SchoolAgentBase<PupilAgent> ThisAgent { get => thisAgent; set => thisAgent = value; }
 
         public override void Initiate(InterierPlaceBase ipb)
         {
@@ -58,33 +62,9 @@ namespace BuildingModule
             return false;
         }
 
-        public IEnumerator OnLeaveChair()
-        {
-            collider2d.isTrigger = false;
-            thisAgent.Chair = null;
-            var body = thisAgent.AgentRigidbody;
-            Collider2D[] contacts = new Collider2D[5];
-            body.GetContacts(contacts);
-            while (contacts.Contains(thisAgent.AgentCollider))
-            {
-                thisAgent.AgentRigidbody.MovePosition(thisAgent.transform.position + new Vector3(0.05f, 0, 0));
-                body.GetContacts(contacts);
-                yield return new WaitForFixedUpdate();
-            }
-            thisAgent.AgentRigidbody.MovePosition(thisAgent.transform.position + new Vector3(0.05f, 0, 0));
-            yield return new WaitForFixedUpdate();
-            thisAgent = null;
-        }
+       
 
-        public override IEnumerator OnTargetReached(PupilAgent moveAgent)
-        {
-            collider2d.isTrigger = true;
-            thisAgent = moveAgent;
-            thisAgent.AgentRigidbody.MovePosition(transform.position);
-            yield return thisAgent.RotateRoutine(transform.up);
-            //thisAgent.AgentRigidbody.SetRotation(transform.rotation.eulerAngles.z);
-            thisAgent.Chair = this;
-        }
+        
 
         public void ResetIfConditionsChanged(object param)
         {

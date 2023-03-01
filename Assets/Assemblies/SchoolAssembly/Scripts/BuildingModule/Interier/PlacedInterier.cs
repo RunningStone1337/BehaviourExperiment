@@ -9,10 +9,9 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler,
-        IMovementTarget<PupilAgent>,
-        IMovementTarget<TeacherAgent>,
-        IPhenomenon
+    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IReactionSource,
+    IMovementTarget
+
     {
         [SerializeField] protected Collider2D collider2d;
         [SerializeField] private float influenceValue;
@@ -22,7 +21,7 @@ namespace BuildingModule
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private ObjectUniqIdentifier thisIdentifier;
         [SerializeField] private InterierPlaceBase thisInterierPlace;
-
+        public Collider2D Collider2D=> collider2d;
         protected virtual void Awake()
         {
             thisInterierPlace = GetComponentInParent<InterierPlaceBase>();
@@ -56,6 +55,7 @@ namespace BuildingModule
         public SpriteRenderer Renderer { get => spriteRenderer; }
         public ObjectUniqIdentifier ThisIdentifier { get => thisIdentifier; }
         public InterierPlaceBase ThisInterierPlace { get => thisInterierPlace; }
+        public virtual Func<bool> MoveToTargetCondition => ()=>{ return true; };
 
         /// <summary>
         /// Может ли данный интерьер находиться при текущих условиях?
@@ -117,9 +117,6 @@ namespace BuildingModule
             InputSystem.InputListener.Listener.HandleInterierClick(this, eventData);
         }
 
-        public virtual IEnumerator OnTargetReached(PupilAgent moveAgent)
-        { yield break; }
-        public virtual IEnumerator OnTargetReached(TeacherAgent moveAgent)
-        { yield break; }
+        
     }
 }

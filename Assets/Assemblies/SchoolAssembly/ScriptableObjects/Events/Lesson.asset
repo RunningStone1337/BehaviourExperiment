@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Lesson
   m_EditorClassIdentifier: 
   eventDuration: 0
+  eventImportance: 0
+  eventName: Lesson
+  eventType: 0
   defaultEventDuration: 45
+  currentDiscipline: {fileID: 0}

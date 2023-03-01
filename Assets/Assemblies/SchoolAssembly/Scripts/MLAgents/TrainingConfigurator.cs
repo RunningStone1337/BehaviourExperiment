@@ -133,7 +133,7 @@ namespace Training
                 CreateNewRelations(agentsManuallyRelations, agentToReset, secondAgent);
             else
                 CreateNewRelations((Relationships)Random.Range(0, (int)Relationships.Enemy + 1), agentToReset, secondAgent);
-            agentToReset.ClearEmotions();
+            //agentToReset.ClearEmotions();
             //var relations = agentToReset.RelationsSystem.GetCurrentRelationTo<SchoolAgentBase, FeatureBase>(secondAgent);
             //if (log)
             //    Debug.Log(relations.ToString() + "\n");

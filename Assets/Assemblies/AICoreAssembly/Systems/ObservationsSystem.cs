@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
@@ -39,6 +42,14 @@ namespace BehaviourModel
                 res.AddRange(s.CollectObservations());
             }
             return res;
+        }
+
+        internal IEnumerator CollectingDelay()
+        {
+            var time = ObservationsCollectingInterval
+                           + Random.Range(-ObservationsCollectingIntervalSeed,
+                           ObservationsCollectingIntervalSeed);
+            yield return new WaitForSeconds(time);
         }
     }
 }

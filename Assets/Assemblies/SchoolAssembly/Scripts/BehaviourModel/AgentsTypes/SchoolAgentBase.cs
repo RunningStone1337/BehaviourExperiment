@@ -1,19 +1,22 @@
 using BuildingModule;
 using Common;
 using Core;
+using Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UI;
 using UnityEngine;
 
 namespace BehaviourModel
 {
     public abstract class SchoolAgentBase<TAgent>: 
-        AgentBase<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>,
-        IUIViewedObject, ICurrentRoomHandler, IMovementTarget<TAgent>, IReactionSource
+        AgentBase<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>,
+        IUIViewedObject, IReactionSource
         where TAgent : SchoolAgentBase<TAgent>
     {
+        [Space]
         #region main
 
         #region components
@@ -32,73 +35,82 @@ namespace BehaviourModel
         [SerializeField] private ushort agentHeight;
         [SerializeField] private string agentName;
         [SerializeField] private SexBase agentSex;
+
+
         [SerializeField] private float agentValue;
         [SerializeField] private ushort agentWeight;
 
         [Space]
         #endregion base params
-        [SerializeField] private Room currentRoom;
+        [SerializeField] SchoolRelationsTableHandler tablesHandler;
+        public SchoolRelationsTableHandler TablesHandler => tablesHandler;
+        [SerializeField] AgentEnvironment agentEnvironment;
+        public AgentEnvironment AgentEnvironment => agentEnvironment;
         //[SerializeField] private EnvironmentInfoSource envirInfo;
-        [SerializeField] private IMovementTarget<TAgent> movementTarget;
-        [SerializeField] private ChairInterier seatChair;
-        public IMovementTarget<TAgent> MovementTarget { get => movementTarget; set => movementTarget = value; }
+        [SerializeField] private IMovementTarget movementTarget;
+
+        public abstract GlobalEvent CurrentEvent { get; }
+
+        public IMovementTarget MovementTarget { get => movementTarget; set => movementTarget = value; }
 
         #endregion main
 
         [Space]
         [SerializeField] private MovementComponent<TAgent> movementComponent;
+        public MovementComponent<TAgent> MovementComponent => movementComponent;
 
-        [Space]
-        #region states
-
-        [SerializeField] private FindFreeChairState<TAgent> findFreeChairState;
-        [SerializeField] private IdleAgentState<TAgent> idleAgentState;
-        [SerializeField] private MoveToTargetState<TAgent> moveToTargetState;
-
-        #endregion states
-        internal abstract void OnGlobalEventChangedCallback(ExperimentProcessHandler.CurrentEventChangedEventArgs args);
         public IEnumerator RotateRoutine(Vector3 directionVector)
         {
-            yield return movementComponent.RotateToFaceDirection(directionVector);
+            yield return MovementComponent.RotateToFaceDirection(directionVector);
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out Entrance ent))
-            {
-                CurrentRoom = ent.CurrentRoom;
-            }
-        }
-      
 
         public Collider2D AgentCollider => agentCollider;
         public Rigidbody2D AgentRigidbody => agentRigidbody;
-        public ChairInterier Chair { get => seatChair; set => seatChair = value; }
-        public Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
+       
         //public EnvironmentInfoSource EnvironmentInfo { get => envirInfo; private set => envirInfo = value; }
         public string Name => agentName;
         public string ObjDescription => agentDescription;
         public float PhenomenonPower { get => agentValue; set => agentValue = value; }
-        public Sprite PreviewSprite => previewSprite;
+        public Sprite PreviewSprite => previewSprite;     
 
-        public void AddEmotion(ReactionBase newEmotion) =>
-            Brain.AddReaction(newEmotion);
-
-        public void ClearEmotions() =>
-            Brain.TemporaryReactions.Clear();
-
-        public ChairInterier FindFreeChairToSeat(List<ChairInterier> chairs)
+        public IEnumerator ResponseToSpeechFromOptions<TInitiator, TResponder>(SpeakAction speechToRespond, DialogProcess<TInitiator, TResponder> dialogProcess,  List<SpeakAction> options)
+            where TInitiator : SchoolAgentBase<TInitiator>
+            where TResponder : SchoolAgentBase<TResponder>
         {
-            foreach (var ch in chairs)
+            SpeakAction response = SelectResponseToSpeechFromOptions(speechToRespond, options);
+
+            yield return response.Speak(dialogProcess);
+            dialogProcess.LastAnswer = response;
+        }
+        private SpeakAction SelectResponseToSpeechFromOptions(SpeakAction speechToRespond, List<SpeakAction> options)
+        {
+            var table = TablesHandler.AgentToSpeechResponsesTable;
+            var speechType = speechToRespond.GetType().Name;
+            //16 векторов
+            var thisAgentVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+                ((TAgent)this, 0);
+            //ответы на speechToRespond для данных векторов
+            var selected = thisAgentVectors.Where(x => x.SpeechToReact.Equals(speechType));
+            var selectedProbReactions = selected.SelectMany(x => x.ProbablyReactions.ProbReactions);
+            var optionsWithWeights = new List<(SpeakAction answerOption, int answerWeight)>();
+            //сопоставляем доступные варианты с определёнными
+            foreach (var option in options)
             {
-                if (ch.ThisAgent == null)
-                    return ch;
+                var optionTypeName = option.GetType().Name;
+                var weights = selectedProbReactions.Where(x => x.SpeechToAnswer.Equals(optionTypeName)).Sum(x => x.ReactionWeight);
+                optionsWithWeights.Add((option, weights));
             }
-            return default;
+            //выбрать на омновании весов
+            var response = optionsWithWeights.SelectRandom().Key;
+            return response;
+        }
+        public override void SetState<TNewState>()
+        {
+            var state = new TNewState();
+            state.Initiate((TAgent)this);
+            CurrentState = state;
         }
 
-
-        //public GlobalEvent CurrentEvent { get=> EnvironmentInfo.CurrentGlobalEvent; }
         public virtual void Initiate<TLowAnx, TMidAnx, THighAnx,
             TLowSoc, TMidSoc, THighSoc,
             TLowStab, TMidStab, THighStab,
@@ -211,124 +223,51 @@ namespace BehaviourModel
             
         }
 
-        //public void Initiate<TLowAnx, TMidAnx, THighAnx,
-        //    TLowSoc, TMidSoc, THighSoc,
-        //    TLowStab, TMidStab, THighStab,
-        //    TLowNonc, TMidNonc, THighNonc,
-        //    TLowNorm, TMidNorm, THighNorm,
-        //    TLowRad, TMidRad, THighRad,
-        //    TLowSelf, TMidSelf, THighSelf,
-        //    TLowSens, TMidSens, THighSens,
-        //    TLowSusp, TMidSusp, THighSusp,
-        //    TLowTens, TMidTens, THighTens,
-        //    TLowExpre, TMidExpre, THighExpre,
-        //    TLowInt, TMidInt, THighInt,
-        //    TLowDrea, TMidDrea, THighDrea,
-        //    TLowDom, TMidDom, THighDom,
-        //    TLowDipl, TMidDipl, THighDipl,
-        //    TLowCour, TMidCour, THighCour
-        //    >(HumanRawData data)
-        //    where TLowAnx : LowAnxiety<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidAnx : MiddleAnxiety<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighAnx : HighAnxiety<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowSoc : LowClosenessSociability<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidSoc : MiddleClosenessSociability<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighSoc : HighClosenessSociability<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowStab : LowEmotionalStability<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidStab : MiddleEmotionalStability<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighStab : HighEmotionalStability<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowNonc : LowNonconformism<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidNonc : MiddleNonconformism<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighNonc : HighNonconformism<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowNorm : LowNormativityOfBehaviour<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidNorm : MiddleNormativityOfBehaviour<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighNorm : HighNormativityOfBehaviour<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowRad : LowRadicalism<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidRad : MiddleRadicalism<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighRad : HighRadicalism<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowSelf : LowSelfcontrol<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidSelf : MiddleSelfcontrol<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighSelf : HighSelfcontrol<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowSens : LowSensetivity<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidSens : MiddleSensetivity<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighSens : HighSensetivity<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowSusp : LowSuspicion<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidSusp : MiddleSuspicion<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighSusp : HighSuspicion<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowTens : LowTension<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidTens : MiddleTension<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighTens : HighTension<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowExpre : LowExpressiveness<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidExpre : MiddleExpressiveness<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighExpre : HighExpressiveness<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowInt : LowIntelligence<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidInt : MiddleIntelligence<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighInt : HighIntelligence<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowDrea : LowDreaminess<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidDrea : MiddleDreaminess<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighDrea : HighDreaminess<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowDom : LowDomination<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidDom : MiddleDomination<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighDom : HighDomination<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowDipl : LowDiplomacy<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidDipl : MiddleDiplomacy<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighDipl : HighDiplomacy<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-
-        //    where TLowCour : LowCourage<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where TMidCour : MiddleCourage<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //    where THighCour : HighCourage<TAgent, EmotionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //{
-        //    Initiate<TLowAnx, TMidAnx, THighAnx,
-        //    TLowSoc, TMidSoc, THighSoc,
-        //    TLowStab, TMidStab, THighStab,
-        //    TLowNonc, TMidNonc, THighNonc,
-        //    TLowNorm, TMidNorm, THighNorm,
-        //    TLowRad, TMidRad, THighRad,
-        //    TLowSelf, TMidSelf, THighSelf,
-        //    TLowSens, TMidSens, THighSens,
-        //    TLowSusp, TMidSusp, THighSusp,
-        //    TLowTens, TMidTens, THighTens,
-        //    TLowExpre, TMidExpre, THighExpre,
-        //    TLowInt, TMidInt, THighInt,
-        //    TLowDrea, TMidDrea, THighDrea,
-        //    TLowDom, TMidDom, THighDom,
-        //    TLowDipl, TMidDipl, THighDipl,
-        //    TLowCour, TMidCour, THighCour
-        //    >(data);
-        //    //EnvironmentInfo = envirInfoSource;
-        //}
-
-
-        public IEnumerator OnTargetReached(TAgent moveAgent)
+        public IEnumerator OnLeaveChair()
         {
-            yield break;
+            AgentEnvironment.ChairInfo.ThisAgent = null;
+            var leavedChair = AgentEnvironment.ChairInfo.ThisInterier;
+            leavedChair.Collider2D.isTrigger = false;
+            AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
+
+            Collider2D[] contacts = new Collider2D[5];
+            AgentRigidbody.GetContacts(contacts);
+            while (contacts.Contains(leavedChair.Collider2D))
+            {
+                AgentRigidbody.MovePosition(transform.position + new Vector3(0.05f, 0, 0));
+                AgentRigidbody.GetContacts(contacts);
+                yield return new WaitForFixedUpdate();
+            }
+            AgentRigidbody.MovePosition(transform.position + new Vector3(0.05f, 0, 0));
+            yield return new WaitForFixedUpdate();
+
+            AgentEnvironment.ChairInfo = null;
+            AgentEnvironment.TableInfo.RemoveAgent(this);
+            AgentEnvironment.TableInfo = null;
         }
 
-        public override void SetState<S2>()
+        public IEnumerator OnTargetReached()
         {
-            if (moveToTargetState is S2)
-                CurrentState = moveToTargetState;
-            else if (idleAgentState is S2)
-                CurrentState = idleAgentState;
-            else if (findFreeChairState is S2)
-                CurrentState = findFreeChairState;
-            else throw new NotImplementedException($"Unexpected state {typeof(S2)}");
-        }
+            if (movementTarget is ChairInterier chair)
+            {
+                yield return HandleChair(chair);
+                var closestTable = InterierHandler.Handler.Tables
+                    .Select(x=>(Vector3.Distance(x.transform.position, chair.transform.position), x))
+                    .OrderBy(x=>x.Item1).First().x;
 
-        public abstract List<IReaction> GetReactionsOnPhenomenon();
+                AgentEnvironment.TableInfo = closestTable.TableInfo;
+                AgentEnvironment.TableInfo.AddAgentIfFree(this);
+            }
+
+            IEnumerator HandleChair(ChairInterier chair)
+            {
+                chair.Collider2D.isTrigger = true;
+                chair.ChairInfo.ThisAgent = this;
+                AgentRigidbody.MovePosition(chair.transform.position);
+                yield return RotateRoutine(chair.transform.up);
+                AgentEnvironment.ChairInfo = chair.ChairInfo;
+                AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
+            }
+        }
     }
 }

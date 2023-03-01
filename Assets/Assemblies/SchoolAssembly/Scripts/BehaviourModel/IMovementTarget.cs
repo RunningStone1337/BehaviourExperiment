@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 
 namespace BehaviourModel
 {
-    public interface IMovementTarget<TMovedAgent>
-        where TMovedAgent: SchoolAgentBase<TMovedAgent>
+    public interface IMovementTarget
     {
-        IEnumerator OnTargetReached(TMovedAgent moveAgent);
+        Func<bool> MoveToTargetCondition { get;}
     }
 }

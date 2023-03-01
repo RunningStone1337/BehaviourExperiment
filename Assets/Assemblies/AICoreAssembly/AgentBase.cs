@@ -1,9 +1,10 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class AgentBase<TAgent, TReaction, TFeature, TState, TSensor> : MonoBehaviour, IAgent,
+    public abstract class AgentBase<TAgent, TReaction, TFeature, TState, TSensor> : SerializedMonoBehaviour, IAgent,
         ICurrentStateHandler<TState>
         where TAgent : ICurrentStateHandler<TState>
         where TReaction : IReaction
@@ -37,8 +38,15 @@ namespace BehaviourModel
         [SerializeField] [HideInInspector] private bool isActing;
         [Tooltip("If true, the agent will make decisions and control behavior after calling StartStateMachine, otherwise not." +
             " You can safely switch this flag during the main process to temporarily disable the agent behavior.")]
-        [SerializeField] protected bool makeActions = true;
+        [SerializeField] protected bool autoMakeActions = true;
+        
         #endregion
+
+        protected virtual void Awake()
+        {
+            //observationsSystem = GetComponent<ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor>>();
+        }
+
         /// <summary>
         /// Observations handling routine.
         /// </summary>
@@ -47,64 +55,51 @@ namespace BehaviourModel
         {
             while (IsActing)
             {
-                if (collectObservations)
+                if (CollectObservations)
                 {
                     if (observationsSystem.CollectMode == ActionsMode.ByInterval)
                     {
                         var observationSources = observationsSystem.CreatePhenomenons();
                         yield return Brain.ProceedPhenomenons(observationSources);
-                        var time = observationsSystem.ObservationsCollectingInterval
-                            + Random.Range(-observationsSystem.ObservationsCollectingIntervalSeed,
-                            observationsSystem.ObservationsCollectingIntervalSeed);
-                        yield return new WaitForSeconds(time);
+                        yield return observationsSystem.CollectingDelay();
                     }
                     else
                         yield return new WaitForFixedUpdate();
                 }
                 else
-                    yield return null;
+                    yield return new WaitForFixedUpdate();
+                //Debug.Log($"Observations collected, count {Brain.PhenomensToReact.Count}");
             }
         }
-
-        private IEnumerator ReactionsRoutine()
-        {
-            while (IsActing)
-            {
-                if (makeActions)
-                {
-                    if (Brain.ActionsMode == ActionsMode.ByInterval)
-                    {
-                        Brain.TryReactAtSomePhenom();
-                        yield return new WaitForSeconds(Brain.ActionsTakingInterval +
-                            Random.Range(-Brain.ActionsTakingIntervalSeed, Brain.ActionsTakingIntervalSeed));
-                    }
-                    else
-                        yield return new WaitForFixedUpdate();
-                }
-                else
-                    yield return null;
-            }
-        }
+        public abstract void SetDefaultState();
 
         /// <summary>
         /// Actions realizing routine.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator StateExecutingRoutine()
+        private IEnumerator AgentActingRoutine()
         {
             while (IsActing)
-                yield return CurrentState.StartState();
+            {
+                if (autoMakeActions)
+                {
+                    yield return Brain.TryReactAtSomePhenom();
+                }
+                else
+                {
+                    yield return Brain.ManuallySettedAction();
+                }
+            }
         }
 
         public bool CollectObservations { get => collectObservations; set => collectObservations = value; }
         public TState CurrentState { get => currentState; set => currentState = value; }
-        public Coroutine ReactionsCoroutine { get; private set; }
         /// <summary>
         /// If true, state machine is running
         /// </summary>
         public bool IsActing { get => isActing; private set => isActing = value; }
         public Coroutine ObservationsCoroutine { get; private set; }
-        public Coroutine StateExecutingCoroutine { get; private set; }
+        public Coroutine AgentActingCoroutine { get; private set; }
 
         public virtual void Initiate<
             TLowAnx, TMidAnx, THighAnx,
@@ -210,22 +205,23 @@ namespace BehaviourModel
             FeaturesSystem.Initiate(data);
         }
 
-        public abstract void SetState<TNewState>() where TNewState : TState;
 
         public void StartStateMachine()
         {
             IsActing = true;
-            StateExecutingCoroutine = StartCoroutine(StateExecutingRoutine());
+            AgentActingCoroutine = StartCoroutine(AgentActingRoutine());
             ObservationsCoroutine = StartCoroutine(ObservationsRoutine());
-            ReactionsCoroutine = StartCoroutine(ReactionsRoutine());
+            //ReactionsCoroutine = StartCoroutine(ReactionsRoutine());
         }
 
         public void StopStateMachine()
         {
             IsActing = false;
-            StopCoroutine(StateExecutingCoroutine);
+            StopCoroutine(AgentActingCoroutine);
             StopCoroutine(ObservationsCoroutine);
-            StopCoroutine(ReactionsCoroutine);
+            //StopCoroutine(ReactionsCoroutine);
         }
+
+        public abstract void SetState<TNewState>() where TNewState : TState, new();
     }
 }

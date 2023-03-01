@@ -5,16 +5,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// The base class of a square table for the relationship of character traits to phenomena.
+/// The base class of a table for the relationship of character traits to phenomena.
 /// </summary>
-/// <typeparam name="TCOntent"></typeparam>
-public abstract class CharacterToPhenomContainerBase<TView, TCOntent> : RelationViewBase
-    where TView: ViewDimensionBase<TCOntent>, new()
+/// <typeparam name="TContent"></typeparam>
+public abstract class CharacterToPhenomContainerBase<TView, TContent> : RelationViewBase
+    where TView: ViewDimensionBase<TContent>, new()
 
 {
     [SerializeField, HideInInspector, Delayed, PropertyOrder(0)] private int tableDimensions = 1;
     [SerializeField, HideInInspector, Delayed, PropertyOrder(1)] private int columnsCount = 1;
-    [ShowInInspector, PropertyRange(1, 64), PropertyOrder(3)]
+
+    [SerializeField, HideInInspector] bool showDimensionsSize = false;
+    [SerializeField, HideInInspector] bool showColumnsCount = false;
+    [ButtonGroup("ColumnsCount", order: 3)]
+    void ChangeColumnsCount()
+    {
+        showColumnsCount = !showColumnsCount;
+    }
+    [HideIf("@!showColumnsCount"), ShowInInspector, PropertyRange(1, 64), PropertyOrder(3)]
     public int ColumnsCount
     {
         get => columnsCount;
@@ -27,7 +35,18 @@ public abstract class CharacterToPhenomContainerBase<TView, TCOntent> : Relation
             columnsCount = value;
         }
     }
-    [ShowInInspector, PropertyRange(1, 64), PropertyOrder(2)]
+
+    [ButtonGroup("DimensionsSize",order:2)]
+    void ChangeDimensionsCount()
+    {
+        showDimensionsSize = !showDimensionsSize;
+    }
+
+    //[HideIf("showConfirm"), ButtonGroup("DimensionsSize",order:3)]
+    //void IncreaseDimensionsCount()
+    //{
+    //}
+    [HideIf("@!showDimensionsSize"), ShowInInspector, PropertyRange(1, 64), PropertyOrder(2)]
     public int TableDimensions
     {
         get => tableDimensions; set
@@ -44,21 +63,14 @@ public abstract class CharacterToPhenomContainerBase<TView, TCOntent> : Relation
             }
         }
     }
-    //[SerializeField] public float cellWidth = 25f;
-    //[SerializeField] internal int currentDimensionIndex;
-    //[SerializeField] public float labelsWidth = 100f;
     [SerializeField, PropertyRange(0f, 10f), PropertyOrder(4)] float tableScallingValue = 1f;
-    //[SerializeField] MatrixDimension<T> displayedDimension;
     [SerializeField, ListDrawerSettings(IsReadOnly =true, NumberOfItemsPerPage =1), PropertyOrder(5)] private List<TView> dimensions = new List<TView>()
     { new TView()};   
 
     public float TableScallingValue { get => tableScallingValue; set => tableScallingValue = value; }
-    //internal int DisplayedDimensionIndex { get => currentDimensionIndex; set => currentDimensionIndex = value; }
    
     
     public List<TView> Dimensions { get => dimensions; set => dimensions = value; }
-   
-    //public MatrixDimension<T> DisplayedDimension { get=> displayedDimension; set=> displayedDimension = value; }
 
     public TView this[int index]
     {
@@ -116,12 +128,84 @@ public abstract class CharacterToPhenomContainerBase<TView, TCOntent> : Relation
         foreach (var dim in dimensions)
             dim.ExtendVectors(newLength);
     }
-
-    public virtual TCOntent GetTableValueFor(string pageName, CharTraitTypeExtended characterTraitRow, string columnName)
+    public List<TContent> GetTableValuesFor<TAgent, TReaction, TFeature, TState, TSensor>(TAgent agent, string pageName, string columnName)
+        where TAgent : AgentBase<TAgent, TReaction, TFeature, TState, TSensor>
+        where TReaction : IReaction
+        where TFeature : IFeature
+        where TState : IState
+        where TSensor : ISensor
     {
-        var matrix = this[pageName];
+        List<TContent> res = new List<TContent>();
+        foreach (var charTrait in agent.CharacterSystem)
+        {
+            res.Add(GetTableValueFor(pageName, charTrait.ThisConcreteCharType, columnName));
+        }
+        return res;
+    }
+
+    public List<TContent> GetTableValuesFor<TAgent, TReaction, TFeature, TState, TSensor>(TAgent agent, string pageName)
+       where TAgent : AgentBase<TAgent, TReaction, TFeature, TState, TSensor>
+       where TReaction : IReaction
+       where TFeature : IFeature
+       where TState : IState
+       where TSensor : ISensor
+    {
+        List<TContent> res = new List<TContent>();
+        foreach (var charTrait in agent.CharacterSystem)
+        {
+            res.AddRange(GetTableVectorFor(pageName, charTrait.ThisConcreteCharType));
+        }
+        return res;
+    }
+    public List<TContent> GetTableValuesFor<TAgent, TReaction, TFeature, TState, TSensor>(TAgent agent, int pageIndex)
+       where TAgent : AgentBase<TAgent, TReaction, TFeature, TState, TSensor>
+       where TReaction : IReaction
+       where TFeature : IFeature
+       where TState : IState
+       where TSensor : ISensor
+    {
+        List<TContent> res = new List<TContent>();
+        foreach (var charTrait in agent.CharacterSystem)
+        {
+            res.AddRange(GetTableVectorFor(pageIndex, charTrait.ThisConcreteCharType));
+        }
+        return res;
+    }
+    public List<TContent> GetTableValuesFor<TAgent, TReaction, TFeature, TState, TSensor>(TAgent agent, int pageIndex, string columnName)
+        where TAgent : AgentBase<TAgent, TReaction, TFeature, TState, TSensor>
+        where TReaction : IReaction
+        where TFeature : IFeature
+        where TState : IState
+        where TSensor : ISensor
+    {
+        List<TContent> res = new List<TContent>();
+        foreach (var charTrait in agent.CharacterSystem)
+        {
+            res.Add(GetTableValueFor(pageIndex, charTrait.ThisConcreteCharType, columnName));
+        }
+        return res;
+    }
+    public virtual TContent GetTableValueFor(string pageName, CharTraitTypeExtended characterTraitRow, string columnName)
+    {
+        var dimension = this[pageName];
+        if (dimension == null)
+            throw new IndexOutOfRangeException($"Dimension with name {pageName} was not found");
+
+        var row = dimension[characterTraitRow];
+        if (row == null)
+            throw new IndexOutOfRangeException($"Row with type {characterTraitRow} was not found");
+
+        var cellIndex = dimension.GetColumnIndex(columnName);
+        if (cellIndex == -1)
+            throw new IndexOutOfRangeException($"Column with name {columnName} was not found");
+
+        return row[cellIndex];
+    }
+    public virtual TContent GetTableValueFor(int pageInex, CharTraitTypeExtended characterTraitRow, string columnName)
+    {
+        var matrix = this[pageInex];
         if (matrix == null)
-            throw new IndexOutOfRangeException($"Matrix with name {name} was not found");
+            throw new IndexOutOfRangeException($"Matrix with index {pageInex} was not found");
 
         var row = matrix[characterTraitRow];
         if (row == null)
@@ -133,13 +217,49 @@ public abstract class CharacterToPhenomContainerBase<TView, TCOntent> : Relation
 
         return row[cellIndex];
     }
-    public TCOntent GetTableValueFor(string pageName, CharTraitTypeExtended characterTraitRow, int columnIndex)
+    public virtual TContent GetTableValueFor(int pageInex, CharTraitTypeExtended characterTraitRow, int columnIndex)
     {
-        var matrix = this[pageName];
+        var matrix = this[pageInex];
         if (matrix == null)
-            throw new IndexOutOfRangeException($"Matrix with name {name} was not found");
+            throw new IndexOutOfRangeException($"Matrix with index {pageInex} was not found");
 
         var row = matrix[characterTraitRow];
+        if (row == null)
+            throw new IndexOutOfRangeException($"Row with type {characterTraitRow} was not found");
+
+        return row[columnIndex];
+    }
+    public virtual TContent[] GetTableVectorFor(int pageInex, CharTraitTypeExtended characterTraitRow)
+    {
+        var matrix = this[pageInex];
+        if (matrix == null)
+            throw new IndexOutOfRangeException($"Matrix with index {pageInex} was not found");
+
+        var row = matrix[characterTraitRow];
+        if (row == null)
+            throw new IndexOutOfRangeException($"Row with type {characterTraitRow} was not found");
+
+        return row;
+    }
+    public virtual TContent[] GetTableVectorFor(string pageName, CharTraitTypeExtended characterTraitRow)
+    {
+        var dim = this[pageName];
+        if (dim == null)
+            throw new IndexOutOfRangeException($"Dimension with name {pageName} was not found");
+
+        var row = dim[characterTraitRow];
+        if (row == null)
+            throw new IndexOutOfRangeException($"Row with type {characterTraitRow} was not found");
+
+        return row;
+    }
+    public TContent GetTableValueFor(string pageName, CharTraitTypeExtended characterTraitRow, int columnIndex)
+    {
+        var dim = this[pageName];
+        if (dim == null)
+            throw new IndexOutOfRangeException($"Dimension with name {pageName} was not found");
+
+        var row = dim[characterTraitRow];
         if (row == null)
             throw new IndexOutOfRangeException($"Row with type {characterTraitRow} was not found");
 

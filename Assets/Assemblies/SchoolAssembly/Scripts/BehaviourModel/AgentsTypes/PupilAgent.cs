@@ -4,6 +4,7 @@ using Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -11,112 +12,136 @@ namespace BehaviourModel
     public class PupilAgent : SchoolAgentBase<PupilAgent>
         
     {
-        [SerializeField] PupilRelationsTableHandler tablesHandler;
-        private void Awake()
+        public override GlobalEvent CurrentEvent => ((SchoolObservationsSystem<PupilAgent>)ObservationsSystem).EventsSensor.CurrentEvent;
+
+        protected override void Awake()
         {
             if (currentState == null)
             {
-                SetState<IdlePupilState>();
-            }
-        }
-        public PupilRelationsTableHandler TablesHandler => tablesHandler;
-
-        internal float CalculateAttentionForRelation<TOther>(
-            RelationshipBase<PupilAgent, IAgent, SchoolAgentStateBase<PupilAgent>> rel)
-            where TOther: SchoolAgentBase<TOther>
-        {
-            float result = default;
-            CharacterToPhenomFloatRelationsLists table = SelectTable();
-
-            var system = (PupilObservationsSystem)ObservationsSystem;
-            var curEventName = system.EventsSensor.CurrentEvent.GetType().Name;
-            string relationKey = GetRelationName(rel);
-
-            foreach (var trait in CharacterSystem)
-            {
-                result += table.GetTableValueFor(curEventName, trait.ThisConcreteCharType, relationKey)
-                * trait.SpecializedCharacterValue * table.TableScallingValue;
-            }
-            return result;
-
-            CharacterToPhenomFloatRelationsLists SelectTable()
-            {
-                CharacterToPhenomFloatRelationsLists table;
-                if (typeof(TOther).IsEquivalentTo(typeof(PupilAgent)))
-                    table = TablesHandler.CharacterToPupilAttentionTable;
-                else
-                    table = TablesHandler.CharacterToTeacherAttentionTable;
-                return table;
+                SetState<PupilChooseActionState>();
             }
         }
 
-        private static string GetRelationName(RelationshipBase<PupilAgent, IAgent, SchoolAgentStateBase<PupilAgent>> rel)
+        //internal float CalculateAttentionForRelation<TOther>(
+        //    RelationshipBase<PupilAgent, IAgent, SchoolAgentStateBase<PupilAgent>> rel)
+        //    where TOther: SchoolAgentBase<TOther>
+        //{
+        //    float result = default;
+        //    CharacterToPhenomFloatRelationsMatrix table = SelectTable();
+
+        //    var system = (SchoolObservationsSystem<PupilAgent>)ObservationsSystem;
+        //    var curEventName = system.EventsSensor.CurrentEvent.GetType().Name;
+        //    string relationKey = GetRelationName(rel);
+
+        //    foreach (var trait in CharacterSystem)
+        //    {
+        //        result += table.GetTableValueFor(curEventName, trait.ThisConcreteCharType, relationKey)
+        //        * trait.SpecializedCharacterValue * table.TableScallingValue;
+        //    }
+        //    return result;
+
+        //    CharacterToPhenomFloatRelationsMatrix SelectTable()
+        //    {
+        //        CharacterToPhenomFloatRelationsMatrix table;
+        //        if (typeof(TOther).IsEquivalentTo(typeof(PupilAgent)))
+        //            table = TablesHandler.CharacterToPupilAttentionTable;
+        //        else
+        //            table = TablesHandler.CharacterToTeacherAttentionTable;
+        //        return table;
+        //    }
+        //}
+
+       
+
+        //internal float CalculateAttentionForInterier(PlacedInterier phenom)
+        //{
+        //    var system = (SchoolObservationsSystem<PupilAgent>)ObservationsSystem;
+        //    float result = default;
+        //    foreach (var trait in CharacterSystem)
+        //    {
+        //        result += TablesHandler.CalculateAttentionForInterier(phenom, trait, system.EventsSensor.CurrentEvent)
+        //            * phenom.PhenomenonPower;
+        //    }
+        //    return result;
+        //}
+
+        //internal float CalculateAttentionForPhenomenon(GlobalEvent curEvent)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+      
+
+        //internal List<ReactionBase> GetReactionsOnEvent<T>(T reason)
+        //    where T: GlobalEvent
+        //{
+        //    var result = new List<ReactionBase>();
+        //    var table = TablesHandler.CharacterToEventsReactionsTable;
+        //    var curEventName = reason.Name;
+        //    foreach (var trait in CharacterSystem)
+        //    {
+        //        result.AddRange(GetReactionsForTrait(this,reason,table, curEventName, 0, trait));
+        //    }
+        //    return result;
+        //}
+        //internal List<ReactionBase> GetReactionsOnInterier(PlacedInterier reason)
+        //{
+        //    var result = new List<ReactionBase>();
+        //    var table = TablesHandler.CharacterToInterierReactionsTable;
+
+        //    //var reactSource = (T)relations.SecondAgent;
+        //    foreach (var trait in CharacterSystem)
+        //    {
+        //        result.AddRange(
+        //            GetReactionsForTrait(this, reason, table, 0, 0, trait));
+        //    }
+        //    return result;
+        //}
+      
+
+        //private static List<ReactionBase> GetReactionsForTrait
+        //    (PupilAgent thisAgent, IReactionSource reactSource, CharacterToPhenomReactionsLists table, string tablePageName, string columnName, CharacterTraitBase<PupilAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<PupilAgent>, Sensor> trait)
+        //{
+        //    var selector = table.GetTableValueFor(tablePageName, trait.ThisConcreteCharType, columnName);
+        //    var reactions = selector.GetReactions();
+        //    foreach (var r in reactions)
+        //    {
+        //        r.ActionActor = thisAgent;
+        //        r.ReactionSource = reactSource;
+        //    }
+        //    return reactions.ToList();
+        //}
+        //private static List<ReactionBase> GetReactionsForTrait
+        //    (PupilAgent thisAgent, IReactionSource reactSource, CharacterToPhenomReactionsLists table, string tablePageName, int columnIndex, CharacterTraitBase<PupilAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<PupilAgent>, Sensor> trait)
+        //{
+        //    var selector = table.GetTableValueFor(tablePageName, trait.ThisConcreteCharType, columnIndex);
+        //    var reactions = selector.GetReactions();
+        //    foreach (var r in reactions)
+        //    {
+        //        r.ActionActor = thisAgent;
+        //        r.ReactionSource = reactSource;
+        //    }
+        //    return reactions.ToList();
+        //}
+
+       
+
+        //private static List<ReactionBase> GetReactionsForTrait
+        //    (PupilAgent thisAgent, IReactionSource reactSource, CharacterToPhenomReactionsLists table, int tablePageIndex, int columnIndex, CharacterTraitBase<PupilAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<PupilAgent>, Sensor> trait)
+        //{
+        //    var selector = table.GetTableValueFor(tablePageIndex, trait.ThisConcreteCharType, columnIndex);
+        //    var reactions = selector.GetReactions();
+        //    foreach (var r in reactions)
+        //    {
+        //        r.ActionActor = thisAgent;
+        //        r.ReactionSource = reactSource;
+        //    }
+        //    return reactions.ToList();
+        //}
+
+        public override void SetDefaultState()
         {
-            string relationKey;
-            if (rel == null)
-                relationKey = "NonFamiliar";
-            else
-                relationKey = rel.ToString();
-            return relationKey;
+            SetState<IdleState<PupilAgent>>();
         }
-
-
-        public override List<IReaction> GetReactionsOnPhenomenon()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal float CalculateAttentionForInterier(PlacedInterier phenom)
-        {
-            var system = (PupilObservationsSystem)ObservationsSystem;
-            float result = default;
-            foreach (var trait in CharacterSystem)
-            {
-                result += TablesHandler.CalculateAttentionForInterier(phenom, trait, system.EventsSensor.CurrentEvent)
-                    * phenom.PhenomenonPower;
-            }
-            return result;
-        }
-
-        internal float CalculateAttentionForPhenomenon(GlobalEvent curEvent)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal override void OnGlobalEventChangedCallback(ExperimentProcessHandler.CurrentEventChangedEventArgs args)
-        {
-            var sys = (PupilObservationsSystem)ObservationsSystem;
-            sys.EventsSensor.CurrentEvent = args.newEvent;
-        }
-
-        internal List<ReactionBase> GetReactionsOnPhenom<T>(RelationshipBase<PupilAgent, IAgent, SchoolAgentStateBase<PupilAgent>> relations)
-            where T: SchoolAgentBase<T>
-        {
-            var result = new List<ReactionBase>();
-            //новый тип таблицы
-            //CharacterToPhenomReactionsTable table = SelectTable();
-
-            var system = (PupilObservationsSystem)ObservationsSystem;
-            var curEventName = system.EventsSensor.CurrentEvent.GetType().Name;
-            string relationKey = GetRelationName(relations);
-
-            foreach (var trait in CharacterSystem)
-            {
-                //var selector = table.GetTableValueFor(curEventName, trait.ThisConcreteCharType, relationKey);
-                //stuck here
-                //result.AddRange(selector.GetReactions());
-            }
-            return result;
-            //новый тип таблицы
-            //CharacterToPhenomReactionsTable SelectTable()
-            //{
-            //    if (typeof(T).IsEquivalentTo(typeof(PupilAgent)))
-            //        return TablesHandler.CharacterToPupilReactionsTable;
-            //    else
-            //        return TablesHandler.CharacterToTeacherReactionsTable;
-            //}
-        }
-
-        
     }
 }

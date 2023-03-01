@@ -34,12 +34,12 @@ namespace Core
             {
                 var placingPoints = placingRooms[Random.Range(0, placingRooms.Count)];
                 agent = spawner.CreateAgent<PupilAgent>(pup, placingPoints.RandomEntrance().transform);
-                OnGlobalEventChanged += agent.OnGlobalEventChangedCallback;
+                OnGlobalEventChanged += ((PupilObservationSystem)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback;
                 experimenAgents.Add(agent);
             }
             var pp = placingRooms[Random.Range(0, placingRooms.Count)];
             teacher = spawner.CreateAgent<TeacherAgent>(agentsHandler.Teacher, pp.RandomEntrance().transform);
-            OnGlobalEventChanged += teacher.OnGlobalEventChangedCallback;
+            OnGlobalEventChanged += ((SchoolObservationsSystem<TeacherAgent>)teacher.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback;
         }
 
         private void InitGlobalSystems()
@@ -51,13 +51,15 @@ namespace Core
             currentEvent = lessonEvent;
         }
 
-        private void InitStartStates()
-        {
-            Teacher.MovementTarget = InterierHandler.Handler.Boards[0];
-            Teacher.SetState<MoveToTargetState<TeacherAgent>>();
-            foreach (var ag in experimenAgents)
-                ag.SetState<FindFreeChairState<PupilAgent>>();
-        }
+        //private void InitStartStates()
+        //{
+        //    Teacher.MovementTarget = InterierHandler.Handler.Boards[0];
+        //    Teacher.SetState<IdleTeacherState>();
+        //    //Teacher.SetState<MoveToTargetState<TeacherAgent>>();
+        //    foreach (var ag in experimenAgents)
+        //        ag.SetState<PupilChooseActionState>();
+        //        //ag.SetState<FindFreeChairState<PupilAgent>>();
+        //}
 
         private void StartAgents()
         {
@@ -75,7 +77,7 @@ namespace Core
         {
             InitGlobalSystems();
             CreateAgents();
-            InitStartStates();
+            //InitStartStates();
             StartAgents();
         }
     }

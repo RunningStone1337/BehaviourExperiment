@@ -12,7 +12,7 @@ public class MovementTester : MonoBehaviour
     {
         if (!agent.IsActing)
             agent.StartStateMachine();
-        if (targetTransform.TryGetComponent(out IMovementTarget<PupilAgent> moveTarget))
+        if (targetTransform.TryGetComponent(out IMovementTarget moveTarget))
         {
             agent.MovementTarget = moveTarget;
             agent.SetState<MoveToTargetState<PupilAgent>>();

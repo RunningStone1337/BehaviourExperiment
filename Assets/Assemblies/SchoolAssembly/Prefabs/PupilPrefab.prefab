@@ -12,6 +12,10 @@ GameObject:
   - component: {fileID: 930825565177353055}
   - component: {fileID: 3968854371583691687}
   - component: {fileID: 9870651154307225}
+  - component: {fileID: 6745613795416351988}
+  - component: {fileID: 152282392044615234}
+  - component: {fileID: 3846020970698998856}
+  - component: {fileID: 1727672489197830412}
   m_Layer: 3
   m_Name: Sensors
   m_TagString: Untagged
@@ -52,7 +56,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   thisAgent: {fileID: 7657761990782980065}
-  viewCollider: {fileID: 3968854371583691687}
+  sensorCollider: {fileID: 0}
 --- !u!60 &3968854371583691687
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -78,9 +82,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0}
-      - {x: 5, y: 6}
-      - {x: 5, y: -6}
+    - - {x: 0, y: 0.15}
+      - {x: 10, y: 6}
+      - {x: 10, y: -6}
+      - {x: 0, y: -0.15}
 --- !u!114 &9870651154307225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +99,102 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentEvent: {fileID: 0}
+--- !u!114 &6745613795416351988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529591048785244001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28fc7657bb0160949931c0857e5a5e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectMask:
+    serializedVersion: 2
+    m_Bits: 136
+  obstaclesMask:
+    serializedVersion: 2
+    m_Bits: 64
+  thisAgent: {fileID: 0}
+  sensorCollider: {fileID: 152282392044615234}
+--- !u!60 &152282392044615234
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529591048785244001}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.15, y: 0.2}
+      - {x: -0.45, y: 0.68}
+      - {x: 0.15, y: 0.68}
+--- !u!114 &3846020970698998856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529591048785244001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28fc7657bb0160949931c0857e5a5e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectMask:
+    serializedVersion: 2
+    m_Bits: 0
+  obstaclesMask:
+    serializedVersion: 2
+    m_Bits: 0
+  thisAgent: {fileID: 0}
+  sensorCollider: {fileID: 0}
+--- !u!60 &1727672489197830412
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529591048785244001}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.15, y: -0.2}
+      - {x: -0.45, y: -0.68}
+      - {x: 0.15, y: -0.68}
 --- !u!1 &4328003032107239062
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,12 +211,10 @@ GameObject:
   - component: {fileID: 8820045725197641241}
   - component: {fileID: 8955113529908522843}
   - component: {fileID: 6313671379159827510}
-  - component: {fileID: 5108233785920038342}
-  - component: {fileID: 2732470850153166494}
-  - component: {fileID: 8395043022056770501}
   - component: {fileID: 5039681430419798386}
   - component: {fileID: 3462251564297644261}
   - component: {fileID: 6032949055567391420}
+  - component: {fileID: 3770447042631226013}
   m_Layer: 3
   m_Name: PupilPrefab
   m_TagString: Agent
@@ -151,15 +250,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4161048f729adc4b91163b5b4ae3324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 2509135949452900917}
+    - {fileID: 2241077677054598208}
+    - {fileID: 4345080000005487050}
+    - {fileID: 6313671379159827510}
+    - {fileID: 8820045725197641241}
+    - {fileID: 8955113529908522843}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: brain
+      Entry: 10
+      Data: 0
+    - Name: characterSystem
+      Entry: 10
+      Data: 1
+    - Name: featuresSystem
+      Entry: 10
+      Data: 2
+    - Name: observationsSystem
+      Entry: 10
+      Data: 3
+    - Name: relationsSystem
+      Entry: 10
+      Data: 4
+    - Name: currentState
+      Entry: 6
+      Data: 
+    - Name: movementTarget
+      Entry: 6
+      Data: 
+    - Name: movementComponent
+      Entry: 10
+      Data: 5
   brain: {fileID: 2509135949452900917}
   characterSystem: {fileID: 2241077677054598208}
   featuresSystem: {fileID: 4345080000005487050}
   observationsSystem: {fileID: 6313671379159827510}
   relationsSystem: {fileID: 8820045725197641241}
-  currentState: {fileID: 0}
   collectObservations: 1
   isActing: 0
-  makeDecisions: 1
+  autoMakeActions: 1
   agentCollider: {fileID: 3462251564297644261}
   agentRenderer: {fileID: 8473486698693941904}
   agentRigidbody: {fileID: 5039681430419798386}
@@ -171,13 +308,9 @@ MonoBehaviour:
   agentSex: {fileID: 0}
   agentValue: 5
   agentWeight: 0
-  currentRoom: {fileID: 0}
-  seatChair: {fileID: 0}
-  movementComponent: {fileID: 8955113529908522843}
-  findFreeChairState: {fileID: 2732470850153166494}
-  idleAgentState: {fileID: 8395043022056770501}
-  moveToTargetState: {fileID: 5108233785920038342}
   tablesHandler: {fileID: 6032949055567391420}
+  agentEnvironment: {fileID: 3770447042631226013}
+  movementComponent: {fileID: 8955113529908522843}
 --- !u!114 &2241077677054598208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +354,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisAgent: {fileID: 7657761990782980065}
-  actionSelected: 0
   actionsMode: 1
   autoDecreasePhenomsValuePerStep: 1
   decreaseStep: 0.1
@@ -275,6 +407,7 @@ MonoBehaviour:
     m_Bits: 192
   searchShortcut: 1
   snapToGrid: 0
+  recalcPerFrames: 100
   drawDebugLines: 1
   stopMovement: 0
   thisBody: {fileID: 0}
@@ -290,60 +423,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4328003032107239062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e7ed1ac78c616a48b0fabdd3b01f9ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d3d24f8eb1cffc4d8b5b81eecdc9324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisAgent: {fileID: 7657761990782980065}
+  thisAgent: {fileID: 0}
   observationsCollectingMode: 1
   observationsCollectingInterval: 1
   observationsCollectingIntervalSeed: 0.1
   sensors:
-  - {fileID: 930825565177353055}
   - {fileID: 9870651154307225}
+  - {fileID: 3846020970698998856}
+  - {fileID: 6745613795416351988}
+  - {fileID: 930825565177353055}
   eventsSensor: {fileID: 9870651154307225}
---- !u!114 &5108233785920038342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da70d540d425a0e4a96f201a31c4f9cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisAgent: {fileID: 7657761990782980065}
-  stateBreaked: 0
-  movementComponent: {fileID: 8955113529908522843}
---- !u!114 &2732470850153166494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1135aac1152f814fb8ef62b4e611578, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisAgent: {fileID: 0}
-  stateBreaked: 0
---- !u!114 &8395043022056770501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97a65cffafc5b3e46b9c1474e9e57695, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisAgent: {fileID: 0}
-  stateBreaked: 0
 --- !u!50 &5039681430419798386
 Rigidbody2D:
   serializedVersion: 4
@@ -393,9 +485,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fdda210ceac7fc42adb57c5aaeed11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterToTeacherAttentionTable: {fileID: 11400000, guid: dbb61a7a909e01c42b1525e70f4aba7c, type: 2}
-  characterToPupilAttentionTable: {fileID: 11400000, guid: ed2a71daa7df195448bb7290711cb603, type: 2}
-  characterToInterierAttentionTable: {fileID: 11400000, guid: eafaa8cf461e61c479bfb723deb6954a, type: 2}
+  characterToPupilReactionsTable: {fileID: 11400000, guid: 71d792062cd5c684a9bd4204ebc0e7bc, type: 2}
+  characterToTeacherReactionsTable: {fileID: 11400000, guid: 5358c11d40ac8f645a2b107fa265e2cd, type: 2}
+  characterToEventsReactionsTable: {fileID: 11400000, guid: 88630390fe15b484f8927fa3d87f4de6, type: 2}
+  characterToInterierReactionsTable: {fileID: 11400000, guid: 83335d6920401674d97487c1b9e739f8, type: 2}
+  agentToSpeechResponsesTable: {fileID: 11400000, guid: 890b417a3b19e2b4f841947c831944fa, type: 2}
+--- !u!114 &3770447042631226013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328003032107239062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b607148c24c4f04296541f6a78370eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRoom: {fileID: 0}
+  seatChair: {fileID: 0}
+  pupilTable: {fileID: 0}
 --- !u!1001 &5755911942191124165
 PrefabInstance:
   m_ObjectHideFlags: 0

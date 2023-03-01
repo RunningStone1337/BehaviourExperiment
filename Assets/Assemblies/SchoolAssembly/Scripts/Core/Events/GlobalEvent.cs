@@ -1,6 +1,7 @@
 using BehaviourModel;
 using Core;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Events
@@ -11,23 +12,17 @@ namespace Events
         Break,
         None
     }
-    public abstract class GlobalEvent : ScriptableObject, IPhenomenon
+    public abstract class GlobalEvent : ScriptableObject, IReactionSource, INameHandler
     {
         [SerializeField] protected int eventDuration;
         [SerializeField] float eventImportance;
+        [SerializeField] string eventName;
         [SerializeField] [HideInInspector] protected EventType eventType;
         public EventType EventType => eventType;
         public float PhenomenonPower { get => eventImportance; set => eventImportance = value; }
 
-        /// <summary>
-        /// Приемлемые для данного события действия
-        /// </summary>
-        /// <returns></returns>
+        public string Name => eventName;
 
-        /// <summary>
-        /// Неприемлемые для события действия
-        /// </summary>
-        /// <returns></returns>
         public abstract void Initiate(ScheduleHandler schedule);
     }
 }

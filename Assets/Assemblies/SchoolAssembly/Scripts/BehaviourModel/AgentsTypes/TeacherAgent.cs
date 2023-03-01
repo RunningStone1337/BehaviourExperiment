@@ -1,6 +1,9 @@
 using Core;
+using Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -9,10 +12,8 @@ namespace BehaviourModel
     {
         [SerializeField] BehaviourPatternBase pattern;
 
-        public override List<IReaction> GetReactionsOnPhenomenon()
-        {
-            throw new System.NotImplementedException();
-        }
+        public override GlobalEvent CurrentEvent => ((SchoolObservationsSystem<TeacherAgent>)ObservationsSystem).EventsSensor.CurrentEvent;
+
         #region tables
 
 
@@ -55,9 +56,18 @@ namespace BehaviourModel
             pattern = data.behModel;
         }
 
-        internal override void OnGlobalEventChangedCallback(ExperimentProcessHandler.CurrentEventChangedEventArgs args)
+        //public override IEnumerator AnswerToReqestRoutine<TSpeaker>(TSpeaker speaker, IPhenomenon targetAction)
+        //{
+        //    SetState<TeacherAnsweringToRequestState<TSpeaker>>();
+        //    ((TeacherAnsweringToRequestState<TSpeaker>)CurrentState).Initiate(this, speaker, targetAction);
+        //    yield return currentState.StartState();
+        //}
+
+        
+
+        public override void SetDefaultState()
         {
-            throw new System.NotImplementedException();
+            SetState<IdleTeacherState>();
         }
     }
 }

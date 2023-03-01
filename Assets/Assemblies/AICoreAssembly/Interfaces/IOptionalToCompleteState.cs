@@ -5,5 +5,6 @@ namespace BehaviourModel
     /// </summary>
     public interface IOptionalToCompleteState : IState
     {
+        bool IsContinue { get; set; }
     }
 }

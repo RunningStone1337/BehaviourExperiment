@@ -1,3 +1,4 @@
+using Core;
 using Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,5 +14,10 @@ namespace BehaviourModel
         {
             return new List<IPhenomenon>() { currentEvent };
         }
+        public void OnGlobalEventChangedCallback(ExperimentProcessHandler.CurrentEventChangedEventArgs args)
+        {
+            CurrentEvent = args.newEvent;
+        }
+
     }
 }

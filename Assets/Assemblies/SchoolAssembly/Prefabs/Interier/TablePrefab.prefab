@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3998847898199298369}
   - component: {fileID: 7450492591764184150}
   - component: {fileID: 7193038678421318889}
+  - component: {fileID: 3284196433214146801}
   m_Layer: 7
   m_Name: TablePrefab
   m_TagString: Untagged
@@ -131,14 +132,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider2d: {fileID: 3998847898199298369}
   influenceValue: 0.1
-  objDescription: "\u041D\u0435 \u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442
-    \u043D\u0438\u043A\u0430\u043A\u043E\u0433\u043E \u0432\u043B\u0438\u044F\u043D\u0438\u044F
-    \u043D\u0430 \u043A\u043E\u043C\u0444\u043E\u0440\u0442"
+  objDescription: "\u0421\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u043D\u0430\u044F
+    \u0448\u043A\u043E\u043B\u044C\u043D\u0430\u044F \u043F\u0430\u0440\u0442\u0430"
   objName: "\u041F\u0440\u043E\u0441\u0442\u043E\u0439 \u0441\u0442\u043E\u043B"
   previewSprite: {fileID: 21300000, guid: ff4f477faf5f446499c966eca6577d5c, type: 3}
   spriteRenderer: {fileID: 5912161804425516278}
   thisIdentifier: {fileID: 7450492591764184150}
   thisInterierPlace: {fileID: 0}
+  tableInfo: {fileID: 3284196433214146801}
 --- !u!61 &3998847898199298369
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -199,3 +200,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3284196433214146801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7099374401679110752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8f2492e63b18f4398ed441e941641e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

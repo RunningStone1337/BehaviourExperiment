@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0b5ba949a32ad4aa00c3854f291439, type: 3}
   m_Name: Break
   m_EditorClassIdentifier: 
+  eventDuration: 0
+  eventImportance: 0
+  eventName: Break
+  eventType: 0

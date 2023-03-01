@@ -1,12 +1,14 @@
 using BehaviourModel;
 using Core;
-using Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace BuildingModule
 {
     public class BoardInterier : PlacedInterier
     {
+        public override Func<bool> MoveToTargetCondition => ()=>{ return true; };
+
         private void OnDestroy()
         {
             InterierHandler.Handler.Boards.Remove(this);
