@@ -71,7 +71,7 @@ namespace BehaviourModel
         private IEnumerator MoveRoutine(Func<bool> movementCondition)
         {
             int recalcCounter = 0;
-            while (NeedToMove() && (movementCondition == null || movementCondition.Invoke()))
+            while (NeedToMove() && CanMove(movementCondition))
             {
                 Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
                 yield return rotationHandler.RotateToFaceDirection(dir, thisBody, rotationSpeed, rotationOffset, rotationAnglePrecision);
@@ -85,16 +85,26 @@ namespace BehaviourModel
 #if UNITY_EDITOR
                 DrawPathLines();
 #endif
-               
+
                 yield return null;
                 recalcCounter++;
-                if (recalcCounter == recalcPerFrames)
+                if (recalcCounter == recalcPerFrames /*|| FarFromNextPoint()*/)
                 {
                     recalcCounter = 0;
                     pathLeftToGo = CreatePath(targetVector);
                 }
                 //Debug.Log("Movement cycle");
             }
+        }
+
+        private bool FarFromNextPoint()
+        {
+            return Vector2.SqrMagnitude(pathLeftToGo[0] - thisBody.position)>gridSize;
+        }
+
+        private static bool CanMove(Func<bool> movementCondition)
+        {
+            return (movementCondition == null || movementCondition.Invoke());
         }
 
 #if UNITY_EDITOR
