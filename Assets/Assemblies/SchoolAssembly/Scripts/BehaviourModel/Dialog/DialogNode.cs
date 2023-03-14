@@ -10,9 +10,9 @@ namespace BehaviourModel
         protected DialogNode next;
         public DialogNode Next { get=> next; set=> next = value; }
 
-        public abstract IEnumerator Speak<TInitiator, TResponder>(DialogProcess<TInitiator, TResponder> dialogProcess)
-            where TInitiator : SchoolAgentBase<TInitiator>
-            where TResponder : SchoolAgentBase<TResponder>;
+        //public abstract IEnumerator Speak<TInitiator, TResponder>(DialogProcess<TInitiator, TResponder> dialogProcess)
+        //    where TInitiator : SchoolAgentBase<TInitiator>
+        //    where TResponder : SchoolAgentBase<TResponder>;
 
         //public static DialogNode CreateStructureFor<TInitiator>(SpeakAction selectedAction, RelationshipBase<TInitiator, IAgent, SchoolAgentStateBase<TInitiator>> relations)
         //where TInitiator: SchoolAgentBase<TInitiator>

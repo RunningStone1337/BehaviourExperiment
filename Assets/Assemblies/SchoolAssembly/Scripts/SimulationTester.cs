@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class SimulationTester : MonoBehaviour
 {
+    [SerializeField] bool autoStart;
     [SerializeField] List<PupilAgent> agents;
+    [SerializeField] TeacherAgent teacher;
     [Button("Start simulation")]
     public void StartSimulate()
     {
@@ -15,5 +17,15 @@ public class SimulationTester : MonoBehaviour
             ag.SetDefaultState();
             ag.StartStateMachine();
         }
+        if (teacher != null)
+        {
+            teacher.SetDefaultState();
+            teacher.StartStateMachine();
+        }
+    }
+    private void Start()
+    {
+        if (autoStart)
+            StartSimulate();
     }
 }

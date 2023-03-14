@@ -13,7 +13,7 @@ namespace BehaviourModel
         [SerializeField] [HideInInspector] private TAgent thisAgent;
         public TAgent ThisAgent => thisAgent;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (thisAgent == null)
             {

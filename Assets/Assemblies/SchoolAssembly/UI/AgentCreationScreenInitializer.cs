@@ -42,10 +42,10 @@ namespace UI
 
         private void ResetBehaviourPatternsRect(Type type)
         {
-            if (type.Equals<PupilAgent>())
+            //if (type.Equals<PupilAgent>())
                 acs.PrefferedBehaviourRect.Deactivate();
-            else
-                acs.PrefferedBehaviourRect.Activate();
+            //else
+                //acs.PrefferedBehaviourRect.Activate();
         }
 
         private void ResetBehaviourPatternsRect(string typeName)

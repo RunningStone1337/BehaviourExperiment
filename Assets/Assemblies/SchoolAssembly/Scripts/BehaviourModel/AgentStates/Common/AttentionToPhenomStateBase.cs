@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class AttentionToPhenomStateBase<TStateHandler, TAttentionTarget> : SchoolAgentStateBase<TStateHandler>, IOptionalToCompleteState
+    public abstract class AttentionToPhenomStateBase<TStateHandler, TAttentionTarget> : SchoolAgentStateBase<TStateHandler>, IOptionalToCompleteState
         where TStateHandler : SchoolAgentBase<TStateHandler>
         where TAttentionTarget : IPhenomenon
     {
@@ -12,22 +12,23 @@ namespace BehaviourModel
         public TAttentionTarget AttentionSubject { get; protected set; }
         public bool IsContinue { get ; set; }
 
-        public void Initiate(TStateHandler thisStateHandler, TAttentionTarget attentionSource, float _attentionTimeout)
+        public void Initiate(TStateHandler thisStateHandler, TAttentionTarget attentionSource)
         {
             base.Initiate(thisStateHandler);
             IsContinue = true;
             AttentionSubject = attentionSource;
-            attentionTimeout = _attentionTimeout;
+            thisAgent.AutoMakeActions = false;
+            thisAgent.Brain.ManualAction = StartState();
         }
-        public override IEnumerator StartState()
+       
+        protected IEnumerator RotateToFaceSubject()
         {
-            while (attentionTimeout > 0f && IsContinue)
+             var rotator = new RotationHandler();
+            if (AttentionSubject is MonoBehaviour cast)
             {
-                yield return new WaitForFixedUpdate();
-                attentionTimeout -= Time.fixedDeltaTime;
+                yield return rotator.RotateToFaceDirection(cast.transform.position - thisAgent.transform.position,
+                    thisAgent.AgentRigidbody, 3f);
             }
-            if (IsContinue)
-                thisAgent.SetDefaultState();
         }
     }
 }

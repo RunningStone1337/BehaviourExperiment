@@ -15,11 +15,13 @@ namespace BuildingModule
         [SerializeField] [Range(0f, 1f)] private float step;
         [SerializeField] private Color targetColor;
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             var color = Color.green;
             DrawSphereGizmo(color);
         }
+#endif
 
         public Coroutine Routine { get => routine; set => routine = value; }
 

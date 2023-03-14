@@ -56,6 +56,8 @@ namespace BehaviourModel
             pattern = data.behModel;
         }
 
+       
+
         //public override IEnumerator AnswerToReqestRoutine<TSpeaker>(TSpeaker speaker, IPhenomenon targetAction)
         //{
         //    SetState<TeacherAnsweringToRequestState<TSpeaker>>();
@@ -63,7 +65,7 @@ namespace BehaviourModel
         //    yield return currentState.StartState();
         //}
 
-        
+
 
         public override void SetDefaultState()
         {

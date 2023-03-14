@@ -22,7 +22,7 @@ namespace BehaviourModel
         /// </summary>
         public abstract IEnumerator TryPerformAction();
 
-        public void Initiate(IReactionSource reactSource, IAgent reactionActor)
+        public virtual void Initiate(IReactionSource reactSource, IAgent reactionActor)
         {
             ReactionSource = reactSource;
             ActionActor = reactionActor;

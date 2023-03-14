@@ -11,7 +11,7 @@ namespace Common
 
         public void GenerateRandomName()
         {
-            var male = sexDrop.DropdownValue == "ì";
+            var male = sexDrop.DropdownValue == "Ì";
             if (male)
                 nameInputField.InputField.text = library.GetFullMaleCombination();
             else

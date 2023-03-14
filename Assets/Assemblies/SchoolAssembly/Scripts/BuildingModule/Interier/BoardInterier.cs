@@ -2,21 +2,23 @@ using BehaviourModel;
 using Core;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BuildingModule
 {
     public class BoardInterier : PlacedInterier
     {
-        public override Func<bool> MoveToTargetCondition => ()=>{ return true; };
-
+        [SerializeField] MovePoint leftPlace;
+        [SerializeField] MovePoint rightPlace;
+        public MovePoint LeftPlace => leftPlace;
+        public MovePoint RightPlace => rightPlace;
         private void OnDestroy()
         {
             InterierHandler.Handler.Boards.Remove(this);
         }
 
-        protected override void Awake()
+        public override void Initiate(InterierPlaceBase ipb)
         {
-            base.Awake();
             InterierHandler.Handler.Boards.Add(this);
         }
 

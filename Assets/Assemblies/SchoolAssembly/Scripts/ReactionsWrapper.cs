@@ -41,6 +41,12 @@ namespace BehaviourModel
             for (int i = 0; i < res.Length; i++)
             {
                 var type = Type.GetType(reactions[i]);
+#if DEBUG
+                if (type == null)
+                {
+                    Debug.Log($"Created type of {reactions[i]} was null");
+                }
+#endif
                 var instance = (ReactionBase)Activator.CreateInstance(type);
                 res[i] = instance;
             }

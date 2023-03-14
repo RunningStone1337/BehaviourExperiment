@@ -2,6 +2,7 @@ using BuildingModule;
 using Common;
 using Core;
 using Events;
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace BehaviourModel
 {
     public abstract class SchoolAgentBase<TAgent>: 
         AgentBase<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>,
-        IUIViewedObject, IReactionSource
+        IUIViewedObject, IReactionSource, IMovementTarget
         where TAgent : SchoolAgentBase<TAgent>
     {
         [Space]
@@ -25,20 +26,27 @@ namespace BehaviourModel
         [SerializeField] private SpriteRenderer agentRenderer;
         [SerializeField] private Rigidbody2D agentRigidbody;
         [SerializeField] private Sprite previewSprite;
+        [SerializeField] private AgentStatusBar statusBar;
+        [SerializeField] AIDestinationSetter setter;
+        [SerializeField] SchoolAIPath movePath;
+
 
         #endregion components
 
         [Space]
         #region base params
-        [SerializeField] private ushort agentAge;
+        [SerializeField] private int agentAge;
         [SerializeField] private string agentDescription;
-        [SerializeField] private ushort agentHeight;
+
+       
+
+        [SerializeField] private int agentHeight;
         [SerializeField] private string agentName;
         [SerializeField] private SexBase agentSex;
 
 
-        [SerializeField] private float agentValue;
-        [SerializeField] private ushort agentWeight;
+        [SerializeField] private float agentPhenomPower;
+        [SerializeField] private int agentWeight;
 
         [Space]
         #endregion base params
@@ -47,70 +55,205 @@ namespace BehaviourModel
         [SerializeField] AgentEnvironment agentEnvironment;
         public AgentEnvironment AgentEnvironment => agentEnvironment;
         //[SerializeField] private EnvironmentInfoSource envirInfo;
-        [SerializeField] private IMovementTarget movementTarget;
+        //[SerializeField] private IMovementTarget movementTarget;
+        public Transform MovementTarget
+        {
+            get => setter.target; set
+            {
+                if (value != null)
+                    setter.target = TryRedirectMovementTarget(value);
+                else
+                    setter.target = value;
+                movePath.LastTarget = setter.target;
+#if DEBUG
+                if (setter.target != null)
+                    Debug.Log($"Target set is {setter.target}");
+                else
+                    Debug.Log($"Target set is null");
+#endif
+            }
+        }
 
+
+        //public IMovementTarget MovementTarget
+        //{
+        //    get => movementTarget;
+        //    set
+        //    {
+        //        movementTarget = TryRedirectMovementTarget(value);
+        //    }
+
+        //}      
         public abstract GlobalEvent CurrentEvent { get; }
-
-        public IMovementTarget MovementTarget { get => movementTarget; set => movementTarget = value; }
 
         #endregion main
 
         [Space]
         [SerializeField] private MovementComponent<TAgent> movementComponent;
         public MovementComponent<TAgent> MovementComponent => movementComponent;
+      
 
         public IEnumerator RotateRoutine(Vector3 directionVector)
         {
-            yield return MovementComponent.RotateToFaceDirection(directionVector);
+            var rotattor = new RotationHandler();
+            yield return rotattor.RotateToFaceDirection(directionVector, AgentRigidbody, 5f);
+            //yield return MovementComponent.RotateToFaceDirection(directionVector);
         }
 
-        public Collider2D AgentCollider => agentCollider;
+        public CircleCollider2D AgentCollider => agentCollider;
         public Rigidbody2D AgentRigidbody => agentRigidbody;
        
         //public EnvironmentInfoSource EnvironmentInfo { get => envirInfo; private set => envirInfo = value; }
         public string Name => agentName;
         public string ObjDescription => agentDescription;
-        public float PhenomenonPower { get => agentValue; set => agentValue = value; }
-        public Sprite PreviewSprite => previewSprite;     
+        public float PhenomenonPower { get => agentPhenomPower; set => agentPhenomPower = value; }
+        public Sprite PreviewSprite => previewSprite;
 
-        public IEnumerator ResponseToSpeechFromOptions<TInitiator, TResponder>(SpeakAction speechToRespond, DialogProcess<TInitiator, TResponder> dialogProcess,  List<SpeakAction> options)
-            where TInitiator : SchoolAgentBase<TInitiator>
-            where TResponder : SchoolAgentBase<TResponder>
+        public bool TargetReached { get => movePath.reachedEndOfPath; }
+
+        public bool MoveToTargetCondition() 
         {
-            SpeakAction response = SelectResponseToSpeechFromOptions(speechToRespond, options);
-
-            yield return response.Speak(dialogProcess);
-            dialogProcess.LastAnswer = response;
+            //if (movementTarget is IAgent)
+            //{
+            //    var cast = (MonoBehaviour)movementTarget;
+            //    var dist = Vector3.Distance(transform.position, cast.transform.position);
+            //    if (dist > .5f)
+            //        return true;
+            //    return false;
+            //}
+            //else if (movementTarget is ChairInterier ch)
+            //{
+            //    return ch.ChairInfo.ThisAgent == null;
+            //}
+            return true;
         }
-        private SpeakAction SelectResponseToSpeechFromOptions(SpeakAction speechToRespond, List<SpeakAction> options)
+
+        //public IEnumerator ResponseToSpeechFromOptions<TInitiator, TResponder>(SpeakAction speechToRespond, DialogProcess<TInitiator, TResponder> dialogProcess, List<SpeakAction> options)
+        //    where TInitiator : SchoolAgentBase<TInitiator>
+        //    where TResponder : SchoolAgentBase<TResponder>
+        //{
+        //    SpeakAction response = SelectResponseToSpeechFromOptions(speechToRespond, options);
+
+        //    //yield return response.Speak(dialogProcess);
+        //    dialogProcess.LastAnswer = response;
+        //}
+        private Transform TryRedirectMovementTarget(Transform value)
+        {
+            if (value.TryGetComponent(out BoardInterier board))
+            {
+                if (!board.RightPlace.IsOccuped)
+                    return board.RightPlace.transform;
+                else if (!board.LeftPlace.IsOccuped)
+                    return board.LeftPlace.transform;
+            }
+            else if (value.TryGetComponent(out ChairInterier chair))
+            {
+                if (!chair.RightPlace.IsOccuped)
+                    return chair.RightPlace.transform;
+                else if (!chair.LeftPlace.IsOccuped)
+                    return chair.LeftPlace.transform;
+            }
+            return value;
+        }
+        public void AddRelationsChangesToSpeech<TSpeechAgent>(SpeakAction<TSpeechAgent, TAgent> speechToRespond, TSpeechAgent speechAgent)
+            where TSpeechAgent : SchoolAgentBase<TSpeechAgent>
+        {
+            var relations = RelationsSystem.GetCurrentRelationTo(speechAgent);
+            if (relations == null)
+            {
+                relations = RelationsSystem.CreateNew(
+                    new FamiliarRelationship<TAgent, IAgent, SchoolAgentStateBase<TAgent>>
+                    ((TAgent)this, speechAgent));
+            }
+            var influence = CalculateRelationshipInfluenceForSpeech(speechToRespond);
+            RelationsSystem.AddInfluenceForRelations(relations, influence);
+        }
+        private float CalculateRelationshipInfluenceForSpeech<TSpeechAgent>(SpeakAction<TSpeechAgent, TAgent> speechToCalculate)
+            where TSpeechAgent : SchoolAgentBase<TSpeechAgent>
+        {
+            var table = TablesHandler.AgentToSpeechRelationsInfluenceTable;
+            var speechType = speechToCalculate.GetType().Name;
+            //16 векторов для данного набора характера
+            var thisAgentCharVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+                ((TAgent)this, 0);
+            //реакции на speechToCalculate для данных векторов
+            var selected = thisAgentCharVectors.Where(x => x.SpeechToReact.Equals(speechType));
+            var totalInfluence = selected.Sum(x => x.ProbablyReactionInfluence);
+            return totalInfluence;
+        }
+        //private SpeakAction SelectResponseToSpeechFromOptions(SpeakAction speechToRespond, List<SpeakAction> options)
+        //{
+        //    var table = TablesHandler.AgentToSpeechResponsesTable;
+        //    var speechType = speechToRespond.GetType().Name;
+        //    //16 векторов
+        //    var thisAgentVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+        //        ((TAgent)this, 0);
+        //    //ответы на speechToRespond для данных векторов
+        //    var selected = thisAgentVectors.Where(x => x.SpeechToReact.Equals(speechType));
+        //    var selectedProbReactions = selected.SelectMany(x => x.ProbablyReactions.ProbReactions);
+        //    var optionsWithWeights = new List<(SpeakAction answerOption, float answerWeight)>();
+        //    //сопоставляем доступные варианты с определёнными
+        //    foreach (var option in options)
+        //    {
+        //        var optionTypeName = option.GetType().Name;
+        //        var weights = selectedProbReactions.Where(x => x.SpeechToAnswer.Equals(optionTypeName)).Sum(x => x.ReactionWeight);
+        //        optionsWithWeights.Add((option, weights));
+        //    }
+        //    //выбрать на омновании весов
+        //    var response = optionsWithWeights.SelectRandom().Key;
+        //    return response;
+        //}
+        /// <summary>
+        /// Реакция на <paramref name="speechToReact"/>. 
+        /// Возвращает ответную реплику и меняет взаимоотношения в зависимости от реплики.
+        /// </summary>
+        /// <param name="speechToReact"></param>
+        /// <returns></returns>
+        public SpeakAction<TAgent,TInitiator> GetResponseAtSpeech<TInitiator>(SpeakAction<TInitiator, TAgent> speechToReact, TInitiator speaker)
+            where TInitiator: SchoolAgentBase<TInitiator>
         {
             var table = TablesHandler.AgentToSpeechResponsesTable;
-            var speechType = speechToRespond.GetType().Name;
-            //16 векторов
-            var thisAgentVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            var speechType = speechToReact.GetType().Name;
+            //16 векторов для данного набора характера
+            var thisAgentCharVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
                 ((TAgent)this, 0);
             //ответы на speechToRespond для данных векторов
-            var selected = thisAgentVectors.Where(x => x.SpeechToReact.Equals(speechType));
+            var selected = thisAgentCharVectors.Where(x => x.SpeechToReact.Equals(speechType));
             var selectedProbReactions = selected.SelectMany(x => x.ProbablyReactions.ProbReactions);
-            var optionsWithWeights = new List<(SpeakAction answerOption, int answerWeight)>();
-            //сопоставляем доступные варианты с определёнными
-            foreach (var option in options)
+            var tuples = selectedProbReactions.Select(x => (x, x.ReactionWeight)).ToList();
+            var (Key, Value) = tuples.SelectRandom();
+            if (Key != null)//ответ есть
+                return Key.GetReaction((TAgent)this, speaker);
+            else
             {
-                var optionTypeName = option.GetType().Name;
-                var weights = selectedProbReactions.Where(x => x.SpeechToAnswer.Equals(optionTypeName)).Sum(x => x.ReactionWeight);
-                optionsWithWeights.Add((option, weights));
+                //throw new System.Exception($"Для спича {speechToReact} не было ответного спича у агента {this}");
+                var res = new KeepSilentAnswer<TAgent, TInitiator>();
+                res.Initiate(speaker, this);
+                return res;
             }
-            //выбрать на омновании весов
-            var response = optionsWithWeights.SelectRandom().Key;
-            return response;
         }
-        public override void SetState<TNewState>()
+        public override TNewState SetState<TNewState>()
         {
             var state = new TNewState();
             state.Initiate((TAgent)this);
             CurrentState = state;
+            return state;
         }
-
+        public void StartActionVisual(IStatusBarDataSource source)
+        {
+            //TODO вызов коорутины видуализации диалога
+            statusBar.Initiate(source);
+            statusBar.Show();
+        }
+        public void EndActionVisualForce()
+        {
+            statusBar.Hide();
+        }
+        public void SetState<TState>(TState state)
+           where TState : SchoolAgentStateBase<TAgent>
+        {
+            CurrentState = state;
+        }
         public virtual void Initiate<TLowAnx, TMidAnx, THighAnx,
             TLowSoc, TMidSoc, THighSoc,
             TLowStab, TMidStab, THighStab,
@@ -222,52 +365,79 @@ namespace BehaviourModel
             //NervousSystem.Initiate(data);
             
         }
+        public IEnumerator OnBeforeStartMovement()
+        {
+            if (AgentEnvironment.ChairInfo != null//на стуле
+                 && NewTargetNotCurrentChair())//и цель - не тот же стул
+            {
+                yield return OnLeaveChair();
+            }
+            //else
+            //{
+            //    if (MovementTarget is ChairInterier)
+            //    {
 
+            //    }
+            //}
+        }
+        private bool NewTargetNotCurrentChair()
+        {
+            return MovementTarget.gameObject.GetComponent<ChairInterier>() != AgentEnvironment.ChairInfo.ThisInterier;
+            //return (MonoBehaviour)MovementTarget != AgentEnvironment.ChairInfo.ThisInterier;
+        }
         public IEnumerator OnLeaveChair()
         {
             AgentEnvironment.ChairInfo.ThisAgent = null;
             var leavedChair = AgentEnvironment.ChairInfo.ThisInterier;
-            leavedChair.Collider2D.isTrigger = false;
             AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
 
-            Collider2D[] contacts = new Collider2D[5];
-            AgentRigidbody.GetContacts(contacts);
-            while (contacts.Contains(leavedChair.Collider2D))
-            {
-                AgentRigidbody.MovePosition(transform.position + new Vector3(0.05f, 0, 0));
-                AgentRigidbody.GetContacts(contacts);
-                yield return new WaitForFixedUpdate();
-            }
-            AgentRigidbody.MovePosition(transform.position + new Vector3(0.05f, 0, 0));
-            yield return new WaitForFixedUpdate();
+            AgentRigidbody.MovePosition((Vector2)transform.position + new Vector2(((CircleCollider2D)leavedChair.Collider2D).radius*2f+.1f, 0));
+            yield return null;
+            //переписать
+            //Collider2D[] contacts = new Collider2D[25];
+            //float step = 0.2f;
+            //AgentRigidbody.GetContacts(contacts);
+            //while (contacts.Contains(leavedChair.Collider2D))
+            //{
+            //    AgentRigidbody.MovePosition(AgentRigidbody.position + new Vector2(step, 0));
+            //    AgentRigidbody.GetContacts(contacts);
+            //    yield return null;
+            //}
+            //AgentRigidbody.MovePosition(AgentRigidbody.position + new Vector2(step, 0));
+            //yield return null;
 
+            leavedChair.Collider2D.isTrigger = false;
             AgentEnvironment.ChairInfo = null;
             AgentEnvironment.TableInfo.RemoveAgent(this);
             AgentEnvironment.TableInfo = null;
         }
 
-        public IEnumerator OnTargetReached()
+        public IEnumerator OnTargetReached(Transform target)
         {
-            if (movementTarget is ChairInterier chair)
+            if (target.TryGetComponent(out ChairMovePoint chairMP))
             {
-                yield return HandleChair(chair);
-                var closestTable = InterierHandler.Handler.Tables
-                    .Select(x=>(Vector3.Distance(x.transform.position, chair.transform.position), x))
-                    .OrderBy(x=>x.Item1).First().x;
+                var chair = chairMP.GetComponentInParent<ChairInterier>();
+                yield return RotateRoutine(-chair.transform.right);
+                agentRigidbody.bodyType = RigidbodyType2D.Kinematic;
 
-                AgentEnvironment.TableInfo = closestTable.TableInfo;
-                AgentEnvironment.TableInfo.AddAgentIfFree(this);
+                //yield return HandleChairReached(chair);
+                //SetThisChairTableProps(chair);
             }
 
-            IEnumerator HandleChair(ChairInterier chair)
-            {
-                chair.Collider2D.isTrigger = true;
-                chair.ChairInfo.ThisAgent = this;
-                AgentRigidbody.MovePosition(chair.transform.position);
-                yield return RotateRoutine(chair.transform.up);
-                AgentEnvironment.ChairInfo = chair.ChairInfo;
-                AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
-            }
+            //IEnumerator HandleChairReached(ChairInterier chair)
+            //{
+            //    MovementTarget = null;
+            //    chair.Collider2D.isTrigger = true;
+            //    chair.ChairInfo.ThisAgent = this;
+            //    //yield return MovementComponent.StartMoveToTransform(chair.transform, () => true);
+            //    AgentRigidbody.MovePosition(chair.transform.position);
+            //    AgentEnvironment.ChairInfo = chair.ChairInfo;
+            //    yield return RotateRoutine(chair.transform.up);
+            //    AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
+            //}
+
         }
+
+       
     }
 }

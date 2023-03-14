@@ -32,6 +32,27 @@ namespace BehaviourModel
             return default;
         }
 
+        public void AddInfluenceForRelations(RelationshipBase<TAgent, IAgent, TState> relations, float relationsInfluence)
+        {
+            var newRelations = relations.AddInfluence(relationsInfluence);
+            if (relations != newRelations)
+            {
+                relationsDicts[relations.SecondAgent] = newRelations;
+            }
+        }
+
+        public TRelations CreateNew<TRelations>(TRelations newRelations)
+            where TRelations : RelationshipBase<TAgent, IAgent, TState>
+        {
+            if (!relationsDicts.ContainsKey(newRelations.SecondAgent))
+            {
+                relationsDicts.Add(newRelations.SecondAgent, newRelations);
+            }
+            else throw new Exception("Attempt to create new relationship when system contains existing one, this is not allowed." +
+                "To override existed relationship first demove old relationship force.");
+            return newRelations;
+        }
+
         public void RemoveRelations()
         {
             relationsDicts.Clear();

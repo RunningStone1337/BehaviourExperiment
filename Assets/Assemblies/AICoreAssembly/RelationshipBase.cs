@@ -11,63 +11,30 @@ namespace BehaviourModel
         where TThisAgent : ICurrentStateHandler<TState> 
         where TOtherAgent : IAgent
         where TState : IState
-        //where TReaction : IReaction
-        //where TFeature : IFeature
-        //where TSensor : ISensor
-        /*: ICharacterTraitsImportanceInfluenceHandler*/
-
     {
-        //protected RelationshipType relationship;
-
+        protected float thisRelationshipProgress;
         protected RelationshipBase(TThisAgent thisAgent, TOtherAgent secondAgent)
         {
             ThisAgent = thisAgent;
             SecondAgent = secondAgent;
-            //KnownCharacterTraits = new List<CharacterTraitBase<TThisAgent, TReaction, TFeature, TState, TSensor>>();
-            //KnownFeatures = new List<TFeature>();
+            thisRelationshipProgress = default;
         }
-        //protected int MatchFeaturesCount<T>() where T : IFeature
-        //{
-        //    int counter = 0;
-        //    foreach (var f in KnownFeatures)
-        //    {
-        //        if (f is T)
-        //            counter++;
-        //    }
-        //    return counter;
-        //}
-
-        //public List<CharacterTraitBase<TThisAgent, TReaction, TFeature, TState, TSensor>> KnownCharacterTraits { get; protected set; }
-
-        //public List<TFeature> KnownFeatures { get; protected set; }
-
 
         public TOtherAgent SecondAgent { get; }
 
         public TThisAgent ThisAgent { get; }
+        public float CurrentRelationshipProgress { get=> thisRelationshipProgress; set=> thisRelationshipProgress = value; }
 
-        //public void InitFrom(RelationshipBase<TThisAgent, TReaction, TFeature, TState, TSensor> oldRelation)
-        //{
-        //    KnownCharacterTraits = oldRelation.KnownCharacterTraits;
-        //    KnownFeatures = oldRelation.KnownFeatures;
-        //}
+        public RelationshipBase<TThisAgent, TOtherAgent, TState> AddInfluence(float relationsInfluence)
+        {
+            thisRelationshipProgress += relationsInfluence;
+            if (NeedTransitonToNewRelationship(thisRelationshipProgress, 
+                out RelationshipBase<TThisAgent, TOtherAgent, TState> newRelation))
+                return newRelation;
+            return this;
+        }
 
-        /// <summary>
-        /// явл€етс€ ли черта <paramref name="trait"/> у SecondAgent известной дл€ ThisAgent?
-        /// </summary>
-        /// <param name="trait"></param>
-        /// <returns></returns>
-        //public bool KnownCharacterTrait<T>() where T : CharacterTraitBase<TThisAgent, TReaction, TFeature, TState, TSensor>
-        //{
-        //    foreach (var ct in KnownCharacterTraits)
-        //    {
-        //        if (ct is T)
-        //            return true;
-        //    }
-        //    return false;
-        //}
-
-       
+        protected abstract bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TThisAgent, TOtherAgent, TState> newRelation);
 
 
         #region influenceChecks

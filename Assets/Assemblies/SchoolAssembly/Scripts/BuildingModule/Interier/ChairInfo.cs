@@ -1,14 +1,10 @@
 using BehaviourModel;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingModule
 {
     public class ChairInfo : InterierInfoBase<ChairInterier>
     {
-        protected IAgent thisAgent;
-        public IAgent ThisAgent { get => thisAgent; set => thisAgent = value; }
         private void FixedUpdate()
         {
             if (thisAgent != null)
@@ -19,5 +15,18 @@ namespace BuildingModule
                     t.AgentRigidbody.MovePosition(transform.position);
             }
         }
+
+        //private void OnTriggerStay2D(Collider2D collision)
+        //{
+        //    if (thisAgent != null)
+        //    {
+        //        if (collision.gameObject.TryGetComponent(out PupilAgent p) && p == ThisAgent)
+        //            p.AgentRigidbody.MovePosition(transform.position);
+        //        else if (collision.gameObject.TryGetComponent(out TeacherAgent t) && t == ThisAgent)
+        //            t.AgentRigidbody.MovePosition(transform.position);
+        //    }            
+        //}
+        protected IAgent thisAgent;
+        public IAgent ThisAgent { get => thisAgent; set => thisAgent = value; }
     }
 }

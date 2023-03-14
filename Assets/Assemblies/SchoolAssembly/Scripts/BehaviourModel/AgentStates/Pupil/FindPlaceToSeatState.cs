@@ -15,7 +15,7 @@ namespace BehaviourModel
                 var chair = FindPlaceToSeat();
                 if (chair != null)
                 {
-                    thisAgent.MovementTarget = chair;
+                    thisAgent.MovementTarget = chair.transform;
                     thisAgent.SetState<MoveToTargetState<T>>();
                     yield return thisAgent.CurrentState.StartState();
                 }

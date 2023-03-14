@@ -55,7 +55,6 @@ namespace BuildingModule
         public SpriteRenderer Renderer { get => spriteRenderer; }
         public ObjectUniqIdentifier ThisIdentifier { get => thisIdentifier; }
         public InterierPlaceBase ThisInterierPlace { get => thisInterierPlace; }
-        public virtual Func<bool> MoveToTargetCondition => ()=>{ return true; };
 
         /// <summary>
         /// Может ли данный интерьер находиться при текущих условиях?

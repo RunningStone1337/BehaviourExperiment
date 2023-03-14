@@ -10,7 +10,8 @@ namespace BehaviourModel
         [SerializeField] private SchoolAgentBase<PupilAgent> thisAgent;
         [SerializeField] private PolygonCollider2D sensorCollider;
         [SerializeField] private List<IPhenomenon> detectedPhenomenons;
-      
+        [SerializeField, Range(0f, 2f)] float secondsStayingCollectingInterval = 0.5f;
+        [SerializeField, HideInInspector] float currentTimer;
         private void AddIfNotContainsAndRaycast(IPhenomenon phen)
         {
             if (!DetectedPhenomens.Contains(phen))
@@ -44,10 +45,15 @@ namespace BehaviourModel
 
         private void OnTriggerStay2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IPhenomenon phen))
+            if (currentTimer <= 0f)
             {
-                AddIfRaycastRemoveIfNot(phen);
+                if (collision.TryGetComponent(out IPhenomenon phen))
+                {
+                    AddIfRaycastRemoveIfNot(phen);
+                }
+                currentTimer = secondsStayingCollectingInterval;
             }
+            currentTimer -= Time.fixedDeltaTime;
         }
 
         private void AddIfRaycastRemoveIfNot(IPhenomenon phen)

@@ -10,30 +10,33 @@ namespace BehaviourModel
         where TCompanion : SchoolAgentBase<TCompanion>
     {
         TCompanion secondSpeechAgent;
-        SpeakAction thisStateSpeech;
+        SpeakAction<TAgent, TCompanion> thisStateSpeech;
         public override IEnumerator StartState()
         {
-            thisAgent.SetState<TryAttractAttentionState<TAgent, TCompanion>>();
-            ((TryAttractAttentionState<TAgent, TCompanion>)thisAgent.CurrentState).Initiate(thisAgent, secondSpeechAgent);
-            yield return thisAgent.CurrentState.StartState();
+            var angle = thisAgent.transform.rotation.eulerAngles.z%360f;
+            var rotator = new RotationHandler();
+            yield return rotator.RotateToFaceDirection(secondSpeechAgent.transform.position - thisAgent.transform.position,
+                thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
+
+            var state = thisAgent.SetState<TryAttractAttentionState<TAgent, TCompanion>>();
+            state.Initiate(thisAgent, secondSpeechAgent);
+            yield return state.StartState();
+            thisAgent.SetState(this);
 
             //внимание привлечено
-            if (secondSpeechAgent.CurrentState is AttentionToAgentState<TCompanion, TAgent> ats && ats.AttentionSubject == thisAgent)
+            if (secondSpeechAgent.CurrentState is AttentionToPhenomStateBase<TCompanion, TAgent> ats 
+                && ats.AttentionSubject == thisAgent)
             {
-                thisAgent.SetState<IndividualSpeechState<TAgent, TCompanion>>();
                 var dialog = new DialogProcess<TAgent, TCompanion>(thisAgent, secondSpeechAgent);
-                yield return thisStateSpeech.Speak(dialog);
-                if (dialog.DialogResult!= null)
-                {
-                    yield return dialog.DialogResult.TryPerformAction();
-                }
+                yield return dialog.StartDialog(thisStateSpeech);
             }
-            //отрицательная реакци если не получилось?
+            yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, angle, RotationHandler.QuickRotation);
+            thisAgent.SetDefaultState();
         }
 
-        public void Initiate(TAgent actorCast, TCompanion secondCast, SpeakAction speech)
+        public void Initiate(TAgent actorCast, TCompanion secondCast, SpeakAction<TAgent, TCompanion> speech)
         {
-            thisAgent = actorCast;
+            base.Initiate(actorCast);
             secondSpeechAgent = secondCast;
             thisStateSpeech = speech;
         }

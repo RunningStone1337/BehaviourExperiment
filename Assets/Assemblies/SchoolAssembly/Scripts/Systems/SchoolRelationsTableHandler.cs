@@ -1,7 +1,3 @@
-using BuildingModule;
-using Events;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -10,33 +6,18 @@ namespace BehaviourModel
     {
         #region tables
         #region to agents 
-        //[Header("Attention")]
-        //#region attention
-
-        //[SerializeField] private CharacterToPhenomFloatRelationsMatrix characterToTeacherAttentionTable;
-        //[SerializeField] private CharacterToPhenomFloatRelationsMatrix characterToPupilAttentionTable;
-        //[SerializeField] private CharacterToPhenomFloatRelationsMatrix characterToInterierAttentionTable;
-        //[SerializeField] private CharacterToPhenomFloatRelationsMatrix characterToEventsAttentionTable;
-        //public CharacterToPhenomFloatRelationsMatrix CharacterToInterierAttentionTable => characterToInterierAttentionTable;
-        //public CharacterToPhenomFloatRelationsMatrix CharacterToEventsAttentionTable => characterToEventsAttentionTable;
-        //public CharacterToPhenomFloatRelationsMatrix CharacterToPupilAttentionTable => characterToPupilAttentionTable;
-        //public CharacterToPhenomFloatRelationsMatrix CharacterToTeacherAttentionTable => characterToTeacherAttentionTable;
-
-        //#endregion attention
-
 
         [Header("Reactions")]
         #region reactions
         [SerializeField] private CharacterToPhenomReactionsLists characterToPupilReactionsTable;
-        [SerializeField] private CharacterToPhenomReactionsLists characterToTeacherReactionsTable;
         [SerializeField] private CharacterToPhenomReactionsLists characterToEventsReactionsTable;
-        [SerializeField] private CharacterToPhenomReactionsLists characterToInterierReactionsTable;
         [SerializeField] private CharacterToSpeechReactionsLists agentToSpeechResponsesTable;
+        [SerializeField] private CharacterToSpeechInfluenceLists agentToSpeechRelationsInfluenceTable;
         public CharacterToPhenomReactionsLists CharacterToPupilReactionsTable => characterToPupilReactionsTable;
-        public CharacterToPhenomReactionsLists CharacterToTeacherReactionsTable => characterToTeacherReactionsTable;
         public CharacterToPhenomReactionsLists CharacterToEventsReactionsTable => characterToEventsReactionsTable;
-        public CharacterToPhenomReactionsLists CharacterToInterierReactionsTable => characterToInterierReactionsTable;
         public CharacterToSpeechReactionsLists AgentToSpeechResponsesTable => agentToSpeechResponsesTable;
+
+        public CharacterToSpeechInfluenceLists AgentToSpeechRelationsInfluenceTable => agentToSpeechRelationsInfluenceTable;
         #endregion reactions
 
         #endregion to agents
@@ -57,8 +38,8 @@ namespace BehaviourModel
 
         #region reactions calculations
 
-        
-       
+
+
         #endregion
     }
 }

@@ -1,4 +1,3 @@
-using Aoiti.Pathfinding;
 using BuildingModule;
 using System;
 using System.Collections;
@@ -8,7 +7,6 @@ using UnityEngine;
 namespace BehaviourModel
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    //[RequireComponent(typeof(Collider2D))]
     public class MovementComponent<T> : MonoBehaviour
         where T : SchoolAgentBase<T>
     {
@@ -16,23 +14,20 @@ namespace BehaviourModel
 
         [SerializeField] [Range(0.01f, 1f)] private float gridSize = 0.5f;
         [SerializeField] [Range(0.01f, 5f)]  private float movementSpeed = 0.05f;
-        [SerializeField] [Range(0.01f, 5f)]  private float rotationSpeed = 0.05f;
-        [SerializeField] [Range(-180f, 180f)]  private float rotationOffset;
+        [SerializeField] [Range(0.01f, 5f)]  private float rotationSpeed = 1f;
         [SerializeField] [Range(0.01f, 0.5f)]  private float offsetStep = 0.05f;
-        [SerializeField] [Range(0f, 180f)]  private float rotationAnglePrecision = 15f;
-        private Pathfinder<Vector2> pathfinder;
+        //private Pathfinder<Vector2> pathfinder;
         [SerializeField] private LayerMask obstacles;
         [SerializeField] private bool searchShortcut = false;
         [SerializeField] private bool snapToGrid = false;
-        [SerializeField, Range(1, 1024)] private int recalcPerFrames = 100;
+        //[SerializeField, Range(1, 1024)] private int recalcPerFrames = 100;
         private List<Vector2> path;
         private List<Vector2> pathLeftToGo = new List<Vector2>();
         [SerializeField] private bool drawDebugLines;
-        private Vector2 targetVector;
-        [SerializeField] private bool stopMovement;
+        private Transform targetTransform;
+        [SerializeField] [HideInInspector] private bool stopMovement;
         [SerializeField] [HideInInspector] Rigidbody2D thisBody;
         [SerializeField] [HideInInspector] T thisAgent;
-        [SerializeField] [HideInInspector] private bool isAbleToMove;
         [SerializeField] [HideInInspector] private bool targetReached;
         [SerializeField] [HideInInspector] private RotationHandler rotationHandler;
         #endregion fields
@@ -45,39 +40,54 @@ namespace BehaviourModel
         }
         private void Start()
         {
-            pathfinder = new Pathfinder<Vector2>(GetDistance, GetNeighbourNodes, 1000); //increase patience or gridSize for larger maps
+            //pathfinder = new Pathfinder<Vector2>(GetDistance, GetNeighbourNodes, 10000); //increase patience or gridSize for larger maps
         }
 
-        public IEnumerator StartMoveToPoint(Vector2 target, Func<bool> movementCondition = default)
+        public IEnumerator StartMoveToTransform(Transform target, Func<bool> movementCondition = default)
         {
-            targetVector = target;
-            isAbleToMove = true;
+            targetTransform = target;
+            stopMovement = false;
             targetReached = false;
-            pathLeftToGo = CreatePath(targetVector);
+            Debug.Log($"Before start movement to {targetTransform}");
+            yield return thisAgent.OnBeforeStartMovement();
+            Debug.Log($"Creating path to {targetTransform}");
+            pathLeftToGo = CreatePath(targetTransform);
             if (pathLeftToGo != null)
                 yield return MoveRoutine(movementCondition);
-            else throw new System.Exception("Path not founded");
-            if (targetReached)
-                yield return thisAgent.OnTargetReached();
-            //Debug.Log("After target reached");
-            isAbleToMove = false;
+            else throw new System.Exception($"Path not founded, target was {targetTransform.gameObject}");
+            Debug.Log($"End move routine to {targetTransform}");
+            stopMovement = true;
+            pathLeftToGo = null;
+
+            //if (targetReached)
+            //{
+            //    Debug.Log($"Target {targetTransform} reached");
+                //yield return thisAgent.OnTargetReached();
+            //}
+            //else
+            //{
+            //    Debug.Log($"Target {targetTransform} was not reached");
+
+            //}
+            thisAgent.MovementTarget = null;
         }
 
         public IEnumerator RotateToFaceDirection(Vector3 directionVector)
         {
-            yield return rotationHandler.RotateToFaceDirection(directionVector, thisBody, rotationSpeed, rotationOffset, rotationAnglePrecision);
+            yield return rotationHandler.RotateToFaceDirection(directionVector, thisBody, rotationSpeed);
         }
 
         private IEnumerator MoveRoutine(Func<bool> movementCondition)
         {
-            int recalcCounter = 0;
+            Vector3 currentTargetPos;
             while (NeedToMove() && CanMove(movementCondition))
             {
+                currentTargetPos = targetTransform.position;
                 Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
-                yield return rotationHandler.RotateToFaceDirection(dir, thisBody, rotationSpeed, rotationOffset, rotationAnglePrecision);
+                yield return rotationHandler.RotateToFaceDirection(dir, thisBody, rotationSpeed);
                 float normSpeed = movementSpeed * Time.fixedDeltaTime;
                 thisBody.MovePosition((Vector3)thisBody.position + dir.normalized * normSpeed);
-                if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < normSpeed)
+                if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < normSpeed/2f)
                 {
                     thisBody.MovePosition(pathLeftToGo[0]);
                     pathLeftToGo.RemoveAt(0);
@@ -85,21 +95,13 @@ namespace BehaviourModel
 #if UNITY_EDITOR
                 DrawPathLines();
 #endif
-
                 yield return null;
-                recalcCounter++;
-                if (recalcCounter == recalcPerFrames /*|| FarFromNextPoint()*/)
-                {
-                    recalcCounter = 0;
-                    pathLeftToGo = CreatePath(targetVector);
-                }
-                //Debug.Log("Movement cycle");
+                //if ((currentTargetPos- targetTransform.position).magnitude > 0.5f)
+                //{
+                //    pathLeftToGo = CreatePath(targetTransform);
+                //    yield return null;
+                //}
             }
-        }
-
-        private bool FarFromNextPoint()
-        {
-            return Vector2.SqrMagnitude(pathLeftToGo[0] - thisBody.position)>gridSize;
         }
 
         private static bool CanMove(Func<bool> movementCondition)
@@ -124,30 +126,34 @@ namespace BehaviourModel
         public bool NeedToMove() =>
            pathLeftToGo.Count > 0 && !stopMovement;
 
-        private List<Vector2> CreatePath(Vector2 target)
+        private List<Vector2> CreatePath(Transform target)
         {
-            int multiplier = 1;
-            int increaseLimit = 25;
-            
-            Vector2 closestNode = GetClosestNode(transform.position);
+            int increaseLimit = 10;
             List<Vector2> offsets = GetOffsets();
-            while (multiplier < increaseLimit)
+            Vector2 startClosestNode = GetClosestNode(transform.position);
+            var targetV2 = new Vector2(target.position.x, target.position.y);
+            for (int multiplier = 1; multiplier < increaseLimit; multiplier++)
             {
-                for (int offs = 0; offs < offsets.Count; offs++)
+                for (int offsetEnd = 0; offsetEnd < offsets.Count; offsetEnd++)
                 {
-                    if (pathfinder.GenerateAstarPath(closestNode, GetClosestNode(target + offsets[offs] * multiplier), out path))
+                    for (int offsetStart = 0; offsetStart < offsets.Count; offsetStart++)
                     {
-                        if (searchShortcut && path.Count > 0)
-                            return ShortenPath(path);
-                        else
+                        //if (pathfinder.GenerateAstarPath(GetClosestNode(startClosestNode+ offsets[offsetStart] * multiplier)/*startClosestNode*/,
+                        //    GetClosestNode(targetV2 + offsets[offsetEnd] * multiplier), out path))
                         {
-                            var res = new List<Vector2>(path);
-                            if (!snapToGrid) res.Add(target);
-                            return res;
+                            if (searchShortcut && path.Count > 0)
+                                return ShortenPath(path);
+                            else
+                            {
+                                var res = new List<Vector2>(path);
+                                if (!snapToGrid)
+                                    res.Add(targetV2);
+                                return res;
+                            }
                         }
+                        
                     }
                 }
-                multiplier++;
             }
             return default;
         }
@@ -159,49 +165,58 @@ namespace BehaviourModel
             return new List<Vector2>() {
                 new Vector2(),
                 new Vector2(0, offsetStep),
-                new Vector2(sqrOffset,sqrOffset),
-                new Vector2(offsetStep,0f),
-                new Vector2(sqrOffset,-sqrOffset),
+                //new Vector2(sqrOffset,sqrOffset),
                 new Vector2(0, -offsetStep),
-                new Vector2(-sqrOffset,-sqrOffset),
+                //new Vector2(sqrOffset,-sqrOffset),
+                new Vector2(offsetStep,0f),
+                //new Vector2(-sqrOffset,-sqrOffset),
                 new Vector2(-offsetStep, 0),
-                new Vector2(-sqrOffset,sqrOffset)
+                //new Vector2(-sqrOffset,sqrOffset)
             };
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!isAbleToMove)
+            if (stopMovement)
                 thisBody.velocity = default;
-            if (collision.collider.TryGetComponent(out T agent))
+            if (collision.collider.TryGetComponent(out PupilAgent pup))
             {
-                if (agent == (MonoBehaviour)thisAgent.MovementTarget)
-                {
-                    stopMovement = true;
-                    thisBody.velocity = default;
-                    targetReached = true;
-                }
+                HandleAgentCollision(pup);
+            }
+            else if (collision.collider.TryGetComponent(out TeacherAgent teach))
+            {
+                HandleAgentCollision(teach);
             }
             else if (collision.collider.TryGetComponent(out PlacedInterier inter))
             {
-                if (inter == (MonoBehaviour)thisAgent.MovementTarget)
+                if (inter.transform == targetTransform)
                 {
                     targetReached = true;
                     stopMovement = true;
                 }
             }
         }
+
+        private void HandleAgentCollision<TAgent>(TAgent ag)
+            where TAgent :SchoolAgentBase<TAgent>
+        {
+            if (ag.transform == targetTransform)
+            {
+                stopMovement = true;
+                thisBody.velocity = default;
+                targetReached = true;
+            }
+        }
+
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (!isAbleToMove)
-                thisBody.velocity = default;
+            thisBody.velocity = default;
         }
-       
         private void OnCollisionExit2D(Collision2D collision)
         {
-            if (!isAbleToMove)
-                thisBody.velocity = default;
+            thisBody.velocity = default;
         }
+
         /// <summary>
         /// Finds closest point on the grid
         /// </summary>

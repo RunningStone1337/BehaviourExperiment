@@ -1,7 +1,4 @@
-using Aoiti.Pathfinding;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -22,26 +19,21 @@ namespace BehaviourModel
         public override IEnumerator StartState()
         {
             //StateBreaked = false;
-
+            var cached = thisAgent.MovementTarget;
             if (thisAgent.MovementTarget != null)//цель есть
+                yield return thisAgent.OnBeforeStartMovement();
+            else yield break;
+            while (!thisAgent.TargetReached)
             {
-                if (thisAgent.AgentEnvironment.ChairInfo != null)//на стуле
-                {
-                    if (IsNewTarget())//новая цель
-                        yield return thisAgent.OnLeaveChair();
-                }
-                var pos = ((MonoBehaviour)thisAgent.MovementTarget).transform.position;
-                var moveCondition = thisAgent.MovementTarget.MoveToTargetCondition;
-                yield return movementComponent.StartMoveToPoint(pos, moveCondition);
+                yield return null;
+                //var target = ((MonoBehaviour)thisAgent.MovementTarget).transform;
+                //Func<bool> moveCondition = thisAgent.MoveToTargetCondition;
+                //yield return movementComponent.StartMoveToTransform(target, moveCondition);
             }
+            yield return thisAgent.OnTargetReached(cached);
+            Debug.Log("End movement state");
+            //thisAgent.MovementTarget = null;
             thisAgent.SetDefaultState();
         }
-
-        private bool IsNewTarget()
-        {
-            return (MonoBehaviour)thisAgent.MovementTarget != thisAgent.AgentEnvironment.ChairInfo.ThisInterier;
-        }
-
-       
     }
 }

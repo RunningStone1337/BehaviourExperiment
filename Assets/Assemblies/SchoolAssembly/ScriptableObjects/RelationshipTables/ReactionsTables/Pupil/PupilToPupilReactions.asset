@@ -673,10 +673,18 @@ MonoBehaviour:
     - reactions: []
     - reactions: []
     highSocialVector:
-    - reactions: []
-    - reactions: []
-    - reactions: []
-    - reactions: []
+    - reactions:
+      - BehaviourModel.PupilTrySpeechWithNeighAction, SchoolAssembly, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    - reactions:
+      - BehaviourModel.PupilTrySpeechNeighIfFamiliarOrFriendly, SchoolAssembly, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    - reactions:
+      - BehaviourModel.PupilTrySpeechNeighIfFamiliarOrFriendly, SchoolAssembly, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    - reactions:
+      - BehaviourModel.PupilTrySpeechWithNeighIfFellowOrHighAction, SchoolAssembly,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - reactions: []
     - reactions: []
     lowSuspicionVector:

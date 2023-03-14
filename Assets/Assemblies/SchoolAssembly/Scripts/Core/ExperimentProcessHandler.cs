@@ -1,46 +1,35 @@
 using BehaviourModel;
-using BuildingModule;
 using Events;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using Pathfinding;
 
 namespace Core
 {
     public class ExperimentProcessHandler : EnvironmentInfoSource
     {
-        public class CurrentEventChangedEventArgs
-        {
-          public GlobalEvent newEvent;
-        }
-        public delegate void CurrentEventChangedDelegate(CurrentEventChangedEventArgs args);
-        public event CurrentEventChangedDelegate OnGlobalEventChanged;
-        #region fields
 
+        #region fields
         [SerializeField] private AgentsSpawner spawner;
         [SerializeField] protected SelectedAgentsHandler agentsHandler;
-        [SerializeField] protected List<PupilAgent> experimenAgents;
-        [SerializeField] protected ScheduleHandler schedule;
+        [SerializeField] protected List<PupilAgent> experimentAgents;
         [SerializeField] protected TeacherAgent teacher;
+        [SerializeField] protected ScheduleHandler schedule;
+        [SerializeField] AstarPath pathFinder;
 
         #endregion fields
 
-        private void CreateAgents()
+        private IEnumerator CreateAgents()
         {
-            var placingRooms = EntranceRoot.Root.Rooms.Where(x => x.Role is ExitRole).ToList();
-            PupilAgent agent;
-            foreach (var pup in agentsHandler.Agents)
-            {
-                var placingPoints = placingRooms[Random.Range(0, placingRooms.Count)];
-                agent = spawner.CreateAgent<PupilAgent>(pup, placingPoints.RandomEntrance().transform);
-                OnGlobalEventChanged += ((PupilObservationSystem)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback;
-                experimenAgents.Add(agent);
-            }
-            var pp = placingRooms[Random.Range(0, placingRooms.Count)];
-            teacher = spawner.CreateAgent<TeacherAgent>(agentsHandler.Teacher, pp.RandomEntrance().transform);
-            OnGlobalEventChanged += ((SchoolObservationsSystem<TeacherAgent>)teacher.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback;
-        }
+            yield return spawner.SpawnAgents<PupilAgent, PupilRawData>(agentsHandler.Agents, this);
+            experimentAgents.AddRange(spawner.LastCreatedAgents.Cast<PupilAgent>());
+            spawner.LastCreatedAgents.Clear();
+            yield return spawner.SpawnAgent<TeacherAgent, TeacherRawData>(agentsHandler.Teacher, this);
+            teacher = (TeacherAgent)spawner.LastCreatedAgents[0];
+            spawner.LastCreatedAgents.Clear();
+        }        
 
         private void InitGlobalSystems()
         {
@@ -48,7 +37,6 @@ namespace Core
             schedule.SetDefaultCurrentDayAndLesson();
             breakEvent.Initiate(schedule);
             lessonEvent.Initiate(schedule);
-            currentEvent = lessonEvent;
         }
 
         //private void InitStartStates()
@@ -63,21 +51,38 @@ namespace Core
 
         private void StartAgents()
         {
-            foreach (var ag in experimenAgents)
+            foreach (var ag in experimentAgents)
                 ag.StartStateMachine();
             teacher.StartStateMachine();
         }
 
-        public override GlobalEvent CurrentGlobalEvent => currentEvent;
+        public override GlobalEvent CurrentGlobalEvent
+        {
+            get => currentEvent;
+            protected set
+            {
+                currentEvent = value;
+                RaiseOnGlobalEventChanged(value);
+            }
+        }
+
+       
+
         public TeacherAgent Teacher { get => teacher; private set => teacher = value; }
-        public override List<TemporaryEffect> TemporaryEffects { get => temporaryEffects; }
 
         [ContextMenu("Start experiment")]
         public void StartExperiment()
         {
+            StartCoroutine(ExperimentRoutine());
+        }
+
+        private IEnumerator ExperimentRoutine()
+        {
             InitGlobalSystems();
-            CreateAgents();
+            pathFinder.Scan();
+            yield return CreateAgents();
             //InitStartStates();
+            CurrentGlobalEvent = lessonEvent;
             StartAgents();
         }
     }

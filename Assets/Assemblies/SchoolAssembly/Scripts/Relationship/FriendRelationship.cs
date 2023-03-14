@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace BehaviourModel
 {
     /// <summary>
@@ -771,9 +773,23 @@ namespace BehaviourModel
         public FriendRelationship(TAgent thisAgent, TOtherAgent secondAgent) 
             : base(thisAgent, secondAgent)
         {
+            Debug.Log("New friend");
             //relationship = RelationshipType.Friend;
         }
         public override string ToString() => "Friend";
-      
+
+
+        static readonly float friendToFellow = -50f;
+        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        {
+            newRelation = default;
+            if (currentRelationshipValue <= friendToFellow)
+            {
+                newRelation = new FellowRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentRelationshipValue - friendToFellow;
+                return true;
+            }
+            return false;
+        }
     }
 }

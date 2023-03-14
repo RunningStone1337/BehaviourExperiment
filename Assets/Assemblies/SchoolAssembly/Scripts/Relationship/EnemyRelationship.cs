@@ -1,9 +1,11 @@
+using UnityEngine;
+
 namespace BehaviourModel
 {
     /// <summary>
     /// Враг - отношения у нас не сложились и вряд ли это изменится.
     /// </summary>
-    public class EnemyRelationship<TAgent, TOtherAgent, TState/*, TReaction, TFeature, TState, TSensor*/> 
+    public class EnemyRelationship<TAgent, TOtherAgent, TState/*, TReaction, TFeature, TState, TSensor*/>
         : FoeRelationship<TAgent, TOtherAgent, TState/*, TReaction, TFeature, TState, TSensor*/>
          where TAgent : ICurrentStateHandler<TState>
         where TOtherAgent : IAgent
@@ -755,9 +757,22 @@ namespace BehaviourModel
 
         public EnemyRelationship(TAgent thisAgent, TOtherAgent secondAgent) : base(thisAgent, secondAgent)
         {
+            Debug.Log("New enemy");
             //relationship = RelationshipType.Enemy;
         }
         public override string ToString() => "Enemy";
-      
+
+        static readonly float enemyToFoe = -30;
+        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        {
+            newRelation = default;
+            if (currentRelationshipValue >= enemyToFoe)
+            {
+                newRelation = new FoeRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentRelationshipValue - enemyToFoe;
+                return true;
+            }
+            return false;
+        }
     }
 }

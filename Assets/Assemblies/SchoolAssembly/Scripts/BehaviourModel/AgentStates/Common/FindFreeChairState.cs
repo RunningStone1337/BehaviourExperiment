@@ -16,12 +16,20 @@ namespace BehaviourModel
        
         protected override ChairInterier FindPlaceToSeat()
         {
-            List<ChairInterier> chairs = InterierHandler.Handler.Chairs;
-            foreach (var ch in chairs)
+            List<ChairInterier> chairs = new List<ChairInterier>(InterierHandler.Handler.Chairs);
+            for(int i = 0; i<= chairs.Count;i++)
             {
-                if (ch.ChairInfo.ThisAgent == null)
-                    return ch;
+                var rand = chairs.GetRandom();
+                if (rand.ChairInfo.ThisAgent == null)
+                    return rand;
+                else
+                    chairs.Remove(rand);
             }
+            //foreach (var ch in chairs)
+            //{
+            //    if (ch.ChairInfo.ThisAgent == null)
+            //        return ch;
+            //}
             return default;
         }
     }

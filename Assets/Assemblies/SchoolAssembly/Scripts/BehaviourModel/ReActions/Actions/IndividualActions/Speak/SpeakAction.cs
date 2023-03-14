@@ -1,25 +1,38 @@
-using Core;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class SpeakAction : IndividualAction
+    public abstract class SpeakAction<TSpeaker, TCompanion> : IndividualAction
+        where TSpeaker : SchoolAgentBase<TSpeaker>
+        where TCompanion : SchoolAgentBase<TCompanion>
     {
-        /// <summary>
-        /// As a result of speak action must be <paramref name="dialog"/> last answer property
-        /// </summary>
-        /// <typeparam name="TInitiator"></typeparam>
-        /// <typeparam name="TResponder"></typeparam>
-        /// <param name="dialog"></param>
-        /// <returns></returns>
-        public abstract IEnumerator Speak<TInitiator, TResponder>(DialogProcess<TInitiator, TResponder> dialog)
-            where TInitiator : SchoolAgentBase<TInitiator>
-            where TResponder : SchoolAgentBase<TResponder>;
-
-        protected SpeakAction():base()
+        
+        protected SpeakAction() : base()
         {
+        }
+        public override void Initiate(IReactionSource reactSource, IAgent reactionActor)
+        {
+            base.Initiate(reactSource, reactionActor);
+            BarShowingTime = ((TSpeaker)reactionActor).CharacterSystem.ClosenessSociability.RawCharacterValue;
+        }
+        public virtual IEnumerator ReactAtSpeech(SpeakAction<TCompanion, TSpeaker> speechToReact)
+        {
+            var thisAgent = (TSpeaker)ActionActor;
+            var speechOwner = (TCompanion)ReactionSource;
+            thisAgent.AddRelationsChangesToSpeech(speechToReact, speechOwner);
+            yield return null;
+        }
+
+        public override IEnumerator TryPerformAction()
+        {
+            var actorCast = (TSpeaker)ActionActor;
+            var secondCast = (TCompanion)ReactionSource;
+            var state = actorCast.SetState<IndividualSpeechState<TSpeaker, TCompanion>>();
+            state.Initiate(actorCast, secondCast, this);
+            yield return state.StartState();
+            WasPerformed = true;
+            actorCast.SetDefaultState();
         }
     }
 }

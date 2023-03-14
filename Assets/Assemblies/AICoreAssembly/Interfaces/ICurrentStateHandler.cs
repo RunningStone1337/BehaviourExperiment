@@ -5,6 +5,6 @@ namespace BehaviourModel
     {
         TStateBase CurrentState { get; set; }
 
-        void SetState<TNewState>()where TNewState: TStateBase, new();
+        TNewState SetState<TNewState>()where TNewState: TStateBase, new();
     }
 }

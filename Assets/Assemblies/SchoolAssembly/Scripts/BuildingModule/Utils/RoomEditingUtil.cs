@@ -40,7 +40,11 @@ namespace BuildingModule
         {
             ///смотрим соседей, если их нет - создаём новую комнату
             if (entrance.Neighbours.Count == 0)
-                return EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();
+            {
+                var room = EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();
+                room.Initiate();
+                return room;
+            }
             ///отсекаем тех соседей, между которыми есть стены.
             var nonSeparatedRooms = new HashSet<Room>();
             var separatedRooms = new HashSet<Room>();
@@ -67,6 +71,7 @@ namespace BuildingModule
             if (entrance.CanBeSeparated(out Direction direction))
             {
                 var newRoom = EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();
+                newRoom.Initiate();
                 SeparateRoomFromDirection(entrance, direction, entrance.CurrentRoom, newRoom, new List<Entrance>());
                 return true;
             }

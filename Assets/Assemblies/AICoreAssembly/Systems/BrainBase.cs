@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,23 +36,6 @@ namespace BehaviourModel
             " Otherwise, the call will occur according to the time interval."), SerializeField]
         private ActionsMode actionsMode;
 
-        //[Tooltip("Interval of trying setting new state in scalled seconds."), SerializeField, Range(0f, 256f)]
-        //private float actionsTakingInterval;
-
-        //[Space, SerializeField, Range(0f, 256f), Tooltip("Seed of trying setting new state interval for some randomizing in scalled seconds." +
-        //    " Value is random between negative and positive. Can't be more then actionsTakingInterval")]
-        //private float actionsTakingIntervalSeed;
-        
-        //[SerializeField] private bool actionSelected;
-
-        //public float ActionsTakingInterval { get => actionsTakingInterval; set => actionsTakingInterval = value; }
-        //public float ActionsTakingIntervalSeed
-        //{
-        //    get => actionsTakingIntervalSeed;
-        //    set => actionsTakingIntervalSeed = Mathf.Clamp(value, 0, actionsTakingInterval);
-        //}
-        //public ActionsMode ActionsMode { get => actionsMode; set => actionsMode = value; }
-
 
         #endregion
         [Space, SerializeField, Tooltip("If true, decrease phenomenons interest value per decreaseStep every step after calling " +
@@ -67,7 +51,6 @@ namespace BehaviourModel
         private List<IPhenomenon> newPhenomens;
 
         private List<IPhenomenon> phenomensToReact;
-        //private Dictionary<IPhenomenon, float> phenomensToReact;
         private List<TReaction> temporaryReactions;
         protected List<IPhenomenon> NewPhenomens { get => newPhenomens; }
 
@@ -75,18 +58,9 @@ namespace BehaviourModel
         /// Contains phenomenons to react at and current interest value for it.
         /// </summary>
         public List<IPhenomenon> PhenomensToReact { get => phenomensToReact; protected set => phenomensToReact = value; }
-        //public Dictionary<IPhenomenon, float> PhenomensToReact { get => phenomensToReact; protected set => phenomensToReact = value; }
-
-      
-
         public float DecreaseStep { get => decreaseStep; set => decreaseStep = value; }
 
         #endregion fields
-
-      
-
-       
-
         /// <summary>
         /// Adds phenomenons to processing list if not contains yet.
         /// </summary>
@@ -110,36 +84,18 @@ namespace BehaviourModel
                 return 1;
             return 0;
         }
-        IReaction manualAction;
-        public IReaction ManualAction { get=> manualAction; set => manualAction = value; }
+        IEnumerator manualAction;
+        public IEnumerator ManualAction { get=> manualAction; set => manualAction = value; }
         internal IEnumerator ManuallySettedAction()
         {
-            if (manualAction != null)
+            if(manualAction != null)
             {
-                yield return manualAction.TryPerformAction();
+                yield return manualAction;
+                //Debug.Log("Manually setted action routine end");
             }
             manualAction = null;
         }
-
-        //{
-        //    var type = ThisAgent.GetType();
-        //    var interfaces = type.GetInterfaces();
-        //    var correctIface = typeof(ICanReactOnPhenomenon<TPhenom, TReaction>);
-        //    foreach (var iface in interfaces)
-        //    {
-        //        if (iface.IsEquivalentTo(correctIface))
-        //        {
-        //            var method = iface.GetMethod("HasReactionOn");
-        //            object[] parameters = new object[] { phenom, null };
-        //            bool result = (bool)method.Invoke(ThisAgent, parameters);
-        //            if (result)
-        //                return (List<TReaction>)parameters[1];
-        //        }
-        //    }
-        //    //if (charTrait.HasReactionOn(phenom, out List<IReaction> reaction))
-        //    //}
-        //    return default;
-        //}
+        
         private int PhenonemonComparer(KeyValuePair<IPhenomenon, float> x, KeyValuePair<IPhenomenon, float> y)
         {
             if (x.Value > y.Value)
@@ -149,7 +105,6 @@ namespace BehaviourModel
             return 0;
         }
 
-        //protected abstract List<TReaction> ReactAtPhenomenon<TPhenom>(TPhenom phenom) where TPhenom : IPhenomenon;
         private int PhenonemonComparer(IPhenomenon x, IPhenomenon y)
         {
             if (x.PhenomenonPower > y.PhenomenonPower)
@@ -159,48 +114,15 @@ namespace BehaviourModel
             return 0;
         }
 
-        /// <summary>
-        /// Обработка явлений, воспринятых как значимые.
-        /// Результатом может быть формализованное действие(как простое, так и сложное), возникновение мыслей,
-        /// новых особенностей, изменение текущего эмоционального состояния - всё, что угодно.
-        /// Обработкой явлений на высшем уровне занимаются черты характера.
-        /// Различные черты "высказывают" своё отношение к явлению, наиболее явная реакция
-        /// выражается, менее выраженные добавляются в качестве эмоциональной окраски или игнорируются.
-        /// </summary>
-        private IEnumerator ReactAtNewPhenomenons()
+        protected override void Awake()
         {
-            //foreach (var ph in PhenomensToReact)
-            //{
-            //    ReactAtPhenomenon(ph);
-            //}
-            //PhenomensToReact.Clear();
-            yield return null;
-        }
-
-      
-
-     
-
-        protected virtual void Awake()
-        {
+            base.Awake();
             temporaryReactions = new List<TReaction>();
             newPhenomens = new List<IPhenomenon>();
-            //phenomensToReact = new Dictionary<IPhenomenon, float>();
             phenomensToReact = new List<IPhenomenon>();
         }
 
-        /// <summary>
-        /// Redefine this method to implement logic that determines when detected phenomena become interesting to the agent.
-        /// The default value is 0.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual float CalculateAttentionThreshold() => default;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        //protected abstract bool CanSetNewState();
 
         /// <summary>
         /// Used to reduce the importance of the phenomenon over time. When the importance reaches 0,
@@ -276,9 +198,6 @@ namespace BehaviourModel
             {
                 var selectedPhenom = SelectPhenomToReact(PhenomensToReact);
                
-                //var normalized = tempPhenomsToCheck.Normalize();
-                //var selectedPhenom = normalized.SelectRandomFromNormalized();
-                //lstPhenomsTOReact.Sort(PhenonemonComparer);
                 if (HasReactionsOnPhenom(selectedPhenom, out List<TReaction> allReactions))
                 {
                     //если реакция есть, необязательно, что её можно реализовать в текущий момент по определенным причинам
@@ -287,20 +206,21 @@ namespace BehaviourModel
                         PhenomensToReact.Remove(selectedPhenom);
                         continue;
                     }
-                    //throw new System.Exception(
-                    //    "HasReactionsOnPhenom return true but has no reactions to do, make sure your implementation " +
-                    //    $"returns at least one {typeof(TReaction)} at phenom {selected.Key}.");
                     TReaction selectedReaction;
                     do
                     {
                         selectedReaction = SelectReaction(allReactions);
+                        //Debug.Log($"Trying perform action: {selectedReaction}");
                         yield return selectedReaction.TryPerformAction();
                         allReactions.Remove(selectedReaction);
                     } while (!selectedReaction.WasPerformed && allReactions.Count > 0);
-
-                    //if (selectedReaction.WasPerformed)
-                        //Debug.Log($"Some reaction performed! Reaction was: \n{selectedReaction}");
-
+#if DEBUG
+                    //if (selectedReaction.WasPerformed) {
+                    //    ActionsStatistics.AddPerformed(selectedReaction);
+                    //    ActionsStatistics.Log();
+                    //}
+                    //Debug.Log($"Some reaction performed! Reaction was: \n{selectedReaction}");
+#endif
                     PhenomensToReact.Remove(selectedPhenom);
                     break;
                 }
@@ -325,6 +245,5 @@ namespace BehaviourModel
         }
 
         public abstract bool HasReactionsOnPhenom(IPhenomenon reason, out List<TReaction> reaction);
-        //public abstract float CalculateAttentionForPhenomenon(IPhenomenon phenom);
     }
 }

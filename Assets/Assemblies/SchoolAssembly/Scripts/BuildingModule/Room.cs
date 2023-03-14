@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -15,13 +16,6 @@ namespace BuildingModule
 
         private List<Entrance> ThisRoomEntrances { get => thisRoomEntrances; }
 
-        private void Awake()
-        {
-            thisRoomEntrances = new List<Entrance>();
-            EntranceRoot.Root.Rooms.Add(this);
-            Role = (EntranceRoleBase)CanvasController.Controller.RolesScreen.ClassRoleView.CorrespondingObjectPrefab;
-        }
-
         private void OnDestroy()
         {
             EntranceRoot.Root.Rooms.Remove(this);
@@ -36,7 +30,7 @@ namespace BuildingModule
             ThisRoomEntrances.Add(entrance);
         }
 
-        public Entrance RandomEntrance() => ThisRoomEntrances[Random.Range(0, ThisRoomEntrances.Count)];
+        public Entrance RandomEntrance() => ThisRoomEntrances.GetRandom();
 
         public void RemoveEntrance(Entrance entrance)
         {
@@ -51,6 +45,13 @@ namespace BuildingModule
             {
                 entrance.StartRoutine();
             }
+        }
+
+        public void Initiate()
+        {
+            thisRoomEntrances = new List<Entrance>();
+            EntranceRoot.Root.Rooms.Add(this);
+            Role = (EntranceRoleBase)CanvasController.Controller.RolesScreen.ClassRoleView.CorrespondingObjectPrefab;
         }
     }
 }

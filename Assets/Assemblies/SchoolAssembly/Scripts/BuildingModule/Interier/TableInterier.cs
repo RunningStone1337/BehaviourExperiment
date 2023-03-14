@@ -13,9 +13,8 @@ namespace BuildingModule
             InterierHandler.Handler.Tables.Remove(this);
         }
 
-        protected override void Awake()
+        public override void Initiate(InterierPlaceBase ipb)
         {
-            base.Awake();
             InterierHandler.Handler.Tables.Add(this);
         }
 

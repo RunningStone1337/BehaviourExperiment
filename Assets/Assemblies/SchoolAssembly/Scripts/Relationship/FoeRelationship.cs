@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace BehaviourModel
 {
     /// <summary>
@@ -764,8 +766,27 @@ namespace BehaviourModel
         public FoeRelationship(TAgent thisAgent, TOtherAgent secondAgent) : base(thisAgent, secondAgent)
         {
             //relationship = RelationshipType.Foe;
+            Debug.Log("New foe");
         }
         public override string ToString() => "Foe";
-       
+        static readonly float foeToEnemy = -30;
+        static readonly float foeToFellow = 100;
+        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        {
+            newRelation = default;
+            if (currentRelationshipValue <= foeToEnemy)
+            {
+                newRelation = new EnemyRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentRelationshipValue - foeToEnemy;
+                return true;
+            }
+            else if (currentRelationshipValue >= foeToFellow)
+            {
+                newRelation = new FellowRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentRelationshipValue - foeToFellow;
+                return true;
+            }
+            return false;
+        }
     }
 }

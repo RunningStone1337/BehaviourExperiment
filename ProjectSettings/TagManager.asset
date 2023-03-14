@@ -10,6 +10,7 @@ TagManager:
   - Agent
   - Wall
   - Interier
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - UI
   - Wall
   - Interier
-  - 
+  - Ground
   - 
   - 
   - 
@@ -49,4 +50,7 @@ TagManager:
     locked: 0
   - name: Agent
     uniqueID: 711149559
+    locked: 0
+  - name: Clouds
+    uniqueID: 2646539389
     locked: 0

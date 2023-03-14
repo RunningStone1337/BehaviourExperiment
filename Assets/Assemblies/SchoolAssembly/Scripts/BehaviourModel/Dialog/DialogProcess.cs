@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
+    /// <summary>
+    /// Class handles dialog process in time
+    /// </summary>
+    /// <typeparam name="TInitiator"></typeparam>
+    /// <typeparam name="TResponder"></typeparam>
     public class DialogProcess<TInitiator, TResponder>
         where TInitiator: SchoolAgentBase<TInitiator>
         where TResponder : SchoolAgentBase<TResponder>
@@ -16,11 +21,9 @@ namespace BehaviourModel
         public TResponder SpeechResponder=> speechResponder;
         public TInitiator SpeechInitiator => speechInitiator;
         private RelationshipBase<TInitiator, IAgent, SchoolAgentStateBase<TInitiator>> relations;
-        public SpeakAction LastAnswer { get; set; }
-        DialogNode currentNode;
-        public DialogNode CurrentNode => currentNode;
-        ReactionBase dialogResult;
-        public ReactionBase DialogResult { get => dialogResult; set => dialogResult = value; }
+        public SpeakAction<TResponder, TInitiator> SpeechResponse { get; set; }
+        //ReactionBase dialogResult;
+        //public ReactionBase DialogResult { get => dialogResult; set => dialogResult = value; }
 
         public DialogProcess(TInitiator initiator, TResponder responder)
         {
@@ -29,50 +32,38 @@ namespace BehaviourModel
             relations = speechInitiator.RelationsSystem.GetCurrentRelationTo(speechResponder);
         }
 
-        public IEnumerator StartDialog(DialogNode structure)
+        
+        public IEnumerator StartDialog(SpeakAction<TInitiator, TResponder> speech)
         {
-            yield return StartDialogFrom(structure);
+            speechInitiator.StartActionVisual(speech);
+            //Debug.Log($"Спич инициатора, время {speech.BarShowingTime}");
+            yield return new WaitForSeconds(speech.BarShowingTime);
+
+            //после спича получаем ответ ответчика
+            SpeechResponse = SpeechResponder.GetResponseAtSpeech(speech, speechInitiator);
+            SpeechResponder.StartActionVisual(SpeechResponse);
+            //воспроизводим его
+            yield return SpeechResponse.ReactAtSpeech(speech);
+            //Debug.Log($"Спич ответчика, время {SpeechResponse.BarShowingTime}");
+            yield return new WaitForSeconds(SpeechResponse.BarShowingTime);
+            //в зависимости от ответа изменяются отношения агентов или совершаются действия
+            yield return speech.ReactAtSpeech(SpeechResponse);
         }
 
-        //private IEnumerator StartRandomDialogFrom(SpeakAction selectedAction)
+        private TimingAttentionToAgentState<TResponder, TInitiator> SetState(float speechTime)
+        {
+            var attState = speechResponder.SetState<TimingAttentionToAgentState<TResponder, TInitiator>>();
+            attState.Initiate(speechResponder, SpeechInitiator, speechTime );
+            return attState;
+        }       
+
+        //List<SpeakAction> GetAllAvailableSpeeches(CharacterToPhenomReactionsLists table, string tableDimensionName)
         //{
-        //    /////////////////////////////////
-        //    ///нужна структура диалога
-        //    ///логично будет описать структуру в самом selectedAction
-        //    DialogNode structure = DialogNode.CreateStructureFor<TInitiator>(selectedAction, relations);
-        //    yield return StartDialogFrom(structure);
-        //    /////////////////////////////////
+        //    var colName = relations != null ? relations.ToString() : "NonFamiliar";
+
+        //    return table.GetTableValuesFor<TInitiator, ReactionBase, FeatureBase, SchoolAgentStateBase<TInitiator>, Sensor>
+        //        (speechInitiator, tableDimensionName, colName)
+        //        .SelectMany(x => x.GetReactions()).Where(x => x is SpeakAction).Cast<SpeakAction>().ToList();
         //}
-
-        private IEnumerator StartDialogFrom(DialogNode structure)
-        {
-            currentNode = structure;
-            while (currentNode != null)
-            {
-                yield return currentNode.Speak(this);
-                currentNode = currentNode.Next;
-            }
-        }
-
-       
-
-        //public IEnumerator TryStartRandomDialog(CharacterToPhenomReactionsLists speechesSourceTable, string tableDimensionName)
-        //{
-        //    var selectedAction = GetAllAvailableSpeeches(speechesSourceTable, tableDimensionName).Random();
-        //    selectedAction.ActionActor = speechInitiator;
-        //    selectedAction.ReactionSource = speechResponder;
-        //    yield return StartRandomDialogFrom(selectedAction);
-        //}
-
-       
-
-        List<SpeakAction> GetAllAvailableSpeeches(CharacterToPhenomReactionsLists table, string tableDimensionName)
-        {
-            var colName = relations != null ? relations.ToString() : "NonFamiliar";
-
-            return table.GetTableValuesFor<TInitiator, ReactionBase, FeatureBase, SchoolAgentStateBase<TInitiator>, Sensor>
-                (speechInitiator, tableDimensionName, colName)
-                .SelectMany(x => x.GetReactions()).Where(x => x is SpeakAction).Cast<SpeakAction>().ToList();
-        }
     }
 }

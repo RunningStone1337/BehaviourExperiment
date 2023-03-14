@@ -1,15 +1,11 @@
-using Core;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace BehaviourModel
 {
-    public abstract class MotivationSpeech : SpeakAction
+    public abstract class MotivationSpeech<TSpeaker, TCompanion> : SpeakAction<TSpeaker, TCompanion>
+        where TSpeaker : SchoolAgentBase<TSpeaker>
+        where TCompanion : SchoolAgentBase<TCompanion>
     {
         public MotivationSpeech() : base()
         {
-
         }
     }
 }

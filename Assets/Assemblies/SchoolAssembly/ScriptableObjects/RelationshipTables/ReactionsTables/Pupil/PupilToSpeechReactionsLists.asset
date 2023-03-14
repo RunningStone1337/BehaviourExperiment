@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  tableDescription: 
+  tableDescription: probably reactions to incoming speeches for agent
   tableDimensions: 1
   columnsCount: 1
   showDimensionsSize: 0
@@ -32,37 +32,66 @@ MonoBehaviour:
     columnsCount: 0
     scallingValue: 1
     columnsNames: []
-    lowCalmVector:
-    - speechToReact: BehaviourModel.AskGoToBoardSpeech, SchoolBehaviour, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
+    lowCalmVector: []
+    midCalmVector: []
+    highCalmVector: []
+    lowCourageVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
       probablyReactions:
         probReactions:
-        - speechToAnswer: 
-          reactionWeight: 0
-        - speechToAnswer: 
-          reactionWeight: 0
-        - speechToAnswer: 
-          reactionWeight: 0
-    midCalmVector:
-    - speechToReact: 
-      probablyReactions:
-        probReactions: []
-    highCalmVector:
-    - speechToReact: 
+        - speechToAnswer: BehaviourModel.ExpressFearSpeech, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 7.9
+    midCourageVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
       probablyReactions:
         probReactions:
-        - speechToAnswer: 
-          reactionWeight: 0
-        - speechToAnswer: 
-          reactionWeight: 0
-        - speechToAnswer: 
-          reactionWeight: 0
-    lowCourageVector: []
-    midCourageVector: []
-    highCourageVector: []
-    lowDiplomVector: []
-    midDiplomVector: []
-    highDiplomVector: []
+        - speechToAnswer: BehaviourModel.ExpressAgressionSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 5
+        - speechToAnswer: BehaviourModel.ExpressFearSpeech, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 5
+    highCourageVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressAgressionSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 7
+        - speechToAnswer: BehaviourModel.ExpressDiplomacy, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 3
+    lowDiplomVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressAgressionSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 10
+        - speechToAnswer: BehaviourModel.ExpressDiplomacy, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 5
+    midDiplomVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressAgressionSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 5.7
+        - speechToAnswer: BehaviourModel.ExpressDiplomacy, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 8.8
+    highDiplomVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressAgressionSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 2.8
+        - speechToAnswer: BehaviourModel.ExpressDiplomacy, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 11
     lowDomintationVector: []
     midDomintationVector: []
     highDomintationVector: []
@@ -93,9 +122,63 @@ MonoBehaviour:
     lowSensetVector: []
     midSensetVector: []
     highSensetVector: []
-    lowSocialVector: []
-    midSocialVector: []
-    highSocialVector: []
+    lowSocialVector:
+    - speechToReact: TrySpeechWithNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.PupilDeclinesPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 15
+        - speechToAnswer: BehaviourModel.PupilAgreementPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 5
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressFearSpeech, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 10
+        - speechToAnswer: BehaviourModel.PupilDeclinesPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 3
+    midSocialVector:
+    - speechToReact: TrySpeechWithNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.PupilDeclinesPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 8.3
+        - speechToAnswer: BehaviourModel.PupilAgreementPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 12.9
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressFearSpeech, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 7.3
+        - speechToAnswer: BehaviourModel.ExpressFearSpeech, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 9.1
+    highSocialVector:
+    - speechToReact: TrySpeechWithNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.PupilDeclinesPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 1.5
+        - speechToAnswer: BehaviourModel.PupilAgreementPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 12.9
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactions:
+        probReactions:
+        - speechToAnswer: BehaviourModel.ExpressFearSpeech, SchoolAssembly, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          reactionWeight: 12.4
+        - speechToAnswer: BehaviourModel.PupilDeclinesPupilSpeech, SchoolAssembly,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          reactionWeight: 3.3
     lowSuspicionVector: []
     midSuspicionVector: []
     highSuspicionVector: []

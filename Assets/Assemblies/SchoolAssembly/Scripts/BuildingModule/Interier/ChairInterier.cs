@@ -1,7 +1,4 @@
-using BehaviourModel;
 using Common;
-using System;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -12,9 +9,12 @@ namespace BuildingModule
     {
         [SerializeField] [Range(0f, 2f)] private float chairOffset;
         [SerializeField] ChairInfo thisChairInfo;
+        [SerializeField] ChairMovePoint leftPoint;
+        [SerializeField] ChairMovePoint rightPoint;
+        public ChairMovePoint RightPlace => rightPoint;
+        public ChairMovePoint LeftPlace => leftPoint;
         public ChairInfo ChairInfo => thisChairInfo;
-        public override Func<bool> MoveToTargetCondition =>
-            () => ChairInfo.ThisAgent == null;
+      
        
         private void OnDestroy()
         {
@@ -29,17 +29,11 @@ namespace BuildingModule
                 v = -chairs.First(x => !x.Equals(this)).transform.localPosition.y;
             return new Vector3(oldPos.x, v, oldPos.z);
         }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            InterierHandler.Handler.Chairs.Add(this);
-        }
-
         //public SchoolAgentBase<PupilAgent> ThisAgent { get => thisAgent; set => thisAgent = value; }
 
         public override void Initiate(InterierPlaceBase ipb)
         {
+            InterierHandler.Handler.Chairs.Add(this);
             transform.localPosition = ReplacePosition(chairOffset);
         }
 
@@ -61,11 +55,6 @@ namespace BuildingModule
                 return true;
             return false;
         }
-
-       
-
-        
-
         public void ResetIfConditionsChanged(object param)
         {
             ResetMiddleOppAndSidePlaces((InterierPlaceBase)param);

@@ -1,17 +1,18 @@
-using Core;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
 {
     [Serializable]
-    public abstract class ActionBase : ReactionBase, IAction
+    public abstract class ActionBase : ReactionBase, IAction, IStatusBarDataSource
     {
-        public ActionBase():base()
-        {
+        protected float actionMakingTime;
+        protected Sprite actionSprite;
+        public float BarShowingTime { get => actionMakingTime; set => actionMakingTime = value; }
+        public Sprite StatusBarSprite { get => actionSprite; set => actionSprite = value; }
 
+        public ActionBase() : base()
+        {
         }
     }
 }

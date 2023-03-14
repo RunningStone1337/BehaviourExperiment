@@ -15,8 +15,8 @@ namespace BehaviourModel
             thisAgents = new IAgent[2];
         }
 
-        public void AddAgentIfFree<TAgent>(SchoolAgentBase<TAgent> schoolAgentBase) 
-            where TAgent : SchoolAgentBase<TAgent>
+        public void AddAgentIfFree<TAgent>(TAgent schoolAgentBase) 
+            where TAgent : IAgent
         {
             if (TableAgents[0] == null)
                 TableAgents[0] = schoolAgentBase;

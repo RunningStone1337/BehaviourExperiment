@@ -7,11 +7,6 @@ using IState = Common.IState;
 
 public static partial class ListExtensions
 {
-
-    public static T Random<T>(this List<T> lst)
-    {
-        return lst[Range(0, lst.Count)];
-    }
     public static void AddObjectIfMatch<T>(this List<T> list, T obj, Func<bool> func)
     {
         if (func.Invoke())

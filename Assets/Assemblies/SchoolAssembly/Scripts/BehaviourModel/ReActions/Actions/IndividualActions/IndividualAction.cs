@@ -1,8 +1,3 @@
-using Core;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace BehaviourModel
 {
     /// <summary>
@@ -10,9 +5,10 @@ namespace BehaviourModel
     /// </summary>
     public abstract class IndividualAction : ActionBase
     {
-        protected IndividualAction():base()
+
+        protected IndividualAction() : base()
         {
         }
-
+        
     }
 }

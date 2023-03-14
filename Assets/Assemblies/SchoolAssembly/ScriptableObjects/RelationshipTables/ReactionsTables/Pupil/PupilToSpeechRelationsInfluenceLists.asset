@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09dd1daa0b4adc645a5bd779db4d209b, type: 3}
+  m_Name: PupilToSpeechRelationsInfluenceLists
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  tableDescription: Relationship influence for incoming speech to speaker
+  tableDimensions: 1
+  columnsCount: 1
+  showDimensionsSize: 0
+  showColumnsCount: 0
+  tableScallingValue: 1
+  dimensions:
+  - dimensionName: 
+    columnsCount: 1
+    scallingValue: 1
+    columnsNames:
+    - columnName: 
+    lowCalmVector: []
+    midCalmVector: []
+    highCalmVector: []
+    lowCourageVector: []
+    midCourageVector: []
+    highCourageVector: []
+    lowDiplomVector: []
+    midDiplomVector: []
+    highDiplomVector: []
+    lowDomintationVector: []
+    midDomintationVector: []
+    highDomintationVector: []
+    lowDreamVector: []
+    midDreamVector: []
+    highDreamVector: []
+    lowEmStabVector: []
+    midEmStabVector: []
+    highEmStabVector: []
+    lowExpressVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactionInfluence: -10
+    - speechToReact: TrySpeechWithNeighAction
+      probablyReactionInfluence: 10
+    - speechToReact: TrySimpleSpeechAction
+      probablyReactionInfluence: 15
+    - speechToReact: TryAggressiveSpeechAction
+      probablyReactionInfluence: -10
+    midExpressVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactionInfluence: -15
+    - speechToReact: TrySpeechWithNeighAction
+      probablyReactionInfluence: 15
+    - speechToReact: TrySimpleSpeechAction
+      probablyReactionInfluence: 20
+    - speechToReact: TryAggressiveSpeechAction
+      probablyReactionInfluence: -20
+    highExpressVector:
+    - speechToReact: TryAgressiveSpeechNeighAction
+      probablyReactionInfluence: -15
+    - speechToReact: TrySpeechWithNeighAction
+      probablyReactionInfluence: 15
+    - speechToReact: TrySimpleSpeechAction
+      probablyReactionInfluence: 20
+    - speechToReact: TryAggressiveSpeechAction
+      probablyReactionInfluence: -20
+    lowIntellVector: []
+    midIntellVector: []
+    highIntellVector: []
+    lowConformVector: []
+    midConformVector: []
+    highConformVector: []
+    lowNormativityVector: []
+    midNormativityVector: []
+    highNormativityVector: []
+    lowRadicalVector: []
+    midRadicalVector: []
+    highRadicalVector: []
+    lowSelfControlVector: []
+    midSelfControlVector: []
+    highSelfControlVector: []
+    lowSensetVector: []
+    midSensetVector: []
+    highSensetVector: []
+    lowSocialVector: []
+    midSocialVector: []
+    highSocialVector: []
+    lowSuspicionVector: []
+    midSuspicionVector: []
+    highSuspicionVector: []
+    lowTensionVector: []
+    midTensionVector: []
+    highTensionVector: []

@@ -1,10 +1,11 @@
 {
-    "name": "SchoolBehaviour",
+    "name": "SchoolAssembly",
     "rootNamespace": "BehaviourModel",
     "references": [
         "GUID:88749ddfe2b4fb244a682f4f5a1e61bb",
-        "GUID:85e0054f8e64b47309646d35f8851f81",
-        "GUID:85eeccdb9009449478018eac0bd46ef7"
+        "GUID:85eeccdb9009449478018eac0bd46ef7",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:efa45043feb7e4147a305b73b5cea642"
     ],
     "includePlatforms": [
         "Android",

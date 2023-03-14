@@ -7,7 +7,7 @@ namespace BehaviourModel
     [Serializable]
     public abstract class HumanRawData:IAgentInitData<FeatureBase>
     {
-        public ushort age;
+        public int age;
         public string agentName;
         public string agentType;
         public ushort calmnessAnxiety;
@@ -17,7 +17,7 @@ namespace BehaviourModel
         public ushort credulitySuspicion;
         public ushort emotionalInstabilityStability;
         public List<FeatureBase> features;
-        public ushort height;
+        public int height;
         public int imageID;
         public ushort intelligence;
         public ushort normativityOfBehaviour;
@@ -35,8 +35,8 @@ namespace BehaviourModel
         public ushort straightforwardnessDiplomacy;
         public ushort subordinationDomination;
         public ushort timidityCourage;
-        public ushort weight;
-        public ushort Age { get => age; }
+        public int weight;
+        public int Age { get => age; }
         public string AgentName { get => agentName; }
         public string AgentType => agentType;
         public int CalmnessAnxiety { get => calmnessAnxiety; set => calmnessAnxiety = Convert.ToUInt16(value); }
@@ -45,7 +45,7 @@ namespace BehaviourModel
         public int ConservatismRadicalism { get => conservatismRadicalism; set => conservatismRadicalism = Convert.ToUInt16(value); }
         public int CredulitySuspicion { get => credulitySuspicion; set => credulitySuspicion = Convert.ToUInt16(value); }
         public int EmotionalInstabilityStability { get => emotionalInstabilityStability; set => emotionalInstabilityStability = Convert.ToUInt16(value); }
-        public ushort Height { get => height; }
+        public int Height { get => height; }
         public int ImageID { get => imageID; }
         public int Intelligence { get => intelligence; set => intelligence = Convert.ToUInt16(value); }
         public int NormativityOfBehaviour { get => normativityOfBehaviour; set => normativityOfBehaviour = Convert.ToUInt16(value); }
@@ -63,7 +63,7 @@ namespace BehaviourModel
         public int StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; set => straightforwardnessDiplomacy = Convert.ToUInt16(value); }
         public int SubordinationDomination { get => subordinationDomination; set => subordinationDomination = Convert.ToUInt16(value); }
         public int TimidityCourage { get => timidityCourage; set => timidityCourage = Convert.ToUInt16(value); }
-        public ushort Weight { get => weight; }
+        public int Weight { get => weight; }
         public List<FeatureBase> Features { get => features; set => features = value; }
 
         public virtual void Initiate(AgentCreationScreen acs)
@@ -72,9 +72,9 @@ namespace BehaviourModel
             agentName = acs.NameInputFieldButtonPair.InputField.text;
             agentType = acs.CreatedType.AssemblyQualifiedName;
             sex = acs.SexRect.SelectedSex;
-            age = Convert.ToUInt16(ushort.Parse(acs.AgeDropButtonPair.DropdownValue));
-            weight = Convert.ToUInt16(ushort.Parse(acs.WeightDropButtonPair.DropdownValue));
-            height = Convert.ToUInt16(ushort.Parse(acs.HeightDropButtonPair.DropdownValue));
+            //age = int.Parse(acs.AgeDropButtonPair.DropdownValue);
+            //weight = int.Parse(acs.WeightDropButtonPair.DropdownValue);
+            //height = int.Parse(acs.HeightDropButtonPair.DropdownValue);
 
             //nsPower = Convert.ToUInt16(acs.NervousSystemRect.NsPowerSlider.Value);
             //nsMoveability = Convert.ToUInt16(acs.NervousSystemRect.NsMoveabilitySlider.Value);

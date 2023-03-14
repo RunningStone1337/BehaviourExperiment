@@ -64,7 +64,7 @@ public static class ListExtensions
             else if (cum[i].Value < rand)
                 return cum[i - 1];
         }
-        return cum.Last();
+        return cum.LastOrDefault();
     }
     public static (T, int) SelectRandomFromNormalized<T>(this List<(T Key, int Value)> normalized)
     {
@@ -80,7 +80,7 @@ public static class ListExtensions
             else if (cum[i].Value < rand)
                 return cum[i - 1];
         }
-        return cum.Last();
+        return cum.LastOrDefault();
     }
 
     public static (T Key, float Value) SelectRandom<T>(this List<(T Key, float Value)> nonNormalized)

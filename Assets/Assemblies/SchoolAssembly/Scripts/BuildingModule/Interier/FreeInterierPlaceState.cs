@@ -8,10 +8,12 @@ namespace BuildingModule
     /// </summary>
     public class FreeInterierPlaceState : InterierPlaceStateBase
     {
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             DrawSphereGizmo(Color.yellow);
         }
+#endif
 
         public override void SetStateForInterier(PlacedInterier interier)
         {

@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class SchoolAgentStateBase<T> : IState
-        where T : SchoolAgentBase<T>
+    public abstract class SchoolAgentStateBase<TAgent> : IState
+        where TAgent : SchoolAgentBase<TAgent>
     {
-        [SerializeField] [HideInInspector] protected T thisAgent;
+        [SerializeField] [HideInInspector] protected TAgent thisAgent;
         //[SerializeField] protected bool stateBreaked;
         //public abstract bool StateBreaked { get ; set; }
         public SchoolAgentStateBase()
@@ -18,7 +18,7 @@ namespace BehaviourModel
         }
         public abstract IEnumerator StartState();
 
-        public virtual void Initiate(T _thisAgent)
+        public virtual void Initiate(TAgent _thisAgent)
         {
             thisAgent = _thisAgent;
         }

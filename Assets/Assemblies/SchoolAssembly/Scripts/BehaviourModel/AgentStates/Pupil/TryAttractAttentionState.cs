@@ -10,33 +10,36 @@ namespace BehaviourModel
         where TAttentionTarget: SchoolAgentBase<TAttentionTarget>
     {
         TAttentionTarget agentToAttention;
-        float timeout;
+        float tryingTimeout;
         bool continueAttempts;
         public bool IsContinue { get => continueAttempts; set => continueAttempts = value; }
 
         public override IEnumerator StartState()
         {
             if (agentToAttention.CurrentState is
-                AttentionToAgentState<TAttentionTarget, TStateHandler> att && att.AttentionSubject == thisAgent)
+                TimingAttentionToAgentState<TAttentionTarget, TStateHandler> att && att.AttentionSubject == thisAgent)
                 yield break;
-            //TODO поворот агента к цели привлечения
-            while (timeout > 0f && continueAttempts)
+
+            //var rotator = new RotationHandler();
+            //yield return rotator.RotateToFaceDirection(agentToAttention.transform.position - thisAgent.transform.position, thisAgent.AgentRigidbody, 2f);
+
+            while (tryingTimeout > 0f && continueAttempts)
             {
                 float startTry = Time.time;
                 yield return TryAttractAgentAttention(agentToAttention);
                 float endTry = Time.time - startTry;
-                timeout -= endTry;
+                tryingTimeout -= endTry;
             }
-            thisAgent.SetDefaultState();
+            //thisAgent.SetDefaultState();
         }
 
         private IEnumerator TryAttractAgentAttention(TAttentionTarget agentToAttention)
         {
             //если состояние прерываемо - пробуем прервать
-            if (agentToAttention.CurrentState is IOptionalToCompleteState otcs)
+            if (agentToAttention.CurrentState is IOptionalToCompleteState)
             {
-                agentToAttention.SetState<AttentionToAgentState<TAttentionTarget, TStateHandler>>();
-                ((AttentionToAgentState<TAttentionTarget, TStateHandler>)agentToAttention.CurrentState).Initiate(agentToAttention, thisAgent, 3f);
+                var state = agentToAttention.SetState<TimingAttentionToAgentState<TAttentionTarget, TStateHandler>>();
+                state.Initiate(agentToAttention, thisAgent, 0.5f);
                 continueAttempts = false;
             }
             else
@@ -47,7 +50,7 @@ namespace BehaviourModel
         {
             base.Initiate(thisAgent);
             agentToAttention = agentAttractToAttention;
-            timeout = 11f - thisAgent.CharacterSystem.RestraintExpressiveness.RawCharacterValue;
+            tryingTimeout = 11f - thisAgent.CharacterSystem.RestraintExpressiveness.RawCharacterValue;
             continueAttempts = true;
         }
     }

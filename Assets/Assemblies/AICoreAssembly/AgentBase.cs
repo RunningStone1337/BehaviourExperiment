@@ -39,6 +39,8 @@ namespace BehaviourModel
         [Tooltip("If true, the agent will make decisions and control behavior after calling StartStateMachine, otherwise not." +
             " You can safely switch this flag during the main process to temporarily disable the agent behavior.")]
         [SerializeField] protected bool autoMakeActions = true;
+        public bool AutoMakeActions { get => autoMakeActions; 
+            set => autoMakeActions = value; }
         
         #endregion
 
@@ -222,6 +224,6 @@ namespace BehaviourModel
             //StopCoroutine(ReactionsCoroutine);
         }
 
-        public abstract void SetState<TNewState>() where TNewState : TState, new();
+        public abstract TNewState SetState<TNewState>() where TNewState : TState, new();
     }
 }
