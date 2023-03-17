@@ -1,2 +1,2 @@
 # BehaviourExperiment
- Final qualification project. Modelling of educational process in middle school in focus of human relationship and forming of mental climate in group.
+ Final qualification project. Modeling of the educational process in high school with an emphasis on human relationships. The goal of the project is to develop the implementation of an agent model of artificial intelligence for the Unity engine, whose behavior is selected based on a combination of character traits in accordance with the sixteen-factor personality model of Raymond Cattell.
