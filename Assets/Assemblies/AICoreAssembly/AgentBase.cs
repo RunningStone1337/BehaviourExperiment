@@ -206,7 +206,11 @@ namespace BehaviourModel
             >(data);
             FeaturesSystem.Initiate(data);
         }
-
+        public void BreakCurrentActing()
+        {
+            StopCoroutine(AgentActingCoroutine);
+            AgentActingCoroutine = StartCoroutine(AgentActingRoutine());
+        }
 
         public void StartStateMachine()
         {

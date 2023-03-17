@@ -1,6 +1,5 @@
 using BehaviourModel;
 using Core;
-using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ namespace Events
     {
         Lesson,
         Break,
+        DayEnd,
         None
     }
     public abstract class GlobalEvent : ScriptableObject, IReactionSource, INameHandler
@@ -19,6 +19,7 @@ namespace Events
         [SerializeField] string eventName;
         [SerializeField] [HideInInspector] protected EventType eventType;
         public EventType EventType => eventType;
+        public int EventDuration => eventDuration;
         public float PhenomenonPower { get => eventImportance; set => eventImportance = value; }
 
         public string Name => eventName;

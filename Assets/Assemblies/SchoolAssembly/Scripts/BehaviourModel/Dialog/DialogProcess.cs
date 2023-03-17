@@ -22,8 +22,6 @@ namespace BehaviourModel
         public TInitiator SpeechInitiator => speechInitiator;
         private RelationshipBase<TInitiator, IAgent, SchoolAgentStateBase<TInitiator>> relations;
         public SpeakAction<TResponder, TInitiator> SpeechResponse { get; set; }
-        //ReactionBase dialogResult;
-        //public ReactionBase DialogResult { get => dialogResult; set => dialogResult = value; }
 
         public DialogProcess(TInitiator initiator, TResponder responder)
         {
@@ -33,21 +31,22 @@ namespace BehaviourModel
         }
 
         
-        public IEnumerator StartDialog(SpeakAction<TInitiator, TResponder> speech)
+        public IEnumerator StartDialog(SpeakAction<TInitiator, TResponder> initiatorSpeech)
         {
-            speechInitiator.StartActionVisual(speech);
+            speechInitiator.StartActionVisual(initiatorSpeech);
             //Debug.Log($"—пич инициатора, врем€ {speech.BarShowingTime}");
-            yield return new WaitForSeconds(speech.BarShowingTime);
+            yield return new WaitForSeconds(initiatorSpeech.BarShowingTime);
 
             //после спича получаем ответ ответчика
-            SpeechResponse = SpeechResponder.GetResponseAtSpeech(speech, speechInitiator);
+            SpeechResponse = SpeechResponder.GetResponseAtSpeech(initiatorSpeech, speechInitiator);
+            //виузал ответчика, он должен быть в стейте внимани€ к агенту
             SpeechResponder.StartActionVisual(SpeechResponse);
             //воспроизводим его
-            yield return SpeechResponse.ReactAtSpeech(speech);
+            yield return SpeechResponse.ReactAtSpeech(initiatorSpeech);
             //Debug.Log($"—пич ответчика, врем€ {SpeechResponse.BarShowingTime}");
             yield return new WaitForSeconds(SpeechResponse.BarShowingTime);
             //в зависимости от ответа измен€ютс€ отношени€ агентов или совершаютс€ действи€
-            yield return speech.ReactAtSpeech(SpeechResponse);
+            yield return initiatorSpeech.ReactAtSpeech(SpeechResponse);
         }
 
         private TimingAttentionToAgentState<TResponder, TInitiator> SetState(float speechTime)

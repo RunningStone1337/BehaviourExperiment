@@ -1,6 +1,7 @@
 using Events;
 using System;
 using System.Collections;
+using UnityEngine;
 
 namespace BehaviourModel
 {
@@ -16,17 +17,18 @@ namespace BehaviourModel
             {
                 var chair = cast.AgentEnvironment.ChairInfo;
                 var exitToBoard = new GoToBoardToStudyAction(cast);
-                yield return exitToBoard.TryPerformAction();
+                while (!exitToBoard.WasPerformed)
+                    yield return exitToBoard.TryPerformAction();
 
-                var rotator = new RotationHandler();
-                yield return rotator.RotateToFaceDirection(exitToBoard.BoardToGo.transform.position - cast.transform.position, cast.AgentRigidbody, 2f);
-
-                var boardStanding = new PupilLookAroudAction(cast);
-                yield return boardStanding.TryPerformAction();
+                var state = cast.SetState<LessonExplainingState<PupilAgent>>();
+                yield return state.StartState();
 
                 cast.MovementTarget = chair.ThisInterier.transform;
-                var returning = cast.SetState<MoveToTargetPupilState>();
-                yield return returning.StartState();
+                while (cast.AgentEnvironment.ChairInfo != chair)
+                {
+                    var returning = cast.SetState<MoveToTargetPupilState>();
+                    yield return returning.StartState();
+                }
             }
             else if (speech is TeacherDeclinesPupilSpeech)
             {
@@ -38,19 +40,41 @@ namespace BehaviourModel
         {
             cast = ActionActor as PupilAgent;
             teacher = ReactionSource as TeacherAgent;
-            if (cast != null && cast.CurrentEvent is LessonEvent &&
-                teacher!= null && cast.AgentEnvironment.ChairInfo != null &&
-                teacher.CurrentState is LessonExplainingState<TeacherAgent>)
+            if (cast != null && cast.CurrentEvent is LessonEvent &&//идёт урок
+                teacher!= null && cast.AgentEnvironment.ChairInfo != null &&//ученик сидит
+                teacher.CurrentState is LessonExplainingState<TeacherAgent>)//учитель объясняет
             {
                 //moveToParticipiant = false;
                 cast.StartActionVisual(this);
-                var state = cast.SetState<IndividualSpeechState<PupilAgent, TeacherAgent>>();
-                state.Initiate(cast, teacher, this);
+                var state = cast.SetState<IndividualSpeechState<PupilAgent, TeacherAgent,
+                    //стейт, который будет установлен ученику для привлечения внимания в IndividualSpeechState
+                    TryAttractConditionalState<PupilAgent, TeacherAgent>>>();
+                    state.Initiate(cast, teacher, this, 
+                    //делегат, выполняемый в стейте попытки привлечения внимания
+                    (cast, teach)=> {
+                    var state = cast.SetState<TryAttractConditionalState<PupilAgent, TeacherAgent>>();
+                    state.Initiate(cast, teach, TeacherAttentionToPupilWhileAtBoardOrSpeech);
+                    return state;
+                });
                 yield return state.StartState();
                 //cast.EndActionVisualForce();
                 WasPerformed = true;
                 cast.SetDefaultState();
             }
+        }
+        bool TeacherAttentionToPupilWhileAtBoardOrSpeech()
+        {
+            var state = cast.CurrentState;
+            if ((state is IndividualSpeechState<PupilAgent, TeacherAgent, TryAttractConditionalState<PupilAgent, TeacherAgent>>) ||
+                (state is TryAttractConditionalState<PupilAgent, TeacherAgent>) ||
+                (state is MoveToTargetState<PupilAgent>) ||
+                state is LessonExplainingState<PupilAgent>)
+            {
+                //Debug.Log("Condition true");
+                return true;
+            }
+            //Debug.Log("Condition false");
+            return default;
         }
         public override void Initiate(IReactionSource reactSource, IAgent reactionActor)
         {

@@ -10,11 +10,9 @@ namespace Core
 {
     public class AgentsSpawner : MonoBehaviour
     {
+        [SerializeField] AgentsPlacerParams placerParams;
         [SerializeField] protected GameObject pupilPrefab;
         [SerializeField] protected GameObject teacherPrefab;
-        [SerializeField] float overlapRadius;
-        [SerializeField] float spawnRadius;
-        [SerializeField] ContactFilter2D spawnContactFilter;
 
         public List<IAgent> LastCreatedAgents { get; private set; }
         private void Start()
@@ -73,47 +71,29 @@ namespace Core
             return pupGO;
         }
 
-        internal IEnumerator SpawnAgent<T, TData>(TData  agentData, EnvironmentInfoSource envInfo)
+        internal IEnumerator SpawnAgent<T, TData>(TData agentData, bool startOnSpawn)
               where T : SchoolAgentBase<T>
               where TData : HumanRawData
         {
-            var placingRooms = EntranceRoot.Root.Rooms.Where(x => x.Role is ExitRole).ToList();
-            var isPlaced = false;
-            Vector3 startPoint= placingRooms.GetRandom().RandomEntrance().transform.position;
-            Vector3 tempPoint = startPoint;
+
             T agent;
-            int counter = 0;
-            List<Collider2D> results = new List<Collider2D>();
-            while (!isPlaced)
-            {
-                if (counter == 10)
-                {
-                    counter = 0;
-                    startPoint = placingRooms.GetRandom().RandomEntrance().transform.position;
-                    yield return new WaitForFixedUpdate();
-                }
-                    //есть пересечения
-                if (Physics2D.OverlapCircle(tempPoint, overlapRadius, spawnContactFilter, results) > 0)
-                {
-                    tempPoint = startPoint+(Vector3)(UnityEngine.Random.insideUnitCircle * spawnRadius);
-                    counter++;
-                }
-                else//нет
-                {
-                    agent = CreateAgent<T>(agentData, tempPoint);
-                    envInfo.OnGlobalEventChanged += ((SchoolObservationsSystem<T>)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback;
-                    LastCreatedAgents.Add(agent);
-                    isPlaced = true;
-                }
-            }
+            var placer = new PlaceFinder(placerParams);
+            while (!placer.TryFindPlace())
+                yield return new WaitForFixedUpdate();
+
+            agent = CreateAgent<T>(agentData, placer.Place);
+            GlobalEventsHandler.Instance.OnGlobalEventChanged.AddListener(((SchoolObservationsSystem<T>)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback);
+            LastCreatedAgents.Add(agent);
+            if (startOnSpawn)
+                agent.StartStateMachine();
         }
 
-        internal IEnumerator SpawnAgents<T, TData>(List<TData> agentsData, EnvironmentInfoSource envInfo)
+        internal IEnumerator SpawnAgents<T, TData>(List<TData> agentsData, bool startOnSpawn)
               where T : SchoolAgentBase<T>
               where TData : HumanRawData
         {
-            foreach (var pup in agentsData)
-                yield return SpawnAgent<T,TData>(pup, envInfo);
+            for (int i = 0; i < agentsData.Count; i++)
+                yield return SpawnAgent<T,TData>(agentsData[i], startOnSpawn);
         }
     }
 }

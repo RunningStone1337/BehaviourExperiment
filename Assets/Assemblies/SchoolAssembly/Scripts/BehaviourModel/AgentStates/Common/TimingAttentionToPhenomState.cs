@@ -15,7 +15,7 @@ namespace BehaviourModel
 
         public override IEnumerator StartState()
         {
-            var oldRot = thisAgent.transform.rotation.eulerAngles.z % 360f;
+            var oldRot = thisAgent.transform.up;
             yield return RotateToFaceSubject();
 
             while (attentionTimeout > 0f && IsContinue)
@@ -24,7 +24,7 @@ namespace BehaviourModel
                 attentionTimeout -= Time.fixedDeltaTime;
             }
             var rotator = new RotationHandler();
-            yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, oldRot, RotationHandler.QuickRotation);
+            yield return rotator.RotateToFaceDirection(oldRot, thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
             thisAgent.SetDefaultState();
             thisAgent.AutoMakeActions = true;
         }

@@ -423,6 +423,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6789801018585572466, guid: 5a99b963c5ea3d943a87042f58d4dfc7, type: 3}
+      propertyPath: valueChangedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789801018585572466, guid: 5a99b963c5ea3d943a87042f58d4dfc7, type: 3}
+      propertyPath: valueChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789801018585572466, guid: 5a99b963c5ea3d943a87042f58d4dfc7, type: 3}
+      propertyPath: valueChangedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6789801018585572478, guid: 5a99b963c5ea3d943a87042f58d4dfc7, type: 3}
       propertyPath: m_Name
       value: LengthSettingPrefab

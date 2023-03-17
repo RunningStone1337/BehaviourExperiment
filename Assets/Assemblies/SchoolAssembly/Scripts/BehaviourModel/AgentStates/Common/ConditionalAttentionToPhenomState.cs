@@ -12,17 +12,18 @@ namespace BehaviourModel
         Func<bool> continueStateCondition;
         public void Initiate(TStateHandler _thisAgent, TAttentionTarget attentionSource, Func<bool> condition)
         {
-            Initiate(_thisAgent, attentionSource);
             continueStateCondition = condition;
+            Initiate(_thisAgent, attentionSource);
         }
         public override IEnumerator StartState()
         {
             Debug.Log($"Condition Attention state start, cached auto ");
-            yield return RotateToFaceSubject();
+            //yield return RotateToFaceSubject();
 
             while (continueStateCondition.Invoke())
             {
-                yield return new WaitForFixedUpdate();
+                yield return RotateToFaceStep();
+                //yield return new WaitForFixedUpdate();
             }
             thisAgent.AutoMakeActions = true;
             thisAgent.SetDefaultState();

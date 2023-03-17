@@ -8,19 +8,21 @@ namespace BehaviourModel
         PupilAgent pupilToReact;
         public override IEnumerator ReactAtSpeech(SpeakAction<PupilAgent, TeacherAgent> speechToReact)
         {
-            if (speechToReact is PupilAskTeacherToComeToBoardAction)
-            {
-                pupilToReact =(PupilAgent)speechToReact.ActionActor;
-                //устанавливаем стейт ожидания
-                var tTeacher = (TeacherAgent)ActionActor;
-                var state = tTeacher.SetState<ConditionalAttentionToAgentState<TeacherAgent, PupilAgent>>();
-                state.Initiate(tTeacher, (PupilAgent)speechToReact.ActionActor, TeacherAttentionToPupilWhileAtBoard);
-            }
+            //if (speechToReact is PupilAskTeacherToComeToBoardAction)
+            //{
+            //    pupilToReact =(PupilAgent)speechToReact.ActionActor;
+            //    //устанавливаем стейт ожидания
+            //    var tTeacher = (TeacherAgent)ActionActor;
+            //    var state = tTeacher.SetState<ConditionalAttentionToAgentState<TeacherAgent, PupilAgent>>();
+            //    state.Initiate(tTeacher, (PupilAgent)speechToReact.ActionActor, TeacherAttentionToPupilWhileAtBoard);
+            //}
             return base.ReactAtSpeech(speechToReact);
         }
         bool TeacherAttentionToPupilWhileAtBoard()
         {
-            if (pupilToReact.AgentEnvironment.ChairInfo == null)
+            var state = pupilToReact.CurrentState;
+            if ((state is MoveToTargetState<PupilAgent> && pupilToReact.MovementTarget != null) ||
+                state is LessonExplainingState<PupilAgent>)
             {
                 //Debug.Log("Condition true");
                 return true;

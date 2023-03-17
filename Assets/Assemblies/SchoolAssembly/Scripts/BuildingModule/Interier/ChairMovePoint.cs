@@ -4,15 +4,28 @@ namespace BuildingModule
 {
     public class ChairMovePoint : MovePoint
     {
+        //private void Start()
+        //{
+        //    var colliders = new Collider2D[10];
+        //    var contacts = placeCollider.GetContacts(colliders);
+        //    for (int i = 0; i < contacts; i++)
+        //    {
+        //        if (colliders[i].TryGetComponent(out ChairInterier ch))
+        //        {
+        //            isOccuped = true;
+        //            break;
+        //        }
+        //    }
+        //}
+       
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out ChairInterier chair))
             {
                 IsOccuped = true;
-                Debug.Log("Chair trigger enter");
+                //Debug.Log("Chair trigger enter");
             }
         }
-
 
         //private void OnTriggerStay2D(Collider2D collision)
         //{
@@ -33,9 +46,8 @@ namespace BuildingModule
             if (collision.TryGetComponent(out ChairInterier chair))
             {
                 IsOccuped = false;
-                Debug.Log("Chair trigger exit");
+                //Debug.Log("Chair trigger exit");
             }
         }
-       
     }
 }

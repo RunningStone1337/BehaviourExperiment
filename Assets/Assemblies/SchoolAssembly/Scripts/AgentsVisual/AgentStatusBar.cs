@@ -8,22 +8,28 @@ namespace BehaviourModel
 {
     public class AgentStatusBar : MonoBehaviour
     {
+        [SerializeField] Transform movedCloudTransform;
         [SerializeField] Transform agentTransform;
         [SerializeField] Animator barAnimator;
         [SerializeField] SpriteRenderer statusSprite;
         [SerializeField] float showTime;
+#if UNITY_EDITOR
         [SerializeField] TextMeshPro text;
+#endif
         Coroutine barRoutine;
         public void Initiate(IStatusBarDataSource source)
         {
             statusSprite.sprite = source.StatusBarSprite;
             showTime = source.BarShowingTime;
+#if UNITY_EDITOR
             text.text = source.ToString();
+#endif
         }
         private void FixedUpdate()
         {
             var rot = agentTransform.eulerAngles;
-            transform.localEulerAngles = new Vector3(rot.x, rot.y, (-Mathf.Abs(rot.z))%360f);
+            movedCloudTransform.localEulerAngles = new Vector3(rot.x, rot.y, (-Mathf.Abs(rot.z))%360f);
+            //tailPivotTransform.localEulerAngles = new Vector3(rot.x, rot.y, (rot.z) % 360f);
         }
         public void Show()
         {

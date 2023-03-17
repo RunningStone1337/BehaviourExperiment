@@ -28,7 +28,8 @@ namespace BehaviourModel
         [SerializeField] private Sprite previewSprite;
         [SerializeField] private AgentStatusBar statusBar;
         [SerializeField] AIDestinationSetter setter;
-        [SerializeField] SchoolAIPath movePath;
+
+       
 
 
         #endregion components
@@ -58,13 +59,13 @@ namespace BehaviourModel
         //[SerializeField] private IMovementTarget movementTarget;
         public Transform MovementTarget
         {
-            get => setter.target; set
+            get => setter.target; 
+            set
             {
                 if (value != null)
                     setter.target = TryRedirectMovementTarget(value);
                 else
                     setter.target = value;
-                movePath.LastTarget = setter.target;
 #if DEBUG
                 if (setter.target != null)
                     Debug.Log($"Target set is {setter.target}");
@@ -88,15 +89,10 @@ namespace BehaviourModel
 
         #endregion main
 
-        [Space]
-        [SerializeField] private MovementComponent<TAgent> movementComponent;
-        public MovementComponent<TAgent> MovementComponent => movementComponent;
-      
-
         public IEnumerator RotateRoutine(Vector3 directionVector)
         {
             var rotattor = new RotationHandler();
-            yield return rotattor.RotateToFaceDirection(directionVector, AgentRigidbody, 5f);
+            yield return rotattor.RotateToFaceDirection(directionVector, AgentRigidbody, RotationHandler.MiddleRotation);
             //yield return MovementComponent.RotateToFaceDirection(directionVector);
         }
 
@@ -109,23 +105,29 @@ namespace BehaviourModel
         public float PhenomenonPower { get => agentPhenomPower; set => agentPhenomPower = value; }
         public Sprite PreviewSprite => previewSprite;
 
-        public bool TargetReached { get => movePath.reachedEndOfPath; }
 
         public bool MoveToTargetCondition() 
         {
-            //if (movementTarget is IAgent)
-            //{
-            //    var cast = (MonoBehaviour)movementTarget;
-            //    var dist = Vector3.Distance(transform.position, cast.transform.position);
-            //    if (dist > .5f)
-            //        return true;
-            //    return false;
-            //}
-            //else if (movementTarget is ChairInterier ch)
-            //{
-            //    return ch.ChairInfo.ThisAgent == null;
-            //}
-            return true;
+            /*if (movementTarget is IAgent)
+            {
+                var cast = (MonoBehaviour)movementTarget;
+                var dist = Vector3.Distance(transform.position, cast.transform.position);
+                if (dist > .5f)
+                    return true;
+                return false;
+            }
+            else*/
+            if (MovementTarget != null)
+            {
+                if (MovementTarget.TryGetComponent(out ChairMovePoint ch))
+                {
+                    var chair = ch.GetComponentInParent<ChairInterier>();
+                    return chair.ChairInfo.ThisAgent == null;
+                }
+                return true;
+            }
+            else
+                return false;
         }
 
         //public IEnumerator ResponseToSpeechFromOptions<TInitiator, TResponder>(SpeakAction speechToRespond, DialogProcess<TInitiator, TResponder> dialogProcess, List<SpeakAction> options)
@@ -249,10 +251,11 @@ namespace BehaviourModel
         {
             statusBar.Hide();
         }
-        public void SetState<TState>(TState state)
+        public TState SetState<TState>(TState state)
            where TState : SchoolAgentStateBase<TAgent>
         {
             CurrentState = state;
+            return state;
         }
         public virtual void Initiate<TLowAnx, TMidAnx, THighAnx,
             TLowSoc, TMidSoc, THighSoc,
@@ -380,62 +383,56 @@ namespace BehaviourModel
             //    }
             //}
         }
+        
         private bool NewTargetNotCurrentChair()
         {
-            return MovementTarget.gameObject.GetComponent<ChairInterier>() != AgentEnvironment.ChairInfo.ThisInterier;
+            return MovementTarget.gameObject.GetComponentInParent<ChairInterier>() != AgentEnvironment.ChairInfo.ThisInterier;
             //return (MonoBehaviour)MovementTarget != AgentEnvironment.ChairInfo.ThisInterier;
         }
         public IEnumerator OnLeaveChair()
         {
             AgentEnvironment.ChairInfo.ThisAgent = null;
             var leavedChair = AgentEnvironment.ChairInfo.ThisInterier;
-            AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
-
-            AgentRigidbody.MovePosition((Vector2)transform.position + new Vector2(((CircleCollider2D)leavedChair.Collider2D).radius*2f+.1f, 0));
-            yield return null;
-            //переписать
-            //Collider2D[] contacts = new Collider2D[25];
-            //float step = 0.2f;
-            //AgentRigidbody.GetContacts(contacts);
-            //while (contacts.Contains(leavedChair.Collider2D))
-            //{
-            //    AgentRigidbody.MovePosition(AgentRigidbody.position + new Vector2(step, 0));
-            //    AgentRigidbody.GetContacts(contacts);
-            //    yield return null;
-            //}
-            //AgentRigidbody.MovePosition(AgentRigidbody.position + new Vector2(step, 0));
-            //yield return null;
-
-            leavedChair.Collider2D.isTrigger = false;
             AgentEnvironment.ChairInfo = null;
             AgentEnvironment.TableInfo.RemoveAgent(this);
             AgentEnvironment.TableInfo = null;
+
+            var point = leavedChair.GetFreeChairPoint();
+            if (point != null)
+            {
+                transform.position = point.transform.position;
+                //AgentRigidbody.pos(point.transform.position);
+                yield return null;
+            }
+            else throw new Exception();
+            AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
+            leavedChair.Collider2D.isTrigger = false;
+            
         }
 
-        public IEnumerator OnTargetReached(Transform target)
+        public IEnumerator OnTargetReachedRoutine(Transform target)
         {
             if (target.TryGetComponent(out ChairMovePoint chairMP))
             {
                 var chair = chairMP.GetComponentInParent<ChairInterier>();
-                yield return RotateRoutine(-chair.transform.right);
-                agentRigidbody.bodyType = RigidbodyType2D.Kinematic;
-
-                //yield return HandleChairReached(chair);
-                //SetThisChairTableProps(chair);
+                if (AgentEnvironment.ChairInfo == chair.ChairInfo)
+                {//в колбеке AIPath стул был определен как текущий
+                    AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
+                    AgentRigidbody.MovePosition(chair.transform.position);
+                    yield return RotateRoutine(chair.transform.up);
+                    //Debug.Log("After rotate on chair routine");
+                }
             }
-
-            //IEnumerator HandleChairReached(ChairInterier chair)
-            //{
-            //    MovementTarget = null;
-            //    chair.Collider2D.isTrigger = true;
-            //    chair.ChairInfo.ThisAgent = this;
-            //    //yield return MovementComponent.StartMoveToTransform(chair.transform, () => true);
-            //    AgentRigidbody.MovePosition(chair.transform.position);
-            //    AgentEnvironment.ChairInfo = chair.ChairInfo;
-            //    yield return RotateRoutine(chair.transform.up);
-            //    AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
-            //}
-
+            else if (target.TryGetComponent(out ChairInterier chairTarget))
+            {
+                if (AgentEnvironment.ChairInfo == chairTarget.ChairInfo)
+                {
+                    AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
+                    AgentRigidbody.MovePosition(chairTarget.transform.position);
+                    yield return RotateRoutine(chairTarget.transform.up);
+                    //Debug.Log("After rotate on chair routine");
+                }
+            }
         }
 
        

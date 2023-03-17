@@ -10,56 +10,54 @@ namespace BehaviourModel
     {
         
         [SerializeField] private AgentEnvironment agentEnvironment;
-        [SerializeField] private Rigidbody2D agentRigidbody;
         [SerializeField] private AIDestinationSetter destSetter;
-        [SerializeField] private Transform lastTarget;
-        public Transform LastTarget { set => lastTarget = value; }
+        [SerializeField, HideInInspector] private Rigidbody2D agentBody;
         protected override void Awake()
         {
             base.Awake();
             agentEnvironment = GetComponent<AgentEnvironment>();
-            agentRigidbody = GetComponent<Rigidbody2D>();
             destSetter = GetComponent<AIDestinationSetter>();
+            agentBody = GetComponent<Rigidbody2D>();
         }
-        private IEnumerator RotateToFace(Vector3 direction)
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log("Rotate to face callback enter");
-            var rotator = new RotationHandler();
-            yield return rotator.RotateToFaceDirection(direction, agentRigidbody, 3f);
-            Debug.Log("Rotate to face callback end");
+            if (collision.gameObject.TryGetComponent(out IAgent ag) && !canMove)
+                agentBody.velocity = default;
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if (collision.gameObject.TryGetComponent(out IAgent ag) && !canMove)
+                agentBody.velocity = default;
         }
         
         public override void OnTargetReached()
         {
             if (destSetter.target == null)
             {
-                Debug.Log("Target reached callback breaked");
                 return;
             }
             Debug.Log("Target reached callback raised succeeded");
-            if (lastTarget.TryGetComponent(out ChairMovePoint chairPoint))
+            if (destSetter.target.TryGetComponent(out ChairMovePoint chairPoint))//подход к стулу, промежуточная точка
             {
                 var chair = chairPoint.GetComponentInParent<ChairInterier>();
-                HandleChairReached(chair);
+                HandleChairPointReached(chair);
                 SetThisChairTableProps(chair);
             }
-            LastTarget = null;
-            destSetter.target = null;//.destination
-
-            void HandleChairReached(ChairInterier chair)
+            else
             {
-                //destSetter.target = null;
+                destSetter.target = null;//.destination
+                canMove = false;
+            }
+
+            void HandleChairPointReached(ChairInterier chair)
+            {
                 chair.Collider2D.isTrigger = true;
                 chair.ChairInfo.ThisAgent = GetComponent<IAgent>();
-                agentRigidbody.velocity = default;
-                //yield return MovementComponent.StartMoveToTransform(chair.transform, () => true);
-                Teleport(chair.transform.position);
-                //agentRigidbody.MovePosition(chair.transform.position);
-                Debug.Log("Agent body moved to chair");
                 agentEnvironment.ChairInfo = chair.ChairInfo;
-                //yield return RotateRoutine(chair.transform.up);
-                //agentRigidbody.bodyType = RigidbodyType2D.Kinematic;
-            }           
+                destSetter.target = chair.transform;
+            }
 
             void SetThisChairTableProps(ChairInterier chair)
             {

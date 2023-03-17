@@ -110,7 +110,7 @@ namespace Core
 
         private string TeacherCondition()
         {
-            return ConditionCheck(() => selectedAgentsHandler.Teacher != null,
+            return ConditionCheck(() => selectedAgentsHandler.TeacherData != null,
                 "Для проведения эксперимента необходим учитель. Добавьте его через конфигуратор.");
         }
 

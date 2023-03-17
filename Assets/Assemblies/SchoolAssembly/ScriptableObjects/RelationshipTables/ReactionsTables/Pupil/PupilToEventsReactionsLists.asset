@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   tableDescription: reactions to the current event
-  tableDimensions: 2
+  tableDimensions: 3
   columnsCount: 1
   showDimensionsSize: 0
   showColumnsCount: 1
@@ -272,3 +272,153 @@ MonoBehaviour:
     - reactions:
       - BehaviourModel.PupilLookAroundIfOnChairAction, SchoolAssembly, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - dimensionName: DayOver
+    columnsCount: 0
+    scallingValue: 1
+    columnsNames:
+    - columnName: 
+    - columnName: 
+    lowCalmVector:
+    - reactions: []
+    - reactions: []
+    midCalmVector:
+    - reactions: []
+    - reactions: []
+    highCalmVector:
+    - reactions: []
+    - reactions: []
+    lowCourageVector:
+    - reactions: []
+    - reactions: []
+    midCourageVector:
+    - reactions: []
+    - reactions: []
+    highCourageVector:
+    - reactions: []
+    - reactions: []
+    lowDiplomVector:
+    - reactions: []
+    - reactions: []
+    midDiplomVector:
+    - reactions: []
+    - reactions: []
+    highDiplomVector:
+    - reactions: []
+    - reactions: []
+    lowDomintationVector:
+    - reactions: []
+    - reactions: []
+    midDomintationVector:
+    - reactions: []
+    - reactions: []
+    highDomintationVector:
+    - reactions: []
+    - reactions: []
+    lowDreamVector:
+    - reactions: []
+    - reactions: []
+    midDreamVector:
+    - reactions: []
+    - reactions: []
+    highDreamVector:
+    - reactions: []
+    - reactions: []
+    lowEmStabVector:
+    - reactions: []
+    - reactions: []
+    midEmStabVector:
+    - reactions: []
+    - reactions: []
+    highEmStabVector:
+    - reactions: []
+    - reactions: []
+    lowExpressVector:
+    - reactions: []
+    - reactions: []
+    midExpressVector:
+    - reactions: []
+    - reactions: []
+    highExpressVector:
+    - reactions: []
+    - reactions: []
+    lowIntellVector:
+    - reactions: []
+    - reactions: []
+    midIntellVector:
+    - reactions: []
+    - reactions: []
+    highIntellVector:
+    - reactions: []
+    - reactions: []
+    lowConformVector:
+    - reactions: []
+    - reactions: []
+    midConformVector:
+    - reactions: []
+    - reactions: []
+    highConformVector:
+    - reactions: []
+    - reactions: []
+    lowNormativityVector:
+    - reactions: []
+    - reactions: []
+    midNormativityVector:
+    - reactions: []
+    - reactions: []
+    highNormativityVector:
+    - reactions: []
+    - reactions: []
+    lowRadicalVector:
+    - reactions: []
+    - reactions: []
+    midRadicalVector:
+    - reactions: []
+    - reactions: []
+    highRadicalVector:
+    - reactions: []
+    - reactions: []
+    lowSelfControlVector:
+    - reactions: []
+    - reactions: []
+    midSelfControlVector:
+    - reactions: []
+    - reactions: []
+    highSelfControlVector:
+    - reactions: []
+    - reactions: []
+    lowSensetVector:
+    - reactions: []
+    - reactions: []
+    midSensetVector:
+    - reactions: []
+    - reactions: []
+    highSensetVector:
+    - reactions: []
+    - reactions: []
+    lowSocialVector:
+    - reactions: []
+    - reactions: []
+    midSocialVector:
+    - reactions: []
+    - reactions: []
+    highSocialVector:
+    - reactions: []
+    - reactions: []
+    lowSuspicionVector:
+    - reactions: []
+    - reactions: []
+    midSuspicionVector:
+    - reactions: []
+    - reactions: []
+    highSuspicionVector:
+    - reactions: []
+    - reactions: []
+    lowTensionVector:
+    - reactions: []
+    - reactions: []
+    midTensionVector:
+    - reactions: []
+    - reactions: []
+    highTensionVector:
+    - reactions: []
+    - reactions: []

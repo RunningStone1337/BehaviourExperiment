@@ -159,8 +159,8 @@ namespace BehaviourModel
             {
                 if (!PhenomensToReact.Contains(np))
                     PhenomensToReact.Add(np);
-                yield return null;
             }
+            yield return null;
             NewPhenomens.Clear();
         }
 
@@ -245,5 +245,7 @@ namespace BehaviourModel
         }
 
         public abstract bool HasReactionsOnPhenom(IPhenomenon reason, out List<TReaction> reaction);
+
+        
     }
 }

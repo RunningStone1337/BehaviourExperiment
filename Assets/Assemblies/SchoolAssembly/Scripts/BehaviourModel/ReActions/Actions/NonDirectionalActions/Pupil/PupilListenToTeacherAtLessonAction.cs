@@ -26,7 +26,7 @@ namespace BehaviourModel
         {
             base.Initiate(reactSource, reactionActor);
             var cast = (PupilAgent)ActionActor;
-            actionMakingTime = cast.CharacterSystem.Intelligence.RawCharacterValue * 1.5f;
+            actionMakingTime = cast.CharacterSystem.Intelligence.RawCharacterValue * 2.5f;
         }
     }
 }

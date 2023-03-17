@@ -17,10 +17,10 @@ namespace UI
         public AgentSaveLoadScreen AgentSaveScreen { get => agentSaveScreen; }
         public TeacherRawData SelectedTeacher
         {
-            get => agentsHandler.Teacher;
+            get => agentsHandler.TeacherData;
             set
             {
-                agentsHandler.Teacher = value;
+                agentsHandler.TeacherData = value;
                 if (value == null)
                 {
                     //включить кнопку создания

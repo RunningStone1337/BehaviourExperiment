@@ -28,7 +28,7 @@ MonoBehaviour:
   showColumnsCount: 0
   tableScallingValue: 1
   dimensions:
-  - dimensionName: 
+  - dimensionName: Any
     columnsCount: 0
     scallingValue: 1
     columnsNames: []

@@ -18,8 +18,12 @@ namespace BehaviourModel
         {
             var cast = (PupilAgent)ActionActor;
             cast.MovementTarget = BoardToGo.transform;
-            cast.SetState<MoveToTargetState<PupilAgent>>();
-            yield return cast.CurrentState.StartState();
+            var state = cast.SetState<MoveToTargetState<PupilAgent>>();
+            yield return state.StartState();
+            if (Vector3.Distance(BoardToGo.transform.position, cast.transform.position) > 0.5f)
+                WasPerformed = false;
+            else
+                WasPerformed = true;
         }
     }
 }

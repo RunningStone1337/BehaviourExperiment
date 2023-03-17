@@ -7,29 +7,29 @@ namespace Core
 {
     public class SelectedAgentsHandler : MonoBehaviour
     {
-        [SerializeField] private List<PupilRawData> agents;
-        private TeacherRawData teacher;
+        [SerializeField] private List<PupilRawData> agentsData;
+        [SerializeField] private TeacherRawData teacherData;
         /// <summary>
         /// Только дя перечисления.
         /// </summary>
-        public List<PupilRawData> Agents => agents;
-        public TeacherRawData Teacher
+        public List<PupilRawData> AgentsData => agentsData;
+        public TeacherRawData TeacherData
         {
-            get => teacher; 
-            set => teacher = value;
+            get => teacherData; 
+            set => teacherData = value;
         }
 
         public void AddAgent(PupilRawData currentData)
         {
-            if (currentData != null && !agents.Contains(currentData))
-                agents.Add(currentData);
+            if (currentData != null && !agentsData.Contains(currentData))
+                agentsData.Add(currentData);
         }
 
         public void RemoveAgentData(PupilRawData agentInitializator)
         {
-            agents.Remove(agentInitializator);
+            agentsData.Remove(agentInitializator);
         }
 
-        public int AgentsCount() => agents.Count;
+        public int AgentsCount() => agentsData.Count;
     }
 }

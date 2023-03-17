@@ -15,7 +15,15 @@ namespace BuildingModule
         public ChairMovePoint LeftPlace => leftPoint;
         public ChairInfo ChairInfo => thisChairInfo;
       
-       
+        public ChairMovePoint GetFreeChairPoint()
+        {
+            if (!leftPoint.IsOccuped)
+                return leftPoint;
+            else if (!rightPoint.IsOccuped)
+                return rightPoint;
+            else return default;
+        }
+
         private void OnDestroy()
         {
             InterierHandler.Handler.Chairs.Remove(this);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -13,21 +14,11 @@ namespace Events
         [SerializeField] private ClassSelectionDropdown class3Dropdown;
         [SerializeField] private ClassSelectionDropdown class4Dropdown;
         [SerializeField] private ClassSelectionDropdown class5Dropdown;
-        //[SerializeField] private List<ClassSelectionDropdown> selectedOptions;
         [SerializeField] private DaySwitcher daySwitcher;
         [SerializeField] private Text titleText;
         [SerializeField] private List<DisciplineBase> dayLessons;
-        [SerializeField] private DisciplineBase currentLesson;
         public List<DisciplineBase> Lessons { get => dayLessons; private set => dayLessons = value; }
-        public DisciplineBase CurrentLesson { get=> currentLesson; set=> currentLesson = value; }
-        private void Awake()
-        {
-            //class1Dropdown.ClassSelectionToggleChangedEvent += OnClassSelectionChangedCallback;
-            //class2Dropdown.ClassSelectionToggleChangedEvent += OnClassSelectionChangedCallback;
-            //class3Dropdown.ClassSelectionToggleChangedEvent += OnClassSelectionChangedCallback;
-            //class4Dropdown.ClassSelectionToggleChangedEvent += OnClassSelectionChangedCallback;
-            //class5Dropdown.ClassSelectionToggleChangedEvent += OnClassSelectionChangedCallback;
-        }
+        public DaySchedule NextDay { get; internal set; }
 
         public void CreateSchedule()
         {
@@ -44,38 +35,13 @@ namespace Events
                 if (drop.IsLessonSelected)
                     Lessons.Add(drop.SelectedLesson);
             }
-            CurrentLesson = Lessons[0];
         }
 
-        //private void OnClassSelectionChangedCallback(ClassSelectionDropdown sender, bool toggleState)
-        //{
-        //    if (toggleState)
-        //    {
-        //        //selectedOptions.Add(sender);
-        //        Lessons.Add(sender.SelectedLesson);
-        //    }
-        //    else
-        //    {
-        //        //selectedOptions.Remove(sender);
-        //        Lessons.Remove(sender.SelectedLesson);
-        //    }
-        //}
-
-        private void OnDestroy()
-        {
-            //class1Dropdown.ClassSelectionToggleChangedEvent -= OnClassSelectionChangedCallback;
-            //class2Dropdown.ClassSelectionToggleChangedEvent -= OnClassSelectionChangedCallback;
-            //class3Dropdown.ClassSelectionToggleChangedEvent -= OnClassSelectionChangedCallback;
-            //class4Dropdown.ClassSelectionToggleChangedEvent -= OnClassSelectionChangedCallback;
-            //class5Dropdown.ClassSelectionToggleChangedEvent -= OnClassSelectionChangedCallback;
-        }
 
         private void Start()
         {
             titleText.text += daySwitcher.DayName;
         }
-
-        //public List<ClassSelectionDropdown> SelectedOptions => selectedOptions;
 
         
     }

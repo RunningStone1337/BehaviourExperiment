@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class AttentionToPhenomStateBase<TStateHandler, TAttentionTarget> : SchoolAgentStateBase<TStateHandler>, IOptionalToCompleteState
+    public abstract class AttentionToPhenomStateBase<TStateHandler, TAttentionTarget> : SchoolAgentStateBase<TStateHandler>
         where TStateHandler : SchoolAgentBase<TStateHandler>
         where TAttentionTarget : IPhenomenon
     {
@@ -19,15 +19,24 @@ namespace BehaviourModel
             AttentionSubject = attentionSource;
             thisAgent.AutoMakeActions = false;
             thisAgent.Brain.ManualAction = StartState();
+            thisAgent.BreakCurrentActing();
         }
-       
+        protected IEnumerator RotateToFaceStep()
+        {
+            var rotator = new RotationHandler();
+            if (AttentionSubject is MonoBehaviour cast)
+            {
+                yield return rotator.RotateToFaceDirectionStep(cast.transform,
+                    thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
+            }
+        }
         protected IEnumerator RotateToFaceSubject()
         {
              var rotator = new RotationHandler();
             if (AttentionSubject is MonoBehaviour cast)
             {
-                yield return rotator.RotateToFaceDirection(cast.transform.position - thisAgent.transform.position,
-                    thisAgent.AgentRigidbody, 3f);
+                yield return rotator.RotateToFaceDirection(cast.transform,
+                    thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
             }
         }
     }

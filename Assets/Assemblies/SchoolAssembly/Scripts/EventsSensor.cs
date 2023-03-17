@@ -9,12 +9,19 @@ namespace BehaviourModel
     public class EventsSensor : Sensor
     {
         [SerializeField] GlobalEvent currentEvent;
-        public GlobalEvent CurrentEvent { get => currentEvent; set => currentEvent = value; }
+        public GlobalEvent CurrentEvent {
+            get
+            {
+                if (currentEvent == null)
+                    currentEvent = GlobalEventsHandler.Instance.CurrentGlobalEvent;
+                return currentEvent;
+            }
+            set => currentEvent = value; }
         public override List<IPhenomenon> CollectObservations()
         {
-            return new List<IPhenomenon>() { currentEvent };
+            return new List<IPhenomenon>() { CurrentEvent };
         }
-        public void OnGlobalEventChangedCallback(ExperimentProcessHandler.CurrentEventChangedEventArgs args)
+        public void OnGlobalEventChangedCallback(CurrentEventChangedEventArgs args)
         {
             CurrentEvent = args.newEvent;
         }

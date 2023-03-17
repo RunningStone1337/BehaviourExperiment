@@ -22,19 +22,19 @@ namespace UI
         #region main
 
         [Header("Основные контролы")]
-        [SerializeField] private DropdownButtonPair ageDropButtonPair;
+        //[SerializeField] private DropdownButtonPair ageDropButtonPair;
 
         [SerializeField] private AgentImageHandler agentImageHandler;
-        [SerializeField] private DropdownButtonPair heightDropButtonPair;
+        //[SerializeField] private DropdownButtonPair heightDropButtonPair;
         [SerializeField] private TextButtonPair nameInputFieldButtonPair;
         [SerializeField] private SexRect sexRect;
-        [SerializeField] private DropdownButtonPair weightDropButtonPair;
-        public DropdownButtonPair AgeDropButtonPair { get => ageDropButtonPair; }
+        //[SerializeField] private DropdownButtonPair weightDropButtonPair;
+        //public DropdownButtonPair AgeDropButtonPair { get => ageDropButtonPair; }
         public AgentImageHandler AgentImageHandler { get => agentImageHandler; }
-        public DropdownButtonPair HeightDropButtonPair { get => heightDropButtonPair; }
+        //public DropdownButtonPair HeightDropButtonPair { get => heightDropButtonPair; }
         public TextButtonPair NameInputFieldButtonPair { get => nameInputFieldButtonPair; }
         public SexRect SexRect { get => sexRect; }
-        public DropdownButtonPair WeightDropButtonPair { get => weightDropButtonPair; }
+        //public DropdownButtonPair WeightDropButtonPair { get => weightDropButtonPair; }
 
         #endregion main
 
@@ -46,7 +46,7 @@ namespace UI
 
         [SerializeField] private ListVector2IntHandler teachersAgeHandler;
         public ListVector2IntHandler PupilsAgeHandler => pupilsAgeHandler;
-        public int SelectedAge { get => int.Parse(ageDropButtonPair.DropdownValue); }
+        //public int SelectedAge { get => int.Parse(ageDropButtonPair.DropdownValue); }
         public ListVector2IntHandler TeachersAgeHandler => teachersAgeHandler;
 
         #endregion params
@@ -61,38 +61,38 @@ namespace UI
         [Header("Настройки особенностей")]
         [SerializeField] private FeaturesRect featuresRect;
 
-        [Space]
-        [Header("Настройки ЦНС")]
-        [SerializeField] private NervousSystemRect nervousSystemRect;
+        //[Space]
+        //[Header("Настройки ЦНС")]
+        //[SerializeField] private NervousSystemRect nervousSystemRect;
 
-        [Space]
-        [Header("Настройки шаблонов поведения")]
-        [SerializeField] private PrefferedBehaviourRect prefferedBehaviourRect;
+        //[Space]
+        //[Header("Настройки шаблонов поведения")]
+        //[SerializeField] private PrefferedBehaviourRect prefferedBehaviourRect;
 
         public CharacterRect CharacterRect => characterRect;
         public FeaturesRect FeaturesRect => featuresRect;
-        public NervousSystemRect NervousSystemRect => nervousSystemRect;
-        public PrefferedBehaviourRect PrefferedBehaviourRect => prefferedBehaviourRect;
-
-        #endregion character
-
-        #region weight
-
-        [Space]
-        [Header("Контроллеры диапазонов значений веса и роста")]
-        [SerializeField] private ListVector3IntHandler pupilAgeHeightsHandler;
-
-        [SerializeField] private ListVector3IntHandler pupilAgeWeightsHandler;
-        [SerializeField] private ListVector3IntHandler teacherAgeHeightsHandler;
-        [SerializeField] private ListVector3IntHandler teacherAgeWeightsHandler;
+        //public NervousSystemRect NervousSystemRect => nervousSystemRect;
+        //public PrefferedBehaviourRect PrefferedBehaviourRect => prefferedBehaviourRect;
 
         public Type CreatedType { get; private set; }
-        public ListVector3IntHandler PupilAgeHeightsHandler { get => pupilAgeHeightsHandler; }
-        public ListVector3IntHandler PupilAgeWeightsHandler { get => pupilAgeWeightsHandler; }
-        public ListVector3IntHandler TeacherAgeHeightsHandler { get => teacherAgeHeightsHandler; }
-        public ListVector3IntHandler TeacherAgeWeightsHandler { get => teacherAgeWeightsHandler; }
+        #endregion character
 
-        #endregion weight
+        //#region weight
+
+        //[Space]
+        //[Header("Контроллеры диапазонов значений веса и роста")]
+        //[SerializeField] private ListVector3IntHandler pupilAgeHeightsHandler;
+
+        //[SerializeField] private ListVector3IntHandler pupilAgeWeightsHandler;
+        //[SerializeField] private ListVector3IntHandler teacherAgeHeightsHandler;
+        //[SerializeField] private ListVector3IntHandler teacherAgeWeightsHandler;
+
+        //public ListVector3IntHandler PupilAgeHeightsHandler { get => pupilAgeHeightsHandler; }
+        //public ListVector3IntHandler PupilAgeWeightsHandler { get => pupilAgeWeightsHandler; }
+        //public ListVector3IntHandler TeacherAgeHeightsHandler { get => teacherAgeHeightsHandler; }
+        //public ListVector3IntHandler TeacherAgeWeightsHandler { get => teacherAgeWeightsHandler; }
+
+        //#endregion weight
 
         private void ConfirmAgentCreation(Type createdType)
         {
@@ -220,12 +220,7 @@ namespace UI
                 CanvasController.Controller.AgentsConfigureScreen.AgentLoadScreen.InitiateState<TeacherRawData, TeacherAgent>();
         }
 
-        public void OnAgeSelectionChanged()
-        {
-            var ageChangeHandler = new AgeChangeHandler(SelectedAge, this);
-            ageChangeHandler.ResetCharacterExtremeValues();
-            ageChangeHandler.ResetWeightAndHeightDropdowns();
-        }
+      
 
         public void OnCloseButtonCLick()
         {

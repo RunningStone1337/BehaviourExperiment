@@ -11,8 +11,10 @@ namespace BehaviourModel
 
         public override IEnumerator StartState()
         {
-            float startRotation = thisAgent.AgentRigidbody.rotation;
-            float targetRotation = startRotation + Random.Range(45f, 60f);
+            var startDirection = thisAgent.transform.up;
+            var startRotation = thisAgent.AgentRigidbody.rotation;
+            var delta = Random.Range(45f, 60f);
+            float targetRotation = startRotation + delta;
             var rotator = new RotationHandler();
             var rotSpeed = Random.Range(RotationHandler.SlowRotation, RotationHandler.QuickRotation);
             yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, targetRotation, rotSpeed);
@@ -21,14 +23,14 @@ namespace BehaviourModel
             yield return new WaitForSeconds(Random.Range(2f, 3f));
             if (!IsContinue)
                 yield break;
-            targetRotation = startRotation - Random.Range(45f, 60f);
+            targetRotation = startRotation - delta;
             yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, targetRotation, rotSpeed);
             if (!IsContinue)
                 yield break;
             yield return new WaitForSeconds(Random.Range(2f, 3f));
             if (!IsContinue)
                 yield break;
-            yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, startRotation, rotSpeed);
+            yield return rotator.RotateToFaceDirection(startDirection, thisAgent.AgentRigidbody, rotSpeed);
             if (!IsContinue)
                 yield break;
             thisAgent.SetDefaultState();

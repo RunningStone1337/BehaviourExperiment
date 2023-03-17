@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 443981711657844373}
   - component: {fileID: 290626243248390568}
   - component: {fileID: 1225288753307853161}
-  - component: {fileID: 2345922737248131050}
   - component: {fileID: 9085379685994252017}
   - component: {fileID: 2337020177144210253}
   - component: {fileID: 3426324415907831103}
@@ -68,7 +67,6 @@ MonoBehaviour:
     - {fileID: 1225288753307853161}
     - {fileID: 2337020177144210253}
     - {fileID: 9085379685994252017}
-    - {fileID: 2345922737248131050}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -92,9 +90,6 @@ MonoBehaviour:
     - Name: currentState
       Entry: 6
       Data: 
-    - Name: movementComponent
-      Entry: 10
-      Data: 5
   brain: {fileID: 3426324415907831103}
   characterSystem: {fileID: 290626243248390568}
   featuresSystem: {fileID: 1225288753307853161}
@@ -109,7 +104,6 @@ MonoBehaviour:
   previewSprite: {fileID: 0}
   statusBar: {fileID: 9064466755732884294}
   setter: {fileID: 4264710037256949191}
-  movePath: {fileID: 3553548351728355066}
   agentAge: 0
   agentDescription: 
   agentHeight: 0
@@ -119,7 +113,6 @@ MonoBehaviour:
   agentWeight: 0
   tablesHandler: {fileID: 2632806718997779337}
   agentEnvironment: {fileID: 992553962820531074}
-  movementComponent: {fileID: 2345922737248131050}
   pattern: {fileID: 0}
 --- !u!58 &5468026384739733122
 CircleCollider2D:
@@ -147,7 +140,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1934520938882394472}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 1
+  m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 0.10178761
   m_LinearDrag: 0
@@ -157,7 +150,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &290626243248390568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,32 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisAgent: {fileID: 0}
   features: []
---- !u!114 &2345922737248131050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934520938882394472}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f71c4dd60d05f0641ab875b5a641ec94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridSize: 0.2
-  movementSpeed: 2.5
-  rotationSpeed: 5
-  offsetStep: 0.05
-  obstacles:
-    serializedVersion: 2
-    m_Bits: 192
-  searchShortcut: 1
-  snapToGrid: 0
-  drawDebugLines: 1
-  stopMovement: 0
-  thisBody: {fileID: 0}
-  thisAgent: {fileID: 0}
-  targetReached: 0
 --- !u!114 &9085379685994252017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,8 +360,8 @@ MonoBehaviour:
   whenCloseToDestination: 0
   constrainInsideGraph: 0
   agentEnvironment: {fileID: 0}
-  agentRigidbody: {fileID: 0}
-  lastTarget: {fileID: 0}
+  destSetter: {fileID: 0}
+  agentBody: {fileID: 0}
 --- !u!1 &2555951374454727041
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,13 +388,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2555951374454727041}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8178945631354411640}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &8043600019876533118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,11 +471,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 541876130351292292, guid: 171a1f5fd94953c4db2905dae84dd685, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: -0.661
       objectReference: {fileID: 0}
     - target: {fileID: 541876130351292292, guid: 171a1f5fd94953c4db2905dae84dd685, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.42
+      value: -0.616
       objectReference: {fileID: 0}
     - target: {fileID: 541876130351292292, guid: 171a1f5fd94953c4db2905dae84dd685, type: 3}
       propertyPath: m_LocalPosition.z

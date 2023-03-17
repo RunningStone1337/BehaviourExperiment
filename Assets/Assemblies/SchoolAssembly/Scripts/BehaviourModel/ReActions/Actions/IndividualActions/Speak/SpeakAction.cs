@@ -28,8 +28,16 @@ namespace BehaviourModel
         {
             var actorCast = (TSpeaker)ActionActor;
             var secondCast = (TCompanion)ReactionSource;
-            var state = actorCast.SetState<IndividualSpeechState<TSpeaker, TCompanion>>();
-            state.Initiate(actorCast, secondCast, this);
+            var state = actorCast.SetState<IndividualSpeechState<TSpeaker, TCompanion,
+                //стейт привлечения внимания TSpeaker для TCompanion
+                TryAttractTimingAttentionState<TSpeaker, TCompanion>>>();
+            state.Initiate(actorCast, secondCast, this,
+                //делегат установки стейта вривлечения внимания и инициализации
+                (cast, sec) => {
+                    var res = cast.SetState<TryAttractTimingAttentionState<TSpeaker, TCompanion>>();
+                    res.Initiate(cast, sec);
+                    return res;
+                });
             yield return state.StartState();
             WasPerformed = true;
             actorCast.SetDefaultState();

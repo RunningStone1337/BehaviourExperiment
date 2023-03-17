@@ -14,29 +14,36 @@ namespace BehaviourModel
 
         public override IEnumerator StartState()
         {
-            //объяснение урока:
-            //небольшие повороты в стороны
             IsContinue = true;
-
-            BoardInterier closestBOard = GetClosestBoard();
-            var cachedRotation = thisAgent.transform.rotation.eulerAngles.z%360f;
-            var classAngle = (closestBOard.transform.rotation.eulerAngles.z % 360f);
+            BoardInterier board = GetClosestBoard();
+            var cachedDirection = thisAgent.transform.up;/* .rotation.eulerAngles.z%360f;*/
+            var classDirection = board.transform.right;
+            //var classAngle = (board.transform.rotation.eulerAngles.z % 360f);
             var rotator = new RotationHandler();
             var slowRotation = RotationHandler.SlowRotation;
             var fastRotation = RotationHandler.QuickRotation;
             //поворот к классу
-            yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, classAngle, fastRotation);
+            Debug.Log("Statrt rotate to class");
+            yield return rotator.RotateToFaceDirection(classDirection, thisAgent.AgentRigidbody,  fastRotation);
             //небольшие повороты в стороны
-            yield return rotator.SmoothRotateToSides(thisAgent.AgentRigidbody, 15f, 3f, slowRotation);
+            Debug.Log("Statrt rotate to sides look class");
+            yield return rotator.SmoothRotateToSides(thisAgent.AgentRigidbody, 20f, 3f, slowRotation);
             //поворот к доске
-            yield return rotator.RotateToFaceDirection(closestBOard.transform.position - thisAgent.transform.position, thisAgent.AgentRigidbody, fastRotation);
+            Debug.Log("Statrt rotate to board");
+            yield return rotator.RotateToFaceDirection(board.transform, thisAgent.AgentRigidbody, fastRotation);
+            Debug.Log("Statrt waiting");
             yield return new WaitForSeconds(Random.Range(3f,7f));
             //поворот к классу
-            yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, classAngle, fastRotation);
+            Debug.Log("Statrt rotate to class again");
+            yield return rotator.RotateToFaceDirection(classDirection, thisAgent.AgentRigidbody,  fastRotation);
+            //yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, classAngle, fastRotation);
             //небольшие повороты в стороны
-            yield return rotator.SmoothRotateToSides(thisAgent.AgentRigidbody, 15f, 3f, slowRotation);
+            Debug.Log("Statrt rotate to sides look on class again");
+            yield return rotator.SmoothRotateToSides(thisAgent.AgentRigidbody, 20f, 3f, slowRotation);
             //возврат в исходное
-            yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, cachedRotation, fastRotation);
+            Debug.Log("Statrt rotate to statrt direction");
+            yield return rotator.RotateToFaceDirection( cachedDirection, thisAgent.AgentRigidbody, fastRotation);
+            //yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, cachedRotation, fastRotation);
         }
 
         private BoardInterier GetClosestBoard()

@@ -16,6 +16,7 @@ namespace UI
         [SerializeField] private UIMainScreen mainState;
         [SerializeField] private UIModeSelectionScreen modeSelectionState;
         [SerializeField] private RolesScreen rolesScreen;
+        [SerializeField] private ExperimentProcessScreen experimentProcessScreen;
 
         private void Awake()
         {
@@ -29,6 +30,7 @@ namespace UI
 
         public static CanvasController Controller { get => canvasController; private set => canvasController = value; }
         public AgentsSelectionScreen AgentsConfigureScreen { get => agentsConfigureScreen; }
+        public ExperimentProcessScreen ExperimentProcessScreen { get => experimentProcessScreen; }
         public UIBuildingScreen BuildingScreen { get => buildingState; }
         public ConfirmSelectionScreen ConfirmSelectionScreen { get => confirmSelectionScreen; }
         public UIScreenBase CurrentState
@@ -37,7 +39,7 @@ namespace UI
             set
             {
                 currentState.BeforeChangeState();
-                currentState = (UIScreenBase)value;
+                currentState = value;
                 currentState.InitiateState();
             }
         }
@@ -61,7 +63,6 @@ namespace UI
 
         public void SetState<S2>() where S2 : UIScreenBase
         {
-            throw new NotImplementedException();
         }
     }
 }
