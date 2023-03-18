@@ -16,7 +16,7 @@ namespace UI
         }
         public void OnDayChangedCallback(CurrentDayChangedEventArgs args)
         {
-            currentDayText.text = $"Day: {(args.dayIndex + 1)}";
+            currentDayText.text = $"Δενό {(args.newDay.DayIndex + 1)}, {args.newDay.DayName}";
         }
     }
 }

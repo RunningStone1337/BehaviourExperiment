@@ -66,7 +66,7 @@ namespace Core
 
         public void OnDayStartedCallback(CurrentDayChangedEventArgs args)
         {
-            if (args.dayIndex == 0)
+            if (args.newDay.DayIndex == 0)
                 StartCoroutine(CreateAgents());
             else
             {
@@ -84,12 +84,14 @@ namespace Core
                     yield return null;
                 pup.transform.position = placer.Place;
                 pup.StartStateMachine();
+                pup.StartAppearing();
             }
 
             while (!placer.TryFindPlace())
                 yield return null;
             Teacher.transform.position = placer.Place;
             Teacher.StartStateMachine();
+            Teacher.StartAppearing();
         }       
     }
 }

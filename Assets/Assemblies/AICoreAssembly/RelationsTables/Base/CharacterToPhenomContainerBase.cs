@@ -101,14 +101,10 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
 
     public void AddDimensions(int newDimensionsCount)
     {
-        var currentSize = Dimensions?.Count ?? 0;
-        //var newDims = new List<MatrixDimension<T>>(newDimensions);
-        //for (int i = 0; i < currentSize; i++)
-        //    newDims[i] = Dimensions[i];
         while (newDimensionsCount != Dimensions.Count)
         {
             var newView = new TView();
-            newView.InitVectors(currentSize);
+            newView.InitVectors(columnsCount);
             Dimensions.Add(newView);
         }
     }

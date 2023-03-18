@@ -27,9 +27,8 @@ namespace BehaviourModel
         [SerializeField] private Rigidbody2D agentRigidbody;
         [SerializeField] private Sprite previewSprite;
         [SerializeField] private AgentStatusBar statusBar;
-        [SerializeField] AIDestinationSetter setter;
-
-       
+        [SerializeField] AgentsSkin skin;
+        [SerializeField] AIDestinationSetter setter;      
 
 
         #endregion components
@@ -55,8 +54,6 @@ namespace BehaviourModel
         public SchoolRelationsTableHandler TablesHandler => tablesHandler;
         [SerializeField] AgentEnvironment agentEnvironment;
         public AgentEnvironment AgentEnvironment => agentEnvironment;
-        //[SerializeField] private EnvironmentInfoSource envirInfo;
-        //[SerializeField] private IMovementTarget movementTarget;
         public Transform MovementTarget
         {
             get => setter.target; 
@@ -74,17 +71,7 @@ namespace BehaviourModel
 #endif
             }
         }
-
-
-        //public IMovementTarget MovementTarget
-        //{
-        //    get => movementTarget;
-        //    set
-        //    {
-        //        movementTarget = TryRedirectMovementTarget(value);
-        //    }
-
-        //}      
+     
         public abstract GlobalEvent CurrentEvent { get; }
 
         #endregion main
@@ -93,30 +80,20 @@ namespace BehaviourModel
         {
             var rotattor = new RotationHandler();
             yield return rotattor.RotateToFaceDirection(directionVector, AgentRigidbody, RotationHandler.MiddleRotation);
-            //yield return MovementComponent.RotateToFaceDirection(directionVector);
         }
 
         public CircleCollider2D AgentCollider => agentCollider;
         public Rigidbody2D AgentRigidbody => agentRigidbody;
        
-        //public EnvironmentInfoSource EnvironmentInfo { get => envirInfo; private set => envirInfo = value; }
         public string Name => agentName;
         public string ObjDescription => agentDescription;
         public float PhenomenonPower { get => agentPhenomPower; set => agentPhenomPower = value; }
         public Sprite PreviewSprite => previewSprite;
 
+        public bool IsHidedVisual { get=>skin.IsHided;  }
 
         public bool MoveToTargetCondition() 
         {
-            /*if (movementTarget is IAgent)
-            {
-                var cast = (MonoBehaviour)movementTarget;
-                var dist = Vector3.Distance(transform.position, cast.transform.position);
-                if (dist > .5f)
-                    return true;
-                return false;
-            }
-            else*/
             if (MovementTarget != null)
             {
                 if (MovementTarget.TryGetComponent(out ChairMovePoint ch))
@@ -130,15 +107,6 @@ namespace BehaviourModel
                 return false;
         }
 
-        //public IEnumerator ResponseToSpeechFromOptions<TInitiator, TResponder>(SpeakAction speechToRespond, DialogProcess<TInitiator, TResponder> dialogProcess, List<SpeakAction> options)
-        //    where TInitiator : SchoolAgentBase<TInitiator>
-        //    where TResponder : SchoolAgentBase<TResponder>
-        //{
-        //    SpeakAction response = SelectResponseToSpeechFromOptions(speechToRespond, options);
-
-        //    //yield return response.Speak(dialogProcess);
-        //    dialogProcess.LastAnswer = response;
-        //}
         private Transform TryRedirectMovementTarget(Transform value)
         {
             if (value.TryGetComponent(out BoardInterier board))
@@ -183,28 +151,7 @@ namespace BehaviourModel
             var totalInfluence = selected.Sum(x => x.ProbablyReactionInfluence);
             return totalInfluence;
         }
-        //private SpeakAction SelectResponseToSpeechFromOptions(SpeakAction speechToRespond, List<SpeakAction> options)
-        //{
-        //    var table = TablesHandler.AgentToSpeechResponsesTable;
-        //    var speechType = speechToRespond.GetType().Name;
-        //    //16 векторов
-        //    var thisAgentVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        //        ((TAgent)this, 0);
-        //    //ответы на speechToRespond дл€ данных векторов
-        //    var selected = thisAgentVectors.Where(x => x.SpeechToReact.Equals(speechType));
-        //    var selectedProbReactions = selected.SelectMany(x => x.ProbablyReactions.ProbReactions);
-        //    var optionsWithWeights = new List<(SpeakAction answerOption, float answerWeight)>();
-        //    //сопоставл€ем доступные варианты с определЄнными
-        //    foreach (var option in options)
-        //    {
-        //        var optionTypeName = option.GetType().Name;
-        //        var weights = selectedProbReactions.Where(x => x.SpeechToAnswer.Equals(optionTypeName)).Sum(x => x.ReactionWeight);
-        //        optionsWithWeights.Add((option, weights));
-        //    }
-        //    //выбрать на омновании весов
-        //    var response = optionsWithWeights.SelectRandom().Key;
-        //    return response;
-        //}
+
         /// <summary>
         /// –еакци€ на <paramref name="speechToReact"/>. 
         /// ¬озвращает ответную реплику и мен€ет взаимоотношени€ в зависимости от реплики.
@@ -247,6 +194,35 @@ namespace BehaviourModel
             statusBar.Initiate(source);
             statusBar.Show();
         }
+
+        public void StartAppearing()
+        {
+            StartCoroutine(AppearingRoutine());
+        }
+
+        private IEnumerator AppearingRoutine()
+        {
+            while (!skin.IsFullShowed)
+            {
+                skin.IncreaseVisibility();
+                yield return null;
+            }
+        }
+
+        public void StartDisappearing()
+        {
+            StartCoroutine(DisappearRoutine());
+        }
+
+        private IEnumerator DisappearRoutine()
+        {
+            while (!skin.IsHided)
+            {
+                skin.DecreaseVisibility();
+                yield return null;
+            }
+        }
+
         public void EndActionVisualForce()
         {
             statusBar.Hide();
@@ -365,7 +341,6 @@ namespace BehaviourModel
             agentHeight = data.Height;
 
             PhenomenonPower = 5;
-            //NervousSystem.Initiate(data);
             
         }
         public IEnumerator OnBeforeStartMovement()
@@ -375,13 +350,6 @@ namespace BehaviourModel
             {
                 yield return OnLeaveChair();
             }
-            //else
-            //{
-            //    if (MovementTarget is ChairInterier)
-            //    {
-
-            //    }
-            //}
         }
         
         private bool NewTargetNotCurrentChair()

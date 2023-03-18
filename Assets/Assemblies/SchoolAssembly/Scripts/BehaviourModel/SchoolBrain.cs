@@ -9,7 +9,8 @@ namespace BehaviourModel
     public class SchoolBrain<TAgent> : BrainBase<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>,
         ICanReactOnPhenomenon<PupilAgent, ReactionBase>,
         ICanReactOnPhenomenon<BreakEvent, ReactionBase>,
-        ICanReactOnPhenomenon<LessonEvent, ReactionBase>
+        ICanReactOnPhenomenon<LessonEvent, ReactionBase>,
+        ICanReactOnPhenomenon<DayOverEvent, ReactionBase>
         where TAgent: SchoolAgentBase<TAgent>
     {
        
@@ -19,12 +20,13 @@ namespace BehaviourModel
         {
             reaction = default;
             if (reason is PupilAgent p)
-                return HasReactionsOnPhenom(p, out reaction);
-           
+                return HasReactionsOnPhenom(p, out reaction);           
             else if (reason is BreakEvent be)
                 return HasReactionsOnPhenom(be, out reaction);
             else if (reason is LessonEvent le)
                 return HasReactionsOnPhenom(le, out reaction);
+            else if (reason is DayOverEvent dov)
+                return HasReactionsOnPhenom(dov, out reaction);
             else return default;
         }
 
@@ -48,6 +50,13 @@ namespace BehaviourModel
              
 
         public bool HasReactionsOnPhenom(BreakEvent reason, out List<ReactionBase> reactions)
+        {
+            var selector = new CommonReactionsSelector();
+            reactions = selector.SelectReactions
+               (ThisAgent, reason, ThisAgent.TablesHandler.CharacterToEventsReactionsTable);
+            return true;
+        }
+        public bool HasReactionsOnPhenom(DayOverEvent reason, out List<ReactionBase> reactions)
         {
             var selector = new CommonReactionsSelector();
             reactions = selector.SelectReactions

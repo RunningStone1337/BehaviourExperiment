@@ -36,5 +36,9 @@ namespace Core
                 OnGlobalEventChanged?.Invoke(new CurrentEventChangedEventArgs() { newEvent = currentEvent });
             }
         }
+        public void OnDayChangedCallback(CurrentDayChangedEventArgs args)
+        {
+            CurrentGlobalEvent = LessonEvent;
+        }
     }
 }

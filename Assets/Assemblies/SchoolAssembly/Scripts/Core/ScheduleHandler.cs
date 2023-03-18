@@ -12,11 +12,11 @@ namespace Core
     public class CurrentEventChangedEventArgs : EventArgs
     {
         public GlobalEvent newEvent;
-        internal int eventTimer;
+        public int eventTimer;
     }
     public class CurrentDayChangedEventArgs : EventArgs
     {
-        public int dayIndex;
+        public DaySchedule newDay;
     }
 
     public class ScheduleHandler : MonoBehaviour
@@ -31,7 +31,16 @@ namespace Core
         [SerializeField] private List<DaySchedule> workDays;
         [SerializeField] DaySchedule currentDay;
         [SerializeField] DisciplineBase currentLesson;
-        public DaySchedule CurrentDay => currentDay;
+        public DaySchedule CurrentDay
+        {
+            get => currentDay;
+            private set
+            {
+                currentDay = value;
+                if (currentDay.DayIndex < experimentLengthDays)
+                    OnDayStarted?.Invoke(new CurrentDayChangedEventArgs() { newDay = currentDay });
+            }
+        }
         public DisciplineBase CurrentLesson => currentLesson;
         #endregion
         #region refs
@@ -68,10 +77,11 @@ namespace Core
 
         private IEnumerator StartExecuting()
         {
-            currentDay = workDays[0];
+            var start = workDays[0];
+            start.DayIndex = 0;
+            CurrentDay = start;
             for (int day = 0; day < ExperimentLengthDays; day++)
             {
-                OnDayStarted?.Invoke(new CurrentDayChangedEventArgs() { dayIndex = day });
                 for (int lesson = 0; lesson < currentDay.Lessons.Count; lesson++)
                     yield return LessonCycle(lesson);
 
@@ -80,22 +90,25 @@ namespace Core
                 eventsHandler.CurrentGlobalEvent = dOver;
                 //перерыв до следующего дня
                 //пока все агенты не покинули сцену
-                while (IsAnyAgentOnScene())
+                while (IsAnyActiveAgentOnScene())
                     yield return new WaitForFixedUpdate();
                 //пауза перед новым днём
                 yield return new WaitForSeconds(1f);
-                currentDay = currentDay.NextDay;
+
+                var next = currentDay.NextDay;
+                next.DayIndex = day+1;
+                CurrentDay = next;
             }
         }
 
-        private bool IsAnyAgentOnScene()
+        private bool IsAnyActiveAgentOnScene()
         {
             foreach (var pupil in experimentProcess.Pupils)
             {
-                if (pupil.IsActing)
+                if (pupil.IsActing || !pupil.IsHidedVisual)
                     return true;
             }
-            if (experimentProcess.Teacher.IsActing)
+            if (experimentProcess.Teacher.IsActing || !experimentProcess.Teacher.IsHidedVisual)
                 return true;
             return false;
         }
@@ -160,16 +173,10 @@ namespace Core
             breaksLengthSlider.ValueChangedEvent.RemoveListener(OnBreaksLengthChangedCallback);
             //workDaysSelector.DaySelectionChangedEvent -= OnDaySelectionChangedCallback;
         }
-
-        
-
         private void OnExperimentLengthChangedCallback(int newVal)
         {
             experimentLengthDays = newVal;
         }
-
-        
-
         public int BreaksLengthMins => breaksLength;
         public int ExperimentLengthDays => experimentLengthDays;
 

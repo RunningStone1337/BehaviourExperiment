@@ -1,7 +1,9 @@
 using Core;
+using Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +15,12 @@ namespace UI
         [SerializeField] ProgressBar eventBar;
         public void UpdateData(CurrentEventChangedEventArgs args)
         {
-            currentEventText.text = args.newEvent.Name;
+            if (args.newEvent is LessonEvent les)
+                currentEventText.text = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(les.CurrentDiscipline.DisciplineName);
+            else if (args.newEvent is BreakEvent)
+                currentEventText.text = "Перемена";
+            else if (args.newEvent is DayOverEvent)
+                currentEventText.text = "Конец дня";
             eventBar.Reset(args.newEvent.EventDuration);
         }
         public void OnEventTimerUpdatedCallback(CurrentEventChangedEventArgs args)

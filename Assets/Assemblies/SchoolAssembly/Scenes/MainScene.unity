@@ -4262,7 +4262,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02, y: 0.8}
-  m_AnchorMax: {x: 0.66, y: 0.97}
+  m_AnchorMax: {x: 0.98, y: 0.97}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6851,9 +6851,9 @@ MonoBehaviour:
   onDayStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084230177}
-        m_TargetAssemblyTypeName: Core.ExperimentProcessHandler, SchoolAssembly
-        m_MethodName: OnDayStartedCallback
+      - m_Target: {fileID: 1084230180}
+        m_TargetAssemblyTypeName: Core.GlobalEventsHandler, SchoolAssembly
+        m_MethodName: OnDayChangedCallback
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6866,6 +6866,18 @@ MonoBehaviour:
       - m_Target: {fileID: 25906512}
         m_TargetAssemblyTypeName: UI.ExperimentProcessScreen, SchoolAssembly
         m_MethodName: OnDayChangedCallback
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1084230177}
+        m_TargetAssemblyTypeName: Core.ExperimentProcessHandler, SchoolAssembly
+        m_MethodName: OnDayStartedCallback
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12369,6 +12381,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8559283695034799181, guid: c500311e94f8b7d4998b17184e599b47, type: 3}
+      propertyPath: fillingRate
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c500311e94f8b7d4998b17184e599b47, type: 3}
 --- !u!224 &2099754738654263736 stripped
@@ -13083,6 +13099,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: -17.501617
       objectReference: {fileID: 0}
+    - target: {fileID: 2366350409890622961, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2839415776191762614, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
       propertyPath: m_SizeDelta.x
       value: -2.2368422
@@ -13286,6 +13306,14 @@ PrefabInstance:
     - target: {fileID: 6179715079450383356, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244077040883688964, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219474166224323534, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8300171523768954372, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
       propertyPath: m_Color.b

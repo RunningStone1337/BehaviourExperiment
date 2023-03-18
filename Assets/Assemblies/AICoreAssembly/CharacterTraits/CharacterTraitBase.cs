@@ -82,7 +82,6 @@ namespace BehaviourModel
         HighTimidityCourage
     }
 
-    //[Serializable]
     public abstract class CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor> : MonoBehaviour
         where TAgent : ICurrentStateHandler<TState>
         where TReaction : IReaction
@@ -93,7 +92,7 @@ namespace BehaviourModel
         [SerializeField] private int characterCalculatedValue;
         [SerializeField] [HideInInspector] private CharacterGrade characterGrade;
         [SerializeField] [Range(1, 10)] private int rawCharacterValue;
-        [SerializeField] protected TAgent thisAgent;
+        //[SerializeField] protected TAgent thisAgent;
         [SerializeField] [HideInInspector] private CharTraitTypeExtended thisConcreteCharType;
         [SerializeField] [HideInInspector] private CharTraitType thisCharType;
        
@@ -126,46 +125,18 @@ namespace BehaviourModel
                 return characterValue - 6;
             if (characterValue > 5)
                 return characterValue - 5;
-            //if (characterValue < 4)
-            //    return characterValue - 6;
-            //else if (characterValue > 3 && characterValue < 8)
-            //{
-            //    if (characterValue == 4)
-            //        return -1;
-            //    if (characterValue == 5 || characterValue == 6)
-            //        return 0;
-            //    else
-            //        return 1;
-            //}
-            //else if (characterValue > 7)
-            //    return characterValue - 7;
             else throw new ArgumentOutOfRangeException($"{nameof(characterValue)} was out of range [1;10] with value {characterValue}");
-        }
-
-        /// <summary>
-        /// ќжидаемые, т.е. приемлемые дл€ данной черты действи€, необ€зательно социально приемлемые
-        /// </summary>
-        /// <returns></returns>
-        //public virtual List<ActionBase> GetExpectedActionsAtLesson()=>default;
-        protected float GetRecognitionChanceForMiddle()
-        {
-            if (SpecializedCharacterValue == 1)
-                return 0.4f;
-            if (SpecializedCharacterValue == -1)
-                return 0.7f;
-            if (SpecializedCharacterValue == 0)
-                return Random.Range(0f, 1f) >= 0.5f ? 0.5f : 0.6f;
-            throw new Exception($"Ќеожиданное значение {nameof(SpecializedCharacterValue)} дл€ {ToString()}: {SpecializedCharacterValue}");
         }
 
         public CharacterGrade CharacterGrade { get => characterGrade; set => characterGrade = value; }
         public int RawCharacterValue { get => rawCharacterValue; private set => rawCharacterValue = Mathf.Clamp(value, 1, 10); }
+        
         /// <summary>
-        /// This trait calculated value. Be default can be in range [-5;5] (see)
+        /// This trait calculated value. Be default can be in range [-5;5]
         /// </summary>
         public int SpecializedCharacterValue { get => characterCalculatedValue; protected set => characterCalculatedValue = value; }
 
-        public TAgent ThisAgent => thisAgent;
+        //public TAgent ThisAgent => thisAgent;
 
         public CharTraitTypeExtended ThisConcreteCharType { get => thisConcreteCharType; protected set => thisConcreteCharType = value; }
 
@@ -245,7 +216,7 @@ namespace BehaviourModel
 
         public virtual void Initiate(int characterValue, TAgent agent)
         {
-            thisAgent = agent;
+            //thisAgent = agent;
             RawCharacterValue = characterValue;
             CharacterGrade = GetCharacterGrade(RawCharacterValue);
             SpecializedCharacterValue = CalculateSpecializedValue(characterValue);

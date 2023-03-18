@@ -19,6 +19,8 @@ namespace Events
         [SerializeField] private List<DisciplineBase> dayLessons;
         public List<DisciplineBase> Lessons { get => dayLessons; private set => dayLessons = value; }
         public DaySchedule NextDay { get; internal set; }
+        public string DayName => daySwitcher.DayName;
+        public int DayIndex { get; internal set; }
 
         public void CreateSchedule()
         {

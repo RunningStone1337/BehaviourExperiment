@@ -304,6 +304,7 @@ MonoBehaviour:
   agentRigidbody: {fileID: 5039681430419798386}
   previewSprite: {fileID: 0}
   statusBar: {fileID: 1850342528835540633}
+  skin: {fileID: 1666239035053677568}
   setter: {fileID: 3420078062089722054}
   agentAge: 0
   agentDescription: 
@@ -722,6 +723,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6412757504324309701, guid: 71527330a079e934abbee000f0424a11, type: 3}
+      propertyPath: opacityChangeSttep
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 8802391888878057000, guid: 71527330a079e934abbee000f0424a11, type: 3}
       propertyPath: m_Name
       value: AgentSkin
@@ -738,3 +743,14 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4212770179074839637, guid: 71527330a079e934abbee000f0424a11, type: 3}
   m_PrefabInstance: {fileID: 5755911942191124165}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1666239035053677568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6412757504324309701, guid: 71527330a079e934abbee000f0424a11, type: 3}
+  m_PrefabInstance: {fileID: 5755911942191124165}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f53c08c47ada55a4cbc276468502cdb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
