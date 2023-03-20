@@ -30,7 +30,8 @@ namespace UI
 
         private float CalculateCurrentAmount()
         {
-            return Mathf.Lerp(progressFillImage.fillAmount, tagetValue / maxValue, fillingRate);
+            var current = float.IsNaN(progressFillImage.fillAmount) ? 0f: progressFillImage.fillAmount;
+            return Mathf.Lerp(current, tagetValue / maxValue, fillingRate);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace BehaviourModel
                 yield return null;
 
             yield return thisAgent.OnTargetReachedRoutine(cached);
-            Debug.Log("End movement state");
+            //Debug.Log("End movement state");
             thisAgent.SetDefaultState();
         }
     }

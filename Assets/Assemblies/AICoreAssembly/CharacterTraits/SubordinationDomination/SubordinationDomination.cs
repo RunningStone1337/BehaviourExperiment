@@ -15,40 +15,38 @@ namespace BehaviourModel
     /// Существует предположение, что оценки по этому фактору с возрастом меняются и зависят от пола испытуемого.
     /// В своем поведении люди с высокими оценками (по этому фактору) испытывают потребность в автономии.
     /// </summary>
-    public abstract class SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> : CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>,
-        IComparable<SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor>>
-         where TAgent : ICurrentStateHandler<TState> where TReaction : IReaction
-         where TFeature : IFeature where TState : IState where TSensor : ISensor
+    public abstract class SubordinationDomination : CharacterTraitBase,
+        IComparable<SubordinationDomination>
     {
-        public static bool operator <(SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-         Char1LessChar2<LowDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-             MiddleDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-             HighDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-             SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator <(SubordinationDomination c1,
+            SubordinationDomination c2) =>
+         Char1LessChar2<LowDomination,
+             MiddleDomination,
+             HighDomination,
+             SubordinationDomination>(c1, c2);
 
-        public static bool operator <=(SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-            Char1LessOrEqualChar2<LowDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                MiddleDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                HighDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator <=(SubordinationDomination c1,
+            SubordinationDomination c2) =>
+            Char1LessOrEqualChar2<LowDomination,
+                MiddleDomination,
+                HighDomination,
+                SubordinationDomination>(c1, c2);
 
-        public static bool operator >(SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-            Char1MoreChar2<LowDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                MiddleDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                HighDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator >(SubordinationDomination c1,
+            SubordinationDomination c2) =>
+            Char1MoreChar2<LowDomination,
+                MiddleDomination,
+                HighDomination,
+                SubordinationDomination>(c1, c2);
 
-        public static bool operator >=(SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-            Char1MoreOrEqualChar2<LowDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                MiddleDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                HighDomination<TAgent, TReaction, TFeature, TState, TSensor>,
-                SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator >=(SubordinationDomination c1,
+            SubordinationDomination c2) =>
+            Char1MoreOrEqualChar2<LowDomination,
+                MiddleDomination,
+                HighDomination,
+                SubordinationDomination>(c1, c2);
 
-        public int CompareTo(SubordinationDomination<TAgent, TReaction, TFeature, TState, TSensor> other)
+        public int CompareTo(SubordinationDomination other)
         {
             if (this > other)
                 return -1;
@@ -57,21 +55,7 @@ namespace BehaviourModel
             return 0;
         }
 
-        public override List<CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>>
-            GetCorrelatedTraitsForCharacter(AgentBase<TAgent, TReaction, TFeature, TState, TSensor> agent)
-        {
-            var cs = agent.CharacterSystem;
-            return new List<CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>>()
-            {
-      cs.SubordinationDomination,
-                cs.ConformismNonconformism,
-                cs.CredulitySuspicion,
-                cs.EmotionalInstabilityStability,
-                cs.RelaxationTension,
-                cs.RigiditySensetivity,
-                cs.TimidityCourage,
-            };
-        }
+      
 
         public override string ToString()
         {

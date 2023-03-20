@@ -23,25 +23,25 @@ namespace BehaviourModel
             var slowRotation = RotationHandler.SlowRotation;
             var fastRotation = RotationHandler.QuickRotation;
             //поворот к классу
-            Debug.Log("Statrt rotate to class");
+            //Debug.Log("Statrt rotate to class");
             yield return rotator.RotateToFaceDirection(classDirection, thisAgent.AgentRigidbody,  fastRotation);
             //небольшие повороты в стороны
-            Debug.Log("Statrt rotate to sides look class");
+            //Debug.Log("Statrt rotate to sides look class");
             yield return rotator.SmoothRotateToSides(thisAgent.AgentRigidbody, 20f, 3f, slowRotation);
             //поворот к доске
-            Debug.Log("Statrt rotate to board");
+            //Debug.Log("Statrt rotate to board");
             yield return rotator.RotateToFaceDirection(board.transform, thisAgent.AgentRigidbody, fastRotation);
-            Debug.Log("Statrt waiting");
+            //Debug.Log("Statrt waiting");
             yield return new WaitForSeconds(Random.Range(3f,7f));
             //поворот к классу
-            Debug.Log("Statrt rotate to class again");
+            //Debug.Log("Statrt rotate to class again");
             yield return rotator.RotateToFaceDirection(classDirection, thisAgent.AgentRigidbody,  fastRotation);
             //yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, classAngle, fastRotation);
             //небольшие повороты в стороны
-            Debug.Log("Statrt rotate to sides look on class again");
+            //Debug.Log("Statrt rotate to sides look on class again");
             yield return rotator.SmoothRotateToSides(thisAgent.AgentRigidbody, 20f, 3f, slowRotation);
             //возврат в исходное
-            Debug.Log("Statrt rotate to statrt direction");
+            //Debug.Log("Statrt rotate to statrt direction");
             yield return rotator.RotateToFaceDirection( cachedDirection, thisAgent.AgentRigidbody, fastRotation);
             //yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, cachedRotation, fastRotation);
         }

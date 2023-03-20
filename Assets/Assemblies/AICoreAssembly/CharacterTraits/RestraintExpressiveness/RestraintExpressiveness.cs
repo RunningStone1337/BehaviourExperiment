@@ -17,40 +17,38 @@ namespace BehaviourModel
     /// В целом фактор F ориентирован на измерение эмоциональной окрашенности и динамичности в процессах общения.
     /// Пример: актеры, эффективные лидеры имеют более высокие оценки, художники, последователи – более низкие.
     /// </summary>
-    public abstract class RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> : CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>,
-        IComparable<RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>>
-         where TAgent : ICurrentStateHandler<TState> where TReaction : IReaction
-         where TFeature : IFeature where TState : IState where TSensor : ISensor
+    public abstract class RestraintExpressiveness : CharacterTraitBase,
+        IComparable<RestraintExpressiveness>
     {
-        public static bool operator <(RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-         Char1LessChar2<LowExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-             MiddleExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-             HighExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-             RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator <(RestraintExpressiveness c1,
+            RestraintExpressiveness c2) =>
+         Char1LessChar2<LowExpressiveness,
+             MiddleExpressiveness,
+             HighExpressiveness,
+             RestraintExpressiveness>(c1, c2);
 
-        public static bool operator <=(RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-            Char1LessOrEqualChar2<LowExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                MiddleExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                HighExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator <=(RestraintExpressiveness c1,
+            RestraintExpressiveness c2) =>
+            Char1LessOrEqualChar2<LowExpressiveness,
+                MiddleExpressiveness,
+                HighExpressiveness,
+                RestraintExpressiveness>(c1, c2);
 
-        public static bool operator >(RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-            Char1MoreChar2<LowExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                MiddleExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                HighExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator >(RestraintExpressiveness c1,
+            RestraintExpressiveness c2) =>
+            Char1MoreChar2<LowExpressiveness,
+                MiddleExpressiveness,
+                HighExpressiveness,
+                RestraintExpressiveness>(c1, c2);
 
-        public static bool operator >=(RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c1,
-            RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> c2) =>
-            Char1MoreOrEqualChar2<LowExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                MiddleExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                HighExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>,
-                RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>>(c1, c2);
+        public static bool operator >=(RestraintExpressiveness c1,
+            RestraintExpressiveness c2) =>
+            Char1MoreOrEqualChar2<LowExpressiveness,
+                MiddleExpressiveness,
+                HighExpressiveness,
+                RestraintExpressiveness>(c1, c2);
 
-        public int CompareTo(RestraintExpressiveness<TAgent, TReaction, TFeature, TState, TSensor> other)
+        public int CompareTo(RestraintExpressiveness other)
         {
             if (this > other)
                 return -1;
@@ -58,26 +56,12 @@ namespace BehaviourModel
                 return 1;
             return 0;
         }
-        public override void Initiate(int characterValue, TAgent agent)
+        public override void Initiate(int characterValue, IAgent agent)
         {
             base.Initiate(characterValue, agent);
             ThisCharType = CharTraitType.RestraintExpressiveness;
         }
-        public override List<CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>>
-            GetCorrelatedTraitsForCharacter(AgentBase<TAgent, TReaction, TFeature, TState, TSensor> agent)
-        {
-            var cs = agent.CharacterSystem;
-            return new List<CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>>()
-            {
-                cs.RestraintExpressiveness,
-                cs.CalmnessAnxiety,
-                cs.EmotionalInstabilityStability,
-                cs.NormativityOfBehaviour,
-                cs.RelaxationTension,
-                cs.Selfcontrol,
-                cs.StraightforwardnessDiplomacy
-            };
-        }
+       
 
         public override string ToString()
         {

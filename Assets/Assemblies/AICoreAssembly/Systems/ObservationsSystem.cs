@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,8 @@ namespace BehaviourModel
 {
     public abstract class ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor> : SystemBase<TAgent, TReaction, TFeature, TState, TSensor>,
        IPhenomenonsCreator
-        where TAgent : ICurrentStateHandler<TState> where TReaction : IReaction
+        where TAgent : ICurrentStateHandler<TState> , IAgent
+        where TReaction : IReaction
         where TFeature : IFeature
         where TState : IState where TSensor : ISensor
     {

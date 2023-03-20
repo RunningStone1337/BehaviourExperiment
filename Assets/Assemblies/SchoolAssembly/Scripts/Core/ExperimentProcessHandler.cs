@@ -1,4 +1,5 @@
 using BehaviourModel;
+using BuildingModule;
 using Events;
 using System;
 using System.Collections;
@@ -29,10 +30,12 @@ namespace Core
             yield return spawner.SpawnAgents<PupilAgent, PupilRawData>(agentsHandler.AgentsData, true);
             experimentAgents.AddRange(spawner.LastCreatedAgents.Cast<PupilAgent>());
             spawner.LastCreatedAgents.Clear();
+            Debug.Log($"LastCreatedAgents count after clearing: {spawner.LastCreatedAgents.Count}");
 
             yield return spawner.SpawnAgent<TeacherAgent, TeacherRawData>(agentsHandler.TeacherData, true);
             teacher = (TeacherAgent)spawner.LastCreatedAgents[0];
             spawner.LastCreatedAgents.Clear();
+            Debug.Log($"LastCreatedAgents count after clearing: {spawner.LastCreatedAgents.Count}");
             StartAgents();
         }
 
@@ -64,12 +67,18 @@ namespace Core
             InitGlobalSystems();
         }      
 
+        public void OnScheduleCompletedCallback()
+        {
+            Debug.Log("Experiment ended");
+            //показ статистики
+        }
         public void OnDayStartedCallback(CurrentDayChangedEventArgs args)
         {
-            if (args.newDay.DayIndex == 0)
+            if (args.newDay.DayIndex == 1)
                 StartCoroutine(CreateAgents());
             else
             {
+                //GlobalEventsHandler.Instance.CurrentGlobalEvent = GlobalEventsHandler.Instance.LessonEvent;
                 //вернуть скрытых агентов на сцену
                 StartCoroutine(PlaceExistAgents());
             }
@@ -77,7 +86,11 @@ namespace Core
 
         private IEnumerator PlaceExistAgents()
         {
-            var placer = new PlaceFinder(placerParams);
+            var placer = new PlaceFinder(() => {
+                var placingRooms = EntranceRoot.Root.Rooms.Where(x => x.Role is ExitRole).ToList();
+                return placingRooms.GetRandom().RandomEntrance().transform.position;
+            }, placerParams);
+
             foreach (var pup in Pupils)
             {
                 while (!placer.TryFindPlace())

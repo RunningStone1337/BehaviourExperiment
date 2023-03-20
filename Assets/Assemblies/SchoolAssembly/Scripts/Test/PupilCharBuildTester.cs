@@ -10,22 +10,22 @@ public class PupilCharBuildTester : CharacterBuildTester<PupilAgent>
     {
         agentToBuild.CharacterSystem.RemoveTraits();
         agentToBuild.CharacterSystem.Initiate<
-            PupilLowAnxiety,PupilMiddleAnxiety,PupilHighAnxiety,
-            PupilLowClosenessSociability,PupilMiddleClosenessSociability,PupilHighClosenessSociability,
-            PupilLowEmotionalStability,PupilMiddleEmotionalStability,PupilHighEmotionalStability,
-            PupilLowNonconformism,PupilMiddleNonconformism,PupilHighNonconformism,
-            PupilLowNormativityOfBehaviour,PupilMiddleNormativityOfBehaviour,PupilHighNormativityOfBehaviour,
-            PupilLowRadicalism,PupilMiddleRadicalism,PupilHighRadicalism,
-            PupilLowSelfcontrol,PupilMiddleSelfcontrol,PupilHighSelfcontrol,
-            PupilLowSensetivity,PupilMiddleSensetivity,PupilHighSensetivity,
-            PupilLowSuspicion,PupilMiddleSuspicion,PupilHighSuspicion,
-            PupilLowTension,PupilMiddleTension,PupilHighTension,
-            PupilLowExpressiveness,PupilMiddleExpressiveness,PupilHighExpressiveness,
-            PupilLowIntelligence,PupilMiddleIntelligence,PupilHighIntelligence,
-            PupilLowDreaminess,PupilMiddleDreaminess,PupilHighDreaminess,
-            PupilLowDomination,PupilMiddleDomination,PupilHighDomination,
-            PupilLowDiplomacy,PupilMiddleDiplomacy,PupilHighDiplomacy,
-            PupilLowCourage,PupilMiddleCourage,PupilHighCourage>(characterBuilder);
+             LowAnxiety, MiddleAnxiety, HighAnxiety,
+             LowClosenessSociability, MiddleClosenessSociability, HighClosenessSociability,
+             LowEmotionalStability, MiddleEmotionalStability, HighEmotionalStability,
+             LowNonconformism, MiddleNonconformism, HighNonconformism,
+             LowNormativityOfBehaviour, MiddleNormativityOfBehaviour, HighNormativityOfBehaviour,
+             LowRadicalism, MiddleRadicalism, HighRadicalism,
+             LowSelfcontrol, MiddleSelfcontrol, HighSelfcontrol,
+             LowSensetivity, MiddleSensetivity, HighSensetivity,
+             LowSuspicion, MiddleSuspicion, HighSuspicion,
+             LowTension, MiddleTension, HighTension,
+             LowExpressiveness, MiddleExpressiveness, HighExpressiveness,
+             LowIntelligence, MiddleIntelligence, HighIntelligence,
+             LowDreaminess, MiddleDreaminess, HighDreaminess,
+             LowDomination, MiddleDomination, HighDomination,
+             LowDiplomacy, MiddleDiplomacy, HighDiplomacy,
+             LowCourage, MiddleCourage, HighCourage>(characterBuilder);
         Debug.Log($"New character:\n {agentToBuild.CharacterSystem}");
     }
    

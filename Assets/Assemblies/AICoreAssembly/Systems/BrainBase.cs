@@ -22,7 +22,7 @@ namespace BehaviourModel
         ICanReactOnPhenomenon<IPhenomenon, TReaction>
         //IAttentionCalculator<IPhenomenon>
 
-        where TAgent : ICurrentStateHandler<TState>
+        where TAgent : ICurrentStateHandler<TState>, IAgent
         where TReaction : IReaction
         where TFeature : IFeature
         where TState : IState
@@ -238,6 +238,8 @@ namespace BehaviourModel
 
         public List<TReaction> TemporaryReactions => temporaryReactions;
 
+       
+
         public void AddReaction(TReaction reaction)
         {
             TemporaryReactions.Add(reaction);
@@ -246,6 +248,10 @@ namespace BehaviourModel
 
         public abstract bool HasReactionsOnPhenom(IPhenomenon reason, out List<TReaction> reaction);
 
-        
+        internal void Clear()
+        {
+            PhenomensToReact.Clear();
+            NewPhenomens.Clear();
+        }
     }
 }

@@ -63,12 +63,12 @@ namespace BehaviourModel
                     setter.target = TryRedirectMovementTarget(value);
                 else
                     setter.target = value;
-#if DEBUG
-                if (setter.target != null)
-                    Debug.Log($"Target set is {setter.target}");
-                else
-                    Debug.Log($"Target set is null");
-#endif
+//#if DEBUG
+//                if (setter.target != null)
+//                    Debug.Log($"Target set is {setter.target}");
+//                else
+//                    Debug.Log($"Target set is null");
+//#endif
             }
         }
      
@@ -221,7 +221,17 @@ namespace BehaviourModel
                 skin.DecreaseVisibility();
                 yield return null;
             }
+
+            var placer = new PlaceFinder(()=> EntranceRoot.Root.TeleportPlace.position, .2f, 2f, new ContactFilter2D() { useLayerMask = false });
+            while (!placer.TryFindPlace()) { }
+                //yield return null;
+            transform.position = placer.Place;
         }
+        //public void OnGlobalEventChangedCallback(CurrentEventChangedEventArgs args)
+        //{
+        //    Brain.PhenomensToReact.Clear();
+        //    Brain.Clear();
+        //}
 
         public void EndActionVisualForce()
         {
@@ -250,69 +260,69 @@ namespace BehaviourModel
             TLowDipl, TMidDipl, THighDipl,
             TLowCour, TMidCour, THighCour>
             (HumanRawData data)
-             where TLowAnx : LowAnxiety<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidAnx : MiddleAnxiety<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighAnx : HighAnxiety<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+             where TLowAnx : LowAnxiety
+            where TMidAnx : MiddleAnxiety 
+            where THighAnx : HighAnxiety 
 
-            where TLowSoc : LowClosenessSociability<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidSoc : MiddleClosenessSociability<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighSoc : HighClosenessSociability<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowSoc : LowClosenessSociability 
+            where TMidSoc : MiddleClosenessSociability 
+            where THighSoc : HighClosenessSociability 
 
-            where TLowStab : LowEmotionalStability<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidStab : MiddleEmotionalStability<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighStab : HighEmotionalStability<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowStab : LowEmotionalStability 
+            where TMidStab : MiddleEmotionalStability 
+            where THighStab : HighEmotionalStability 
 
-            where TLowNonc : LowNonconformism<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidNonc : MiddleNonconformism<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighNonc : HighNonconformism<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowNonc : LowNonconformism 
+            where TMidNonc : MiddleNonconformism 
+            where THighNonc : HighNonconformism 
 
-            where TLowNorm : LowNormativityOfBehaviour<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidNorm : MiddleNormativityOfBehaviour<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighNorm : HighNormativityOfBehaviour<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowNorm : LowNormativityOfBehaviour 
+            where TMidNorm : MiddleNormativityOfBehaviour 
+            where THighNorm : HighNormativityOfBehaviour 
 
-            where TLowRad : LowRadicalism<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidRad : MiddleRadicalism<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighRad : HighRadicalism<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowRad : LowRadicalism 
+            where TMidRad : MiddleRadicalism 
+            where THighRad : HighRadicalism 
 
-            where TLowSelf : LowSelfcontrol<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidSelf : MiddleSelfcontrol<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighSelf : HighSelfcontrol<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowSelf : LowSelfcontrol 
+            where TMidSelf : MiddleSelfcontrol 
+            where THighSelf : HighSelfcontrol 
 
-            where TLowSens : LowSensetivity<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidSens : MiddleSensetivity<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighSens : HighSensetivity<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowSens : LowSensetivity 
+            where TMidSens : MiddleSensetivity 
+            where THighSens : HighSensetivity 
 
-            where TLowSusp : LowSuspicion<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidSusp : MiddleSuspicion<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighSusp : HighSuspicion<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowSusp : LowSuspicion 
+            where TMidSusp : MiddleSuspicion 
+            where THighSusp : HighSuspicion 
 
-            where TLowTens : LowTension<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidTens : MiddleTension<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighTens : HighTension<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowTens : LowTension 
+            where TMidTens : MiddleTension 
+            where THighTens : HighTension 
 
-            where TLowExpre : LowExpressiveness<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidExpre : MiddleExpressiveness<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighExpre : HighExpressiveness<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowExpre : LowExpressiveness 
+            where TMidExpre : MiddleExpressiveness 
+            where THighExpre : HighExpressiveness 
 
-            where TLowInt : LowIntelligence<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidInt : MiddleIntelligence<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighInt : HighIntelligence<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowInt : LowIntelligence 
+            where TMidInt : MiddleIntelligence 
+            where THighInt : HighIntelligence 
 
-            where TLowDrea : LowDreaminess<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidDrea : MiddleDreaminess<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighDrea : HighDreaminess<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowDrea : LowDreaminess 
+            where TMidDrea : MiddleDreaminess 
+            where THighDrea : HighDreaminess 
 
-            where TLowDom : LowDomination<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidDom : MiddleDomination<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighDom : HighDomination<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowDom : LowDomination 
+            where TMidDom : MiddleDomination 
+            where THighDom : HighDomination 
 
-            where TLowDipl : LowDiplomacy<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidDipl : MiddleDiplomacy<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighDipl : HighDiplomacy<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowDipl : LowDiplomacy 
+            where TMidDipl : MiddleDiplomacy 
+            where THighDipl : HighDiplomacy 
 
-            where TLowCour : LowCourage<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where TMidCour : MiddleCourage<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-            where THighCour : HighCourage<TAgent, ReactionBase,FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            where TLowCour : LowCourage 
+            where TMidCour : MiddleCourage 
+            where THighCour : HighCourage 
 
         {
             base.Initiate<TLowAnx, TMidAnx, THighAnx,

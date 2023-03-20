@@ -6,7 +6,7 @@ namespace BehaviourModel
 {
     public abstract class FeaturesSystem<TAgent, TReaction, TFeature, TState, TSensor> :
         SystemBase<TAgent, TReaction, TFeature, TState, TSensor>, IEnumerable<TFeature>
-        where TAgent : ICurrentStateHandler<TState>
+        where TAgent : ICurrentStateHandler<TState>, IAgent
         where TReaction : IReaction
         where TFeature : IFeature
         where TState : IState

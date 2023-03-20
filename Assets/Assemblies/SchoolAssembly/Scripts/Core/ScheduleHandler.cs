@@ -37,8 +37,10 @@ namespace Core
             private set
             {
                 currentDay = value;
-                if (currentDay.DayIndex < experimentLengthDays)
+                //Debug.Log("Before day started invoke");
+                if (currentDay.DayIndex <= experimentLengthDays)
                     OnDayStarted?.Invoke(new CurrentDayChangedEventArgs() { newDay = currentDay });
+                //Debug.Log("After day started invoke");
             }
         }
         public DisciplineBase CurrentLesson => currentLesson;
@@ -56,6 +58,8 @@ namespace Core
         [Space, Header("Events")]
         [SerializeField] UnityEvent<CurrentDayChangedEventArgs> onDayStarted;
         [SerializeField] UnityEvent<CurrentEventChangedEventArgs> onEventTimerChanged;
+        [SerializeField] UnityEvent onScheduleCompleted;
+        public UnityEvent OnScheduleCompleted => onScheduleCompleted;
         public UnityEvent<CurrentDayChangedEventArgs> OnDayStarted => onDayStarted;
         public UnityEvent<CurrentEventChangedEventArgs> OnEventTimerChanged => onEventTimerChanged;
         
@@ -78,12 +82,17 @@ namespace Core
         private IEnumerator StartExecuting()
         {
             var start = workDays[0];
-            start.DayIndex = 0;
+            start.DayIndex = 1;
             CurrentDay = start;
-            for (int day = 0; day < ExperimentLengthDays; day++)
+            for (int day = 1; day <= ExperimentLengthDays; day++)
             {
+                if (day != 1)
+                {
+                    UpdateCurrentDay(day);
+                }
+
                 for (int lesson = 0; lesson < currentDay.Lessons.Count; lesson++)
-                    yield return LessonCycle(lesson);
+                    yield return LessonBreakCycle(lesson);
 
                 var dOver = eventsHandler.DayOverEvent;
                 dOver.Initiate(this);
@@ -93,12 +102,21 @@ namespace Core
                 while (IsAnyActiveAgentOnScene())
                     yield return new WaitForFixedUpdate();
                 //пауза перед новым днём
-                yield return new WaitForSeconds(1f);
-
-                var next = currentDay.NextDay;
-                next.DayIndex = day+1;
-                CurrentDay = next;
+                yield return new WaitForSeconds(1f);                
             }
+            OnScheduleCompleted?.Invoke();
+        }
+
+        private void UpdateCurrentDay(int day)
+        {
+            var newDay = currentDay.NextDay;
+            currentLesson = newDay.Lessons[0];
+            var les = eventsHandler.LessonEvent;
+            les.Initiate(this);
+
+            eventsHandler.CurrentGlobalEvent = les;
+            newDay.DayIndex = day;
+            CurrentDay = newDay;//день обновили, но ивент остался старый, а они уже действуют
         }
 
         private bool IsAnyActiveAgentOnScene()
@@ -113,13 +131,17 @@ namespace Core
             return false;
         }
 
-        IEnumerator LessonCycle(int lesson)
+        IEnumerator LessonBreakCycle(int lesson)
         {
+            //if (lesson != 0)
+            //{
             currentLesson = currentDay.Lessons[lesson];
             //занятие
             var les = eventsHandler.LessonEvent;
             les.Initiate(this);
             eventsHandler.CurrentGlobalEvent = les;
+            //}
+
             yield return EventCycle();
 
             if (lesson != currentDay.Lessons.Count - 1)//не последний урок
@@ -128,6 +150,7 @@ namespace Core
                 var br = eventsHandler.BreakEvent;
                 br.Initiate(this);
                 eventsHandler.CurrentGlobalEvent = br;
+
                 yield return EventCycle();
             }
         }

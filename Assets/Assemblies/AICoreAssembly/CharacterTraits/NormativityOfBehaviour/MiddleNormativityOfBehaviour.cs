@@ -3,11 +3,9 @@ namespace BehaviourModel
     /// <summary>
     /// Умеренная нормативность
     /// </summary>
-    public class MiddleNormativityOfBehaviour<TAgent, TReaction, TFeature, TState, TSensor> : NormativityOfBehaviour<TAgent, TReaction, TFeature, TState, TSensor>
-         where TAgent : ICurrentStateHandler<TState> where TReaction : IReaction
-         where TFeature : IFeature where TState : IState where TSensor : ISensor
+    public class MiddleNormativityOfBehaviour : NormativityOfBehaviour
     {
-        public override void Initiate(int characterValue, TAgent agent)
+        public override void Initiate(int characterValue, IAgent agent)
         {
             base.Initiate(characterValue, agent);
             ThisConcreteCharType = CharTraitTypeExtended.MidNormativityOfBehaviour;

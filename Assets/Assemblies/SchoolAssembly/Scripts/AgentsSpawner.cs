@@ -19,7 +19,7 @@ namespace Core
         {
             LastCreatedAgents = new List<IAgent>();
         }
-        public T CreateAgent<T>(HumanRawData pup, Vector3 spawnPoint)
+        public T CreateAgent<T>(HumanRawData pupData, Vector3 spawnPoint)
            where T : SchoolAgentBase<T>
         {
             GameObject prefab;
@@ -27,62 +27,44 @@ namespace Core
                 prefab = pupilPrefab;
             else
                 prefab = teacherPrefab;
-            var pupGO = Instantiate(prefab, spawnPoint, Quaternion.identity).GetComponent<T>();
-            if (pupGO is PupilAgent p)
-            {
-                p.Initiate<
-            PupilLowAnxiety, PupilMiddleAnxiety, PupilHighAnxiety,
-            PupilLowClosenessSociability, PupilMiddleClosenessSociability, PupilHighClosenessSociability,
-            PupilLowEmotionalStability, PupilMiddleEmotionalStability, PupilHighEmotionalStability,
-            PupilLowNonconformism, PupilMiddleNonconformism, PupilHighNonconformism,
-            PupilLowNormativityOfBehaviour, PupilMiddleNormativityOfBehaviour, PupilHighNormativityOfBehaviour,
-            PupilLowRadicalism, PupilMiddleRadicalism, PupilHighRadicalism,
-            PupilLowSelfcontrol, PupilMiddleSelfcontrol, PupilHighSelfcontrol,
-            PupilLowSensetivity, PupilMiddleSensetivity, PupilHighSensetivity,
-            PupilLowSuspicion, PupilMiddleSuspicion, PupilHighSuspicion,
-            PupilLowTension, PupilMiddleTension, PupilHighTension,
-            PupilLowExpressiveness, PupilMiddleExpressiveness, PupilHighExpressiveness,
-            PupilLowIntelligence, PupilMiddleIntelligence, PupilHighIntelligence,
-            PupilLowDreaminess, PupilMiddleDreaminess, PupilHighDreaminess,
-            PupilLowDomination, PupilMiddleDomination, PupilHighDomination,
-            PupilLowDiplomacy, PupilMiddleDiplomacy, PupilHighDiplomacy,
-            PupilLowCourage, PupilMiddleCourage, PupilHighCourage>(pup);
-            }
-            else if (pupGO is TeacherAgent t)
-            {
-                t.Initiate<
-           TeacherLowAnxiety, TeacherMiddleAnxiety, TeacherHighAnxiety,
-           TeacherLowClosenessSociability, TeacherMiddleClosenessSociability, TeacherHighClosenessSociability,
-           TeacherLowEmotionalStability, TeacherMiddleEmotionalStability, TeacherHighEmotionalStability,
-           TeacherLowNonconformism, TeacherMiddleNonconformism, TeacherHighNonconformism,
-           TeacherLowNormativityOfBehaviour, TeacherMiddleNormativityOfBehaviour, TeacherHighNormativityOfBehaviour,
-           TeacherLowRadicalism, TeacherMiddleRadicalism, TeacherHighRadicalism,
-           TeacherLowSelfcontrol, TeacherMiddleSelfcontrol, TeacherHighSelfcontrol,
-           TeacherLowSensetivity, TeacherMiddleSensetivity, TeacherHighSensetivity,
-           TeacherLowSuspicion, TeacherMiddleSuspicion, TeacherHighSuspicion,
-           TeacherLowTension, TeacherMiddleTension, TeacherHighTension,
-           TeacherLowExpressiveness, TeacherMiddleExpressiveness, TeacherHighExpressiveness,
-           TeacherLowIntelligence, TeacherMiddleIntelligence, TeacherHighIntelligence,
-           TeacherLowDreaminess, TeacherMiddleDreaminess, TeacherHighDreaminess,
-           TeacherLowDomination, TeacherMiddleDomination, TeacherHighDomination,
-           TeacherLowDiplomacy, TeacherMiddleDiplomacy, TeacherHighDiplomacy,
-           TeacherLowCourage, TeacherMiddleCourage, TeacherHighCourage>(pup);
-            }
-            return pupGO;
+            var agent = Instantiate(prefab, spawnPoint, Quaternion.identity).GetComponent<T>();
+
+            agent.Initiate<
+            LowAnxiety,  MiddleAnxiety,  HighAnxiety,
+            LowClosenessSociability,  MiddleClosenessSociability,  HighClosenessSociability,
+            LowEmotionalStability,  MiddleEmotionalStability,  HighEmotionalStability,
+            LowNonconformism,  MiddleNonconformism,  HighNonconformism,
+            LowNormativityOfBehaviour,  MiddleNormativityOfBehaviour,  HighNormativityOfBehaviour,
+            LowRadicalism,  MiddleRadicalism,  HighRadicalism,
+            LowSelfcontrol,  MiddleSelfcontrol,  HighSelfcontrol,
+            LowSensetivity,  MiddleSensetivity,  HighSensetivity,
+            LowSuspicion,  MiddleSuspicion,  HighSuspicion,
+            LowTension,  MiddleTension,  HighTension,
+            LowExpressiveness,  MiddleExpressiveness,  HighExpressiveness,
+            LowIntelligence,  MiddleIntelligence,  HighIntelligence,
+            LowDreaminess,  MiddleDreaminess,  HighDreaminess,
+            LowDomination,  MiddleDomination,  HighDomination,
+            LowDiplomacy,  MiddleDiplomacy,  HighDiplomacy,
+            LowCourage,  MiddleCourage,  HighCourage>(pupData);
+            
+            return agent;
         }
 
-        internal IEnumerator SpawnAgent<T, TData>(TData agentData, bool startOnSpawn)
-              where T : SchoolAgentBase<T>
+        internal IEnumerator SpawnAgent<TAgent, TData>(TData agentData, bool startOnSpawn)
+              where TAgent : SchoolAgentBase<TAgent>
               where TData : HumanRawData
         {
-
-            T agent;
-            var placer = new PlaceFinder(placerParams);
+            TAgent agent;
+            var placer = new PlaceFinder(()=> {
+                var placingRooms = EntranceRoot.Root.Rooms.Where(x => x.Role is ExitRole).ToList();
+                return placingRooms.GetRandom().RandomEntrance().transform.position;
+            }, placerParams);
             while (!placer.TryFindPlace())
                 yield return new WaitForFixedUpdate();
 
-            agent = CreateAgent<T>(agentData, placer.Place);
-            GlobalEventsHandler.Instance.OnGlobalEventChanged.AddListener(((SchoolObservationsSystem<T>)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback);
+            agent = CreateAgent<TAgent>(agentData, placer.Place);
+            GlobalEventsHandler.Instance.OnGlobalEventChanged.AddListener(((SchoolObservationsSystem<TAgent>)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback);
+            //GlobalEventsHandler.Instance.OnGlobalEventChanged.AddListener(agent.OnGlobalEventChangedCallback);
             LastCreatedAgents.Add(agent);
             if (startOnSpawn)
                 agent.StartStateMachine();
@@ -92,8 +74,13 @@ namespace Core
               where T : SchoolAgentBase<T>
               where TData : HumanRawData
         {
+            Debug.Log($"Agents to spawn: {agentsData.Count}");
             for (int i = 0; i < agentsData.Count; i++)
-                yield return SpawnAgent<T,TData>(agentsData[i], startOnSpawn);
+            {
+                yield return SpawnAgent<T, TData>(agentsData[i], startOnSpawn);
+                Debug.Log($"Agent spawned: {i+1}");
+            }
+            Debug.Log($"Agents created count after spawn: {LastCreatedAgents.Count}");
         }
     }
 }

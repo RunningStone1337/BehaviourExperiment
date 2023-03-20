@@ -3,11 +3,9 @@ namespace BehaviourModel
     /// <summary>
     /// Высокая эмоциональная стабильность
     /// </summary>
-    public class HighEmotionalStability<TAgent, TReaction, TFeature, TState, TSensor> : EmotionalInstabilityStability<TAgent, TReaction, TFeature, TState, TSensor>
-        where TAgent : ICurrentStateHandler<TState> where TReaction : IReaction
-        where TFeature : IFeature where TState : IState where TSensor : ISensor
+    public class HighEmotionalStability : EmotionalInstabilityStability
     {
-        public override void Initiate(int characterValue, TAgent agent)
+        public override void Initiate(int characterValue, IAgent agent)
         {
             base.Initiate(characterValue, agent);
             ThisConcreteCharType = CharTraitTypeExtended.HighEmotionalInstabilityStability;

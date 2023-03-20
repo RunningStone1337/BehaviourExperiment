@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 3297251085841999904}
   - component: {fileID: 3420078062089722054}
   - component: {fileID: 8062592570246205735}
+  - component: {fileID: 7748704817720541968}
   m_Layer: 3
   m_Name: PupilPrefab
   m_TagString: Agent
@@ -550,9 +551,9 @@ MonoBehaviour:
   enableRotation: 1
   autoRepath:
     mode: 2
-    interval: 0.5
+    period: 0.5
     sensitivity: 10
-    maximumInterval: 0.5
+    maximumPeriod: 1
     visualizeSensitivity: 0
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
@@ -567,6 +568,33 @@ MonoBehaviour:
   agentEnvironment: {fileID: 0}
   destSetter: {fileID: 0}
   agentBody: {fileID: 0}
+--- !u!114 &7748704817720541968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328003032107239062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560112f876f5746c780eca0d404e7139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2
+  radiusBackingField: 0.5
+  heightBackingField: 2
+  centerBackingField: 1
+  locked: 0
+  lockWhenNotMoving: 0
+  agentTimeHorizon: 0.5
+  obstacleTimeHorizon: 0.5
+  maxNeighbours: 10
+  layer: 1
+  collidesWith: -1
+  wallAvoidForce: 1
+  wallAvoidFalloff: 1
+  priority: 0.5
+  debug: 0
 --- !u!1001 &5621553308994523634
 PrefabInstance:
   m_ObjectHideFlags: 0

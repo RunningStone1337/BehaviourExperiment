@@ -5,7 +5,7 @@ namespace BehaviourModel
 {
     public abstract class RelationsSystem<TAgent, TReaction, TFeature, TState, TSensor> :
         SystemBase<TAgent, TReaction, TFeature, TState, TSensor>
-        where TAgent : ICurrentStateHandler<TState>
+        where TAgent : ICurrentStateHandler<TState>, IAgent
         where TReaction : IReaction
         where TFeature : IFeature
         where TState : IState
@@ -80,7 +80,7 @@ namespace BehaviourModel
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="tr"></param>
-        //public void AddInfoAbouAgentBase<IFeature>IfNew(AgentBase<TFeatureBase, TStateBase> agent, CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor> tr)
+        //public void AddInfoAbouAgentBase<IFeature>IfNew(AgentBase<TFeatureBase, TStateBase> agent, CharacterTraitBase tr)
         //{
         //    var relation = GetCurrentRelationTo(agent);
         //    if (relation != null)//знакомы хоть как-то

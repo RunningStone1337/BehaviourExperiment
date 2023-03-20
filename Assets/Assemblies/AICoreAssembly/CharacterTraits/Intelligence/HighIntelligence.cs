@@ -3,23 +3,12 @@ namespace BehaviourModel
     /// <summary>
     /// Высокий интеллект
     /// </summary>
-    public class HighIntelligence<TAgent, TReaction, TFeature, TState, TSensor> : Intelligence<TAgent, TReaction, TFeature, TState, TSensor>
-         where TAgent : ICurrentStateHandler<TState> where TReaction : IReaction
-         where TFeature : IFeature where TState : IState where TSensor : ISensor
+    public class HighIntelligence : Intelligence
     {
-        public override void Initiate(int characterValue, TAgent agent)
+        public override void Initiate(int characterValue, IAgent agent)
         {
             base.Initiate(characterValue, agent);
             ThisConcreteCharType = CharTraitTypeExtended.HighIntelligence;
         }
-
-        //protected override float CalculateImportanceForFamiliar(AgentBase agent)
-        //{
-        //    float res = default;
-        //    var currentRelation = ThisAgent.GetCurrentRelationTo(agent);
-        //    if (currentRelation != null)
-        //        res += currentRelation.GetImportanceValueFor(this);
-        //    return res;
-        //}
     }
 }

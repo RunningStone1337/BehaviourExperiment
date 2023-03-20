@@ -82,17 +82,13 @@ namespace BehaviourModel
         HighTimidityCourage
     }
 
-    public abstract class CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor> : MonoBehaviour
-        where TAgent : ICurrentStateHandler<TState>
-        where TReaction : IReaction
-        where TFeature : IFeature
-        where TState : IState
-        where TSensor : ISensor
+    public abstract class CharacterTraitBase : MonoBehaviour
+       
     {
         [SerializeField] private int characterCalculatedValue;
         [SerializeField] [HideInInspector] private CharacterGrade characterGrade;
         [SerializeField] [Range(1, 10)] private int rawCharacterValue;
-        //[SerializeField] protected TAgent thisAgent;
+        [SerializeField] protected IAgent thisAgent;
         [SerializeField] [HideInInspector] private CharTraitTypeExtended thisConcreteCharType;
         [SerializeField] [HideInInspector] private CharTraitType thisCharType;
        
@@ -136,18 +132,11 @@ namespace BehaviourModel
         /// </summary>
         public int SpecializedCharacterValue { get => characterCalculatedValue; protected set => characterCalculatedValue = value; }
 
-        //public TAgent ThisAgent => thisAgent;
+        public IAgent ThisAgent => thisAgent;
 
         public CharTraitTypeExtended ThisConcreteCharType { get => thisConcreteCharType; protected set => thisConcreteCharType = value; }
 
-        /// <summary>
-        /// A list of traits correlating with this trait, including this one.
-        /// Redefine the method in the inheritors to define your own dependencies and use them for your own purposes.
-        /// </summary>
-        /// <param name="agent"></param>
-        /// <returns></returns>
-        public abstract List<CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>>
-            GetCorrelatedTraitsForCharacter(AgentBase<TAgent, TReaction, TFeature, TState, TSensor> agent);
+  
 
 
         #region operators overloading
@@ -166,7 +155,7 @@ namespace BehaviourModel
              where TL : TBASE
              where TM : TBASE
              where TH : TBASE
-             where TBASE : CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>
+             where TBASE : CharacterTraitBase
         {
             var left = c1 is TL;
             var left2 = c2 is TL;
@@ -182,7 +171,7 @@ namespace BehaviourModel
                     where TL : TBASE
                     where TM : TBASE
                     where TH : TBASE
-                    where TBASE : CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>
+                    where TBASE : CharacterTraitBase
         {
             return Char1LessChar2<TL, TM, TH, TBASE>(c1, c2) || c1.GetType().IsEquivalentTo(c2.GetType());
         }
@@ -191,7 +180,7 @@ namespace BehaviourModel
                       where TL : TBASE
                      where TM : TBASE
                      where TH : TBASE
-                     where TBASE : CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>
+                     where TBASE : CharacterTraitBase
         {
             var right = c1 is TH;
             var right2 = c2 is TH;
@@ -207,16 +196,16 @@ namespace BehaviourModel
                     where TL : TBASE
                     where TM : TBASE
                     where TH : TBASE
-                    where TBASE : CharacterTraitBase<TAgent, TReaction, TFeature, TState, TSensor>
+                    where TBASE : CharacterTraitBase
         {
             return Char1MoreChar2<TL, TM, TH, TBASE>(c1, c2) || c1.GetType().IsEquivalentTo(c2.GetType());
         }
 
         #endregion operators overloading
 
-        public virtual void Initiate(int characterValue, TAgent agent)
+        public virtual void Initiate(int characterValue, IAgent agent)
         {
-            //thisAgent = agent;
+            thisAgent = agent;
             RawCharacterValue = characterValue;
             CharacterGrade = GetCharacterGrade(RawCharacterValue);
             SpecializedCharacterValue = CalculateSpecializedValue(characterValue);

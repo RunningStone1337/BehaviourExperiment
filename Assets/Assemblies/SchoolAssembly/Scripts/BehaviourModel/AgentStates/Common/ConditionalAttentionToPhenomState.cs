@@ -17,7 +17,7 @@ namespace BehaviourModel
         }
         public override IEnumerator StartState()
         {
-            Debug.Log($"Condition Attention state start, cached auto ");
+            //Debug.Log($"Condition Attention state start, cached auto ");
             //yield return RotateToFaceSubject();
 
             while (continueStateCondition.Invoke())
@@ -27,7 +27,7 @@ namespace BehaviourModel
             }
             thisAgent.AutoMakeActions = true;
             thisAgent.SetDefaultState();
-            Debug.Log($"Conditional attention state end, cached auto ");
+            //Debug.Log($"Conditional attention state end, cached auto ");
         }
     }
 }

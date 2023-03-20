@@ -87,7 +87,7 @@ namespace BehaviourModel
             return result;
         }
 
-        protected static List<ReactionBase> GetInitializedReactions<TAgent, TReactionReason, TTableContent>(TAgent thisAgent, TReactionReason reason, TTableContent selector, CharacterTraitBase<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor> trait)
+        protected static List<ReactionBase> GetInitializedReactions<TAgent, TReactionReason, TTableContent>(TAgent thisAgent, TReactionReason reason, TTableContent selector, CharacterTraitBase trait)
             where TAgent : SchoolAgentBase<TAgent>
             where TReactionReason : IReactionSource
             where TTableContent : IReactionsCreator

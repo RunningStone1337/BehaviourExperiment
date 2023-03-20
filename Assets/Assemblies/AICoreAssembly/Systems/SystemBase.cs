@@ -4,7 +4,7 @@ namespace BehaviourModel
 {
     [RequireComponent(typeof(IAgent))]
     public abstract class SystemBase<TAgent, TReaction, TFeature, TState, TSensor> : MonoBehaviour
-        where TAgent : ICurrentStateHandler<TState>
+        where TAgent : ICurrentStateHandler<TState>, IAgent
         where TReaction : IReaction
         where TFeature : IFeature
         where TState : IState

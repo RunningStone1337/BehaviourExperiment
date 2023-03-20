@@ -422,8 +422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInitialized: 0
   rootObject: {fileID: 25906510}
-  eventRect: {fileID: 1664745796}
   currentDayText: {fileID: 724082457}
+  eventRect: {fileID: 1664745796}
 --- !u!1 &91862839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,6 +1084,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2769005701075631611, guid: 062b00997a396e349818177c937eac9d, type: 3}
+      propertyPath: teleportPlace
+      value: 
+      objectReference: {fileID: 1359439571}
     - target: {fileID: 2769005702060176988, guid: 062b00997a396e349818177c937eac9d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1138,6 +1142,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 062b00997a396e349818177c937eac9d, type: 3}
+--- !u!4 &169053144 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2769005701075631610, guid: 062b00997a396e349818177c937eac9d, type: 3}
+  m_PrefabInstance: {fileID: 169053143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &194996806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6851,18 +6860,6 @@ MonoBehaviour:
   onDayStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084230180}
-        m_TargetAssemblyTypeName: Core.GlobalEventsHandler, SchoolAssembly
-        m_MethodName: OnDayChangedCallback
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 25906512}
         m_TargetAssemblyTypeName: UI.ExperimentProcessScreen, SchoolAssembly
         m_MethodName: OnDayChangedCallback
@@ -6894,6 +6891,21 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UI.CurrentEventRect, SchoolAssembly
         m_MethodName: OnEventTimerUpdatedCallback
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onScheduleCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1084230177}
+        m_TargetAssemblyTypeName: Core.ExperimentProcessHandler, SchoolAssembly
+        m_MethodName: OnScheduleCompletedCallback
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7885,6 +7897,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cd7a7a01afa784489cb508211c8789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1359439570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1359439571}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1359439571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359439570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -61.1, y: -28.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 169053144}
+  m_RootOrder: 52
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1361569895 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8939716581591194795, guid: 222c92df628dbda4ea8342cce32957b0, type: 3}
@@ -12414,6 +12456,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PathfinderGridPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2739389652240890510, guid: c5cd1d6d8967ffa4b8a3033203f08ed0, type: 3}
+      propertyPath: data.dataString
+      value: UEsDBBQAAAgIAAAYIeyRSVAMoAIAAKEFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VFtv2jAU/ivIz+uUpDDavW1A6Sa1Rc2mPix9MM4JsXDsyJcCrfjvPXYSkrJNihT7O9fvXPxGuDQ1MKv0UvP8TuVAvo6IP5NPo154C3u6UTLlr9DpPPHcll6JBp1HarlCPPZmRlVgNWff5EZ45QhBJ3mhdLXINzBTxhqECyoMoEgr660lQm8jssffxbU3OeApmfrTK56uo9ERjwykBd2rdoqdWqPlJBO0qiH3KffKyaRzOwlqEsm0GtHnOEiZEoKbNhtiD3Vgm9YlaPB0c06RXMggwWsJfFPa9nKyfSgKA7bNStPDnGusUeOUfFdN4Spqtk1qL1Q4Hya+TkJajdO7v+QXcRAXWlW3Xdw48jFsydn2kR4YNXZQ2SE87xOPQ4V2VGzpWsBTCfJeLbVyMkeh1c6bOgPJvL+eqM1KYNseb1I9A139//54DsfAfj8TvFqH0o8bIBUqlDt0HzQ25wcmHGbDtC4Q9Vn8NvCLboZD1ApuuDYWRS1L6dNbK6e9KlmEmnk2zs6UlhDgNukaJBX2sEI39ryFZ7JB2DPJDfXr0gZvZd0WnJkEuNePojPRSu36Zhn46ap6pbi0KVDNyoE/U6rdHZjywVnBJfSMvOAeizhTUjbjZ/5hljpdUDYws7C3TsOcWhp2AHPCKcmHpljQYCGdEH4gAwvv/A+y8N+zL3JJMa4IMLlXMqzPh/+zH4SN4/nHMSdrdpVMJ1dRsY7ZeBoVF+Pkkn2ZTsf5ZD2+hCmQsAdcYs2pWDVFa1uFEyR7LhJnvnvRRktN67B5uaa7JX+t1KD9XBYqZRpAPjQeTmRBYxB8JPJFzpFmCtZyGWaPvGVEKLaFPDs5ykJhF3uradZ7yUjNX5T1SEZm4QnLiIdPe7XS8MJh54N3zo7k+A5QSwMEFAAACAgAABgh7MMnF8VtAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSM7TQUVBKL0osyCgGihiCOKWZKSB2tFJSsoWRuamFQVqSYbKJuUGaromRcbKZublJimmSiXGqeapSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAABgh7JFJUAygAgAAoQUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAABgh7MMnF8VtAAAAeAAAAAkAJAAAAAAAAAAAAAAA7QIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAAClAwAAAAA=
+      objectReference: {fileID: 0}
     - target: {fileID: 2739389652240890511, guid: c5cd1d6d8967ffa4b8a3033203f08ed0, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -12457,6 +12503,10 @@ PrefabInstance:
     - target: {fileID: 2739389652240890511, guid: c5cd1d6d8967ffa4b8a3033203f08ed0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843075665660507112, guid: c5cd1d6d8967ffa4b8a3033203f08ed0, type: 3}
+      propertyPath: desiredSimulationFPS
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5cd1d6d8967ffa4b8a3033203f08ed0, type: 3}

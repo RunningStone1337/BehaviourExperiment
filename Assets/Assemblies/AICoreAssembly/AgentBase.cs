@@ -6,7 +6,7 @@ namespace BehaviourModel
 {
     public abstract class AgentBase<TAgent, TReaction, TFeature, TState, TSensor> : SerializedMonoBehaviour, IAgent,
         ICurrentStateHandler<TState>
-        where TAgent : ICurrentStateHandler<TState>
+        where TAgent : ICurrentStateHandler<TState>, IAgent
         where TReaction : IReaction
         where TFeature : IFeature
         where TState : IState
@@ -55,6 +55,7 @@ namespace BehaviourModel
         /// <returns></returns>
         private IEnumerator ObservationsRoutine()
         {
+            Brain.Clear();
             while (IsActing)
             {
                 if (CollectObservations)
@@ -121,69 +122,69 @@ namespace BehaviourModel
             TLowDipl, TMidDipl, THighDipl,
             TLowCour, TMidCour, THighCour
             >(IAgentInitData<TFeature> data)
-             where TLowAnx : LowAnxiety<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidAnx : MiddleAnxiety<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighAnx : HighAnxiety<TAgent, TReaction, TFeature, TState, TSensor>
+             where TLowAnx : LowAnxiety
+            where TMidAnx : MiddleAnxiety
+            where THighAnx : HighAnxiety
 
-            where TLowSoc : LowClosenessSociability<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidSoc : MiddleClosenessSociability<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighSoc : HighClosenessSociability<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowSoc : LowClosenessSociability
+            where TMidSoc : MiddleClosenessSociability
+            where THighSoc : HighClosenessSociability
 
-            where TLowStab : LowEmotionalStability<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidStab : MiddleEmotionalStability<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighStab : HighEmotionalStability<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowStab : LowEmotionalStability
+            where TMidStab : MiddleEmotionalStability
+            where THighStab : HighEmotionalStability
 
-            where TLowNonc : LowNonconformism<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidNonc : MiddleNonconformism<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighNonc : HighNonconformism<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowNonc : LowNonconformism
+            where TMidNonc : MiddleNonconformism
+            where THighNonc : HighNonconformism
 
-            where TLowNorm : LowNormativityOfBehaviour<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidNorm : MiddleNormativityOfBehaviour<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighNorm : HighNormativityOfBehaviour<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowNorm : LowNormativityOfBehaviour
+            where TMidNorm : MiddleNormativityOfBehaviour
+            where THighNorm : HighNormativityOfBehaviour
 
-            where TLowRad : LowRadicalism<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidRad : MiddleRadicalism<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighRad : HighRadicalism<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowRad : LowRadicalism
+            where TMidRad : MiddleRadicalism
+            where THighRad : HighRadicalism
 
-            where TLowSelf : LowSelfcontrol<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidSelf : MiddleSelfcontrol<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighSelf : HighSelfcontrol<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowSelf : LowSelfcontrol
+            where TMidSelf : MiddleSelfcontrol
+            where THighSelf : HighSelfcontrol
 
-            where TLowSens : LowSensetivity<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidSens : MiddleSensetivity<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighSens : HighSensetivity<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowSens : LowSensetivity
+            where TMidSens : MiddleSensetivity
+            where THighSens : HighSensetivity
 
-            where TLowSusp : LowSuspicion<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidSusp : MiddleSuspicion<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighSusp : HighSuspicion<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowSusp : LowSuspicion
+            where TMidSusp : MiddleSuspicion
+            where THighSusp : HighSuspicion
 
-            where TLowTens : LowTension<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidTens : MiddleTension<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighTens : HighTension<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowTens : LowTension
+            where TMidTens : MiddleTension
+            where THighTens : HighTension
 
-            where TLowExpre : LowExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidExpre : MiddleExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighExpre : HighExpressiveness<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowExpre : LowExpressiveness
+            where TMidExpre : MiddleExpressiveness
+            where THighExpre : HighExpressiveness
 
-            where TLowInt : LowIntelligence<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidInt : MiddleIntelligence<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighInt : HighIntelligence<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowInt : LowIntelligence
+            where TMidInt : MiddleIntelligence
+            where THighInt : HighIntelligence
 
-            where TLowDrea : LowDreaminess<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidDrea : MiddleDreaminess<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighDrea : HighDreaminess<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowDrea : LowDreaminess
+            where TMidDrea : MiddleDreaminess
+            where THighDrea : HighDreaminess
 
-            where TLowDom : LowDomination<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidDom : MiddleDomination<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighDom : HighDomination<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowDom : LowDomination
+            where TMidDom : MiddleDomination
+            where THighDom : HighDomination
 
-            where TLowDipl : LowDiplomacy<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidDipl : MiddleDiplomacy<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighDipl : HighDiplomacy<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowDipl : LowDiplomacy
+            where TMidDipl : MiddleDiplomacy
+            where THighDipl : HighDiplomacy
 
-            where TLowCour : LowCourage<TAgent, TReaction, TFeature, TState, TSensor>
-            where TMidCour : MiddleCourage<TAgent, TReaction, TFeature, TState, TSensor>
-            where THighCour : HighCourage<TAgent, TReaction, TFeature, TState, TSensor>
+            where TLowCour : LowCourage
+            where TMidCour : MiddleCourage
+            where THighCour : HighCourage
 
         {
             CharacterSystem.Initiate<
@@ -214,15 +215,15 @@ namespace BehaviourModel
 
         public void StartStateMachine()
         {
-            IsActing = true;
-            AgentActingCoroutine = StartCoroutine(AgentActingRoutine());
+            IsActing = true;            
             ObservationsCoroutine = StartCoroutine(ObservationsRoutine());
-            //ReactionsCoroutine = StartCoroutine(ReactionsRoutine());
+            AgentActingCoroutine = StartCoroutine(AgentActingRoutine());
         }
 
         public void StopStateMachine()
         {
             IsActing = false;
+            //Brain.Clear();
             StopCoroutine(AgentActingCoroutine);
             StopCoroutine(ObservationsCoroutine);
             //StopCoroutine(ReactionsCoroutine);

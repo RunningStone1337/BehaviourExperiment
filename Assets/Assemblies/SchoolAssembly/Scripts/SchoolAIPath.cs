@@ -38,7 +38,7 @@ namespace BehaviourModel
             {
                 return;
             }
-            Debug.Log("Target reached callback raised succeeded");
+            //Debug.Log("Target reached callback raised succeeded");
             if (destSetter.target.TryGetComponent(out ChairMovePoint chairPoint))//подход к стулу, промежуточная точка
             {
                 var chair = chairPoint.GetComponentInParent<ChairInterier>();
