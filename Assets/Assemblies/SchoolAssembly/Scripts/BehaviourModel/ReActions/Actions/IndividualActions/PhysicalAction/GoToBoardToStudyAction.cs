@@ -20,7 +20,7 @@ namespace BehaviourModel
             cast.MovementTarget = BoardToGo.transform;
             var state = cast.SetState<MoveToTargetState<PupilAgent>>();
             yield return state.StartState();
-            if (Vector3.Distance(BoardToGo.transform.position, cast.transform.position) > 0.5f)
+            if (Vector3.Distance(BoardToGo.transform.position, cast.transform.position) > .75f)
                 WasPerformed = false;
             else
                 WasPerformed = true;

@@ -27,7 +27,7 @@ namespace BehaviourModel
             if (AttentionSubject is MonoBehaviour cast)
             {
                 yield return rotator.RotateToFaceDirectionStep(cast.transform,
-                    thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
+                    thisAgent.transform, RotationHandler.QuickRotation);
             }
         }
         protected IEnumerator RotateToFaceSubject()
@@ -36,7 +36,7 @@ namespace BehaviourModel
             if (AttentionSubject is MonoBehaviour cast)
             {
                 yield return rotator.RotateToFaceDirection(cast.transform,
-                    thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
+                    thisAgent.transform, RotationHandler.QuickRotation);
             }
         }
     }

@@ -216,7 +216,6 @@ GameObject:
   - component: {fileID: 4345080000005487050}
   - component: {fileID: 8820045725197641241}
   - component: {fileID: 6313671379159827510}
-  - component: {fileID: 5039681430419798386}
   - component: {fileID: 3462251564297644261}
   - component: {fileID: 3770447042631226013}
   - component: {fileID: 174487277472211249}
@@ -302,7 +301,7 @@ MonoBehaviour:
   autoMakeActions: 1
   agentCollider: {fileID: 3462251564297644261}
   agentRenderer: {fileID: 8473486698693941904}
-  agentRigidbody: {fileID: 5039681430419798386}
+  pathfinder: {fileID: 8062592570246205735}
   previewSprite: {fileID: 0}
   statusBar: {fileID: 1850342528835540633}
   skin: {fileID: 1666239035053677568}
@@ -411,27 +410,6 @@ MonoBehaviour:
   - {fileID: 6745613795416351988}
   - {fileID: 930825565177353055}
   eventsSensor: {fileID: 9870651154307225}
---- !u!50 &5039681430419798386
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328003032107239062}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.09621127
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 8bb036e65e0bbe54b9432ed4540fb08b, type: 2}
-  m_Interpolate: 1
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 0
 --- !u!58 &3462251564297644261
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -460,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b607148c24c4f04296541f6a78370eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bindedChair: {fileID: 0}
   currentRoom: {fileID: 0}
   seatChair: {fileID: 0}
   pupilTable: {fileID: 0}
@@ -540,7 +519,7 @@ MonoBehaviour:
   height: 0.01
   canMove: 1
   maxSpeed: 2
-  gravity: {x: NaN, y: NaN, z: NaN}
+  gravity: {x: 0, y: 0, z: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -564,7 +543,7 @@ MonoBehaviour:
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
-  constrainInsideGraph: 0
+  constrainInsideGraph: 1
   agentEnvironment: {fileID: 0}
   destSetter: {fileID: 0}
   agentBody: {fileID: 0}

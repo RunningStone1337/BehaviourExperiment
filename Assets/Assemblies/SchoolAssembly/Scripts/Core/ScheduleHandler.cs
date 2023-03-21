@@ -102,7 +102,7 @@ namespace Core
                 while (IsAnyActiveAgentOnScene())
                     yield return new WaitForFixedUpdate();
                 //пауза перед новым днём
-                yield return new WaitForSeconds(1f);                
+                yield return new WaitForSeconds(1f );                
             }
             OnScheduleCompleted?.Invoke();
         }
@@ -157,10 +157,10 @@ namespace Core
 
         private IEnumerator EventCycle()
         {
-            var duration = eventsHandler.CurrentGlobalEvent.EventDuration;
-            for (int min = 0; min < duration; min++)
+            var durationMin = eventsHandler.CurrentGlobalEvent.EventDuration;
+            for (int min = 0; min < durationMin; min++)
             {
-                yield return new WaitForSeconds(60 / timeScale);
+                yield return new WaitForSeconds(60f/timeScale);
                 OnEventTimerChanged?.Invoke(new CurrentEventChangedEventArgs() { eventTimer = min });
             }
         }

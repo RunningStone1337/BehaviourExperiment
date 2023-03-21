@@ -71,19 +71,12 @@ namespace BehaviourModel
             {
                 if (!newPhenomens.Contains(p))
                     NewPhenomens.Add(p);
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             NewPhenomens.Sort(PhenonemonComparer);
         }
 
-        private int PhenonemonComparer((IPhenomenon, float) x, (IPhenomenon, float) y)
-        {
-            if (x.Item2 > y.Item2)
-                return -1;
-            if (x.Item2 < y.Item2)
-                return 1;
-            return 0;
-        }
+        
         IEnumerator manualAction;
         public IEnumerator ManualAction { get=> manualAction; set => manualAction = value; }
         internal IEnumerator ManuallySettedAction()
@@ -160,7 +153,7 @@ namespace BehaviourModel
                 if (!PhenomensToReact.Contains(np))
                     PhenomensToReact.Add(np);
             }
-            yield return null;
+            yield return new WaitForFixedUpdate();
             NewPhenomens.Clear();
         }
 

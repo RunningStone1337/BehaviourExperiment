@@ -53,7 +53,7 @@ namespace BehaviourModel
                 }
                 currentTimer = secondsStayingCollectingInterval;
             }
-            currentTimer -= Time.fixedDeltaTime;
+            currentTimer -= Time.fixedDeltaTime*Time.timeScale;
         }
 
         private void AddIfRaycastRemoveIfNot(IPhenomenon phen)

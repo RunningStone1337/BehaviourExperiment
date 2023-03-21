@@ -1,5 +1,4 @@
 using BuildingModule;
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,9 +23,8 @@ namespace BehaviourModel
 
         private bool IsNoBoardsArround()
         {
-            //var boards = InterierHandler.Handler.Boards;
             Collider2D[] colliders = new Collider2D[32];
-            thisAgent.AgentRigidbody.GetContacts(colliders);
+            thisAgent.AgentCollider.GetContacts(colliders);
             foreach (var c in colliders)
             {
                 if (c != null && c.TryGetComponent(out MovePoint place))

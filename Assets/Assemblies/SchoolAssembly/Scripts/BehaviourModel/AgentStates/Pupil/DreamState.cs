@@ -16,7 +16,7 @@ namespace BehaviourModel
             while (isDreaming && dreamingTimer > 0f)
             {
                 yield return new WaitForFixedUpdate();
-                dreamingTimer -= Time.fixedDeltaTime;
+                dreamingTimer -= Time.fixedDeltaTime*Time.timeScale;
             }
             if (isDreaming)
                 thisAgent.SetDefaultState();

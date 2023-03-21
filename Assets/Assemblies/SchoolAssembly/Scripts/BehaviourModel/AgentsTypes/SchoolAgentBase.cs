@@ -1,11 +1,8 @@
 using BuildingModule;
-using Common;
-using Core;
 using Events;
 using Pathfinding;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UI;
 using UnityEngine;
@@ -24,7 +21,7 @@ namespace BehaviourModel
 
         [SerializeField] private CircleCollider2D agentCollider;
         [SerializeField] private SpriteRenderer agentRenderer;
-        [SerializeField] private Rigidbody2D agentRigidbody;
+        [SerializeField] private SchoolAIPath pathfinder;
         [SerializeField] private Sprite previewSprite;
         [SerializeField] private AgentStatusBar statusBar;
         [SerializeField] AgentsSkin skin;
@@ -63,12 +60,6 @@ namespace BehaviourModel
                     setter.target = TryRedirectMovementTarget(value);
                 else
                     setter.target = value;
-//#if DEBUG
-//                if (setter.target != null)
-//                    Debug.Log($"Target set is {setter.target}");
-//                else
-//                    Debug.Log($"Target set is null");
-//#endif
             }
         }
      
@@ -79,11 +70,11 @@ namespace BehaviourModel
         public IEnumerator RotateRoutine(Vector3 directionVector)
         {
             var rotattor = new RotationHandler();
-            yield return rotattor.RotateToFaceDirection(directionVector, AgentRigidbody, RotationHandler.MiddleRotation);
+            yield return rotattor.RotateToFaceDirection(directionVector, transform, RotationHandler.MiddleRotation);
         }
 
         public CircleCollider2D AgentCollider => agentCollider;
-        public Rigidbody2D AgentRigidbody => agentRigidbody;
+        //public Rigidbody2D AgentRigidbody => agentRigidbody;
        
         public string Name => agentName;
         public string ObjDescription => agentDescription;
@@ -99,7 +90,7 @@ namespace BehaviourModel
                 if (MovementTarget.TryGetComponent(out ChairMovePoint ch))
                 {
                     var chair = ch.GetComponentInParent<ChairInterier>();
-                    return chair.ChairInfo.ThisAgent == null;
+                    return chair.ChairInfo.CurrentAgent == null;
                 }
                 return true;
             }
@@ -205,7 +196,7 @@ namespace BehaviourModel
             while (!skin.IsFullShowed)
             {
                 skin.IncreaseVisibility();
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
         }
 
@@ -219,7 +210,7 @@ namespace BehaviourModel
             while (!skin.IsHided)
             {
                 skin.DecreaseVisibility();
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
 
             var placer = new PlaceFinder(()=> EntranceRoot.Root.TeleportPlace.position, .2f, 2f, new ContactFilter2D() { useLayerMask = false });
@@ -227,11 +218,7 @@ namespace BehaviourModel
                 //yield return null;
             transform.position = placer.Place;
         }
-        //public void OnGlobalEventChangedCallback(CurrentEventChangedEventArgs args)
-        //{
-        //    Brain.PhenomensToReact.Clear();
-        //    Brain.Clear();
-        //}
+
 
         public void EndActionVisualForce()
         {
@@ -369,7 +356,8 @@ namespace BehaviourModel
         }
         public IEnumerator OnLeaveChair()
         {
-            AgentEnvironment.ChairInfo.ThisAgent = null;
+            pathfinder.constrainInsideGraph = true;
+            AgentEnvironment.ChairInfo.CurrentAgent = null;
             var leavedChair = AgentEnvironment.ChairInfo.ThisInterier;
             AgentEnvironment.ChairInfo = null;
             AgentEnvironment.TableInfo.RemoveAgent(this);
@@ -379,11 +367,10 @@ namespace BehaviourModel
             if (point != null)
             {
                 transform.position = point.transform.position;
-                //AgentRigidbody.pos(point.transform.position);
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             else throw new Exception();
-            AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
+            //AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
             leavedChair.Collider2D.isTrigger = false;
             
         }
@@ -395,8 +382,7 @@ namespace BehaviourModel
                 var chair = chairMP.GetComponentInParent<ChairInterier>();
                 if (AgentEnvironment.ChairInfo == chair.ChairInfo)
                 {//в колбеке AIPath стул был определен как текущий
-                    AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
-                    AgentRigidbody.MovePosition(chair.transform.position);
+                    transform.position = chair.transform.position;
                     yield return RotateRoutine(chair.transform.up);
                     //Debug.Log("After rotate on chair routine");
                 }
@@ -405,8 +391,7 @@ namespace BehaviourModel
             {
                 if (AgentEnvironment.ChairInfo == chairTarget.ChairInfo)
                 {
-                    AgentRigidbody.bodyType = RigidbodyType2D.Kinematic;
-                    AgentRigidbody.MovePosition(chairTarget.transform.position);
+                    transform.position = chairTarget.transform.position;
                     yield return RotateRoutine(chairTarget.transform.up);
                     //Debug.Log("After rotate on chair routine");
                 }

@@ -15,7 +15,7 @@ namespace BehaviourModel
             foreach (var ch in chairs)
             {
                 var info = ch.ChairInfo;
-                if (best == null && info.ThisAgent == null)
+                if (best == null && info.CurrentAgent == null && info.BindedAgent == null)
                 {
                     best = ch;
                     minDistance = Vector3.Distance(board.transform.position, ch.transform.position);
@@ -24,7 +24,7 @@ namespace BehaviourModel
                 else
                 {
                     var dist = Vector3.Distance(board.transform.position, ch.transform.position);
-                    if (dist < minDistance && info.ThisAgent == null)
+                    if (dist < minDistance && info.CurrentAgent == null && info.BindedAgent == null)
                     {
                         minDistance = dist;
                         best = ch;

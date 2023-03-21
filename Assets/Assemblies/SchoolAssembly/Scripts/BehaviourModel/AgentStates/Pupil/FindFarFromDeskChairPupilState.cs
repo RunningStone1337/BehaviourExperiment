@@ -18,7 +18,7 @@ namespace BehaviourModel
             var board = boards[0];
             foreach (var ch in chairs)
             {
-                if (best == null && ch.ChairInfo.ThisAgent == null)
+                if (best == null && ch.ChairInfo.CurrentAgent == null && ch.ChairInfo.BindedAgent == null)
                 {
                     best = ch;
                     maxDistance = Vector3.Distance(board.transform.position, ch.transform.position);
@@ -27,7 +27,7 @@ namespace BehaviourModel
                 else
                 {
                     var dist = Vector3.Distance(board.transform.position, ch.transform.position);
-                    if (dist > maxDistance && ch.ChairInfo.ThisAgent == null)
+                    if (dist > maxDistance && ch.ChairInfo.CurrentAgent == null && ch.ChairInfo.BindedAgent == null)
                     {
                         maxDistance = dist;
                         best = ch;

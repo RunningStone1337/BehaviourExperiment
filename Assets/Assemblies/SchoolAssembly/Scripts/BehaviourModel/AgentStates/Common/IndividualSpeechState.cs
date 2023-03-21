@@ -17,7 +17,7 @@ namespace BehaviourModel
             var direction = thisAgent.transform.up;
             var rotator = new RotationHandler();
             yield return rotator.RotateToFaceDirection(secondSpeechAgent.transform,
-                thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
+                thisAgent.transform, RotationHandler.QuickRotation);
             var state = setAndInitAttractAttStateAction.Invoke(thisAgent, secondSpeechAgent);
             yield return state.StartState();
             thisAgent.SetState(this);
@@ -29,7 +29,7 @@ namespace BehaviourModel
                 var dialog = new DialogProcess<TAgent, TCompanion>(thisAgent, secondSpeechAgent);
                 yield return dialog.StartDialog(thisStateSpeech);
             }
-            yield return rotator.RotateToFaceDirection(direction, thisAgent.AgentRigidbody,  RotationHandler.QuickRotation);
+            yield return rotator.RotateToFaceDirection(direction, thisAgent.transform,  RotationHandler.QuickRotation);
             //thisAgent.SetDefaultState();
         }
 

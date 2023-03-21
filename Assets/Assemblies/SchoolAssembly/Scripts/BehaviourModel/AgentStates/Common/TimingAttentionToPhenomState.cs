@@ -21,10 +21,10 @@ namespace BehaviourModel
             while (attentionTimeout > 0f && IsContinue)
             {
                 yield return new WaitForFixedUpdate();
-                attentionTimeout -= Time.fixedDeltaTime;
+                attentionTimeout -= Time.fixedDeltaTime*Time.timeScale;
             }
             var rotator = new RotationHandler();
-            yield return rotator.RotateToFaceDirection(oldRot, thisAgent.AgentRigidbody, RotationHandler.QuickRotation);
+            yield return rotator.RotateToFaceDirection(oldRot, thisAgent.transform, RotationHandler.QuickRotation);
             thisAgent.SetDefaultState();
             thisAgent.AutoMakeActions = true;
         }

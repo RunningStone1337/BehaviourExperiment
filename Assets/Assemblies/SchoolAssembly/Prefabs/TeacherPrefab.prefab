@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8178945631354411640}
   - component: {fileID: 2651090827852536274}
   - component: {fileID: 5468026384739733122}
-  - component: {fileID: 443981711657844373}
   - component: {fileID: 290626243248390568}
   - component: {fileID: 1225288753307853161}
   - component: {fileID: 9085379685994252017}
@@ -100,7 +99,7 @@ MonoBehaviour:
   autoMakeActions: 1
   agentCollider: {fileID: 5468026384739733122}
   agentRenderer: {fileID: 6831946331523149091}
-  agentRigidbody: {fileID: 443981711657844373}
+  pathfinder: {fileID: 3553548351728355066}
   previewSprite: {fileID: 0}
   statusBar: {fileID: 9064466755732884294}
   skin: {fileID: 4343587892532980659}
@@ -131,27 +130,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.18
---- !u!50 &443981711657844373
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934520938882394472}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.10178761
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 8bb036e65e0bbe54b9432ed4540fb08b, type: 2}
-  m_Interpolate: 1
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 0
 --- !u!114 &290626243248390568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b607148c24c4f04296541f6a78370eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bindedChair: {fileID: 0}
   currentRoom: {fileID: 0}
   seatChair: {fileID: 0}
   pupilTable: {fileID: 0}
@@ -335,7 +314,7 @@ MonoBehaviour:
   height: 2
   canMove: 1
   maxSpeed: 1.8
-  gravity: {x: NaN, y: NaN, z: NaN}
+  gravity: {x: 0, y: 0, z: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -346,9 +325,9 @@ MonoBehaviour:
   enableRotation: 1
   autoRepath:
     mode: 2
-    interval: 0.5
+    period: 0.5
     sensitivity: 10
-    maximumInterval: 0.5
+    maximumPeriod: 0.5
     visualizeSensitivity: 0
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
@@ -359,7 +338,7 @@ MonoBehaviour:
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
-  constrainInsideGraph: 0
+  constrainInsideGraph: 1
   agentEnvironment: {fileID: 0}
   destSetter: {fileID: 0}
   agentBody: {fileID: 0}

@@ -424,26 +424,30 @@ namespace Pathfinding {
 		/// If no rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void Update () {
-			if (shouldRecalculatePath) SearchPath();
+            if (shouldRecalculatePath) SearchPath();
 
-			// If gravity is used depends on a lot of things.
-			// For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
-			// Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
-			usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
-			if (rigid == null && rigid2D == null && canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
-				FinalizeMovement(nextPosition, nextRotation);
-			}
-		}
+            // If gravity is used depends on a lot of things.
+            // For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
+            // Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
+            usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
+            if (rigid == null && rigid2D == null && canMove)
+            {
+                Vector3 nextPosition;
+                Quaternion nextRotation;
+                MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
+                FinalizeMovement(nextPosition, nextRotation);
+            }
+        }
 
 		/// <summary>
 		/// Called every physics update.
 		/// If rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void FixedUpdate () {
-			if (!(rigid == null && rigid2D == null) && canMove) {
+			//if (shouldRecalculatePath) SearchPath();
+
+			if (!(rigid == null && rigid2D == null) && canMove)
+			{
 				Vector3 nextPosition;
 				Quaternion nextRotation;
 				MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);

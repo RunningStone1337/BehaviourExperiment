@@ -94,14 +94,15 @@ namespace Core
             foreach (var pup in Pupils)
             {
                 while (!placer.TryFindPlace())
-                    yield return null;
+                    yield return new WaitForFixedUpdate();
                 pup.transform.position = placer.Place;
                 pup.StartStateMachine();
                 pup.StartAppearing();
+                yield return new WaitForSeconds(.05f);
             }
 
             while (!placer.TryFindPlace())
-                yield return null;
+                yield return new WaitForFixedUpdate();
             Teacher.transform.position = placer.Place;
             Teacher.StartStateMachine();
             Teacher.StartAppearing();

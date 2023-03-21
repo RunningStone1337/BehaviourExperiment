@@ -74,7 +74,7 @@ namespace BehaviourModel
 
         public IEnumerator RotateToFaceDirection(Vector3 directionVector)
         {
-            yield return rotationHandler.RotateToFaceDirection(directionVector, thisBody, rotationSpeed);
+            yield return rotationHandler.RotateToFaceDirection(directionVector, transform, rotationSpeed);
         }
 
         private IEnumerator MoveRoutine(Func<bool> movementCondition)
@@ -84,8 +84,8 @@ namespace BehaviourModel
             {
                 currentTargetPos = targetTransform.position;
                 Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
-                yield return rotationHandler.RotateToFaceDirection(dir, thisBody, rotationSpeed);
-                float normSpeed = movementSpeed * Time.fixedDeltaTime;
+                yield return rotationHandler.RotateToFaceDirection(dir, transform, rotationSpeed);
+                float normSpeed = movementSpeed * Time.fixedDeltaTime*Time.timeScale;
                 thisBody.MovePosition((Vector3)thisBody.position + dir.normalized * normSpeed);
                 if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < normSpeed/2f)
                 {

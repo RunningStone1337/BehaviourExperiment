@@ -1,18 +1,23 @@
 using BuildingModule;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BehaviourModel
 {
     public abstract class FindPlaceToSeatState<T> : SchoolAgentStateBase<T>
-        where T: SchoolAgentBase<T>
+        where T : SchoolAgentBase<T>
     {
+        protected abstract ChairInterier FindPlaceToSeat();
+
         public override IEnumerator StartState()
         {
             if (thisAgent.AgentEnvironment.ChairInfo == null)
             {
-                var chair = FindPlaceToSeat();
+                ChairInterier chair;
+                if (thisAgent.AgentEnvironment.BindedChair == null)
+                    chair = FindPlaceToSeat();
+                else
+                    chair = thisAgent.AgentEnvironment.BindedChair;
+
                 if (chair != null)
                 {
                     thisAgent.MovementTarget = chair.transform;
@@ -27,6 +32,5 @@ namespace BehaviourModel
             }
             thisAgent.SetDefaultState();
         }
-        protected abstract ChairInterier FindPlaceToSeat();
     }
 }

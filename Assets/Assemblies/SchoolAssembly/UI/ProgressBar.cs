@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +20,7 @@ namespace UI
             tagetValue = currentValue;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             progressFillImage.fillAmount = CalculateCurrentAmount();
         }

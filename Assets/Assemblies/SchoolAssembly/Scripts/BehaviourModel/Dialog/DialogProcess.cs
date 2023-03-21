@@ -35,7 +35,7 @@ namespace BehaviourModel
         {
             speechInitiator.StartActionVisual(initiatorSpeech);
             //Debug.Log($"Спич инициатора, время {speech.BarShowingTime}");
-            yield return new WaitForSeconds(initiatorSpeech.BarShowingTime);
+            yield return new WaitForSeconds(initiatorSpeech.BarShowingTime );
 
             //после спича получаем ответ ответчика
             SpeechResponse = SpeechResponder.GetResponseAtSpeech(initiatorSpeech, speechInitiator);
