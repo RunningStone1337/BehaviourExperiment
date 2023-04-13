@@ -145,31 +145,31 @@ namespace BehaviourModel
 
         /// <summary>
         /// Реакция на <paramref name="speechToReact"/>. 
-        /// Возвращает ответную реплику и меняет взаимоотношения в зависимости от реплики.
+        /// Возвращает ответную реплику.
         /// </summary>
         /// <param name="speechToReact"></param>
         /// <returns></returns>
         public SpeakAction<TAgent,TInitiator> GetResponseAtSpeech<TInitiator>(SpeakAction<TInitiator, TAgent> speechToReact, TInitiator speaker)
             where TInitiator: SchoolAgentBase<TInitiator>
         {
-            var table = TablesHandler.AgentToSpeechResponsesTable;
+            var responsesTable = TablesHandler.AgentToSpeechResponsesTable;
             var speechType = speechToReact.GetType().Name;
             //16 векторов для данного набора характера
-            var thisAgentCharVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            var characterTableVectors = responsesTable.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
                 ((TAgent)this, 0);
             //ответы на speechToRespond для данных векторов
-            var selected = thisAgentCharVectors.Where(x => x.SpeechToReact.Equals(speechType));
-            var selectedProbReactions = selected.SelectMany(x => x.ProbablyReactions.ProbReactions);
-            var tuples = selectedProbReactions.Select(x => (x, x.ReactionWeight)).ToList();
-            var (Key, Value) = tuples.SelectRandom();
-            if (Key != null)//ответ есть
-                return Key.GetReaction((TAgent)this, speaker);
+            var selectedResponsesToSpeech = characterTableVectors.Where(x => x.SpeechToReact.Equals(speechType));
+            var selectedProbReactions = selectedResponsesToSpeech.SelectMany(x => x.ProbablyReactions.ProbReactions);
+            var itemWeightPairs = selectedProbReactions.Select(x => (x, x.ReactionWeight)).ToList();
+            var (reaction, Value) = itemWeightPairs.SelectRandom();
+            if (reaction != null)
+                return reaction.GetReaction((TAgent)this, speaker);
             else
             {
-                //throw new System.Exception($"Для спича {speechToReact} не было ответного спича у агента {this}");
-                var res = new KeepSilentAnswer<TAgent, TInitiator>();
-                res.Initiate(speaker, this);
-                return res;
+                throw new Exception($"Для спича {speechToReact} не было ответного спича у агента {this}. Добавь реакции на спич в таблицу");
+                //var res = new KeepSilentAnswer<TAgent, TInitiator>();
+                //res.Initiate(speaker, this);
+                //return res;
             }
         }
         public override TNewState SetState<TNewState>()
@@ -352,7 +352,6 @@ namespace BehaviourModel
         private bool NewTargetNotCurrentChair()
         {
             return MovementTarget.gameObject.GetComponentInParent<ChairInterier>() != AgentEnvironment.ChairInfo.ThisInterier;
-            //return (MonoBehaviour)MovementTarget != AgentEnvironment.ChairInfo.ThisInterier;
         }
         public IEnumerator OnLeaveChair()
         {
@@ -380,8 +379,8 @@ namespace BehaviourModel
             if (target.TryGetComponent(out ChairMovePoint chairMP))
             {
                 var chair = chairMP.GetComponentInParent<ChairInterier>();
-                if (AgentEnvironment.ChairInfo == chair.ChairInfo)
-                {//в колбеке AIPath стул был определен как текущий
+                if (AgentEnvironment.ChairInfo == chair.ChairInfo)//в колбеке AIPath стул был определен как текущий
+                {
                     transform.position = chair.transform.position;
                     yield return RotateRoutine(chair.transform.up);
                     //Debug.Log("After rotate on chair routine");

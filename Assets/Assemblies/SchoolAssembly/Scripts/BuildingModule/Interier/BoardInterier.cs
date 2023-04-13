@@ -1,7 +1,3 @@
-using BehaviourModel;
-using Core;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildingModule

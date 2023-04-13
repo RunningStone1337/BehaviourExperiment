@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class PlayPhysic : PositivePhysicAction
+    public abstract class PlayPhysic : PhysicalAction
     {
         public PlayPhysic():base()
         {

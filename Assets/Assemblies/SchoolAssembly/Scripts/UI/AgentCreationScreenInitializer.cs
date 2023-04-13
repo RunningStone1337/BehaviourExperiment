@@ -42,7 +42,7 @@ namespace UI
 
         public void SetControlsValues(HumanRawData rawData)
         {
-            acs.AgentImageHandler.Image.sprite = acs.AgentImageHandler.GetImage(rawData.ImageID);
+            acs.AgentImageHandler.SetImageByID(rawData.ImageID);
             acs.NameInputFieldButtonPair.Text = rawData.AgentName;
             acs.SexRect.SelectedSex = rawData.Sex;
 
@@ -55,7 +55,7 @@ namespace UI
 
         public void SetDefaultControlsValues()
         {
-            acs.AgentImageHandler.Image.sprite = acs.AgentImageHandler.DefaultImage;
+            acs.AgentImageHandler.SetDefaultImage();
             acs.NameInputFieldButtonPair.Text = string.Empty;
           
 

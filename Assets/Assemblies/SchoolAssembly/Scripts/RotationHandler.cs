@@ -58,6 +58,10 @@ namespace BehaviourModel
                 {
                     //Debug.Log($"ExistAngle between target and next vector: {existAngle}");
                 }
+                else if (rotatedBody.TryGetComponent(out PupilAgent p))
+                {
+                    Debug.Log($"ExistAngle between target and next vector: {existAngle}");
+                }
 #endif
             }
             

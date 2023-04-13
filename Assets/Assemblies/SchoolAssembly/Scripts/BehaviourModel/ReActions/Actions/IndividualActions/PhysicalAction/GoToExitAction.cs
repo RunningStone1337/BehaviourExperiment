@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class GoToExitAction<TAgent> : PositivePhysicAction
+    public class GoToExitAction<TAgent> : PhysicalAction
         where TAgent : SchoolAgentBase<TAgent>
     {
         public override IEnumerator TryPerformAction()

@@ -14,7 +14,7 @@ namespace BuildingModule
         [SerializeField] private EntranceRoleBase role;
         [SerializeField] private List<Entrance> thisRoomEntrances;
 
-        private List<Entrance> ThisRoomEntrances { get => thisRoomEntrances; }
+        public List<Entrance> ThisRoomEntrances { get => thisRoomEntrances; }
 
         private void OnDestroy()
         {

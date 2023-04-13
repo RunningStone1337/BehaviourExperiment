@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 3420078062089722054}
   - component: {fileID: 8062592570246205735}
   - component: {fileID: 7748704817720541968}
+  - component: {fileID: 6882088689320547260}
   m_Layer: 3
   m_Name: PupilPrefab
   m_TagString: Agent
@@ -358,7 +359,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisAgent: {fileID: 0}
-  actionsMode: 1
   autoDecreasePhenomsValuePerStep: 0
   decreaseStep: 0
 --- !u!114 &4345080000005487050
@@ -374,7 +374,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisAgent: {fileID: 7657761990782980065}
-  features: []
+  features:
+  - {fileID: 11400000, guid: f761d108962cb624b876fb5870a9a340, type: 2}
+  - {fileID: 11400000, guid: 15e2860046e96e84ea68e1036c516ca5, type: 2}
 --- !u!114 &8820045725197641241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +576,27 @@ MonoBehaviour:
   wallAvoidFalloff: 1
   priority: 0.5
   debug: 0
+--- !u!50 &6882088689320547260
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328003032107239062}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 1
+  m_Mass: 0.09621127
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &5621553308994523634
 PrefabInstance:
   m_ObjectHideFlags: 0

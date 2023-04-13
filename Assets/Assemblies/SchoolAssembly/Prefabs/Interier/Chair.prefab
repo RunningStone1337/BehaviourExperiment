@@ -52,9 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider2d: {fileID: 6095224493026633613}
   influenceValue: 0.1
-  objDescription: "\u041D\u0435 \u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442
-    \u043D\u0438\u043A\u0430\u043A\u043E\u0433\u043E \u0432\u043B\u0438\u044F\u043D\u0438\u044F
-    \u043D\u0430 \u043A\u043E\u043C\u0444\u043E\u0440\u0442"
+  objDescription: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u0441\u0442\u0443\u043B
+    \u0438\u0437 \u043C\u0435\u0442\u0430\u043B\u043B\u0430 \u0438 \u0444\u0430\u043D\u0435\u0440\u044B"
   objName: "\u041F\u0440\u043E\u0441\u0442\u043E\u0439 \u0441\u0442\u0443\u043B"
   previewSprite: {fileID: 0}
   spriteRenderer: {fileID: 6957751975862243986}

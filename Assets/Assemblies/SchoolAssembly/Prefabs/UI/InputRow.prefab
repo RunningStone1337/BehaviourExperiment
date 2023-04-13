@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e0cc2015240094abc6cafed27ac20f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backImage: {fileID: 7700557362710849352}
   button: {fileID: 4049294588954305659}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   isSelected: 0
-  backImage: {fileID: 7700557362710849352}
   inputField: {fileID: 1948936786307236233}
 --- !u!222 &900768102496439759
 CanvasRenderer:
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.05832924, g: 0.6509434, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

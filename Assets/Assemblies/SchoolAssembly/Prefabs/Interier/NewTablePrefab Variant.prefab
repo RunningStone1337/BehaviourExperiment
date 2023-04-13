@@ -40,7 +40,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: a65788313202e454ba01b5c8b2c19b62, type: 3}
     - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: objName
-      value: "\u041D\u043E\u0432\u044B\u0439 \u0441\u0442\u043E\u043B"
+      value: "\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u0440\u0442\u0430"
       objectReference: {fileID: 0}
     - target: {fileID: 6512713961168339773, guid: 8ec446136af95eb4eb4a7398686b2252, type: 3}
       propertyPath: previewSprite

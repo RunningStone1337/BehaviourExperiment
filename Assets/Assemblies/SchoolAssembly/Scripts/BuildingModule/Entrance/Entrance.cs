@@ -1,3 +1,4 @@
+using BehaviourModel;
 using Common;
 using System;
 using System.Collections;
@@ -238,6 +239,22 @@ namespace BuildingModule
             foreach (var n in neighbours)
                 n.neighbours.Remove(this);
             CurrentRoom.RemoveEntrance(this);
+        }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            ResetCurrentRoomIfAgent<PupilAgent>(collision);
+            ResetCurrentRoomIfAgent<TeacherAgent>(collision);
+            
+        }
+
+        private void ResetCurrentRoomIfAgent<T>(Collider2D collision)
+            where T:SchoolAgentBase<T>
+        {
+            if (collision.TryGetComponent(out T agent))
+            {
+                Debug.Log("Entrance entered!");
+                agent.AgentEnvironment.CurrentRoom = CurrentRoom;
+            }
         }
 
         //private void Start()

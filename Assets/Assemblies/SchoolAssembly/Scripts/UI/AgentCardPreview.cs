@@ -16,7 +16,7 @@ namespace UI
 
         public void Initiate(AgentCreationScreen acs, HumanRawData rawData)
         {
-            agentImage.sprite = acs.AgentImageHandler.Image.sprite;
+            agentImage.sprite = acs.AgentImageHandler.GetCurrentSprite();
             agentNameText.text = acs.NameInputFieldButtonPair.InputField.text;
             CardData = rawData;
         }

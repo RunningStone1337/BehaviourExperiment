@@ -62,7 +62,9 @@ MonoBehaviour:
     midDreamVector:
     - reactions: []
     highDreamVector:
-    - reactions: []
+    - reactions:
+      - BehaviourModel.PupilLookAroudAction, SchoolAssembly, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
     lowEmStabVector:
     - reactions: []
     midEmStabVector:
@@ -114,9 +116,13 @@ MonoBehaviour:
     lowSocialVector:
     - reactions: []
     midSocialVector:
-    - reactions: []
+    - reactions:
+      - BehaviourModel.PupilGoToCorridorAction, SchoolAssembly, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
     highSocialVector:
-    - reactions: []
+    - reactions:
+      - BehaviourModel.PupilGoToCorridorAction, SchoolAssembly, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
     lowSuspicionVector:
     - reactions: []
     midSuspicionVector:

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 6238718222671471672}
   - component: {fileID: 4264710037256949191}
   - component: {fileID: 3553548351728355066}
+  - component: {fileID: 3406190575748012534}
   m_Layer: 3
   m_Name: TeacherPrefab
   m_TagString: Untagged
@@ -113,7 +114,6 @@ MonoBehaviour:
   agentWeight: 0
   tablesHandler: {fileID: 2632806718997779337}
   agentEnvironment: {fileID: 992553962820531074}
-  pattern: {fileID: 0}
 --- !u!58 &5468026384739733122
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -342,6 +342,27 @@ MonoBehaviour:
   agentEnvironment: {fileID: 0}
   destSetter: {fileID: 0}
   agentBody: {fileID: 0}
+--- !u!50 &3406190575748012534
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934520938882394472}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &2555951374454727041
 GameObject:
   m_ObjectHideFlags: 0

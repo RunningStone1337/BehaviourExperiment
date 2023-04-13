@@ -72,7 +72,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3166645353871431198, guid: dd0667b498169124d9f50f15658d62a8, type: 3}
       propertyPath: objName
-      value: "\u041D\u043E\u0432\u044B\u0439 \u0441\u0442\u0443\u043B"
+      value: "\u041A\u0440\u0435\u0441\u043B\u043E"
       objectReference: {fileID: 0}
     - target: {fileID: 3166645353871431198, guid: dd0667b498169124d9f50f15658d62a8, type: 3}
       propertyPath: influenceValue
@@ -80,8 +80,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3166645353871431198, guid: dd0667b498169124d9f50f15658d62a8, type: 3}
       propertyPath: objDescription
-      value: "\u041E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u043F\u043E\u043B\u043E\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435
-        \u0432\u043B\u0438\u044F\u043D\u0438\u0435 \u043D\u0430 \u043A\u043E\u043C\u0444\u043E\u0440\u0442"
+      value: "\u041A\u043E\u043C\u0444\u043E\u0440\u0442\u0430\u0431\u0435\u043B\u044C\u043D\u043E\u0435
+        \u043A\u0440\u0435\u0441\u043B\u043E"
       objectReference: {fileID: 0}
     - target: {fileID: 5262757250265380782, guid: dd0667b498169124d9f50f15658d62a8, type: 3}
       propertyPath: m_Name

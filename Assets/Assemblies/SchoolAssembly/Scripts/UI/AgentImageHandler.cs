@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,21 +15,26 @@ namespace UI
             ImageID = spritesList.IndexOf(thisImage.sprite);
         }
 
-        public Sprite DefaultImage { get => spritesList.Count > 0 ? spritesList[0] : null; }
-        public Image Image { get => thisImage; }
+        Sprite DefaultImage { get => spritesList.Count > 0 ? spritesList[0] : null; }
+        //public Image Image { get => thisImage; }
         public int ImageID { get; private set; }
+
+        public Sprite GetCurrentSprite() => thisImage.sprite;
 
         public void ChooseImage()
         {
         }
 
-        public Sprite GetImage(int imageID)
+       
+
+        public void SetImageByID(int imageID)
         {
-            if (imageID >= spritesList.Count || imageID == -1)
-            {
-                return default;
-            }
-            return spritesList[imageID];
+            thisImage.sprite = spritesList[imageID];
+        }
+
+        public void SetDefaultImage()
+        {
+            thisImage.sprite = DefaultImage;
         }
     }
 }

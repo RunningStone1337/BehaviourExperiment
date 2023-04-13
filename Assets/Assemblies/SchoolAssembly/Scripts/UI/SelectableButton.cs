@@ -5,9 +5,9 @@ namespace UI
 {
     public class SelectableButton : Button, ISelectableUIComponent
     {
+        [SerializeField] Color selectedColor = Color.green;
         [SerializeField] private bool isSelected;
-        public object DefaultToken
-        { get => colors.normalColor; set { } }
+        public object DefaultToken { get; set; }
         public bool IsSelected
         {
             get => isSelected;
@@ -25,10 +25,14 @@ namespace UI
         {
             GetComponent<Image>().color = (Color)DefaultToken;
         }
-
+        protected override void Awake()
+        {
+            base.Awake();
+            DefaultToken = GetComponent<Image>().color;
+        }
         public void SetHighlightedState()
         {
-            GetComponent<Image>().color = Color.yellow;
+            GetComponent<Image>().color = selectedColor;
         }
     }
 }

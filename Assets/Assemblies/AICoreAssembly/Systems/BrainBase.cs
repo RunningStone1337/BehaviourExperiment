@@ -31,10 +31,10 @@ namespace BehaviourModel
         #region fields
 
         #region actions
-        [Header("Actions taking settings")]
+        /*[Header("Actions taking settings")]
         [Tooltip("If manually, you need to call \"TryReactAtSomePhenom\" yourself from external code." +
             " Otherwise, the call will occur according to the time interval."), SerializeField]
-        private ActionsMode actionsMode;
+        private ActionsMode actionsMode;*/
 
 
         #endregion

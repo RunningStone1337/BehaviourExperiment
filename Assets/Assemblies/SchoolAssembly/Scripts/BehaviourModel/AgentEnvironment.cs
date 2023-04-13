@@ -15,12 +15,6 @@ namespace BehaviourModel
         public TableInfo TableInfo { get => pupilTable; set => pupilTable = value; }
         public Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out Entrance ent))
-            {
-                CurrentRoom = ent.CurrentRoom;
-            }
-        }
+        
     }
 }

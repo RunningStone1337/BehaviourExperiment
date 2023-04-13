@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class PupilWriteLessonToNoteAction : PositivePhysicAction, ICompletedAction
+    public class PupilWriteLessonToNoteAction : PhysicalAction, ICompletedAction
     {
         public PupilWriteLessonToNoteAction() : base()
         {

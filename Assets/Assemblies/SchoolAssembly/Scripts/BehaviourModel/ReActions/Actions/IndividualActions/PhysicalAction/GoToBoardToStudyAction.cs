@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class GoToBoardToStudyAction : PositivePhysicAction
+    public class GoToBoardToStudyAction : PhysicalAction
     {
         public BoardInterier BoardToGo { get; private set; }
         public GoToBoardToStudyAction(PupilAgent thisAgent)
