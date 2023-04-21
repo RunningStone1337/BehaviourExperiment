@@ -26,7 +26,6 @@ namespace BehaviourModel
                 float endTry = Time.time - startTry;
                 tryingTimeout -= endTry;
             }
-            //thisAgent.SetDefaultState();
         }
 
         protected abstract IEnumerator TryAttractAgentAttention(TAttentionTarget agentToAttention);

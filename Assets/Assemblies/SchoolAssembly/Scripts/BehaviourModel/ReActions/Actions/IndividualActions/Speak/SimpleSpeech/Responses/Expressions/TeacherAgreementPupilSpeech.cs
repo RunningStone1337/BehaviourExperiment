@@ -30,5 +30,9 @@ namespace BehaviourModel
             //Debug.Log("Condition false");
             return default;
         }
+        public TeacherAgreementPupilSpeech():base()
+        {
+            actionType = ActionType.Agree;
+        }
     }
 }

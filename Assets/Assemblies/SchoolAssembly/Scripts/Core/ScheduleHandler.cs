@@ -2,7 +2,6 @@ using Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -37,10 +36,8 @@ namespace Core
             private set
             {
                 currentDay = value;
-                //Debug.Log("Before day started invoke");
                 if (currentDay.DayIndex <= experimentLengthDays)
                     OnDayStarted?.Invoke(new CurrentDayChangedEventArgs() { newDay = currentDay });
-                //Debug.Log("After day started invoke");
             }
         }
         public DisciplineBase CurrentLesson => currentLesson;
@@ -102,7 +99,7 @@ namespace Core
                 while (IsAnyActiveAgentOnScene())
                     yield return new WaitForFixedUpdate();
                 //пауза перед новым днём
-                yield return new WaitForSeconds(1f );                
+                yield return new WaitForSeconds(1f);                
             }
             OnScheduleCompleted?.Invoke();
         }
@@ -116,7 +113,7 @@ namespace Core
 
             eventsHandler.CurrentGlobalEvent = les;
             newDay.DayIndex = day;
-            CurrentDay = newDay;//день обновили, но ивент остался старый, а они уже действуют
+            CurrentDay = newDay;
         }
 
         private bool IsAnyActiveAgentOnScene()
@@ -133,14 +130,11 @@ namespace Core
 
         IEnumerator LessonBreakCycle(int lesson)
         {
-            //if (lesson != 0)
-            //{
             currentLesson = currentDay.Lessons[lesson];
             //занятие
             var les = eventsHandler.LessonEvent;
             les.Initiate(this);
             eventsHandler.CurrentGlobalEvent = les;
-            //}
 
             yield return EventCycle();
 
@@ -194,7 +188,6 @@ namespace Core
         {
             experimentLengthSlider.ValueChangedEvent.RemoveListener(OnExperimentLengthChangedCallback);
             breaksLengthSlider.ValueChangedEvent.RemoveListener(OnBreaksLengthChangedCallback);
-            //workDaysSelector.DaySelectionChangedEvent -= OnDaySelectionChangedCallback;
         }
         private void OnExperimentLengthChangedCallback(int newVal)
         {
@@ -208,7 +201,5 @@ namespace Core
         /// </summary>
         public List<DaySchedule> WorkDays => workDays;
         public WorkDaysSelector WorkDaysSelector => workDaysSelector;
-
-       
     }
 }

@@ -21,7 +21,6 @@ namespace SerializationModule
                     var fi = new FileInfo(ap);
                     if (fi.Extension.Equals(".json"))
                     {
-                        //йюярсер бепмн дюфе еякх фянм ме ъбкъеряъ рпеаселшл рхонл
                         var json = File.ReadAllText(ap);
                         var rawData = JsonUtility.FromJson<T>(json);
                             res.Add((rawData, ap));

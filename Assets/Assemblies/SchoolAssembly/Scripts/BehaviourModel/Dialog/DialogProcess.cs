@@ -1,8 +1,4 @@
-using Events;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace BehaviourModel
@@ -34,7 +30,6 @@ namespace BehaviourModel
         public IEnumerator StartDialog(SpeakAction<TInitiator, TResponder> initiatorSpeech)
         {
             speechInitiator.StartActionVisual(initiatorSpeech);
-            //Debug.Log($"—пич инициатора, врем€ {speech.BarShowingTime}");
             yield return new WaitForSeconds(initiatorSpeech.BarShowingTime );
 
             //после спича получаем ответ ответчика
@@ -43,7 +38,6 @@ namespace BehaviourModel
             SpeechResponder.StartActionVisual(SpeechResponse);
             //воспроизводим его
             yield return SpeechResponse.ReactAtSpeech(initiatorSpeech);
-            //Debug.Log($"—пич ответчика, врем€ {SpeechResponse.BarShowingTime}");
             yield return new WaitForSeconds(SpeechResponse.BarShowingTime);
             //в зависимости от ответа измен€ютс€ отношени€ агентов или совершаютс€ действи€
             yield return initiatorSpeech.ReactAtSpeech(SpeechResponse);
@@ -55,14 +49,5 @@ namespace BehaviourModel
             attState.Initiate(speechResponder, SpeechInitiator, speechTime );
             return attState;
         }       
-
-        //List<SpeakAction> GetAllAvailableSpeeches(CharacterToPhenomReactionsLists table, string tableDimensionName)
-        //{
-        //    var colName = relations != null ? relations.ToString() : "NonFamiliar";
-
-        //    return table.GetTableValuesFor<TInitiator, ReactionBase, FeatureBase, SchoolAgentStateBase<TInitiator>, Sensor>
-        //        (speechInitiator, tableDimensionName, colName)
-        //        .SelectMany(x => x.GetReactions()).Where(x => x is SpeakAction).Cast<SpeakAction>().ToList();
-        //}
     }
 }

@@ -82,14 +82,12 @@ namespace Common
             {
                 if (Input.GetMouseButtonDown(0))//если левая нажата ВПЕРВЫЕ
                 {
-                    //Debug.Log("First click");
                     CameraStartPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
                     PointerStartPos = Input.mousePosition;
                     FirstTimeInLoop = true;
                 }
                 else if (Input.GetMouseButton(0))//если нажата и удерживается
                 {
-                    //Debug.Log("Holding");
                     if (FirstTimeInLoop)
                     {
                         pressingTimeStart = Time.time;
@@ -98,7 +96,6 @@ namespace Common
                     }
                     if (Time.time - pressingTimeStart >= timeDelay)
                     {
-                        //Debug.Log("Limit reached");
                         HoldingMouseLimitReachedEvent?.Invoke();
                     }
                     var mPos = Input.mousePosition;
@@ -113,7 +110,6 @@ namespace Common
                 {
                     pressingTimeStart = 0f;
                     MouseReleasedEvent?.Invoke();
-                    //Debug.Log("Release");
                 }
             }
         }

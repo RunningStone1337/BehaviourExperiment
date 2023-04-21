@@ -4,7 +4,6 @@ namespace Common
     {
         public override void BeforeChangeOldState()
         {
-            //CanvasController.Controller.CurrentState = CanvasController.Controller.ModeSelectionState;
         }
     }
 }

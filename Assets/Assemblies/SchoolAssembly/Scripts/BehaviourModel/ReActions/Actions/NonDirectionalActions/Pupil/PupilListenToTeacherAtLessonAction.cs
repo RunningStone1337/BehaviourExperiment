@@ -5,6 +5,10 @@ namespace BehaviourModel
 {
     public class PupilListenToTeacherAtLessonAction : NonDirectedAction, ICompletedAction
     {
+        public PupilListenToTeacherAtLessonAction():base()
+        {
+            actionType = ActionType.PayAttention;
+        }
         public override IEnumerator TryPerformAction()
         {
             var cast = ActionActor as PupilAgent;

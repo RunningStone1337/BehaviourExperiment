@@ -7,7 +7,6 @@ namespace BuildingModule
         private void Awake()
         {
             interier.Renderer.sprite = sprite;
-            interier.PhenomenonPower -= influenceValue;
         }
 
         [SerializeField] protected Sprite sprite;

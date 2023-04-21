@@ -1,7 +1,6 @@
 using Events;
 using System;
 using System.Collections;
-using UnityEngine;
 
 namespace BehaviourModel
 {
@@ -44,7 +43,6 @@ namespace BehaviourModel
                 teacher!= null && cast.AgentEnvironment.ChairInfo != null &&//ученик сидит
                 teacher.CurrentState is LessonExplainingState<TeacherAgent>)//учитель объясняет
             {
-                //moveToParticipiant = false;
                 cast.StartActionVisual(this);
                 var state = cast.SetState<IndividualSpeechState<PupilAgent, TeacherAgent,
                     //стейт, который будет установлен ученику для привлечения внимания в IndividualSpeechState
@@ -57,7 +55,6 @@ namespace BehaviourModel
                     return state;
                 });
                 yield return state.StartState();
-                //cast.EndActionVisualForce();
                 WasPerformed = true;
                 cast.SetDefaultState();
             }
@@ -69,12 +66,12 @@ namespace BehaviourModel
                 (state is TryAttractConditionalState<PupilAgent, TeacherAgent>) ||
                 (state is MoveToTargetState<PupilAgent>) ||
                 state is LessonExplainingState<PupilAgent>)
-            {
-                //Debug.Log("Condition true");
                 return true;
-            }
-            //Debug.Log("Condition false");
             return default;
+        }
+        public PupilAskTeacherToComeToBoardAction():base()
+        {
+            actionType = ActionType.AskGoToBoard;
         }
         public override void Initiate(IReactionSource reactSource, IAgent reactionActor)
         {

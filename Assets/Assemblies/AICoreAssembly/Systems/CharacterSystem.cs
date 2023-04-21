@@ -48,15 +48,12 @@ namespace BehaviourModel
             TRes res = null;
             var range = Enumerable.Range(1, 3);
             if (range.Contains(characterValue))
-                //res = new TLow();
                 res = gameObject.AddComponent<TLow>();
             range = Enumerable.Range(4, 4);
             if (range.Contains(characterValue))
-                //res = new TMid();
                 res = gameObject.AddComponent<TMid>();
             range = Enumerable.Range(8, 3);
             if (range.Contains(characterValue))
-                //res = new THigh();
                 res = gameObject.AddComponent<THigh>();
             if (res != null)
             {

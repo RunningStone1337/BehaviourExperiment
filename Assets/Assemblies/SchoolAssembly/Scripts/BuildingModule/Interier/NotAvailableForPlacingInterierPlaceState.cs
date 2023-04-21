@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
@@ -14,11 +13,7 @@ namespace BuildingModule
             DrawSphereGizmo(Color.red);
         }
 #endif
-
-        //public override void HandleInterierPlaceClick(PointerEventData eventData)
-        //{
-        //    EntranceBuilder.ReplaceInterierOrDeleteExist(thisPlace.GetInterier(), thisPlace);
-        //}
+              
 
         public override void SetStateForInterier(PlacedInterier interier)
         {

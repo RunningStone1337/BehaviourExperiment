@@ -1,7 +1,6 @@
 using BuildingModule;
-using System;
+using Common;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,27 +21,18 @@ namespace BehaviourModel
             var slowRotation = RotationHandler.SlowRotation;
             var fastRotation = RotationHandler.QuickRotation;
             //поворот к классу
-            //Debug.Log("Statrt rotate to class");
             yield return rotator.RotateToFaceDirection(classDirection, thisAgent.transform,  fastRotation);
             //небольшие повороты в стороны
-            //Debug.Log("Statrt rotate to sides look class");
             yield return rotator.SmoothRotateToSides(thisAgent.transform, 20f, 3f, slowRotation);
             //поворот к доске
-            //Debug.Log("Statrt rotate to board");
             yield return rotator.RotateToFaceDirection(board.transform, thisAgent.transform, fastRotation);
-            //Debug.Log("Statrt waiting");
             yield return new WaitForSeconds(Random.Range(3f,7f));
             //поворот к классу
-            //Debug.Log("Statrt rotate to class again");
             yield return rotator.RotateToFaceDirection(classDirection, thisAgent.transform,  fastRotation);
-            //yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, classAngle, fastRotation);
             //небольшие повороты в стороны
-            //Debug.Log("Statrt rotate to sides look on class again");
             yield return rotator.SmoothRotateToSides(thisAgent.transform, 20f, 3f, slowRotation);
             //возврат в исходное
-            //Debug.Log("Statrt rotate to statrt direction");
             yield return rotator.RotateToFaceDirection( cachedDirection, thisAgent.transform, fastRotation);
-            //yield return rotator.RotateToAngle(thisAgent.AgentRigidbody, cachedRotation, fastRotation);
         }
 
         private BoardInterier GetClosestBoard()

@@ -1,7 +1,6 @@
 using BehaviourModel;
 using BuildingModule;
-using Events;
-using System;
+using Common;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +11,18 @@ namespace Core
 {
     public class ExperimentProcessHandler : EnvironmentInfoSource
     {
-
         #region fields
-        [SerializeField] AgentsPlacerParams placerParams;
-        [SerializeField] protected SelectedAgentsHandler agentsHandler;
-        [SerializeField] private AgentsSpawner spawner;
-        [SerializeField] protected ScheduleHandler schedule;
+
         [SerializeField] private AstarPath pathFinder;
+        [SerializeField] private AgentsPlacerParams placerParams;
+        [SerializeField] private AgentsSpawner spawner;
+        [SerializeField] protected SelectedAgentsHandler agentsHandler;
         [SerializeField] protected List<PupilAgent> experimentAgents;
+        [SerializeField] protected ScheduleHandler schedule;
         [SerializeField] protected TeacherAgent teacher;
         public List<PupilAgent> Pupils => experimentAgents;
         public TeacherAgent Teacher => teacher;
+
         #endregion fields
 
         private IEnumerator CreateAgents()
@@ -30,12 +30,10 @@ namespace Core
             yield return spawner.SpawnAgents<PupilAgent, PupilRawData>(agentsHandler.AgentsData, true);
             experimentAgents.AddRange(spawner.LastCreatedAgents.Cast<PupilAgent>());
             spawner.LastCreatedAgents.Clear();
-            Debug.Log($"LastCreatedAgents count after clearing: {spawner.LastCreatedAgents.Count}");
 
             yield return spawner.SpawnAgent<TeacherAgent, TeacherRawData>(agentsHandler.TeacherData, true);
             teacher = (TeacherAgent)spawner.LastCreatedAgents[0];
             spawner.LastCreatedAgents.Clear();
-            Debug.Log($"LastCreatedAgents count after clearing: {spawner.LastCreatedAgents.Count}");
             StartAgents();
         }
 
@@ -44,49 +42,11 @@ namespace Core
             schedule.CreateSchedule();
             schedule.StartSchedule();
         }
-        
-
-        private void StartAgents()
-        {
-            foreach (var ag in experimentAgents)
-            {
-                if (!ag.IsActing)
-                    ag.StartStateMachine();
-            }
-            if (!teacher.IsActing)
-                teacher.StartStateMachine();
-        }
-
-      
-
-        [ContextMenu("Start experiment")]
-        public void StartExperiment()
-        {
-            pathFinder.Scan();
-            CanvasController.Controller.CurrentState = CanvasController.Controller.ExperimentProcessScreen;
-            InitGlobalSystems();
-        }      
-
-        public void OnScheduleCompletedCallback()
-        {
-            Debug.Log("Experiment ended");
-            //показ статистики
-        }
-        public void OnDayStartedCallback(CurrentDayChangedEventArgs args)
-        {
-            if (args.newDay.DayIndex == 1)
-                StartCoroutine(CreateAgents());
-            else
-            {
-                //GlobalEventsHandler.Instance.CurrentGlobalEvent = GlobalEventsHandler.Instance.LessonEvent;
-                //вернуть скрытых агентов на сцену
-                StartCoroutine(PlaceExistAgents());
-            }
-        }
 
         private IEnumerator PlaceExistAgents()
         {
-            var placer = new PlaceFinder(() => {
+            var placer = new PlaceFinder(() =>
+            {
                 var placingRooms = EntranceRoot.Root.Rooms.Where(x => x.Role is ExitRole).ToList();
                 return placingRooms.GetRandom().RandomEntrance().transform.position;
             }, placerParams);
@@ -106,6 +66,43 @@ namespace Core
             Teacher.transform.position = placer.Place;
             Teacher.StartStateMachine();
             Teacher.StartAppearing();
-        }       
+        }
+
+        private void StartAgents()
+        {
+            foreach (var ag in experimentAgents)
+            {
+                if (!ag.IsActing)
+                    ag.StartStateMachine();
+            }
+            if (!teacher.IsActing)
+                teacher.StartStateMachine();
+        }
+
+        public void OnDayStartedCallback(CurrentDayChangedEventArgs args)
+        {
+            if (args.newDay.DayIndex == 1)
+                StartCoroutine(CreateAgents());
+            else
+            {
+                //GlobalEventsHandler.Instance.CurrentGlobalEvent = GlobalEventsHandler.Instance.LessonEvent;
+                //вернуть скрытых агентов на сцену
+                StartCoroutine(PlaceExistAgents());
+            }
+        }
+
+        public void OnScheduleCompletedCallback()
+        {
+            Debug.Log("Experiment ended");
+            //показ статистики
+        }
+
+        [ContextMenu("Start experiment")]
+        public void StartExperiment()
+        {
+            pathFinder.Scan();
+            CanvasController.Controller.CurrentState = CanvasController.Controller.ExperimentProcessScreen;
+            InitGlobalSystems();
+        }
     }
 }

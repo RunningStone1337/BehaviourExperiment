@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
 {
     public class DreamState : SchoolAgentStateBase<PupilAgent>, IOptionalToCompleteState
     {
-        bool isDreaming = true;
+        private float dreamingTimer;
+        private bool isDreaming = true;
         public bool IsContinue { get => isDreaming; set => isDreaming = value; }
-        float dreamingTimer;
 
         public override IEnumerator StartState()
         {
@@ -16,7 +15,7 @@ namespace BehaviourModel
             while (isDreaming && dreamingTimer > 0f)
             {
                 yield return new WaitForFixedUpdate();
-                dreamingTimer -= Time.fixedDeltaTime*Time.timeScale;
+                dreamingTimer -= Time.fixedDeltaTime * Time.timeScale;
             }
             if (isDreaming)
                 thisAgent.SetDefaultState();

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,23 +5,23 @@ namespace BehaviourModel
 {
     public class RawCharacterValuesHandler : MonoBehaviour, IRawCharacterInfoSource
     {
-        [SerializeField] [Range(1, 10)] int calmnessAnxiety;
-        [SerializeField] [Range(1, 10)] int closenessSociability;
-        [SerializeField] [Range(1, 10)] int conformismNonconformism;
-        [SerializeField] [Range(1, 10)] int conservatismRadicalism;
-        [SerializeField] [Range(1, 10)] int credulitySuspicion;
-        [SerializeField] [Range(1, 10)] int emotionalInstabilityStability;
-        [SerializeField] [Range(1, 10)] int intelligence;
-        [SerializeField] [Range(1, 10)] int normativityOfBehaviour;
-        [SerializeField] [Range(1, 10)] int practicalityDreaminess;
-        [SerializeField] [Range(1, 10)] int relaxationTension;
-        [SerializeField] [Range(1, 10)] int restraintExpressiveness;
-        [SerializeField] [Range(1, 10)] int rigiditySensetivity;
-        [SerializeField] [Range(1, 10)] int selfcontrol;
-        [SerializeField] [Range(1, 10)] int straightforwardnessDiplomacy;
-        [SerializeField] [Range(1, 10)] int subordinationDomination;
-        [SerializeField] [Range(1, 10)] int timidityCourage;
-        public int CalmnessAnxiety { get => calmnessAnxiety; set => calmnessAnxiety = Mathf.Clamp(value,1, 10); }
+        [SerializeField] [Range(1, 10)] private int calmnessAnxiety;
+        [SerializeField] [Range(1, 10)] private int closenessSociability;
+        [SerializeField] [Range(1, 10)] private int conformismNonconformism;
+        [SerializeField] [Range(1, 10)] private int conservatismRadicalism;
+        [SerializeField] [Range(1, 10)] private int credulitySuspicion;
+        [SerializeField] [Range(1, 10)] private int emotionalInstabilityStability;
+        [SerializeField] [Range(1, 10)] private int intelligence;
+        [SerializeField] [Range(1, 10)] private int normativityOfBehaviour;
+        [SerializeField] [Range(1, 10)] private int practicalityDreaminess;
+        [SerializeField] [Range(1, 10)] private int relaxationTension;
+        [SerializeField] [Range(1, 10)] private int restraintExpressiveness;
+        [SerializeField] [Range(1, 10)] private int rigiditySensetivity;
+        [SerializeField] [Range(1, 10)] private int selfcontrol;
+        [SerializeField] [Range(1, 10)] private int straightforwardnessDiplomacy;
+        [SerializeField] [Range(1, 10)] private int subordinationDomination;
+        [SerializeField] [Range(1, 10)] private int timidityCourage;
+        public int CalmnessAnxiety { get => calmnessAnxiety; set => calmnessAnxiety = Mathf.Clamp(value, 1, 10); }
         public int ClosenessSociability { get => closenessSociability; set => closenessSociability = Mathf.Clamp(value, 1, 10); }
         public int ConformismNonconformism { get => conformismNonconformism; set => conformismNonconformism = Mathf.Clamp(value, 1, 10); }
         public int ConservatismRadicalism { get => conservatismRadicalism; set => conservatismRadicalism = Mathf.Clamp(value, 1, 10); }
@@ -40,6 +37,7 @@ namespace BehaviourModel
         public int StraightforwardnessDiplomacy { get => straightforwardnessDiplomacy; set => straightforwardnessDiplomacy = Mathf.Clamp(value, 1, 10); }
         public int SubordinationDomination { get => subordinationDomination; set => subordinationDomination = Mathf.Clamp(value, 1, 10); }
         public int TimidityCourage { get => timidityCourage; set => timidityCourage = Mathf.Clamp(value, 1, 10); }
+
         public void Randomize()
         {
             CalmnessAnxiety = Random.Range(1, 11);
@@ -59,6 +57,5 @@ namespace BehaviourModel
             SubordinationDomination = Random.Range(1, 11);
             TimidityCourage = Random.Range(1, 11);
         }
-
     }
 }

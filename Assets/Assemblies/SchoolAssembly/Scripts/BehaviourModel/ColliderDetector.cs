@@ -22,7 +22,6 @@ namespace BehaviourModel
                 if (!Physics2D.Linecast(startPos, endPos, obstaclesMask) &&
                     Physics2D.Linecast(startPos, endPos, detectMask))
                     DetectedPhenomens.Add(phen);
-                //Debug.Log("New phenom founded");
             }
         }
 
@@ -77,7 +76,6 @@ namespace BehaviourModel
             if (DetectedPhenomens.Contains(phen))
             {
                 DetectedPhenomens.Remove(phen);
-                //Debug.Log("Phenom removed");
             }
         }
 

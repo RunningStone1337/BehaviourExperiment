@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +17,6 @@ namespace Events
         }
 
         public string DayName { get => dayName; }
-        //public List<ClassSelectionDropdown> EnabledOptions { get => thisDaySchedule.SelectedOptions; }
         public Action<DaySwitcher, bool> ValueChangedEvent { get; set; }
 
         public void HandleToggleClick()

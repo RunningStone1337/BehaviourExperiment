@@ -265,10 +265,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4333355809803766130, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f084a44b9b3f5f4cb40a8971c22b5ef, type: 3}
+    - target: {fileID: 4333355809803766130, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
+      propertyPath: m_Color.b
+      value: 0.66202384
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333355809803766130, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
+      propertyPath: m_Color.g
+      value: 0.79693824
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333355809803766130, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8207547
+      objectReference: {fileID: 0}
     - target: {fileID: 6087095181135103875, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
       propertyPath: m_Name
       value: SquareButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7087312636186202865, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
+      propertyPath: m_Text
+      value: X
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087312636186202865, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 01d10663459a6d1498af9d56e1ff1b63, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 714502728cc48254e8f2ea9d03df5f71, type: 3}
 --- !u!224 &6928410542398252195 stripped

@@ -1,6 +1,5 @@
 using Events;
 using System.Collections;
-using UnityEngine;
 
 namespace BehaviourModel
 {
@@ -8,6 +7,7 @@ namespace BehaviourModel
     {
         public PupilWriteLessonToNoteAction() : base()
         {
+            actionType = ActionType.WriteLesson;
         }
 
         public override IEnumerator TryPerformAction()
@@ -16,14 +16,12 @@ namespace BehaviourModel
             var source = ReactionSource as LessonEvent;
             if (actor && source && actor.AgentEnvironment.ChairInfo != null)
             {
-                //Debug.Log("Start wtiting lesson");
                 actor.StartActionVisual(this);
                 var state = actor.SetState<TimingAttentionToPhenomState<PupilAgent, LessonEvent>>();
                 state.Initiate(actor, source, actionMakingTime);
                 yield return state.StartState();
                 WasPerformed = true;
                 actor.SetDefaultState();
-                //Debug.Log("End wtiting lesson");
             }
         }
         public override void Initiate(IReactionSource reactSource, IAgent reactionActor)

@@ -48,7 +48,6 @@ namespace BuildingModule
             ///отсекаем тех соседей, между которыми есть стены.
             var nonSeparatedRooms = new HashSet<Room>();
             var separatedRooms = new HashSet<Room>();
-            //закончил здесь. ”словие со стенами нужно пересмотреть или раскомментить
             foreach (var n in entrance.Neighbours)
             {
                 if (!n.HasWallBetween(entrance) && !entrance.HasWallBetween(n))
@@ -67,7 +66,6 @@ namespace BuildingModule
 
         public bool TrySeparateRoom()
         {
-            //–аботает некорректно, пересмотреть логику
             if (entrance.CanBeSeparated(out Direction direction))
             {
                 var newRoom = EntranceRoot.Root.RoomsPlace.gameObject.AddComponent<Room>();

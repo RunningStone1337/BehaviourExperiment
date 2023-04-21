@@ -1,7 +1,6 @@
 using BehaviourModel;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,17 +23,13 @@ public abstract class ViewDimensionBase<TContent>
     [SerializeField, HideInInspector] private List<TContent[]> highValuesVectors;
     [SerializeField, HideInInspector] private List<TContent[]> lowValuesVectors;
     [SerializeField, HideInInspector] private List<TContent[]> middleValuesVectors;
-    //[SerializeField] float labelsWidth;
-    //[SerializeField] float cellsHeight;
     [SerializeField] protected string dimensionName;
     [SerializeField, ReadOnly] protected int columnsCount;
     [SerializeField, PropertyRange(0f, 10f)] protected float scallingValue = 1f;
 
     [SerializeField, HideInInspector]
     protected StringWrapper[] columnsNames;
-
     public abstract StringWrapper[] ColumnsNames { get; set; }
-
    
     #endregion
     public string DimensionName { get => dimensionName; set => dimensionName = value; }
@@ -224,5 +219,4 @@ public abstract class ViewDimensionBase<TContent>
         }
         return -1;
     }
-
 }

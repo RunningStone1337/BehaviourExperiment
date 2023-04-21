@@ -24,8 +24,7 @@ namespace BehaviourModel
                 TableAgents[1] = schoolAgentBase;
         }
 
-        public void RemoveAgent<TAgent>(SchoolAgentBase<TAgent> schoolAgentBase)
-            where TAgent : SchoolAgentBase<TAgent>
+        public void RemoveAgent(IAgent schoolAgentBase)
         {
             if (TableAgents[0] == schoolAgentBase)
                 TableAgents[0] = null;

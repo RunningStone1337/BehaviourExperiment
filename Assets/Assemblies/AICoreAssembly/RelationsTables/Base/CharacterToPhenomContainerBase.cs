@@ -42,10 +42,6 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
         showDimensionsSize = !showDimensionsSize;
     }
 
-    //[HideIf("showConfirm"), ButtonGroup("DimensionsSize",order:3)]
-    //void IncreaseDimensionsCount()
-    //{
-    //}
     [HideIf("@!showDimensionsSize"), ShowInInspector, PropertyRange(1, 64), PropertyOrder(2)]
     public int TableDimensions
     {
@@ -77,9 +73,7 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
         get
         {
             if (index <= Dimensions.Count - 1)
-            {
                 return Dimensions[index];
-            }
             else throw new IndexOutOfRangeException();
         }
     }
@@ -91,9 +85,7 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
             for (int i = 0; i < Dimensions.Count; i++)
             {
                 if (Dimensions[i].DimensionName.Equals(key))
-                {
                     return Dimensions[i];
-                }
             }
             return default;
         }
@@ -133,9 +125,7 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
     {
         List<TContent> res = new List<TContent>();
         foreach (var charTrait in agent.CharacterSystem)
-        {
             res.Add(GetTableValueFor(pageName, charTrait.ThisConcreteCharType, columnName));
-        }
         return res;
     }
 
@@ -148,9 +138,7 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
     {
         List<TContent> res = new List<TContent>();
         foreach (var charTrait in agent.CharacterSystem)
-        {
             res.AddRange(GetTableVectorFor(pageName, charTrait.ThisConcreteCharType));
-        }
         return res;
     }
     public List<TContent> GetTableValuesFor<TAgent, TReaction, TFeature, TState, TSensor>(TAgent agent, int pageIndex)
@@ -162,9 +150,7 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
     {
         List<TContent> res = new List<TContent>();
         foreach (var charTrait in agent.CharacterSystem)
-        {
             res.AddRange(GetTableVectorFor(pageIndex, charTrait.ThisConcreteCharType));
-        }
         return res;
     }
     public List<TContent> GetTableValuesFor<TAgent, TReaction, TFeature, TState, TSensor>(TAgent agent, int pageIndex, string columnName)
@@ -265,20 +251,12 @@ public abstract class CharacterToPhenomContainerBase<TView, TContent> : Relation
     public void ResizeDimensions(int newLength)
     {
         foreach (var dim in dimensions)
-        {
             dim.ColumnsCount = newLength;
-        }
     }
 
     void RemoveDimensions(int newDimensionsCount)
     {
-        //var newDims = new List<MatrixDimension<T>>(newDimensionsCount);
-        //for (int i = 0; i < newDimensionsCount; i++)
-        //    newDims[i] = Dimensions[i];
-        //Dimensions = newDims;
         while (newDimensionsCount != Dimensions.Count)
-        {
             Dimensions.RemoveAt(Dimensions.Count - 1);
-        }
     }
 }

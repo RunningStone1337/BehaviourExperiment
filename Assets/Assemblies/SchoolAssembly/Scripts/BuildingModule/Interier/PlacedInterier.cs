@@ -1,8 +1,5 @@
 using BehaviourModel;
 using Common;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +8,6 @@ namespace BuildingModule
 {
     public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IReactionSource,
     IMovementTarget
-
     {
         [SerializeField] protected Collider2D collider2d;
         [SerializeField] private float influenceValue;
@@ -63,29 +59,6 @@ namespace BuildingModule
         /// <returns></returns>
         public virtual bool CanExist(Underwall underwall) => true;
 
-        /// <summary>
-        /// Ёмоции, возникающие при воспри€тии данного интерьера
-        /// </summary>
-        /// <returns></returns>
-        //public List<EmotionBase> GetEmotions()
-        //{
-        //    var res = new List<EmotionBase>();
-        //    if (PhenomenonPower > 0)
-        //    {
-        //        res.Add(new HappyHappinessEmotion(this));
-        //        res.Add(new ApprovalApprovalEmotion(this));
-        //    }
-        //    else if (PhenomenonPower < 0)
-        //    {
-        //        res.Add(new AnnoyanceAngerEmotion(this));
-        //        res.Add(new DislikeDisgustEmotion(this));
-        //        res.Add(new DespondencySadEmotion(this));
-        //    }
-        //    else
-        //        res.Add(new SerenityHappinessEmotion(this));
-        //    return res;
-        //}      
-
         public virtual bool IsAvailForPlacing(MiddlePlace place) => default;
 
         public virtual bool IsAvailForPlacing(Corner place) => default;
@@ -115,7 +88,5 @@ namespace BuildingModule
         {
             InputSystem.InputListener.Listener.HandleInterierClick(this, eventData);
         }
-
-        
     }
 }

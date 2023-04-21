@@ -7,7 +7,6 @@ namespace BehaviourModel
         where TSpeaker : SchoolAgentBase<TSpeaker>
         where TCompanion : SchoolAgentBase<TCompanion>
     {
-        
         protected SpeakAction() : base()
         {
         }

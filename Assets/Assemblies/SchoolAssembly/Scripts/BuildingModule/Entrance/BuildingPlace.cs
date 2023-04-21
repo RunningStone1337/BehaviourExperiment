@@ -99,9 +99,6 @@ namespace BuildingModule
             }
         }
 
-        /// <summary>
-        /// рнкэйн дкъ оепеанпю б жхйке, ме днаюбкърэ/сдюкърэ мюопълсч
-        /// </summary>
         public List<BuildingPlace> Neighbours => neighbours;
 
         public OccupedBuildPlaceState OccupedState { get => occupedState; }

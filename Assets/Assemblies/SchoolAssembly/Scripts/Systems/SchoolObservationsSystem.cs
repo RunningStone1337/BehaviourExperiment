@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class SchoolObservationsSystem<TAgent> 
+    public class SchoolObservationsSystem<TAgent>
         : ObservationsSystem<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-        where TAgent: SchoolAgentBase<TAgent>
+        where TAgent : SchoolAgentBase<TAgent>
     {
-        [SerializeField] EventsSensor eventsSensor;
+        [SerializeField] private EventsSensor eventsSensor;
         public EventsSensor EventsSensor => eventsSensor;
     }
 }

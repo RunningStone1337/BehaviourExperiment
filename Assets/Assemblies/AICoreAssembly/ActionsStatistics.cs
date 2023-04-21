@@ -1,10 +1,10 @@
+using BehaviourModel;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace BehaviourModel
+namespace Metrics
 {
     public static class ActionsStatistics
     {
@@ -14,23 +14,20 @@ namespace BehaviourModel
         {
             var type = selectedReaction.GetType();
             if (!reactionsCountsDict.ContainsKey(type))
-            {
                 reactionsCountsDict.Add(type, 1);
-            }
             else
-            {
                 reactionsCountsDict[type] += 1;
-            }
         }
 
-        internal static void Log()
+        internal static string Log(bool debugConsole = false)
         {
             StringBuilder res = new StringBuilder();
             foreach (var pair in reactionsCountsDict)
-            {
                 res.Append($"{pair.Key} action: {pair.Value} count\n");
-            }
-            Debug.Log(res.ToString());
+            var cast = res.ToString();
+            if (debugConsole)
+                Debug.Log(cast);
+            return cast;
         }
     }
 }

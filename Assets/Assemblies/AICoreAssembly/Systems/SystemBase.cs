@@ -10,7 +10,7 @@ namespace BehaviourModel
         where TState : IState
         where TSensor : ISensor
     {
-        [SerializeField] [HideInInspector] private TAgent thisAgent;
+        [SerializeField, HideInInspector] private TAgent thisAgent;
         public TAgent ThisAgent => thisAgent;
 
         protected virtual void Awake()

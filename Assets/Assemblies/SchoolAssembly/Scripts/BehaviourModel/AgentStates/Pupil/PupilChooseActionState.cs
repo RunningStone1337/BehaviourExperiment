@@ -1,4 +1,3 @@
-using Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,11 +28,6 @@ namespace BehaviourModel
         {
             var probReactions = new List<(ReactionBase reaction, float prob)>();
 
-            //пройти по всем наблюдениям и создать потенциальные действия для них
-            //foreach (var item in thisAgent.Brain.reac)
-            //{
-
-            //}
             var dimension = thisAgent.TablesHandler.CharacterToEventsReactionsTable[thisAgent.CurrentEvent.Name];
             foreach (var charTrait in thisAgent.CharacterSystem)
             {

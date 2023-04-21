@@ -1,4 +1,5 @@
 using BuildingModule;
+using Common;
 using Events;
 using Pathfinding;
 using System;
@@ -14,12 +15,11 @@ namespace BehaviourModel
         IUIViewedObject, IReactionSource, IMovementTarget
         where TAgent : SchoolAgentBase<TAgent>
     {
-        [Space]
         #region main
 
         #region components
 
-        [SerializeField] private CircleCollider2D agentCollider;
+        [Space, SerializeField] private CircleCollider2D agentCollider;
         [SerializeField] private SpriteRenderer agentRenderer;
         [SerializeField] private SchoolAIPath pathfinder;
         [SerializeField] private Sprite previewSprite;
@@ -30,24 +30,12 @@ namespace BehaviourModel
 
         #endregion components
 
-        [Space]
         #region base params
-        [SerializeField] private int agentAge;
-        [SerializeField] private string agentDescription;
-
-       
-
-        [SerializeField] private int agentHeight;
+        [Space, SerializeField] private string agentDescription;
         [SerializeField] private string agentName;
-        [SerializeField] private SexBase agentSex;
-
-
         [SerializeField] private float agentPhenomPower;
-        [SerializeField] private int agentWeight;
-
-        [Space]
         #endregion base params
-        [SerializeField] SchoolRelationsTableHandler tablesHandler;
+        [Space, SerializeField] SchoolRelationsTableHandler tablesHandler;
         public SchoolRelationsTableHandler TablesHandler => tablesHandler;
         [SerializeField] AgentEnvironment agentEnvironment;
         public AgentEnvironment AgentEnvironment => agentEnvironment;
@@ -74,7 +62,6 @@ namespace BehaviourModel
         }
 
         public CircleCollider2D AgentCollider => agentCollider;
-        //public Rigidbody2D AgentRigidbody => agentRigidbody;
        
         public string Name => agentName;
         public string ObjDescription => agentDescription;
@@ -165,12 +152,7 @@ namespace BehaviourModel
             if (reaction != null)
                 return reaction.GetReaction((TAgent)this, speaker);
             else
-            {
                 throw new Exception($"Для спича {speechToReact} не было ответного спича у агента {this}. Добавь реакции на спич в таблицу");
-                //var res = new KeepSilentAnswer<TAgent, TInitiator>();
-                //res.Initiate(speaker, this);
-                //return res;
-            }
         }
         public override TNewState SetState<TNewState>()
         {
@@ -181,7 +163,6 @@ namespace BehaviourModel
         }
         public void StartActionVisual(IStatusBarDataSource source)
         {
-            //TODO вызов коорутины видуализации диалога
             statusBar.Initiate(source);
             statusBar.Show();
         }
@@ -215,7 +196,6 @@ namespace BehaviourModel
 
             var placer = new PlaceFinder(()=> EntranceRoot.Root.TeleportPlace.position, .2f, 2f, new ContactFilter2D() { useLayerMask = false });
             while (!placer.TryFindPlace()) { }
-                //yield return null;
             transform.position = placer.Place;
         }
 
@@ -332,10 +312,6 @@ namespace BehaviourModel
             //TODO доделать инициализацию
             //previewSprite =
             agentName = data.AgentName;
-            agentSex = data.Sex;
-            agentAge = data.age;
-            agentWeight = data.Weight;
-            agentHeight = data.Height;
 
             PhenomenonPower = 5;
             
@@ -369,7 +345,6 @@ namespace BehaviourModel
                 yield return new WaitForFixedUpdate();
             }
             else throw new Exception();
-            //AgentRigidbody.bodyType = RigidbodyType2D.Dynamic;
             leavedChair.Collider2D.isTrigger = false;
             
         }
@@ -383,7 +358,6 @@ namespace BehaviourModel
                 {
                     transform.position = chair.transform.position;
                     yield return RotateRoutine(chair.transform.up);
-                    //Debug.Log("After rotate on chair routine");
                 }
             }
             else if (target.TryGetComponent(out ChairInterier chairTarget))
@@ -392,11 +366,8 @@ namespace BehaviourModel
                 {
                     transform.position = chairTarget.transform.position;
                     yield return RotateRoutine(chairTarget.transform.up);
-                    //Debug.Log("After rotate on chair routine");
                 }
             }
         }
-
-       
     }
 }

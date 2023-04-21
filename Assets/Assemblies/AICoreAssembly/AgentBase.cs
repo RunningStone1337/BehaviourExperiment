@@ -44,10 +44,6 @@ namespace BehaviourModel
         
         #endregion
 
-        protected virtual void Awake()
-        {
-            //observationsSystem = GetComponent<ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor>>();
-        }
 
         /// <summary>
         /// Observations handling routine.
@@ -223,10 +219,8 @@ namespace BehaviourModel
         public void StopStateMachine()
         {
             IsActing = false;
-            //Brain.Clear();
             StopCoroutine(AgentActingCoroutine);
             StopCoroutine(ObservationsCoroutine);
-            //StopCoroutine(ReactionsCoroutine);
         }
 
         public abstract TNewState SetState<TNewState>() where TNewState : TState, new();

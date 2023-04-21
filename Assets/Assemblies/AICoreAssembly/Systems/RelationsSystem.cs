@@ -16,8 +16,9 @@ namespace BehaviourModel
         /// </summary>
         protected Dictionary<IAgent, RelationshipBase<TAgent, IAgent, TState>> relationsDicts;
        
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             relationsDicts = new Dictionary<IAgent, RelationshipBase<TAgent, IAgent, TState>>();
         }
 
@@ -26,9 +27,7 @@ namespace BehaviourModel
             where TOther : IAgent
         {
             if (relationsDicts.ContainsKey(otherAgent))
-            {
                 return relationsDicts[otherAgent];
-            }
             return default;
         }
 
@@ -36,61 +35,22 @@ namespace BehaviourModel
         {
             var newRelations = relations.AddInfluence(relationsInfluence);
             if (relations != newRelations)
-            {
                 relationsDicts[relations.SecondAgent] = newRelations;
-            }
         }
 
         public TRelations CreateNew<TRelations>(TRelations newRelations)
             where TRelations : RelationshipBase<TAgent, IAgent, TState>
         {
             if (!relationsDicts.ContainsKey(newRelations.SecondAgent))
-            {
                 relationsDicts.Add(newRelations.SecondAgent, newRelations);
-            }
             else throw new Exception("Attempt to create new relationship when system contains existing one, this is not allowed." +
                 "To override existed relationship first demove old relationship force.");
             return newRelations;
         }
 
-        public void RemoveRelations()
+        public void ClearRelations()
         {
             relationsDicts.Clear();
-        }
-
-        //public void CreateNewRelationship(RelationshipBase<AgentBase<IFeature>> newRelation)
-        //{
-        //    var existRelation = GetCurrentRelationTo(newRelation.SecondAgent);
-        //    if (existRelation == null)
-        //    {
-        //        CreateNew(newRelation);
-        //    }
-        //    else
-        //    {
-        //        ReplaceOldRelationship(newRelation);
-        //    }
-        //}
-        //private bool IsPoorKnown(AgentBase ab) => poorKnownAgents.ContainsKey(ab);
-
-       
-
-        /// <summary>
-        /// Добавляет информацию о известной черте характера для <paramref name="agent"/>
-        /// если она ещё не известна.
-        /// </summary>
-        /// <param name="agent"></param>
-        /// <param name="tr"></param>
-        //public void AddInfoAbouAgentBase<IFeature>IfNew(AgentBase<TFeatureBase, TStateBase> agent, CharacterTraitBase tr)
-        //{
-        //    var relation = GetCurrentRelationTo(agent);
-        //    if (relation != null)//знакомы хоть как-то
-        //        relation.KnownCharacterTraits.AddIfNotContains(tr);
-        //    else
-        //    {
-        //        //if (!poorKnownAgents.ContainsKey(agent))
-        //        //    poorKnownAgents.Add(agent, new PoorKnownRelation(thisAgent, agent));
-        //        //poorKnownAgents[agent].KnownCharacterTraits.AddIfNotContains(tr);
-        //    }
-        //}
+        }    
     }
 }

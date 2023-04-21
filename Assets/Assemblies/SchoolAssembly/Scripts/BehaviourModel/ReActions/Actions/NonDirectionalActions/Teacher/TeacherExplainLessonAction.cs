@@ -5,6 +5,10 @@ namespace BehaviourModel
 {
     public class TeacherExplainLessonAction : NonDirectedAction, ICompletedAction
     {
+        public TeacherExplainLessonAction():base()
+        {
+            actionType = ActionType.ExplainLesson;
+        }
         public override void Initiate(IReactionSource reactSource, IAgent reactionActor)
         {
             base.Initiate(reactSource, reactionActor);

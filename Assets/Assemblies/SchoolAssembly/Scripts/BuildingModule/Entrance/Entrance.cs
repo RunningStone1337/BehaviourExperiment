@@ -145,9 +145,6 @@ namespace BuildingModule
         [SerializeField] private Room thisRoom;
         public BuildingPlace EntrancePlace { get; private set; }
         public List<InterierPlaceBase> InterierPlaces => interierPlaces;
-        /// <summary>
-        /// рнкэйн дкъ оепеанпю б жхйке, мюопълсч ме днаюбкърэ х ме сдюкърэ!!!
-        /// </summary>
         public List<Entrance> Neighbours { get => neighbours; }
 
         public Coroutine Routine { get => routine; set => routine = value; }
@@ -209,7 +206,8 @@ namespace BuildingModule
             }
             return default;
 
-            static bool HasWallOnCallerOrNeighSide(Wall thisLeftByDirWall, Wall leftToLeftMDNeighWall) => leftToLeftMDNeighWall.CurrentState is ActiveState || thisLeftByDirWall.CurrentState is ActiveState;
+            static bool HasWallOnCallerOrNeighSide(Wall thisLeftByDirWall, Wall leftToLeftMDNeighWall) =>
+                leftToLeftMDNeighWall.CurrentState is ActiveState || thisLeftByDirWall.CurrentState is ActiveState;
         }
 
         /// <summary>
@@ -256,13 +254,7 @@ namespace BuildingModule
                 agent.AgentEnvironment.CurrentRoom = CurrentRoom;
             }
         }
-
-        //private void Start()
-        //{
-        //    foreach (var n in neighbours)
-        //        n.FindNeighbours();
-        //}
-
+    
         public int NeighboursCount => Neighbours.Count;
         public Room CurrentRoom
         {

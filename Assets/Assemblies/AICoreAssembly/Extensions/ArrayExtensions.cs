@@ -2,12 +2,32 @@ using System;
 
 public static class ArrayExtensions
 {
+    private static void CopyArray<T>(this T[,] source, ref T[,] result, int rows, int cols)
+    {
+        for (int i = 0; i < cols; i++)
+            for (int j = 0; j < rows; j++)
+                result[i, j] = source[i, j];
+    }
+
+    private static T[,] GetCorrectSizeArr<T>(T[,] source, int newRowsCount, int newColsCount, int rowsDiff, int collsDiff)
+    {
+        T[,] result;
+        if (rowsDiff > 0 && collsDiff <= 0)//только ряды
+            result = new T[source.GetLength(0), newRowsCount];
+        else if (rowsDiff <= 0 && collsDiff > 0)//только столбцы
+            result = new T[newColsCount, source.GetLength(1)];
+        else
+            result = new T[newColsCount, newRowsCount];
+        return result;
+    }
+
     public static void CopyTo<T>(this T[] source, ref T[] target)
     {
         if (target == null || target.Length != source.Length)
             target = new T[source.Length];
         source.CopyTo(target, 0);
     }
+
     public static void CopyTo<T>(this T[,] source, ref T[,] target)
     {
         var sourceCols = source.GetLength(0);
@@ -34,27 +54,57 @@ public static class ArrayExtensions
                 else//только обрезать ряды
                     target = target.TryReduceArrayWithCopy(sourceRows, targetCols);
             }
-            else if (targetRows < sourceRows)//�������� ����
+            else if (targetRows < sourceRows)
             {
-                if (targetCols < sourceCols)//� �������
+                if (targetCols < sourceCols)
                     target = target.TryExtendArrayWithCopy(sourceRows, sourceCols);
-                else if (targetCols > sourceCols)//������ �������
+                else if (targetCols > sourceCols)
                 {
                     target = target.TryExtendArrayWithCopy(sourceRows, targetCols);
                     target = target.TryReduceArrayWithCopy(sourceRows, sourceCols);
                 }
-                else//������ �������� ����
+                else
                     target = target.TryExtendArrayWithCopy(sourceRows, targetCols);
             }
-            else//������ �������
+            else
             {
-                if (targetCols < sourceCols)//�������� �������
+                if (targetCols < sourceCols)
                     target = target.TryExtendArrayWithCopy(targetRows, sourceCols);
-                else if (targetCols > sourceCols)//������ �������
+                else if (targetCols > sourceCols)
                     target = target.TryReduceArrayWithCopy(targetRows, sourceCols);
             }
         }
         source.CopyArray(ref target, sourceRows, sourceCols);
+    }
+
+    public static void FillDefault<T>(this T[,] matrix)
+where T : new()
+    {
+        var cols = matrix.GetLength(0);
+        var rows = matrix.GetLength(1);
+        for (int col = 0; col < cols; col++)
+            for (int row = 0; row < rows; row++)
+                matrix[col, row] = new T();
+    }
+
+    public static void FillEmptys<T>(this T[,] matrix)
+where T : new()
+    {
+        var cols = matrix.GetLength(0);
+        var rows = matrix.GetLength(1);
+        for (int col = 0; col < cols; col++)
+            for (int row = 0; row < rows; row++)
+                if (matrix[col, row] == null)
+                    matrix[col, row] = new T();
+    }
+
+    public static void FillEmptys<T>(this T[] matrix)
+where T : new()
+    {
+        var cols = matrix.Length;
+        for (int col = 0; col < cols; col++)
+            if (matrix[col] == null)
+                matrix[col] = new T();
     }
 
     public static T[] GetRowFromMatrix<T>(this T[,] matrix, int rowIndex)
@@ -67,6 +117,7 @@ public static class ArrayExtensions
         }
         return res;
     }
+
     public static void InsertRow<T>(this T[,] matrix, T[] rowToInsert, int rowIndex)
     {
         var cols = matrix.GetLength(0);
@@ -78,6 +129,7 @@ public static class ArrayExtensions
             matrix[i, rowIndex] = rowToInsert[i];
         }
     }
+
     public static T[] TryExtendArray<T>(this T[] target, int newLenght)
     {
         if (target == null)
@@ -89,37 +141,6 @@ public static class ArrayExtensions
             newArray[i] = target[i];
         return newArray;
     }
-
-public static void FillDefault<T>(this T[,] matrix)
-where T: new()
-{
-    var cols = matrix.GetLength(0);
-    var rows = matrix.GetLength(1);
-    for (int col = 0; col < cols; col++)
-        for (int row = 0; row < rows; row++)
-            matrix[col,row] = new T();
-}
-
-public static void FillEmptys<T>(this T[,] matrix)
-where T: new()
-{
-    var cols = matrix.GetLength(0);
-    var rows = matrix.GetLength(1);
-    for (int col = 0; col < cols; col++)
-        for (int row = 0; row < rows; row++)
-            if(matrix[col,row] == null) 
-                matrix[col,row] = new T();
-}
-
-
-public static void FillEmptys<T>(this T[] matrix)
-where T: new()
-{
-    var cols = matrix.Length;
-    for (int col = 0; col < cols; col++)
-        if(matrix[col] == null) 
-            matrix[col] = new T();
-}
 
     public static T[,] TryExtendArrayWithCopy<T>(this T[,] source, int newRowsCount, int newColsCount)
     {
@@ -135,18 +156,11 @@ where T: new()
 
             var cols = source.GetLength(0);
             var rows = source.GetLength(1);
-            CopyArray(source,ref result, rows, cols);
+            CopyArray(source, ref result, rows, cols);
             return result;
         }
         else
             return source;
-    }
-
-    private static void CopyArray<T>(this T[,] source, ref T[,] result, int rows, int cols)
-    {
-        for (int i = 0; i < cols; i++)
-            for (int j = 0; j < rows; j++)
-                result[i, j] = source[i, j];
     }
 
     public static T[] TryReduceArray<T>(this T[] arrToReduce, int newLenght)
@@ -179,17 +193,5 @@ where T: new()
         }
         else
             return source;
-    }
-
-    private static T[,] GetCorrectSizeArr<T>(T[,] source, int newRowsCount, int newColsCount, int rowsDiff, int collsDiff)
-    {
-        T[,] result;
-        if (rowsDiff > 0 && collsDiff <= 0)//только ряды
-            result = new T[ source.GetLength(0), newRowsCount];
-        else if (rowsDiff <= 0 && collsDiff > 0)//только столбцы
-            result = new T[newColsCount, source.GetLength(1)];
-        else
-            result = new T[newColsCount, newRowsCount];
-        return result;
     }
 }

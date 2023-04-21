@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+#if UNITY_EDITOR
 using TMPro;
+#endif
 using UnityEngine;
 
 namespace BehaviourModel
@@ -29,7 +29,6 @@ namespace BehaviourModel
         {
             var rot = agentTransform.eulerAngles;
             movedCloudTransform.localEulerAngles = new Vector3(rot.x, rot.y, (-Mathf.Abs(rot.z))%360f);
-            //tailPivotTransform.localEulerAngles = new Vector3(rot.x, rot.y, (rot.z) % 360f);
         }
         public void Show()
         {

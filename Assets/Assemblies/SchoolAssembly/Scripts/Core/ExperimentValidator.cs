@@ -1,5 +1,4 @@
 using BuildingModule;
-using Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +12,9 @@ namespace Core
 {
     public class ExperimentValidator : MonoBehaviour
     {
+        [SerializeField] private ExperimentProcessHandler experimentProcess;
         [SerializeField] private ScheduleHandler scheduleHandler;
         [SerializeField] private SelectedAgentsHandler selectedAgentsHandler;
-        [SerializeField] private ExperimentProcessHandler experimentProcess;
 
         private bool AtLeastOneClassAtDay()
         {
@@ -51,6 +50,35 @@ namespace Core
         {
             return ConditionCheck(() => EntranceRoot.Root.Rooms.Count(x => x.Role is ExitRole) != 0,
                 "Не найдено ни одного помещения с ролью выхода. Необходимо как минимум 1 помещение.");
+        }
+
+        private void ForceCoreModulesUpdate() =>
+            StartCoroutine(ForceCoreModulesUpdateRoutine());
+
+        private IEnumerator ForceCoreModulesUpdateRoutine()
+        {
+            var bs = UIController.Controller.BuildingScreen;
+            var es = UIController.Controller.EventsPlanningScreen;
+            var acs = UIController.Controller.AgentsConfigureScreen;
+            var screens = new List<UIScreenBase>();
+            if (!bs.IsInitialized)
+            {
+                bs.InitiateState();
+                screens.Add(bs);
+            }
+            if (!es.IsInitialized)
+            {
+                es.InitiateState();
+                screens.Add(es);
+            }
+            if (!acs.IsInitialized)
+            {
+                acs.InitiateState();
+                screens.Add(acs);
+            }
+            yield return null;
+            foreach (var s in screens)
+                s.BeforeChangeState();
         }
 
         private string FreePlacesCondition()
@@ -110,7 +138,7 @@ namespace Core
 
         private string TeacherCondition()
         {
-            return ConditionCheck(() => selectedAgentsHandler.TeacherData != null && selectedAgentsHandler.TeacherData.ClosenessSociability !=0,
+            return ConditionCheck(() => selectedAgentsHandler.TeacherData != null && selectedAgentsHandler.TeacherData.ClosenessSociability != 0,
                 "Для проведения эксперимента необходим учитель. Добавьте его через конфигуратор.");
         }
 
@@ -164,35 +192,6 @@ namespace Core
                 }
             }
             experimentProcess.StartExperiment();
-        }
-
-        private void ForceCoreModulesUpdate()=>
-            StartCoroutine(ForceCoreModulesUpdateRoutine());
-
-        private IEnumerator ForceCoreModulesUpdateRoutine()
-        {
-            var bs = UIController.Controller.BuildingScreen;
-            var es = UIController.Controller.EventsPlanningScreen;
-            var acs = UIController.Controller.AgentsConfigureScreen;
-            var screens = new List<UIScreenBase>();
-            if (!bs.IsInitialized)
-            {
-                bs.InitiateState();
-                screens.Add(bs);
-            }
-            if (!es.IsInitialized)
-            {
-                es.InitiateState();
-                screens.Add(es);
-            }
-            if (!acs.IsInitialized)
-            {
-                acs.InitiateState();
-                screens.Add(acs);
-            }
-            yield return null;
-            foreach (var s in screens)
-                s.BeforeChangeState();
         }
     }
 }

@@ -6,11 +6,9 @@ namespace BehaviourModel
     public class PupilBrain : SchoolBrain<PupilAgent>,
         ICanReactOnPhenomenon<PlacedInterier, ReactionBase>,
         ICanReactOnPhenomenon<TeacherAgent, ReactionBase>
-
     {
         public override bool HasReactionsOnPhenom(IPhenomenon reason, out List<ReactionBase> reaction)
         {
-            reaction = default;
             if (reason is PlacedInterier pi)
                 return HasReactionsOnPhenom(pi, out reaction);
             else if (reason is TeacherAgent t)

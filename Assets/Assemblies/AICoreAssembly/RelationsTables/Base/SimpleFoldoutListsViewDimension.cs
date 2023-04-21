@@ -1,8 +1,5 @@
-using BehaviourModel;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class SimpleFoldoutListsViewDimension<TContent>: ArraysViewDimensionBase<TContent>
@@ -158,13 +155,10 @@ public class SimpleFoldoutListsViewDimension<TContent>: ArraysViewDimensionBase<
     [ShowInInspector, ListDrawerSettings(IsReadOnly = true), FoldoutGroup("Tension")] 
     public override TContent[] HighTensionVector { get => highTensionVector; set => highTensionVector = value; }
     #endregion
-
     #endregion
-
    
     public SimpleFoldoutListsViewDimension():base()
     {
-
     }
    
     private void InitVectors(SimpleFoldoutListsViewDimension<TContent> referenceMatrix)
@@ -220,22 +214,10 @@ public class SimpleFoldoutListsViewDimension<TContent>: ArraysViewDimensionBase<
         referenceMatrix.midSocialVector.CopyTo(ref midSocialVector );
         referenceMatrix.midSuspicionVector.CopyTo(ref midSuspicionVector );
         referenceMatrix.midTensionVector.CopyTo(ref midTensionVector );
-
-        //ResetLowValuesList();
-        //ResetMidValuesList();
-        //ResetHighValuesList();
     }
     
-   
-
     public SimpleFoldoutListsViewDimension(int colsCount)
     {
         InitVectors(colsCount);
     }
-
-    //public ListsViewDimension(ListsViewDimension<TContent> referenceMatrix)
-    //{
-    //    InitVectors(referenceMatrix);
-    //    DimensionName = referenceMatrix.DimensionName;
-    //}
 }

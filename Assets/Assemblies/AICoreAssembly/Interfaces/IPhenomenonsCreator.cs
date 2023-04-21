@@ -3,12 +3,12 @@ using System.Collections.Generic;
 namespace BehaviourModel
 {
     /// <summary>
-    /// Интерфейс, укзывающий, что объект является источником явлений.
+    /// Object can be siurce of phenomenons.
     /// </summary>
     public interface IPhenomenonsCreator
     {
         /// <summary>
-        /// Создаёт явления.
+        /// Creates cpenomenons.
         /// </summary>
         /// <returns></returns>
         List<IPhenomenon> CreatePhenomenons();

@@ -5,8 +5,9 @@ using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
-    public abstract class ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor> : SystemBase<TAgent, TReaction, TFeature, TState, TSensor>,
-       IPhenomenonsCreator
+    public abstract class ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor> : 
+        SystemBase<TAgent, TReaction, TFeature, TState, TSensor>,
+        IPhenomenonsCreator
         where TAgent : ICurrentStateHandler<TState> , IAgent
         where TReaction : IReaction
         where TFeature : IFeature

@@ -9,7 +9,7 @@ namespace Common
         public override void BeforeChangeOldState()
         {
             CanvasController.Controller.InterierListScreen.BeforeChangeState();
-            ///сбросить все стейты недоступных мест в свободные
+            //сбросить все стейты недоступных мест в свободные
             foreach (var e in EntranceRoot.Root.Entrances)
             {
                 e.InterierPlaces.SetStatesFromS1ToS2

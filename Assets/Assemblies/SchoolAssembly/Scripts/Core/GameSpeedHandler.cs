@@ -12,7 +12,6 @@ namespace UI
         public void OnChangeGameSpeedButtonClickCallback(float speedRatio)
         {
             Time.timeScale = speedRatio;
-            //Time.fixedDeltaTime = cachedDelta / speedRatio;
         }
     }
 }

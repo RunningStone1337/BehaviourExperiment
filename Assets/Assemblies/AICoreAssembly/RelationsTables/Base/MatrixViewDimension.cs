@@ -1,7 +1,4 @@
-using BehaviourModel;
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MatrixViewDimension<T>: ViewDimensionBase<T>
@@ -9,14 +6,12 @@ public class MatrixViewDimension<T>: ViewDimensionBase<T>
     #region fields
     [SerializeField, ListDrawerSettings(IsReadOnly = true)]
     public override StringWrapper[] ColumnsNames { get => columnsNames; set => columnsNames = value; }
-    //private StringWrapper[] columnsNames;
     #region calm
     [SerializeField, HideInInspector] protected T[,] calmMatrix;
     [ShowInInspector, TableMatrix(IsReadOnly = true), FoldoutGroup("Calmness")]
     public virtual T[,] CalmMatrix { get => calmMatrix; protected set => calmMatrix = value; }
     public bool IsOverrided()
     {
-        var t = GetType();
         return !GetType().GetProperty("CalmMatrix").DeclaringType.IsEquivalentTo(GetType());
     }
     #endregion
@@ -452,7 +447,6 @@ public class MatrixViewDimension<T>: ViewDimensionBase<T>
         tensionMatrix = tensionMatrix.TryExtendArrayWithCopy(3, newVectorsLength);
 
         ColumnsNames = ColumnsNames.TryExtendArray(newVectorsLength);
-        //добавление объектов
     }
     
 

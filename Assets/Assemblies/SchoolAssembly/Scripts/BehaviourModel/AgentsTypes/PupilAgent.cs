@@ -5,12 +5,10 @@ namespace BehaviourModel
     public class PupilAgent : SchoolAgentBase<PupilAgent>
 
     {
-        protected override void Awake()
+        void Awake()
         {
             if (currentState == null)
-            {
                 SetState<PupilChooseActionState>();
-            }
         }
 
         public override GlobalEvent CurrentEvent => ((SchoolObservationsSystem<PupilAgent>)ObservationsSystem).EventsSensor.CurrentEvent;

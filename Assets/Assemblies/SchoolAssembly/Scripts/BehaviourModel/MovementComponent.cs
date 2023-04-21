@@ -1,4 +1,5 @@
 using BuildingModule;
+using Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,10 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
+    /// <summary>
+    /// Старый поиск пути, не используется
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [RequireComponent(typeof(Rigidbody2D))]
     public class MovementComponent<T> : MonoBehaviour
         where T : SchoolAgentBase<T>
@@ -16,11 +21,9 @@ namespace BehaviourModel
         [SerializeField] [Range(0.01f, 5f)]  private float movementSpeed = 0.05f;
         [SerializeField] [Range(0.01f, 5f)]  private float rotationSpeed = 1f;
         [SerializeField] [Range(0.01f, 0.5f)]  private float offsetStep = 0.05f;
-        //private Pathfinder<Vector2> pathfinder;
         [SerializeField] private LayerMask obstacles;
         [SerializeField] private bool searchShortcut = false;
         [SerializeField] private bool snapToGrid = false;
-        //[SerializeField, Range(1, 1024)] private int recalcPerFrames = 100;
         private List<Vector2> path;
         private List<Vector2> pathLeftToGo = new List<Vector2>();
         [SerializeField] private bool drawDebugLines;
@@ -38,10 +41,7 @@ namespace BehaviourModel
             thisAgent = GetComponent<T>();
             rotationHandler = new RotationHandler();
         }
-        private void Start()
-        {
-            //pathfinder = new Pathfinder<Vector2>(GetDistance, GetNeighbourNodes, 10000); //increase patience or gridSize for larger maps
-        }
+       
 
         public IEnumerator StartMoveToTransform(Transform target, Func<bool> movementCondition = default)
         {
@@ -58,17 +58,6 @@ namespace BehaviourModel
             Debug.Log($"End move routine to {targetTransform}");
             stopMovement = true;
             pathLeftToGo = null;
-
-            //if (targetReached)
-            //{
-            //    Debug.Log($"Target {targetTransform} reached");
-                //yield return thisAgent.OnTargetReached();
-            //}
-            //else
-            //{
-            //    Debug.Log($"Target {targetTransform} was not reached");
-
-            //}
             thisAgent.MovementTarget = null;
         }
 
@@ -96,11 +85,7 @@ namespace BehaviourModel
                 DrawPathLines();
 #endif
                 yield return null;
-                //if ((currentTargetPos- targetTransform.position).magnitude > 0.5f)
-                //{
-                //    pathLeftToGo = CreatePath(targetTransform);
-                //    yield return null;
-                //}
+               
             }
         }
 

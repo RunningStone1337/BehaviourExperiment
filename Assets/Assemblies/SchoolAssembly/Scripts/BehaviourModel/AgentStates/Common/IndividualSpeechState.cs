@@ -1,3 +1,4 @@
+using Common;
 using System.Collections;
 
 namespace BehaviourModel
@@ -30,7 +31,6 @@ namespace BehaviourModel
                 yield return dialog.StartDialog(thisStateSpeech);
             }
             yield return rotator.RotateToFaceDirection(direction, thisAgent.transform,  RotationHandler.QuickRotation);
-            //thisAgent.SetDefaultState();
         }
 
         public void Initiate(TAgent actorCast, TCompanion secondCast, SpeakAction<TAgent, TCompanion> speech, 

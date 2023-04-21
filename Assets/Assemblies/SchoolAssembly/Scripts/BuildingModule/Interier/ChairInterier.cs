@@ -37,7 +37,6 @@ namespace BuildingModule
                 v = -chairs.First(x => !x.Equals(this)).transform.localPosition.y;
             return new Vector3(oldPos.x, v, oldPos.z);
         }
-        //public SchoolAgentBase<PupilAgent> ThisAgent { get => thisAgent; set => thisAgent = value; }
 
         public override void Initiate(InterierPlaceBase ipb)
         {

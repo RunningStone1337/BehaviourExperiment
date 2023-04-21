@@ -7,9 +7,9 @@ namespace BehaviourModel
     public abstract class ActionBase : ReactionBase, IAction, IStatusBarDataSource
     {
         protected float actionMakingTime;
-        protected Sprite actionSprite;
+        protected ActionType actionType;
         public float BarShowingTime { get => actionMakingTime; set => actionMakingTime = value; }
-        public Sprite StatusBarSprite { get => actionSprite; set => actionSprite = value; }
+        public  Sprite StatusBarSprite { get => ActionsImagesDictionary.Instance.KeyValuePairs[actionType]; set=> ActionsImagesDictionary.Instance.KeyValuePairs[actionType] = value; }
 
         public ActionBase() : base()
         {

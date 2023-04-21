@@ -12,17 +12,17 @@ namespace Events
         DayEnd,
         None
     }
+
     public abstract class GlobalEvent : ScriptableObject, IReactionSource, INameHandler
     {
+        [SerializeField] private float eventImportance;
+        [SerializeField] private string eventName;
         [SerializeField] protected int eventDuration;
-        [SerializeField] float eventImportance;
-        [SerializeField] string eventName;
         [SerializeField] [HideInInspector] protected EventType eventType;
-        public EventType EventType => eventType;
         public int EventDuration => eventDuration;
-        public float PhenomenonPower { get => eventImportance; set => eventImportance = value; }
-
+        public EventType EventType => eventType;
         public string Name => eventName;
+        public float PhenomenonPower { get => eventImportance; set => eventImportance = value; }
 
         public abstract void Initiate(ScheduleHandler schedule);
     }

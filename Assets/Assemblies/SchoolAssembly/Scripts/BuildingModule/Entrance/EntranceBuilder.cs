@@ -82,7 +82,6 @@ namespace BuildingModule
         {
             if (entr)
             {
-                //if (NeedWall( entr.ThisRoom.Equals(neigh.ThisRoom))
                 RemoveExcessWalls(entr);
                 BuildNewWallsIfNeed(entr);
                 entr.RemoveInvalidInterier();

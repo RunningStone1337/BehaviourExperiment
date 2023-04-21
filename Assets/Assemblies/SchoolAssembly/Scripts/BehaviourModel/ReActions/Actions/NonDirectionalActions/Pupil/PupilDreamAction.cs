@@ -11,7 +11,7 @@ namespace BehaviourModel
     {
         public PupilDreamAction():base()
         {
-
+            actionType = ActionType.Dream;
         }
         public override IEnumerator TryPerformAction()
         {
