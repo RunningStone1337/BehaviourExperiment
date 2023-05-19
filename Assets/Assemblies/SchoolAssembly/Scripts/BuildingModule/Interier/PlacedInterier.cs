@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace BuildingModule
 {
-    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IReactionSource,
+    public abstract class PlacedInterier : InterierBase, IUIViewedObject, IPointerClickHandler, IPhenomenon,
     IMovementTarget
     {
         [SerializeField] protected Collider2D collider2d;
@@ -44,7 +44,7 @@ namespace BuildingModule
             mp.OppositeMiddlePlace.SetStateForInterier(this);
         }
 
-        public float PhenomenonPower { get => influenceValue; set => influenceValue = value; }
+        public float PhenomValue { get => influenceValue; set => influenceValue = value; }
         public string Name => objName;
         public string ObjDescription => objDescription;
         public Sprite PreviewSprite => previewSprite;

@@ -32,7 +32,7 @@ public abstract class ViewDimensionBase<TContent>
     public abstract StringWrapper[] ColumnsNames { get; set; }
    
     #endregion
-    public string DimensionName { get => dimensionName; set => dimensionName = value; }
+    public string PageName { get => dimensionName; set => dimensionName = value; }
     public float ScallingValue { get => scallingValue; set => scallingValue = value; }
     public int ColumnsCount
     {

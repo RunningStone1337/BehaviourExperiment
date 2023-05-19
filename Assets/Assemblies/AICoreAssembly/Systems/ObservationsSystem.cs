@@ -5,13 +5,13 @@ using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
-    public abstract class ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor> : 
-        SystemBase<TAgent, TReaction, TFeature, TState, TSensor>,
-        IPhenomenonsCreator
-        where TAgent : ICurrentStateHandler<TState> , IAgent
-        where TReaction : IReaction
+    public class ObservationsSystem<TAgent, TReaction, TFeature, TSensor> : 
+        SystemBase<TAgent, TReaction, TFeature, TSensor>,
+        ISensor
+        where TAgent :  IAgent
+        where TReaction : IAction
         where TFeature : IFeature
-        where TState : IState where TSensor : ISensor
+        where TSensor : ISensor
     {
         [Tooltip("If manual - you need to call \"CreatePhenomenons\" manually, else Brain will do it automatically by timer.")]
         [SerializeField] ActionsMode observationsCollectingMode;
@@ -35,7 +35,7 @@ namespace BehaviourModel
         public float ObservationsCollectingIntervalSeed { get => observationsCollectingIntervalSeed;
             set => observationsCollectingIntervalSeed = Mathf.Clamp(value,0, observationsCollectingInterval); }
 
-        public List<IPhenomenon> CreatePhenomenons()
+        public List<IPhenomenon> CollectObservations()
         {
             List<IPhenomenon> res = new List<IPhenomenon>();
             foreach (var s in sensors)

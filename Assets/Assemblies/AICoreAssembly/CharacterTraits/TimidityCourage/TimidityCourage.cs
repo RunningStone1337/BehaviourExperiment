@@ -19,7 +19,7 @@ namespace BehaviourModel
     /// трудно принимающих самостоятельные решения.
     /// </summary>
     public abstract class TimidityCourage :
-        CharacterTraitBase, IComparable<TimidityCourage>
+        CharacterTraitBase, IComparable<TimidityCourage>, ICommunicationalTrait, IEmotionalTrait
 
     {
         public static bool operator <(TimidityCourage c1,

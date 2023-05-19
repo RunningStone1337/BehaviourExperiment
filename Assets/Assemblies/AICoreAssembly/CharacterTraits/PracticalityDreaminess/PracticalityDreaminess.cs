@@ -13,7 +13,7 @@ namespace BehaviourModel
     /// таких, как практичность, приземленность или, наоборот, некоторое «витание в облаках», романтическое отношение к жизни.
     /// </summary>
     public abstract class PracticalityDreaminess : CharacterTraitBase,
-        IComparable<PracticalityDreaminess>
+        IComparable<PracticalityDreaminess>, IIntellectualTrait
     {
         public static bool operator <(PracticalityDreaminess c1,
                     PracticalityDreaminess c2) =>

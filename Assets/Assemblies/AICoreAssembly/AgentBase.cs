@@ -4,32 +4,29 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class AgentBase<TAgent, TReaction, TFeature, TState, TSensor> : SerializedMonoBehaviour, IAgent,
-        ICurrentStateHandler<TState>
-        where TAgent : ICurrentStateHandler<TState>, IAgent
-        where TReaction : IReaction
+    public abstract class AgentBase<TAgent, TReaction, TFeature, TSensor> : SerializedMonoBehaviour, IAgent
+        where TAgent : IAgent
+        where TReaction : IAction
         where TFeature : IFeature
-        where TState : IState
         where TSensor : ISensor
     {
         [Header("Systems")]
         #region systems
 
-        [SerializeField] private BrainBase<TAgent, TReaction, TFeature, TState, TSensor> brain;
-        [SerializeField] private CharacterSystem<TAgent, TReaction, TFeature, TState, TSensor> characterSystem;
-        [SerializeField] private FeaturesSystem<TAgent, TReaction, TFeature, TState, TSensor> featuresSystem;
-        [SerializeField] private ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor> observationsSystem;
-        [SerializeField] private RelationsSystem<TAgent, TReaction, TFeature, TState, TSensor> relationsSystem;
-        public BrainBase<TAgent, TReaction, TFeature, TState, TSensor> Brain { get => brain; protected set => brain = value; }
-        public CharacterSystem<TAgent, TReaction, TFeature, TState, TSensor> CharacterSystem { get => characterSystem; protected set => characterSystem = value; }
-        public FeaturesSystem<TAgent, TReaction, TFeature, TState, TSensor> FeaturesSystem { get => featuresSystem; protected set => featuresSystem = value; }
-        public ObservationsSystem<TAgent, TReaction, TFeature, TState, TSensor> ObservationsSystem => observationsSystem;
-        public RelationsSystem<TAgent, TReaction, TFeature, TState, TSensor> RelationsSystem => relationsSystem;
+        [SerializeField] private BrainSystem<TAgent, TReaction, TFeature, TSensor> brain;
+        [SerializeField] private CharacterSystem<TAgent, TReaction, TFeature, TSensor> characterSystem;
+        [SerializeField] private FeaturesSystem<TAgent, TReaction, TFeature, TSensor> featuresSystem;
+        [SerializeField] private ObservationsSystem<TAgent, TReaction, TFeature, TSensor> observationsSystem;
+        [SerializeField] private RelationsSystem<TAgent, TReaction, TFeature, TSensor> relationsSystem;
+        public BrainSystem<TAgent, TReaction, TFeature, TSensor> Brain { get => brain; protected set => brain = value; }
+        public CharacterSystem<TAgent, TReaction, TFeature, TSensor> CharacterSystem { get => characterSystem; protected set => characterSystem = value; }
+        public FeaturesSystem<TAgent, TReaction, TFeature, TSensor> FeaturesSystem { get => featuresSystem; protected set => featuresSystem = value; }
+        public ObservationsSystem<TAgent, TReaction, TFeature, TSensor> ObservationsSystem => observationsSystem;
+        public RelationsSystem<TAgent, TReaction, TFeature, TSensor> RelationsSystem => relationsSystem;
 
         #endregion systems
         [Space]
         #region fields
-        [SerializeField] protected TState currentState;
 
         [Tooltip("If true, the agent will collect observations after calling StartStateMachine, otherwise not." +
             " You can safely switch this flag during the main process to temporarily disable the monitoring functionality.")]
@@ -58,7 +55,7 @@ namespace BehaviourModel
                 {
                     if (observationsSystem.CollectMode == ActionsMode.ByInterval)
                     {
-                        var observationSources = observationsSystem.CreatePhenomenons();
+                        var observationSources = observationsSystem.CollectObservations();
                         yield return Brain.ProceedPhenomenons(observationSources);
                         yield return observationsSystem.CollectingDelay();
                     }
@@ -70,7 +67,6 @@ namespace BehaviourModel
                 //Debug.Log($"Observations collected, count {Brain.PhenomensToReact.Count}");
             }
         }
-        public abstract void SetDefaultState();
 
         /// <summary>
         /// Actions realizing routine.
@@ -92,7 +88,6 @@ namespace BehaviourModel
         }
 
         public bool CollectObservations { get => collectObservations; set => collectObservations = value; }
-        public TState CurrentState { get => currentState; set => currentState = value; }
         /// <summary>
         /// If true, state machine is running
         /// </summary>
@@ -209,20 +204,20 @@ namespace BehaviourModel
             AgentActingCoroutine = StartCoroutine(AgentActingRoutine());
         }
 
-        public void StartStateMachine()
+        public void StartActing()
         {
             IsActing = true;            
             ObservationsCoroutine = StartCoroutine(ObservationsRoutine());
             AgentActingCoroutine = StartCoroutine(AgentActingRoutine());
         }
 
-        public void StopStateMachine()
+        public void StopActing()
         {
             IsActing = false;
             StopCoroutine(AgentActingCoroutine);
             StopCoroutine(ObservationsCoroutine);
         }
 
-        public abstract TNewState SetState<TNewState>() where TNewState : TState, new();
+      
     }
 }

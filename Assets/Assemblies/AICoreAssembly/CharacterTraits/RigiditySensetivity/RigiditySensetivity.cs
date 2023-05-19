@@ -20,7 +20,7 @@ namespace BehaviourModel
     /// склонная к рефлексии, задумывающаяся над своими ошибками и путями избежания таковых.
     /// </summary>
     public abstract class RigiditySensetivity : CharacterTraitBase
-        , IComparable<RigiditySensetivity>
+        , IComparable<RigiditySensetivity>, IEmotionalTrait
     {
         public static bool operator <(RigiditySensetivity c1,
                     RigiditySensetivity c2) =>

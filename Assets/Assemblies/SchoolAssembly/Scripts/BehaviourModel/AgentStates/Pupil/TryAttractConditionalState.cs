@@ -12,7 +12,7 @@ namespace BehaviourModel
         protected override IEnumerator TryAttractAgentAttention(TAttentionTarget agentToAttention)
         {
             //если состояние прерываемо - пробуем прервать
-            if (agentToAttention.CurrentState is IOptionalToCompleteState)
+            if (agentToAttention.CurrentState is IOptionalToCompleteState<TAttentionTarget>)
             {
                 var state = agentToAttention.SetState<ConditionalAttentionToAgentState<TAttentionTarget, TStateHandler>>();
                 state.Initiate(agentToAttention, thisAgent, contitionForCompanionToHeldAttention);

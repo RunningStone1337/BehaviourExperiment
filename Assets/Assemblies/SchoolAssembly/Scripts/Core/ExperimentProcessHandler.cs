@@ -56,7 +56,7 @@ namespace Core
                 while (!placer.TryFindPlace())
                     yield return new WaitForFixedUpdate();
                 pup.transform.position = placer.Place;
-                pup.StartStateMachine();
+                pup.StartActing();
                 pup.StartAppearing();
                 yield return new WaitForSeconds(.05f);
             }
@@ -64,7 +64,7 @@ namespace Core
             while (!placer.TryFindPlace())
                 yield return new WaitForFixedUpdate();
             Teacher.transform.position = placer.Place;
-            Teacher.StartStateMachine();
+            Teacher.StartActing();
             Teacher.StartAppearing();
         }
 
@@ -73,10 +73,10 @@ namespace Core
             foreach (var ag in experimentAgents)
             {
                 if (!ag.IsActing)
-                    ag.StartStateMachine();
+                    ag.StartActing();
             }
             if (!teacher.IsActing)
-                teacher.StartStateMachine();
+                teacher.StartActing();
         }
 
         public void OnDayStartedCallback(CurrentDayChangedEventArgs args)

@@ -4,71 +4,49 @@ using System.Linq;
 
 namespace BehaviourModel
 {
-    public class SchoolBrain<TAgent> : BrainBase<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>,
-        ICanReactOnPhenomenon<PupilAgent, ReactionBase>,
-        ICanReactOnPhenomenon<BreakEvent, ReactionBase>,
-        ICanReactOnPhenomenon<LessonEvent, ReactionBase>,
-        ICanReactOnPhenomenon<DayOverEvent, ReactionBase>
+    public class SchoolBrain<TAgent> : BrainSystem<TAgent, ActionBase, FeatureBase, Sensor>,
+        ICanReactOnPhenomenon<PupilAgent, ActionBase>,
+        ICanReactOnPhenomenon<GlobalEvent, ActionBase>
         where TAgent : SchoolAgentBase<TAgent>
     {
         #region reactions calculations
 
         protected override IPhenomenon SelectPhenomToReact(List<IPhenomenon> phenomensToReact)
         {
-            var phenomsWeights = phenomensToReact.Select(x => (x, x.PhenomenonPower)).ToList();
+            var phenomsWeights = phenomensToReact.Select(x => (x, x.PhenomValue)).ToList();
             var selected = phenomsWeights.SelectRandom().Key;
             return selected;
         }
 
-        protected override ReactionBase SelectReaction(List<ReactionBase> reactions)
+        protected override ActionBase SelectActionFromList(List<ActionBase> reactions)
         {
-            var tuples = reactions.Select(x => (x, x.PhenomenonPower)).ToList();
+            var tuples = reactions.Select(x => (x, x.ActionUtility)).ToList();
             var selected = tuples.SelectRandom();
             return selected.Key;
         }
 
-        public override bool HasReactionsOnPhenom(IPhenomenon reason, out List<ReactionBase> reaction)
+        public override bool TryReactOnPhenom(IPhenomenon reason, out List<ActionBase> reaction)
         {
             reaction = default;
             if (reason is PupilAgent p)
-                return HasReactionsOnPhenom(p, out reaction);
-            else if (reason is BreakEvent be)
-                return HasReactionsOnPhenom(be, out reaction);
-            else if (reason is LessonEvent le)
-                return HasReactionsOnPhenom(le, out reaction);
-            else if (reason is DayOverEvent dov)
-                return HasReactionsOnPhenom(dov, out reaction);
+                return TryReactOnPhenom(p, out reaction);
+            else if (reason is GlobalEvent be)
+                return TryReactOnPhenom(be, out reaction);          
             else return default;
         }
 
-        public virtual bool HasReactionsOnPhenom(PupilAgent reason, out List<ReactionBase> reactions)
+        public virtual bool TryReactOnPhenom(PupilAgent reason, out List<ActionBase> reactions)
         {
-            var selector = new CommonReactionsSelector();
-            reactions = selector.SelectReactions
+            var selector = new OtherAgentReactionsSelector<TAgent, PupilAgent, ReactionsWrapper>();
+            reactions = selector.GetProbablyActions
                 (ThisAgent, reason, ThisAgent.TablesHandler.CharacterToPupilReactionsTable);
             return true;
         }
 
-        public bool HasReactionsOnPhenom(BreakEvent reason, out List<ReactionBase> reactions)
+        public bool TryReactOnPhenom(GlobalEvent reason, out List<ActionBase> reactions)
         {
-            var selector = new CommonReactionsSelector();
-            reactions = selector.SelectReactions
-               (ThisAgent, reason, ThisAgent.TablesHandler.CharacterToEventsReactionsTable);
-            return true;
-        }
-
-        public bool HasReactionsOnPhenom(DayOverEvent reason, out List<ReactionBase> reactions)
-        {
-            var selector = new CommonReactionsSelector();
-            reactions = selector.SelectReactions
-               (ThisAgent, reason, ThisAgent.TablesHandler.CharacterToEventsReactionsTable);
-            return true;
-        }
-
-        public bool HasReactionsOnPhenom(LessonEvent reason, out List<ReactionBase> reactions)
-        {
-            var selector = new CommonReactionsSelector();
-            reactions = selector.SelectReactions
+            var selector = new EventReactionsSelector<TAgent, GlobalEvent, ReactionsWrapper>();
+            reactions = selector.GetProbablyActions
                (ThisAgent, reason, ThisAgent.TablesHandler.CharacterToEventsReactionsTable);
             return true;
         }

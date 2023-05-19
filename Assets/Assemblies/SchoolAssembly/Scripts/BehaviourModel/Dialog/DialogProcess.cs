@@ -16,7 +16,7 @@ namespace BehaviourModel
         private TResponder speechResponder;
         public TResponder SpeechResponder=> speechResponder;
         public TInitiator SpeechInitiator => speechInitiator;
-        private RelationshipBase<TInitiator, IAgent, SchoolAgentStateBase<TInitiator>> relations;
+        private RelationshipBase<TInitiator, IAgent> relations;
         public SpeakAction<TResponder, TInitiator> SpeechResponse { get; set; }
 
         public DialogProcess(TInitiator initiator, TResponder responder)
@@ -33,14 +33,14 @@ namespace BehaviourModel
             yield return new WaitForSeconds(initiatorSpeech.BarShowingTime );
 
             //после спича получаем ответ ответчика
-            SpeechResponse = SpeechResponder.GetResponseAtSpeech(initiatorSpeech, speechInitiator);
+            SpeechResponse = SpeechResponder.GetReactionAtSpeech(initiatorSpeech, speechInitiator);
             //виузал ответчика, он должен быть в стейте внимания к агенту
             SpeechResponder.StartActionVisual(SpeechResponse);
             //воспроизводим его
-            yield return SpeechResponse.ReactAtSpeech(initiatorSpeech);
+            yield return SpeechResponse.ReactAtAction(initiatorSpeech);
             yield return new WaitForSeconds(SpeechResponse.BarShowingTime);
             //в зависимости от ответа изменяются отношения агентов или совершаются действия
-            yield return initiatorSpeech.ReactAtSpeech(SpeechResponse);
+            yield return initiatorSpeech.ReactAtAction(SpeechResponse);
         }
 
         private TimingAttentionToAgentState<TResponder, TInitiator> SetState(float speechTime)

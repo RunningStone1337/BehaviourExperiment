@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class TurnToSidesState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState
+    public class TurnToSidesState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState<TAgent>
         where TAgent : SchoolAgentBase<TAgent>
     {
         public bool IsContinue { get; set; } = true;

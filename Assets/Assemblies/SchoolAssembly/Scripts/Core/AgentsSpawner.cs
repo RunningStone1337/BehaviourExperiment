@@ -46,7 +46,7 @@ namespace Core
             LowDomination,  MiddleDomination,  HighDomination,
             LowDiplomacy,  MiddleDiplomacy,  HighDiplomacy,
             LowCourage,  MiddleCourage,  HighCourage>(pupData);
-            
+            agent.SetProps(pupData);
             return agent;
         }
 
@@ -66,7 +66,7 @@ namespace Core
             GlobalEventsHandler.Instance.OnGlobalEventChanged.AddListener(((SchoolObservationsSystem<TAgent>)agent.ObservationsSystem).EventsSensor.OnGlobalEventChangedCallback);
             LastCreatedAgents.Add(agent);
             if (startOnSpawn)
-                agent.StartStateMachine();
+                agent.StartActing();
         }
 
         internal IEnumerator SpawnAgents<T, TData>(List<TData> agentsData, bool startOnSpawn)

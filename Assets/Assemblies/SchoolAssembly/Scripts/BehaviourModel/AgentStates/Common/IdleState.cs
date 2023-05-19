@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class IdleState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState
+    public class IdleState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState<TAgent>
         where TAgent : SchoolAgentBase<TAgent>
     {
         public bool IsContinue { get; set; }

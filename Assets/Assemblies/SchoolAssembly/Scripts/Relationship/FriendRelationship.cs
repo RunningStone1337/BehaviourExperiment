@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class FriendRelationship<TAgent, TOtherAgent, TState> 
-        : FellowRelationship<TAgent, TOtherAgent, TState>
-        where TAgent : ICurrentStateHandler<TState>
+    public class FriendRelationship<TAgent, TOtherAgent> 
+        : FellowRelationship<TAgent, TOtherAgent>
+        where TAgent : IAgent
         where TOtherAgent : IAgent
-        where TState : IState
     {
         public FriendRelationship(TAgent thisAgent, TOtherAgent secondAgent) 
             : base(thisAgent, secondAgent)
@@ -15,14 +14,14 @@ namespace BehaviourModel
         public override string ToString() => "Friend";
 
         static readonly float friendToFellow = -50f;
-        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        protected override bool TryTransitonToNewRelationship(out RelationshipBase<TAgent, TOtherAgent> newRelation)
         {
             newRelation = default;
-            if (currentRelationshipValue <= friendToFellow)
+            if (currentProgress <= friendToFellow)
             {
-                newRelation = new FellowRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent)
+                newRelation = new FellowRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent)
                 {
-                    CurrentRelationshipProgress = currentRelationshipValue - friendToFellow
+                    CurrentRelationshipProgress = currentProgress - friendToFellow
                 };
                 return true;
             }

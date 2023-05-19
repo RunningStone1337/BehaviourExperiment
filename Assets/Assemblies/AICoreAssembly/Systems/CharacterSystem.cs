@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class CharacterSystem<TAgent, TReaction, TFeature, TState, TSensor> : SystemBase<TAgent, TReaction, TFeature, TState, TSensor>,
+    public class CharacterSystem<TAgent, TReaction, TFeature, TSensor> :
+        SystemBase<TAgent, TReaction, TFeature, TSensor>,
         IEnumerable<CharacterTraitBase>
-        where TAgent : ICurrentStateHandler<TState>, IAgent
-        where TReaction : IReaction
+        where TAgent : IAgent
+        where TReaction : IAction
         where TFeature : IFeature
-        where TState : IState 
         where TSensor : ISensor
     {
         [SerializeField] private CalmnessAnxiety calmnessAnxiety;

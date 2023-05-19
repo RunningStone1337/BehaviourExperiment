@@ -52,32 +52,32 @@ MonoBehaviour:
     midEmStabVector: []
     highEmStabVector: []
     lowExpressVector:
-    - speechToReact: TryAgressiveSpeechNeighAction
-      probablyReactionInfluence: -10
-    - speechToReact: TrySpeechWithNeighAction
-      probablyReactionInfluence: 10
-    - speechToReact: TrySimpleSpeechAction
-      probablyReactionInfluence: 15
-    - speechToReact: TryAggressiveSpeechAction
-      probablyReactionInfluence: -10
+    - probablyReactionInfluence: -10
+      speechToReact: TryAgressiveSpeechNeighAction
+    - probablyReactionInfluence: 10
+      speechToReact: TrySpeechWithNeighAction
+    - probablyReactionInfluence: 15
+      speechToReact: TrySimpleSpeechAction
+    - probablyReactionInfluence: -10
+      speechToReact: TryAggressiveSpeechAction
     midExpressVector:
-    - speechToReact: TryAgressiveSpeechNeighAction
-      probablyReactionInfluence: -15
-    - speechToReact: TrySpeechWithNeighAction
-      probablyReactionInfluence: 15
-    - speechToReact: TrySimpleSpeechAction
-      probablyReactionInfluence: 20
-    - speechToReact: TryAggressiveSpeechAction
-      probablyReactionInfluence: -20
+    - probablyReactionInfluence: -15
+      speechToReact: TryAgressiveSpeechNeighAction
+    - probablyReactionInfluence: 15
+      speechToReact: TrySpeechWithNeighAction
+    - probablyReactionInfluence: 20
+      speechToReact: TrySimpleSpeechAction
+    - probablyReactionInfluence: -20
+      speechToReact: TryAggressiveSpeechAction
     highExpressVector:
-    - speechToReact: TryAgressiveSpeechNeighAction
-      probablyReactionInfluence: -15
-    - speechToReact: TrySpeechWithNeighAction
-      probablyReactionInfluence: 15
-    - speechToReact: TrySimpleSpeechAction
-      probablyReactionInfluence: 20
-    - speechToReact: TryAggressiveSpeechAction
-      probablyReactionInfluence: -20
+    - probablyReactionInfluence: -15
+      speechToReact: TryAgressiveSpeechNeighAction
+    - probablyReactionInfluence: 15
+      speechToReact: TrySpeechWithNeighAction
+    - probablyReactionInfluence: 20
+      speechToReact: TrySimpleSpeechAction
+    - probablyReactionInfluence: -20
+      speechToReact: TryAggressiveSpeechAction
     lowIntellVector: []
     midIntellVector: []
     highIntellVector: []

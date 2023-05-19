@@ -15,12 +15,12 @@ public class SimulationTester : MonoBehaviour
         foreach (var ag in agents)
         {
             ag.SetDefaultState();
-            ag.StartStateMachine();
+            ag.StartActing();
         }
         if (teacher != null)
         {
             teacher.SetDefaultState();
-            teacher.StartStateMachine();
+            teacher.StartActing();
         }
     }
     private void Start()

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
@@ -82,7 +80,7 @@ namespace BehaviourModel
         HighTimidityCourage
     }
 
-    public abstract class CharacterTraitBase : MonoBehaviour
+    public abstract class CharacterTraitBase : MonoBehaviour, IUtilityCalculationSource
        
     {
         [SerializeField] private int characterCalculatedValue;
@@ -93,7 +91,7 @@ namespace BehaviourModel
         [SerializeField] [HideInInspector] private CharTraitType thisCharType;
        
         public CharTraitType ThisCharType { get => thisCharType; protected set => thisCharType = value; }
-        private CharacterGrade GetCharacterGrade(int rawCharacterValue)
+        private static CharacterGrade GetCharacterGrade(int rawCharacterValue)
         {
             if (rawCharacterValue > 0 && rawCharacterValue < 4)
                 return CharacterGrade.Low;
@@ -135,9 +133,6 @@ namespace BehaviourModel
         public IAgent ThisAgent => thisAgent;
 
         public CharTraitTypeExtended ThisConcreteCharType { get => thisConcreteCharType; protected set => thisConcreteCharType = value; }
-
-  
-
 
         #region operators overloading
 
@@ -203,12 +198,12 @@ namespace BehaviourModel
 
         #endregion operators overloading
 
-        public virtual void Initiate(int characterValue, IAgent agent)
+        public virtual void Initiate(int rawCharacterValue, IAgent agent)
         {
             thisAgent = agent;
-            RawCharacterValue = characterValue;
+            RawCharacterValue = rawCharacterValue;
             CharacterGrade = GetCharacterGrade(RawCharacterValue);
-            SpecializedCharacterValue = CalculateSpecializedValue(characterValue);
+            SpecializedCharacterValue = CalculateSpecializedValue(rawCharacterValue);
         }
     }
 }

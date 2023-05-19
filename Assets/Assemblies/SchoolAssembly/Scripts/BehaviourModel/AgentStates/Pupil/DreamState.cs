@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class DreamState : SchoolAgentStateBase<PupilAgent>, IOptionalToCompleteState
+    public class DreamState : SchoolAgentStateBase<PupilAgent>, IOptionalToCompleteState<PupilAgent>
     {
         private float dreamingTimer;
         private bool isDreaming = true;

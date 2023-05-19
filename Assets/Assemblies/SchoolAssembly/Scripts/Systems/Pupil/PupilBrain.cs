@@ -4,31 +4,19 @@ using System.Collections.Generic;
 namespace BehaviourModel
 {
     public class PupilBrain : SchoolBrain<PupilAgent>,
-        ICanReactOnPhenomenon<PlacedInterier, ReactionBase>,
-        ICanReactOnPhenomenon<TeacherAgent, ReactionBase>
+        ICanReactOnPhenomenon<TeacherAgent, ActionBase>
     {
-        public override bool HasReactionsOnPhenom(IPhenomenon reason, out List<ReactionBase> reaction)
-        {
-            if (reason is PlacedInterier pi)
-                return HasReactionsOnPhenom(pi, out reaction);
-            else if (reason is TeacherAgent t)
-                return HasReactionsOnPhenom(t, out reaction);
+        public override bool TryReactOnPhenom(IPhenomenon reason, out List<ActionBase> reaction)
+        { if (reason is TeacherAgent t)
+                return TryReactOnPhenom(t, out reaction);
             else
-                return base.HasReactionsOnPhenom(reason, out reaction);
+                return base.TryReactOnPhenom(reason, out reaction);
         }
-        public bool HasReactionsOnPhenom(PlacedInterier reason, out List<ReactionBase> reactions)
+        public bool TryReactOnPhenom(TeacherAgent reason, out List<ActionBase> reactions)
         {
             var table = (PupilRelationsTableHandler)ThisAgent.TablesHandler;
-            var selector = new CommonReactionsSelector();
-            reactions = selector.SelectReactions
-               (ThisAgent, reason, table.CharacterToInterierReactionsTable);
-            return true;
-        }
-        public bool HasReactionsOnPhenom(TeacherAgent reason, out List<ReactionBase> reactions)
-        {
-            var table = (PupilRelationsTableHandler)ThisAgent.TablesHandler;
-            var selector = new FirstColumnReactionsSelector();
-            reactions = selector.SelectReactions
+            var selector = new FirstColumnAgentReactionsSelector<PupilAgent, TeacherAgent, ReactionsWrapper>();
+            reactions = selector.GetProbablyActions
                (ThisAgent, reason, table.CharacterToTeacherReactionsTable);
             return true;
         }

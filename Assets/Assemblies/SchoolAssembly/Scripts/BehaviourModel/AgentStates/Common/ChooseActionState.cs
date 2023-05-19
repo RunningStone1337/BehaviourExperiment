@@ -1,12 +1,9 @@
 namespace BehaviourModel
 {
-    /// <summary>
-    /// Стейт бездействия
-    /// </summary>
-    public abstract class ChooseActionState<T> : SchoolAgentStateBase<T>, IOptionalToCompleteState
-        where T : SchoolAgentBase<T>
+    public abstract class ChooseActionState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState<TAgent>
+        where TAgent : SchoolAgentBase<TAgent>
     {
-        public bool IsContinue { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public bool IsContinue { get ; set; }
 
         public ChooseActionState() : base()
         {

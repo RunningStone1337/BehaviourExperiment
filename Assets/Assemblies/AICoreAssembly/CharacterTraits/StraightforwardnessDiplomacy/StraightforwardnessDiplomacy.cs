@@ -24,8 +24,7 @@ namespace BehaviourModel
     /// целенаправленной дискуссии и в формировании функциональных групповых решений
     /// (у театральных режиссеров, кинорежиссеров, дипломатов как правило высокие оценки по этому фактору).
     /// </summary>
-    public abstract class StraightforwardnessDiplomacy : CharacterTraitBase,
-        IComparable<StraightforwardnessDiplomacy>
+    public abstract class StraightforwardnessDiplomacy : CharacterTraitBase, IComparable<StraightforwardnessDiplomacy>, ICommunicationalTrait
     {
         public static bool operator <(StraightforwardnessDiplomacy c1,
             StraightforwardnessDiplomacy c2) =>

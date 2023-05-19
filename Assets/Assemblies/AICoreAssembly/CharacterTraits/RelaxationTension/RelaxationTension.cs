@@ -17,7 +17,7 @@ namespace BehaviourModel
     /// характеризуются оптимальным эмоциональным тонусом и стрессоустойчивостью.
     /// </summary>
     public abstract class RelaxationTension : CharacterTraitBase,
-        IComparable<RelaxationTension>
+        IComparable<RelaxationTension>, IEmotionalTrait 
     {
         public static bool operator <(RelaxationTension c1,
             RelaxationTension c2) =>

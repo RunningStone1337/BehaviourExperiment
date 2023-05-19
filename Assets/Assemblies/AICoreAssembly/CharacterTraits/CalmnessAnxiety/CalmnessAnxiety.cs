@@ -12,7 +12,7 @@ namespace BehaviourModel
     /// Этот фактор шире, чем чувство вины в общепринятом смысле.
     /// </summary>
     public abstract class CalmnessAnxiety : CharacterTraitBase,
-        IComparable<CalmnessAnxiety>
+        IComparable<CalmnessAnxiety>, IEmotionalTrait
 
     {
         public static bool operator <(CalmnessAnxiety c1,

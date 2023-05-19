@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class FeaturesSystem<TAgent, TReaction, TFeature, TState, TSensor> :
-        SystemBase<TAgent, TReaction, TFeature, TState, TSensor>, IEnumerable<TFeature>
-        where TAgent : ICurrentStateHandler<TState>, IAgent
-        where TReaction : IReaction
+    public class FeaturesSystem<TAgent, TReaction, TFeature, TSensor> :
+        SystemBase<TAgent, TReaction, TFeature, TSensor>, IEnumerable<TFeature>
+        where TAgent :  IAgent
+        where TReaction : IAction
         where TFeature : IFeature
-        where TState : IState
         where TSensor : ISensor
     {
         [SerializeField] private List<TFeature> features;
-
+       
         public IEnumerator<TFeature> GetEnumerator()
         {
             return features.GetEnumerator();
@@ -28,5 +27,10 @@ namespace BehaviourModel
         {
             return features.GetEnumerator();
         }
+        public void AddFeature(TFeature feature)
+        {
+            features.Add(feature);
+        }
+        public List<TFeature> GetAllFeatures() => features;
     }
 }

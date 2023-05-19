@@ -14,8 +14,7 @@ namespace BehaviourModel
     /// ¬ысокие оценки имеют люди, которые часто разобщены с группой и по роду зан€тий €вл€ютс€ индивидуалистами Ц писатели,
     /// ученые и преступники.
     /// </summary>
-    public abstract class ConformismNonconformism : CharacterTraitBase,
-        IComparable<ConformismNonconformism>
+    public abstract class ConformismNonconformism : CharacterTraitBase, IComparable<ConformismNonconformism>, ICommunicationalTrait
     {
         public static bool operator <(ConformismNonconformism c1,
             ConformismNonconformism c2) =>

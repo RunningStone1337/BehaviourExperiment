@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class ClassMatrixViewDimension<T> : MatrixViewDimension<T>
-where T : new()
+public class ClassMatrixViewDimension<TContent> : MatrixViewDimension<TContent>
+where TContent : new()
 {
     public ClassMatrixViewDimension() : base()
     {

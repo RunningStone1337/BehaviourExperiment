@@ -18,7 +18,7 @@ namespace BehaviourModel
     /// Пример: актеры, эффективные лидеры имеют более высокие оценки, художники, последователи – более низкие.
     /// </summary>
     public abstract class RestraintExpressiveness : CharacterTraitBase,
-        IComparable<RestraintExpressiveness>
+        IComparable<RestraintExpressiveness>, IEmotionalTrait
     {
         public static bool operator <(RestraintExpressiveness c1,
             RestraintExpressiveness c2) =>

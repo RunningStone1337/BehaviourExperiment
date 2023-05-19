@@ -15,7 +15,7 @@ namespace BehaviourModel
     /// настойчивость в достижении цели, деловая направленность.
     /// </summary>
     public abstract class NormativityOfBehaviour : CharacterTraitBase,
-        IComparable<NormativityOfBehaviour>
+        IComparable<NormativityOfBehaviour>, IRegulationalTrait
     {
         public static bool operator <(NormativityOfBehaviour c1,
             NormativityOfBehaviour c2) =>

@@ -14,8 +14,7 @@ namespace BehaviourModel
     /// Очень высокие оценки по этому фактору говорят об излишней защите и эмоциональной напряженности,
     /// фрустрированности личности. Низкий полюс характеризует личность добродушную, но склонную к конформизму.
     /// </summary>
-    public abstract class CredulitySuspicion : CharacterTraitBase,
-        IComparable<CredulitySuspicion>
+    public abstract class CredulitySuspicion : CharacterTraitBase, IComparable<CredulitySuspicion>, ICommunicationalTrait
     {
         public static bool operator <(CredulitySuspicion c1,
             CredulitySuspicion c2) =>

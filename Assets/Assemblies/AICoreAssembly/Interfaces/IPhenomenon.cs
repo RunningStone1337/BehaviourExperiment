@@ -1,5 +1,3 @@
-using System;
-
 namespace BehaviourModel
 {
     /// <summary>
@@ -7,9 +5,7 @@ namespace BehaviourModel
     /// </summary>
     public interface IPhenomenon
     {
-        /// <summary>
-        /// Use this value for scalling agents reaction at some phenomenons.
-        /// </summary>
-        float PhenomenonPower { get; set; }
+        float PhenomValue { get; set; }
+
     }
 }

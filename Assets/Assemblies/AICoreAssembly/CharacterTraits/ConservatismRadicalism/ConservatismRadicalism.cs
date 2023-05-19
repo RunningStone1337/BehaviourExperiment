@@ -17,8 +17,7 @@ namespace BehaviourModel
     /// им свойственна независимость суждений, взглядов и поведения.
     /// Фактор определяет радикальное, интеллектуальное, политическое и религиозное отношения.
     /// </summary>
-    public abstract class ConservatismRadicalism : CharacterTraitBase,
-        IComparable<ConservatismRadicalism>
+    public abstract class ConservatismRadicalism : CharacterTraitBase, IComparable<ConservatismRadicalism>, IIntellectualTrait
     {
         public static bool operator <(ConservatismRadicalism c1,
             ConservatismRadicalism c2) =>

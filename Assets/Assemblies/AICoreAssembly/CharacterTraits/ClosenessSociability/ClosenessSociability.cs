@@ -16,7 +16,7 @@ namespace BehaviourModel
     /// межличностных контактов
     /// </summary>
     public abstract class ClosenessSociability : CharacterTraitBase
-        , IComparable<ClosenessSociability>
+        , IComparable<ClosenessSociability>,ICommunicationalTrait
 
     {
         public static bool operator <(ClosenessSociability c1, ClosenessSociability c2) =>

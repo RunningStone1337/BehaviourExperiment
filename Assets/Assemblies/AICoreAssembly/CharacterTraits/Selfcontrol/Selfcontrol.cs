@@ -15,7 +15,7 @@ namespace BehaviourModel
     /// Этот фактор измеряет уровень внутреннего контроля поведения, интегрированность личности.
     /// </summary>
     public abstract class Selfcontrol : CharacterTraitBase,
-        IComparable<Selfcontrol>
+        IComparable<Selfcontrol>, IRegulationalTrait
     {
         public static bool operator <(Selfcontrol c1,
                     Selfcontrol c2) =>

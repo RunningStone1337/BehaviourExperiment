@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class FoeRelationship<TAgent, TOtherAgent, TState> : 
-        NegativeRelationshipBase<TAgent, TOtherAgent, TState>
-        where TAgent : ICurrentStateHandler<TState>
+    public class FoeRelationship<TAgent, TOtherAgent> : 
+        NegativeRelationshipBase<TAgent, TOtherAgent>
+        where TAgent : IAgent
         where TOtherAgent : IAgent
-        where TState : IState
     {
         public FoeRelationship(TAgent thisAgent, TOtherAgent secondAgent) : base(thisAgent, secondAgent)
         {
@@ -14,22 +13,22 @@ namespace BehaviourModel
         public override string ToString() => "Foe";
         static readonly float foeToEnemy = -30;
         static readonly float foeToFellow = 100;
-        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        protected override bool TryTransitonToNewRelationship(out RelationshipBase<TAgent, TOtherAgent> newRelation)
         {
             newRelation = default;
-            if (currentRelationshipValue <= foeToEnemy)
+            if (currentProgress <= foeToEnemy)
             {
-                newRelation = new EnemyRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent)
+                newRelation = new EnemyRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent)
                 {
-                    CurrentRelationshipProgress = currentRelationshipValue - foeToEnemy
+                    CurrentRelationshipProgress = currentProgress - foeToEnemy
                 };
                 return true;
             }
-            else if (currentRelationshipValue >= foeToFellow)
+            else if (currentProgress >= foeToFellow)
             {
-                newRelation = new FellowRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent)
+                newRelation = new FellowRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent)
                 {
-                    CurrentRelationshipProgress = currentRelationshipValue - foeToFellow
+                    CurrentRelationshipProgress = currentProgress - foeToFellow
                 };
                 return true;
             }

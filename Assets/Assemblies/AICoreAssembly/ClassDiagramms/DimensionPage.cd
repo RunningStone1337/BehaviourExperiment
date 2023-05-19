@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StringWrapper" Collapsed="true">
+    <Position X="2" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\ViewDimensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewDimensionBase&lt;TContent&gt;" Collapsed="true">
+    <Position X="7.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ESDCEGIFIIQGDABCiQERExGAAAgFAIKQQoiAgQILjpA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\ViewDimensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ArraysViewDimensionBase&lt;TContent&gt;" Collapsed="true">
+    <Position X="6" Y="4" Width="2.5" />
+    <InheritanceLine Type="ViewDimensionBase&lt;TContent&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="8.875" Y="3.312" />
+        <Point X="8.875" Y="3.625" />
+        <Point X="7.125" Y="3.625" />
+        <Point X="7.125" Y="4" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAPkAMGAuACCUCAQRCASkEDAAAAgEAAAQUgUVAAw0A=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\ArraysViewDimensionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MatrixViewDimension&lt;TContent&gt;" Collapsed="true">
+    <Position X="9.25" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>USDCAGoFMIQCDQBBoQERCREEAIhFRgeAYsaFgQoTj5A=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\MatrixViewDimension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleFoldoutListsViewDimension&lt;TContent&gt;" Collapsed="true">
+    <Position X="5.5" Y="5.25" Width="3.25" />
+    <InheritanceLine Type="ArraysViewDimensionBase&lt;TContent&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="7.125" Y="4.691" />
+        <Point X="7.125" Y="5.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ESDCAGIEIIQCDABAgQERAREAAAgFAAKAQoCAAQIDjJA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\SimpleFoldoutListsViewDimension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClassMatrixViewDimension&lt;TContent&gt;" Collapsed="true">
+    <Position X="9" Y="5.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\ClassMatrixViewDimension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

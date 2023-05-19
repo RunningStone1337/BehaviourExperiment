@@ -1,12 +1,10 @@
-using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class FamiliarRelationship<TAgent, TOtherAgent, TState> 
-        : RelationshipBase<TAgent, TOtherAgent, TState>
-        where TAgent : ICurrentStateHandler<TState>
+    public class FamiliarRelationship<TAgent, TOtherAgent> 
+        : RelationshipBase<TAgent, TOtherAgent>
+        where TAgent : IAgent
         where TOtherAgent : IAgent
-        where TState : IState
     {
         static readonly float toFellowBorder = 100f;
         static readonly float toFoeBorder = -50f;
@@ -16,19 +14,19 @@ namespace BehaviourModel
         }
         public override string ToString() => "Familiar";
 
-        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        protected override bool TryTransitonToNewRelationship(out RelationshipBase<TAgent, TOtherAgent> newRelation)
         {
             newRelation = default;
-            if (currentRelationshipValue >= toFellowBorder)
+            if (currentProgress >= toFellowBorder)
             {
-                newRelation = new FellowRelationship<TAgent, TOtherAgent,TState>(ThisAgent, SecondAgent);
-                newRelation.CurrentRelationshipProgress = currentRelationshipValue - toFellowBorder;
+                newRelation = new FellowRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentProgress - toFellowBorder;
                 return true;
             }
-            else if (currentRelationshipValue <= toFoeBorder)
+            else if (currentProgress <= toFoeBorder)
             {
-                newRelation = new FoeRelationship<TAgent, TOtherAgent,TState>(ThisAgent, SecondAgent);
-                newRelation.CurrentRelationshipProgress = currentRelationshipValue - toFoeBorder;
+                newRelation = new FoeRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentProgress - toFoeBorder;
                 return true;
             }
             return false;

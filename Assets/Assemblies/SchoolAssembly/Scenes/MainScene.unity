@@ -1172,7 +1172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2769005702060176991, guid: 062b00997a396e349818177c937eac9d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3177863349393547959, guid: 062b00997a396e349818177c937eac9d, type: 3}
       propertyPath: m_Sprite
@@ -6818,7 +6818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &948869330
 Transform:
   m_ObjectHideFlags: 0
@@ -7722,9 +7722,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275fdbce561391548ad096b56b6bcb04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experimentProcess: {fileID: 1084230177}
   scheduleHandler: {fileID: 1084230176}
   selectedAgentsHandler: {fileID: 1084230175}
-  experimentProcess: {fileID: 1084230177}
 --- !u!114 &1084230175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7737,32 +7737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2073ec59d28b35d42b261345b1aa8894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teacherData:
-    age: 0
-    agentName: 
-    agentType: 
-    calmnessAnxiety: 0
-    closenessSociability: 0
-    conformismNonconformism: 0
-    conservatismRadicalism: 0
-    credulitySuspicion: 0
-    emotionalInstabilityStability: 0
-    features: []
-    height: 0
-    imageID: 0
-    intelligence: 0
-    normativityOfBehaviour: 0
-    practicalityDreaminess: 0
-    relaxationTension: 0
-    restraintExpressiveness: 0
-    rigiditySensetivity: 0
-    selfcontrol: 0
-    sex: {fileID: 0}
-    straightforwardnessDiplomacy: 0
-    subordinationDomination: 0
-    timidityCourage: 0
-    weight: 0
-    behModel: {fileID: 0}
   agentsData: []
   onAgentsSelectionChangedEvent:
     m_PersistentCalls:
@@ -7779,6 +7753,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  teacherData:
+    agentName: 
+    agentType: 
+    calmnessAnxiety: 0
+    closenessSociability: 0
+    conformismNonconformism: 0
+    conservatismRadicalism: 0
+    credulitySuspicion: 0
+    emotionalInstabilityStability: 0
+    features: []
+    imageID: 0
+    intelligence: 0
+    normativityOfBehaviour: 0
+    practicalityDreaminess: 0
+    relaxationTension: 0
+    restraintExpressiveness: 0
+    rigiditySensetivity: 0
+    selfcontrol: 0
+    sex: {fileID: 0}
+    straightforwardnessDiplomacy: 0
+    subordinationDomination: 0
+    timidityCourage: 0
 --- !u!114 &1084230176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7871,12 +7867,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5721c8c1ac8cad438978cdf251f12c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placerParams: {fileID: 1084230179}
-  agentsHandler: {fileID: 1084230175}
-  spawner: {fileID: 1084230178}
-  schedule: {fileID: 1084230176}
   pathFinder: {fileID: 693397042}
+  placerParams: {fileID: 1084230179}
+  spawner: {fileID: 1084230178}
+  agentsHandler: {fileID: 1084230175}
   experimentAgents: []
+  schedule: {fileID: 1084230176}
   teacher: {fileID: 0}
 --- !u!114 &1084230178
 MonoBehaviour:

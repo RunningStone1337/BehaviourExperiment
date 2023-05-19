@@ -15,8 +15,7 @@ namespace BehaviourModel
     /// Существует предположение, что оценки по этому фактору с возрастом меняются и зависят от пола испытуемого.
     /// В своем поведении люди с высокими оценками (по этому фактору) испытывают потребность в автономии.
     /// </summary>
-    public abstract class SubordinationDomination : CharacterTraitBase,
-        IComparable<SubordinationDomination>
+    public abstract class SubordinationDomination : CharacterTraitBase, IComparable<SubordinationDomination>, ICommunicationalTrait
     {
         public static bool operator <(SubordinationDomination c1,
             SubordinationDomination c2) =>

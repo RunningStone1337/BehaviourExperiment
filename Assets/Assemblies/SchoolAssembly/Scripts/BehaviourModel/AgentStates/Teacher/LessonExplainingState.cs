@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
-    public class LessonExplainingState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState
+    public class LessonExplainingState<TAgent> : SchoolAgentStateBase<TAgent>, IOptionalToCompleteState<TAgent>
         where TAgent: SchoolAgentBase<TAgent>
     {
         public bool IsContinue { get; set ; }

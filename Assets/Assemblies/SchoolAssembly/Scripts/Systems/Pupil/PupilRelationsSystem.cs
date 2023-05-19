@@ -1,6 +1,6 @@
 namespace BehaviourModel
 {
-    public class PupilRelationsSystem : RelationsSystem<PupilAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<PupilAgent>, Sensor>
+    public class PupilRelationsSystem : RelationsSystem<PupilAgent, ActionBase, FeatureBase, Sensor>
     {
     }
 }

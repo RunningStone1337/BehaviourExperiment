@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BehaviourModel.CharacterTraitBase" Collapsed="true">
+    <Position X="6.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAIFAAAAAAAAACAAACGAAAAAgAgBgIIgAIAEIAA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CharacterTraitBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviourModel.CalmnessAnxiety" Collapsed="true">
+    <Position X="4" Y="3" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="2.125" />
+        <Point X="3.625" Y="2.125" />
+        <Point X="3.625" Y="3.375" />
+        <Point X="4" Y="3.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CalmnessAnxiety\CalmnessAnxiety.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.ClosenessSociability" Collapsed="true">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="3.375" />
+        <Point X="7.25" Y="3.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\ClosenessSociability\ClosenessSociability.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.ConformismNonconformism" Collapsed="true">
+    <Position X="7.5" Y="3" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="3.375" />
+        <Point X="7.5" Y="3.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\ConformismNonconformism\ConformismNonconformism.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.ConservatismRadicalism" Collapsed="true">
+    <Position X="9.25" Y="3" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="2.062" />
+        <Point X="11.125" Y="2.062" />
+        <Point X="11.125" Y="3.375" />
+        <Point X="10.75" Y="3.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\ConservatismRadicalism\ConservatismRadicalism.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.CredulitySuspicion" Collapsed="true">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="2.125" />
+        <Point X="3.625" Y="2.125" />
+        <Point X="3.625" Y="4.688" />
+        <Point X="4" Y="4.688" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CredulitySuspicion\CredulitySuspicion.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.EmotionalInstabilityStability" Collapsed="true">
+    <Position X="5.75" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="4.625" />
+        <Point X="7.25" Y="4.625" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\EmotionalInstabilityStability\EmotionalInstabilityStability.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.Intelligence" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="4.625" />
+        <Point X="7.5" Y="4.625" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\Intelligence\Intelligence.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.NormativityOfBehaviour" Collapsed="true">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="2.062" />
+        <Point X="11.125" Y="2.062" />
+        <Point X="11.125" Y="4.625" />
+        <Point X="10.75" Y="4.625" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\NormativityOfBehaviour\NormativityOfBehaviour.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.PracticalityDreaminess" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="2.125" />
+        <Point X="3.625" Y="2.125" />
+        <Point X="3.625" Y="5.812" />
+        <Point X="4" Y="5.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\PracticalityDreaminess\PracticalityDreaminess.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.RelaxationTension" Collapsed="true">
+    <Position X="5.75" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="5.875" />
+        <Point X="7.25" Y="5.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\RelaxationTension\RelaxationTension.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.RestraintExpressiveness" Collapsed="true">
+    <Position X="7.5" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="5.875" />
+        <Point X="7.5" Y="5.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\RestraintExpressiveness\RestraintExpressiveness.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.RigiditySensetivity" Collapsed="true">
+    <Position X="9.25" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="2.062" />
+        <Point X="11.125" Y="2.062" />
+        <Point X="11.125" Y="5.875" />
+        <Point X="10.75" Y="5.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\RigiditySensetivity\RigiditySensetivity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.Selfcontrol" Collapsed="true">
+    <Position X="4" Y="6.75" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="2.125" />
+        <Point X="3.605" Y="2.125" />
+        <Point X="3.605" Y="7.062" />
+        <Point X="4" Y="7.062" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\Selfcontrol\Selfcontrol.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BehaviourModel.StraightforwardnessDiplomacy" Collapsed="true">
+    <Position X="5.75" Y="6.75" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="7.188" />
+        <Point X="7.25" Y="7.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\StraightforwardnessDiplomacy\StraightforwardnessDiplomacy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.SubordinationDomination" Collapsed="true">
+    <Position X="7.5" Y="6.75" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.191" />
+        <Point X="7.375" Y="2.566" />
+        <Point X="7.377" Y="2.566" />
+        <Point X="7.377" Y="7.188" />
+        <Point X="7.5" Y="7.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgAAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\SubordinationDomination\SubordinationDomination.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BehaviourModel.TimidityCourage" Collapsed="true">
+    <Position X="9.25" Y="6.75" Width="1.5" />
+    <InheritanceLine Type="BehaviourModel.CharacterTraitBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.25" Y="2.062" />
+        <Point X="11.125" Y="2.062" />
+        <Point X="11.125" Y="7.062" />
+        <Point X="10.75" Y="7.062" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAACAAgCAAAAAAAAAAAAAAAAABQA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\TimidityCourage\TimidityCourage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Enum Name="BehaviourModel.CharacterGrade" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CharacterTraitBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BehaviourModel.CharTraitType" Collapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAoBAAABABgAABIIAAAAABAAJAAAAAAABAAAAAAGA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CharacterTraitBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BehaviourModel.CharTraitTypeExtended" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gwR2wAAAOAgAQCAAAEhIgAAVIAAwAASNBgEAAQIEoAA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CharacterTraitBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

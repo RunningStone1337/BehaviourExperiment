@@ -13,7 +13,7 @@ namespace Events
         None
     }
 
-    public abstract class GlobalEvent : ScriptableObject, IReactionSource, INameHandler
+    public abstract class GlobalEvent : ScriptableObject, IPhenomenon, INameHandler
     {
         [SerializeField] private float eventImportance;
         [SerializeField] private string eventName;
@@ -22,7 +22,7 @@ namespace Events
         public int EventDuration => eventDuration;
         public EventType EventType => eventType;
         public string Name => eventName;
-        public float PhenomenonPower { get => eventImportance; set => eventImportance = value; }
+        public float PhenomValue { get => eventImportance; set => eventImportance = value; }
 
         public abstract void Initiate(ScheduleHandler schedule);
     }

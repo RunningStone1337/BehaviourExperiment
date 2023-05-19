@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class PupilFeaturesSystem : FeaturesSystem<PupilAgent, ReactionBase,FeatureBase,SchoolAgentStateBase<PupilAgent>, Sensor>
+    public class PupilFeaturesSystem : FeaturesSystem<PupilAgent, ActionBase, FeatureBase, Sensor>
     {
 
     }

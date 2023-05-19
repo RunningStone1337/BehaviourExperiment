@@ -1,6 +1,7 @@
 namespace BehaviourModel
 {
-    public interface IFeature
+    public interface IFeature:IUtilityCalculationSource
     {
+
     }
 }

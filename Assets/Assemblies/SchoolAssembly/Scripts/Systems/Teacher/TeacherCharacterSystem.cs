@@ -1,6 +1,6 @@
 namespace BehaviourModel
 {
-    public class TeacherCharacterSystem : CharacterSystem<TeacherAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TeacherAgent>, Sensor>
+    public class TeacherCharacterSystem : CharacterSystem<TeacherAgent, ActionBase, FeatureBase, Sensor>
     {
     }
 }

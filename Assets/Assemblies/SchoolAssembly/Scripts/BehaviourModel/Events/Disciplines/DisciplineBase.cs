@@ -8,6 +8,6 @@ namespace Events
         [SerializeField] private string disciplineName;
         [SerializeField] float disciplinePower;
         public string DisciplineName { get => disciplineName; }
-        public float PhenomenonPower { get => disciplinePower; set => disciplinePower = value; }
+        public float PhenomValue { get => disciplinePower; set => disciplinePower = value; }
     }
 }

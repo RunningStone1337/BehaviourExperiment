@@ -14,7 +14,7 @@ namespace BehaviourModel
     /// тревожности, фрустрированности, низкого образовательного ценза.
     /// </summary>
     public abstract class Intelligence : CharacterTraitBase,
-        IComparable<Intelligence>
+        IComparable<Intelligence>, IIntellectualTrait
     {
         public static bool operator <(Intelligence c1,
             Intelligence c2) =>

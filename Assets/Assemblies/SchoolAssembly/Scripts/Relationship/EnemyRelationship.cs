@@ -1,10 +1,9 @@
 namespace BehaviourModel
 {
-    public class EnemyRelationship<TAgent, TOtherAgent, TState>
-        : FoeRelationship<TAgent, TOtherAgent, TState>
-        where TAgent : ICurrentStateHandler<TState>
+    public class EnemyRelationship<TAgent, TOtherAgent>
+        : FoeRelationship<TAgent, TOtherAgent>
+        where TAgent : IAgent
         where TOtherAgent : IAgent
-        where TState : IState
     {
         public EnemyRelationship(TAgent thisAgent, TOtherAgent secondAgent) : base(thisAgent, secondAgent)
         {
@@ -12,13 +11,13 @@ namespace BehaviourModel
         public override string ToString() => "Enemy";
 
         static readonly float enemyToFoe = -30;
-        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        protected override bool TryTransitonToNewRelationship(out RelationshipBase<TAgent, TOtherAgent> newRelation)
         {
             newRelation = default;
-            if (currentRelationshipValue >= enemyToFoe)
+            if (currentProgress >= enemyToFoe)
             {
-                newRelation = new FoeRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent);
-                newRelation.CurrentRelationshipProgress = currentRelationshipValue - enemyToFoe;
+                newRelation = new FoeRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent);
+                newRelation.CurrentRelationshipProgress = currentProgress - enemyToFoe;
                 return true;
             }
             return false;

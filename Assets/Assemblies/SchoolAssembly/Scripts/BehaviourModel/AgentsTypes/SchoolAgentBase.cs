@@ -11,8 +11,11 @@ using UnityEngine;
 namespace BehaviourModel
 {
     public abstract class SchoolAgentBase<TAgent>: 
-        AgentBase<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>,
-        IUIViewedObject, IReactionSource, IMovementTarget
+        AgentBase<TAgent, ActionBase, FeatureBase, Sensor>,
+        IUIViewedObject,
+        IPhenomenon,
+        IMovementTarget,
+        ICurrentStateHandler<SchoolAgentStateBase<TAgent>, TAgent>
         where TAgent : SchoolAgentBase<TAgent>
     {
         #region main
@@ -54,6 +57,8 @@ namespace BehaviourModel
         public abstract GlobalEvent CurrentEvent { get; }
 
         #endregion main
+        [SerializeField] protected SchoolAgentStateBase<TAgent> currentState;
+        public SchoolAgentStateBase<TAgent> CurrentState { get => currentState; set => currentState = value; }
 
         public IEnumerator RotateRoutine(Vector3 directionVector)
         {
@@ -65,7 +70,7 @@ namespace BehaviourModel
        
         public string Name => agentName;
         public string ObjDescription => agentDescription;
-        public float PhenomenonPower { get => agentPhenomPower; set => agentPhenomPower = value; }
+        public float PhenomValue { get => agentPhenomPower; set => agentPhenomPower = value; }
         public Sprite PreviewSprite => previewSprite;
 
         public bool IsHidedVisual { get=>skin.IsHided;  }
@@ -103,32 +108,20 @@ namespace BehaviourModel
             }
             return value;
         }
-        public void AddRelationsChangesToSpeech<TSpeechAgent>(SpeakAction<TSpeechAgent, TAgent> speechToRespond, TSpeechAgent speechAgent)
+        public void AddRelationsChangesToAction<TSpeechAgent>(IRelationsInfluenceHandler<TAgent> influenceSource, TSpeechAgent speechAgent)
             where TSpeechAgent : SchoolAgentBase<TSpeechAgent>
         {
             var relations = RelationsSystem.GetCurrentRelationTo(speechAgent);
             if (relations == null)
             {
-                relations = RelationsSystem.CreateNew(
-                    new FamiliarRelationship<TAgent, IAgent, SchoolAgentStateBase<TAgent>>
-                    ((TAgent)this, speechAgent));
+                relations = new FamiliarRelationship<TAgent, IAgent>
+                    ((TAgent)this, speechAgent);
+               RelationsSystem.AddIfNotContains(relations);
             }
-            var influence = CalculateRelationshipInfluenceForSpeech(speechToRespond);
+            var influence = influenceSource.GetRelationshipInfluence((TAgent)this);
             RelationsSystem.AddInfluenceForRelations(relations, influence);
         }
-        private float CalculateRelationshipInfluenceForSpeech<TSpeechAgent>(SpeakAction<TSpeechAgent, TAgent> speechToCalculate)
-            where TSpeechAgent : SchoolAgentBase<TSpeechAgent>
-        {
-            var table = TablesHandler.AgentToSpeechRelationsInfluenceTable;
-            var speechType = speechToCalculate.GetType().Name;
-            //16 векторов для данного набора характера
-            var thisAgentCharVectors = table.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
-                ((TAgent)this, 0);
-            //реакции на speechToCalculate для данных векторов
-            var selected = thisAgentCharVectors.Where(x => x.SpeechToReact.Equals(speechType));
-            var totalInfluence = selected.Sum(x => x.ProbablyReactionInfluence);
-            return totalInfluence;
-        }
+       
 
         /// <summary>
         /// Реакция на <paramref name="speechToReact"/>. 
@@ -136,13 +129,13 @@ namespace BehaviourModel
         /// </summary>
         /// <param name="speechToReact"></param>
         /// <returns></returns>
-        public SpeakAction<TAgent,TInitiator> GetResponseAtSpeech<TInitiator>(SpeakAction<TInitiator, TAgent> speechToReact, TInitiator speaker)
+        public SpeakAction<TAgent,TInitiator> GetReactionAtSpeech<TInitiator>(SpeakAction<TInitiator, TAgent> speechToReact, TInitiator speaker)
             where TInitiator: SchoolAgentBase<TInitiator>
         {
             var responsesTable = TablesHandler.AgentToSpeechResponsesTable;
             var speechType = speechToReact.GetType().Name;
             //16 векторов для данного набора характера
-            var characterTableVectors = responsesTable.GetTableValuesFor<TAgent, ReactionBase, FeatureBase, SchoolAgentStateBase<TAgent>, Sensor>
+            var characterTableVectors = responsesTable.GetTableValuesFor<TAgent, ActionBase, FeatureBase, Sensor>
                 ((TAgent)this, 0);
             //ответы на speechToRespond для данных векторов
             var selectedResponsesToSpeech = characterTableVectors.Where(x => x.SpeechToReact.Equals(speechType));
@@ -154,13 +147,7 @@ namespace BehaviourModel
             else
                 throw new Exception($"Для спича {speechToReact} не было ответного спича у агента {this}. Добавь реакции на спич в таблицу");
         }
-        public override TNewState SetState<TNewState>()
-        {
-            var state = new TNewState();
-            state.Initiate((TAgent)this);
-            CurrentState = state;
-            return state;
-        }
+     
         public void StartActionVisual(IStatusBarDataSource source)
         {
             statusBar.Initiate(source);
@@ -210,112 +197,7 @@ namespace BehaviourModel
             CurrentState = state;
             return state;
         }
-        public virtual void Initiate<TLowAnx, TMidAnx, THighAnx,
-            TLowSoc, TMidSoc, THighSoc,
-            TLowStab, TMidStab, THighStab,
-            TLowNonc, TMidNonc, THighNonc,
-            TLowNorm, TMidNorm, THighNorm,
-            TLowRad, TMidRad, THighRad,
-            TLowSelf, TMidSelf, THighSelf,
-            TLowSens, TMidSens, THighSens,
-            TLowSusp, TMidSusp, THighSusp,
-            TLowTens, TMidTens, THighTens,
-            TLowExpre, TMidExpre, THighExpre,
-            TLowInt, TMidInt, THighInt,
-            TLowDrea, TMidDrea, THighDrea,
-            TLowDom, TMidDom, THighDom,
-            TLowDipl, TMidDipl, THighDipl,
-            TLowCour, TMidCour, THighCour>
-            (HumanRawData data)
-             where TLowAnx : LowAnxiety
-            where TMidAnx : MiddleAnxiety 
-            where THighAnx : HighAnxiety 
-
-            where TLowSoc : LowClosenessSociability 
-            where TMidSoc : MiddleClosenessSociability 
-            where THighSoc : HighClosenessSociability 
-
-            where TLowStab : LowEmotionalStability 
-            where TMidStab : MiddleEmotionalStability 
-            where THighStab : HighEmotionalStability 
-
-            where TLowNonc : LowNonconformism 
-            where TMidNonc : MiddleNonconformism 
-            where THighNonc : HighNonconformism 
-
-            where TLowNorm : LowNormativityOfBehaviour 
-            where TMidNorm : MiddleNormativityOfBehaviour 
-            where THighNorm : HighNormativityOfBehaviour 
-
-            where TLowRad : LowRadicalism 
-            where TMidRad : MiddleRadicalism 
-            where THighRad : HighRadicalism 
-
-            where TLowSelf : LowSelfcontrol 
-            where TMidSelf : MiddleSelfcontrol 
-            where THighSelf : HighSelfcontrol 
-
-            where TLowSens : LowSensetivity 
-            where TMidSens : MiddleSensetivity 
-            where THighSens : HighSensetivity 
-
-            where TLowSusp : LowSuspicion 
-            where TMidSusp : MiddleSuspicion 
-            where THighSusp : HighSuspicion 
-
-            where TLowTens : LowTension 
-            where TMidTens : MiddleTension 
-            where THighTens : HighTension 
-
-            where TLowExpre : LowExpressiveness 
-            where TMidExpre : MiddleExpressiveness 
-            where THighExpre : HighExpressiveness 
-
-            where TLowInt : LowIntelligence 
-            where TMidInt : MiddleIntelligence 
-            where THighInt : HighIntelligence 
-
-            where TLowDrea : LowDreaminess 
-            where TMidDrea : MiddleDreaminess 
-            where THighDrea : HighDreaminess 
-
-            where TLowDom : LowDomination 
-            where TMidDom : MiddleDomination 
-            where THighDom : HighDomination 
-
-            where TLowDipl : LowDiplomacy 
-            where TMidDipl : MiddleDiplomacy 
-            where THighDipl : HighDiplomacy 
-
-            where TLowCour : LowCourage 
-            where TMidCour : MiddleCourage 
-            where THighCour : HighCourage 
-
-        {
-            base.Initiate<TLowAnx, TMidAnx, THighAnx,
-            TLowSoc, TMidSoc, THighSoc,
-            TLowStab, TMidStab, THighStab,
-            TLowNonc, TMidNonc, THighNonc,
-            TLowNorm, TMidNorm, THighNorm,
-            TLowRad, TMidRad, THighRad,
-            TLowSelf, TMidSelf, THighSelf,
-            TLowSens, TMidSens, THighSens,
-            TLowSusp, TMidSusp, THighSusp,
-            TLowTens, TMidTens, THighTens,
-            TLowExpre, TMidExpre, THighExpre,
-            TLowInt, TMidInt, THighInt,
-            TLowDrea, TMidDrea, THighDrea,
-            TLowDom, TMidDom, THighDom,
-            TLowDipl, TMidDipl, THighDipl,
-            TLowCour, TMidCour, THighCour
-            > (data);
-            //TODO доделать инициализацию
-            //previewSprite =
-            agentName = data.AgentName;
-
-            PhenomenonPower = 5;
-            
-        }
+    
         public IEnumerator OnBeforeStartMovement()
         {
             if (AgentEnvironment.ChairInfo != null//на стуле
@@ -324,7 +206,14 @@ namespace BehaviourModel
                 yield return OnLeaveChair();
             }
         }
-        
+        public  TNewState SetState<TNewState>() where TNewState : SchoolAgentStateBase<TAgent>, new()
+        {
+            var state = new TNewState();
+            state.Initiate((TAgent)this);
+            CurrentState = state;
+            return state;
+        }
+        public abstract void SetDefaultState();
         private bool NewTargetNotCurrentChair()
         {
             return MovementTarget.gameObject.GetComponentInParent<ChairInterier>() != AgentEnvironment.ChairInfo.ThisInterier;
@@ -368,6 +257,15 @@ namespace BehaviourModel
                     yield return RotateRoutine(chairTarget.transform.up);
                 }
             }
+        }
+
+        public void SetProps(HumanRawData data)
+        {
+            //TODO доделать инициализацию
+            //previewSprite =
+            agentName = data.AgentName;
+
+            PhenomValue = 5;
         }
     }
 }

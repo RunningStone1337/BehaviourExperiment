@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class FellowRelationship<TAgent, TOtherAgent, TState> 
-        : PositiveRelationshipBase<TAgent, TOtherAgent, TState>
-        where TAgent : ICurrentStateHandler<TState>
+    public class FellowRelationship<TAgent, TOtherAgent> 
+        : PositiveRelationshipBase<TAgent, TOtherAgent>
+        where TAgent : IAgent
         where TOtherAgent : IAgent
-        where TState : IState
     {
         public FellowRelationship(TAgent thisAgent, TOtherAgent secondAgent)
             : base(thisAgent, secondAgent)
@@ -16,22 +15,22 @@ namespace BehaviourModel
 
         static readonly float fellowToFriendBorder = 150f;
         static readonly float fellowToFoeBorder = -30f;
-        protected override bool NeedTransitonToNewRelationship(float currentRelationshipValue, out RelationshipBase<TAgent, TOtherAgent, TState> newRelation)
+        protected override bool TryTransitonToNewRelationship(out RelationshipBase<TAgent, TOtherAgent> newRelation)
         {
             newRelation = default;
-            if (currentRelationshipValue >= fellowToFriendBorder)
+            if (currentProgress >= fellowToFriendBorder)
             {
-                newRelation = new FriendRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent)
+                newRelation = new FriendRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent)
                 {
-                    CurrentRelationshipProgress = currentRelationshipValue - fellowToFriendBorder
+                    CurrentRelationshipProgress = currentProgress - fellowToFriendBorder
                 };
                 return true;
             }
-            else if (currentRelationshipValue <= fellowToFoeBorder)
+            else if (currentProgress <= fellowToFoeBorder)
             {
-                newRelation = new FoeRelationship<TAgent, TOtherAgent, TState>(ThisAgent, SecondAgent)
+                newRelation = new FoeRelationship<TAgent, TOtherAgent>(ThisAgent, SecondAgent)
                 {
-                    CurrentRelationshipProgress = currentRelationshipValue - fellowToFriendBorder
+                    CurrentRelationshipProgress = currentProgress - fellowToFriendBorder
                 };
                 return true;
             }

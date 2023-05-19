@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public abstract class TryAttractAttentionStateBase<TStateHandler, TAttentionTarget> : SchoolAgentStateBase<TStateHandler>, IOptionalToCompleteState
+    public abstract class TryAttractAttentionStateBase<TStateHandler, TAttentionTarget> : SchoolAgentStateBase<TStateHandler>, IOptionalToCompleteState<TStateHandler>
         where TStateHandler: SchoolAgentBase<TStateHandler>
         where TAttentionTarget: SchoolAgentBase<TAttentionTarget>
     {

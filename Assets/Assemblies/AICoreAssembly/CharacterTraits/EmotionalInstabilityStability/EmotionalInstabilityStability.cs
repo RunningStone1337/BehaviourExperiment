@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace BehaviourModel
 {
@@ -13,7 +12,7 @@ namespace BehaviourModel
     /// </summary>
     public abstract class EmotionalInstabilityStability :
         CharacterTraitBase,
-        IComparable<EmotionalInstabilityStability>
+        IComparable<EmotionalInstabilityStability>, IEmotionalTrait
     {
         public static bool operator <(EmotionalInstabilityStability c1,
             EmotionalInstabilityStability c2) =>
