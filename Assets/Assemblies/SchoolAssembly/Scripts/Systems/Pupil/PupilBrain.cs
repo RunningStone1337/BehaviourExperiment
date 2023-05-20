@@ -6,13 +6,13 @@ namespace BehaviourModel
     public class PupilBrain : SchoolBrain<PupilAgent>,
         ICanReactOnPhenomenon<TeacherAgent, ActionBase>
     {
-        public override bool TryReactOnPhenom(IPhenomenon reason, out List<ActionBase> reaction)
+        public override bool TryGetActionsOnPhenom(IPhenomenon reason, out List<ActionBase> reaction)
         { if (reason is TeacherAgent t)
-                return TryReactOnPhenom(t, out reaction);
+                return TryGetActionsOnPhenom(t, out reaction);
             else
-                return base.TryReactOnPhenom(reason, out reaction);
+                return base.TryGetActionsOnPhenom(reason, out reaction);
         }
-        public bool TryReactOnPhenom(TeacherAgent reason, out List<ActionBase> reactions)
+        public bool TryGetActionsOnPhenom(TeacherAgent reason, out List<ActionBase> reactions)
         {
             var table = (PupilRelationsTableHandler)ThisAgent.TablesHandler;
             var selector = new FirstColumnAgentReactionsSelector<PupilAgent, TeacherAgent, ReactionsWrapper>();

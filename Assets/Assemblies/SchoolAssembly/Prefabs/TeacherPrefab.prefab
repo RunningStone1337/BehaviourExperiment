@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 4264710037256949191}
   - component: {fileID: 3553548351728355066}
   - component: {fileID: 3406190575748012534}
+  - component: {fileID: 5870967722588815419}
   m_Layer: 3
   m_Name: TeacherPrefab
   m_TagString: Untagged
@@ -58,43 +59,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6b9e90401b01348b782e1f7def7414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 3426324415907831103}
-    - {fileID: 290626243248390568}
-    - {fileID: 1225288753307853161}
-    - {fileID: 2337020177144210253}
-    - {fileID: 9085379685994252017}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: brain
-      Entry: 10
-      Data: 0
-    - Name: characterSystem
-      Entry: 10
-      Data: 1
-    - Name: featuresSystem
-      Entry: 10
-      Data: 2
-    - Name: observationsSystem
-      Entry: 10
-      Data: 3
-    - Name: relationsSystem
-      Entry: 10
-      Data: 4
-    - Name: currentState
-      Entry: 6
-      Data: 
   brain: {fileID: 3426324415907831103}
   characterSystem: {fileID: 290626243248390568}
   featuresSystem: {fileID: 1225288753307853161}
   observationsSystem: {fileID: 2337020177144210253}
   relationsSystem: {fileID: 9085379685994252017}
+  executorSystem: {fileID: 0}
   collectObservations: 1
   isActing: 0
   autoMakeActions: 1
@@ -105,13 +75,9 @@ MonoBehaviour:
   statusBar: {fileID: 9064466755732884294}
   skin: {fileID: 4343587892532980659}
   setter: {fileID: 4264710037256949191}
-  agentAge: 0
   agentDescription: 
-  agentHeight: 0
   agentName: 
-  agentSex: {fileID: 0}
   agentPhenomPower: 8
-  agentWeight: 0
   tablesHandler: {fileID: 2632806718997779337}
   agentEnvironment: {fileID: 992553962820531074}
 --- !u!58 &5468026384739733122
@@ -220,9 +186,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisAgent: {fileID: 0}
-  actionsMode: 1
-  autoDecreasePhenomsValuePerStep: 0
-  decreaseStep: 0
 --- !u!114 &992553962820531074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,9 +302,9 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1
+  agentBody: {fileID: 0}
   agentEnvironment: {fileID: 0}
   destSetter: {fileID: 0}
-  agentBody: {fileID: 0}
 --- !u!50 &3406190575748012534
 Rigidbody2D:
   serializedVersion: 4
@@ -363,6 +326,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5870967722588815419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934520938882394472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b329fb60972a1424b92fbd138f0a7986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisAgent: {fileID: 0}
 --- !u!1 &2555951374454727041
 GameObject:
   m_ObjectHideFlags: 0

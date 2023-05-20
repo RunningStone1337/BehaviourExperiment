@@ -10,17 +10,12 @@ namespace BehaviourModel
         ByInterval
     }
 
-    /// <summary>
-    /// Brain that proceed main process loop:
-    /// collect observations, processing, make action.
-    /// </summary>
-    public abstract class BrainSystem<TAgent, TAction, TFeature, TSensor>
-        : SystemBase<TAgent, TAction, TFeature, TSensor>,
+
+    public abstract class BrainSystem<TAgent, TAction>
+        : SystemBase<TAgent>,
         ICanReactOnPhenomenon<IPhenomenon, TAction>
         where TAgent : IAgent
         where TAction : IAction
-        where TFeature : IFeature
-        where TSensor : ISensor
     {
         #region fields
         
@@ -40,7 +35,7 @@ namespace BehaviourModel
         /// Adds phenomenons to processing list if not contains yet.
         /// </summary>
         /// <param name="phenomens"></param>
-        private IEnumerator AddNewPhenomenons(List<IPhenomenon> phenomens)
+        protected virtual IEnumerator AddNewPhenomenons(List<IPhenomenon> phenomens)
         {
             foreach (var p in phenomens)
             {
@@ -49,16 +44,6 @@ namespace BehaviourModel
                 yield return new WaitForFixedUpdate();
             }
             NewPhenomens.Sort(PhenonemonComparer);
-        }
-
-        
-        IEnumerator manualAction;
-        public IEnumerator ManualAction { get=> manualAction; set => manualAction = value; }
-        internal IEnumerator ManuallySettedAction()
-        {
-            if(manualAction != null)
-                yield return manualAction;
-            manualAction = null;
         }
 
         private int PhenonemonComparer(IPhenomenon x, IPhenomenon y)
@@ -95,50 +80,19 @@ namespace BehaviourModel
             NewPhenomens.Clear();
         }
 
-        internal IEnumerator ProceedPhenomenons(List<IPhenomenon> observationSources)
+        internal IEnumerator HandleNewPhenomenons(List<IPhenomenon> observationSources)
         {
             yield return AddNewPhenomenons(observationSources);
             yield return FilterNewPhenomenons();
         }
-
-        /// <summary>
-        /// React if has observable phenomena to react and current state is able to force change it
-        /// </summary>
-        public virtual IEnumerator TryReactAtSomePhenom()
-        {
-            while (PhenomensToReact.Count > 0)
-            {
-                var selectedPhenom = SelectPhenomToReact(PhenomensToReact);
-               
-                if (TryReactOnPhenom(selectedPhenom, out List<TAction> allReactions))
-                {
-                    //если реакция есть, необязательно, что её можно реализовать в текущий момент по определенным причинам
-                    if (allReactions.Count == 0)
-                    {
-                        PhenomensToReact.Remove(selectedPhenom);
-                        continue;
-                    }
-                    TAction selectedReaction;
-                    do
-                    {
-                        selectedReaction = SelectActionFromList(allReactions);
-                        yield return selectedReaction.TryPerformAction();
-                        allReactions.Remove(selectedReaction);
-                    } while (!selectedReaction.WasPerformed && allReactions.Count > 0);
-                    PhenomensToReact.Remove(selectedPhenom);
-                    break;
-                }
-                else
-                    PhenomensToReact.Remove(selectedPhenom);
-            }
-        }
+        
 
         /// <summary>
         /// Defines what phenomena will be proceeded next
         /// </summary>
         /// <param name="phenomensToReact"></param>
         /// <returns></returns>
-        protected abstract IPhenomenon SelectPhenomToReact(List<IPhenomenon> phenomensToReact);
+        public abstract IPhenomenon SelectPhenomToReact(List<IPhenomenon> phenomensToReact);
         /// <summary>
         /// Defines if agent can react at abstract <paramref name="reason"/> and what probably actions presented to proceed.
         /// Implement ICanReactOnPhenomenon<TConcretePhenom, TAction> in realized class for class typematching
@@ -146,13 +100,13 @@ namespace BehaviourModel
         /// <param name="reason"></param>
         /// <param name="reaction"></param>
         /// <returns></returns>
-        public abstract bool TryReactOnPhenom(IPhenomenon reason, out List<TAction> reaction);
+        public abstract bool TryGetActionsOnPhenom(IPhenomenon reason, out List<TAction> reaction);
         /// <summary>
-        /// Defines haw action selected from list
+        /// Defines how action selected from list
         /// </summary>
         /// <param name="reactions"></param>
         /// <returns></returns>
-        protected abstract TAction SelectActionFromList(List<TAction> reactions);
+        public abstract TAction SelectActionFromList(List<TAction> reactions);
 
         internal void Clear()
         {

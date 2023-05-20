@@ -3,11 +3,8 @@ using UnityEngine;
 namespace BehaviourModel
 {
     [RequireComponent(typeof(IAgent))]
-    public abstract class SystemBase<TAgent, TReaction, TFeature, TSensor> : MonoBehaviour
+    public abstract class SystemBase<TAgent> : MonoBehaviour
         where TAgent : IAgent
-        where TReaction : IAction
-        where TFeature : IFeature
-        where TSensor : ISensor
     {
         [SerializeField, HideInInspector] private TAgent thisAgent;
         public TAgent ThisAgent => thisAgent;

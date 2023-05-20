@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 8062592570246205735}
   - component: {fileID: 7748704817720541968}
   - component: {fileID: 6882088689320547260}
+  - component: {fileID: 5018806086879108644}
   m_Layer: 3
   m_Name: PupilPrefab
   m_TagString: Agent
@@ -282,6 +283,7 @@ MonoBehaviour:
     - {fileID: 4345080000005487050}
     - {fileID: 6313671379159827510}
     - {fileID: 8820045725197641241}
+    - {fileID: 5018806086879108644}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -302,6 +304,9 @@ MonoBehaviour:
     - Name: relationsSystem
       Entry: 10
       Data: 4
+    - Name: executorSystem
+      Entry: 10
+      Data: 5
     - Name: currentState
       Entry: 6
       Data: 
@@ -310,6 +315,7 @@ MonoBehaviour:
   featuresSystem: {fileID: 4345080000005487050}
   observationsSystem: {fileID: 6313671379159827510}
   relationsSystem: {fileID: 8820045725197641241}
+  executorSystem: {fileID: 5018806086879108644}
   collectObservations: 1
   isActing: 0
   autoMakeActions: 1
@@ -320,13 +326,9 @@ MonoBehaviour:
   statusBar: {fileID: 1850342528835540633}
   skin: {fileID: 1666239035053677568}
   setter: {fileID: 3420078062089722054}
-  agentAge: 0
   agentDescription: 
-  agentHeight: 0
   agentName: 
-  agentSex: {fileID: 0}
   agentPhenomPower: 5
-  agentWeight: 0
   tablesHandler: {fileID: 174487277472211249}
   agentEnvironment: {fileID: 3770447042631226013}
 --- !u!114 &2241077677054598208
@@ -372,8 +374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisAgent: {fileID: 0}
-  autoDecreasePhenomsValuePerStep: 0
-  decreaseStep: 0
 --- !u!114 &4345080000005487050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,9 +559,9 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 1
+  agentBody: {fileID: 0}
   agentEnvironment: {fileID: 0}
   destSetter: {fileID: 0}
-  agentBody: {fileID: 0}
 --- !u!114 &7748704817720541968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,6 +610,19 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5018806086879108644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328003032107239062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b72a92be6f2954ba04823a9689f7ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisAgent: {fileID: 0}
 --- !u!1001 &5621553308994523634
 PrefabInstance:
   m_ObjectHideFlags: 0

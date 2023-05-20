@@ -4,7 +4,7 @@ namespace BehaviourModel
 {
     public class TeacherBrain : SchoolBrain<TeacherAgent>
     {
-        public override bool TryReactOnPhenom(PupilAgent reason, out List<ActionBase> reactions)
+        public override bool TryGetActionsOnPhenom(PupilAgent reason, out List<ActionBase> reactions)
         {
             var selector = new FirstColumnAgentReactionsSelector<TeacherAgent, PupilAgent, ReactionsWrapper>();
             reactions = selector.GetProbablyActions

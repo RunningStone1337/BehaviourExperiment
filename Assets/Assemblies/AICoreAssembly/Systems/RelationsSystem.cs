@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace BehaviourModel
 {
-    public class RelationsSystem<TAgent, TReaction, TFeature, TSensor> :
-        SystemBase<TAgent, TReaction, TFeature, TSensor>
+    public class RelationsSystem<TAgent> :
+        SystemBase<TAgent>
         where TAgent :  IAgent
-        where TReaction : IAction
-        where TFeature : IFeature
-        where TSensor : ISensor
     {
         /// <summary>
         /// Key - other agent, value - current relationship

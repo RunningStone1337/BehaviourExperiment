@@ -6,6 +6,6 @@ namespace BehaviourModel
         where TReason : IPhenomenon
         where TReaction : IAction
     {
-        bool TryReactOnPhenom(TReason reason, out List<TReaction> reaction);
+        bool TryGetActionsOnPhenom(TReason reason, out List<TReaction> reaction);
     }
 }

@@ -29,7 +29,7 @@ namespace Core
                 prefab = teacherPrefab;
             var agent = Instantiate(prefab, spawnPoint, Quaternion.identity).GetComponent<T>();
 
-            agent.Initiate<
+            agent.CharacterSystem.Initiate<
             LowAnxiety,  MiddleAnxiety,  HighAnxiety,
             LowClosenessSociability,  MiddleClosenessSociability,  HighClosenessSociability,
             LowEmotionalStability,  MiddleEmotionalStability,  HighEmotionalStability,
@@ -46,6 +46,7 @@ namespace Core
             LowDomination,  MiddleDomination,  HighDomination,
             LowDiplomacy,  MiddleDiplomacy,  HighDiplomacy,
             LowCourage,  MiddleCourage,  HighCourage>(pupData);
+            agent.FeaturesSystem.Initiate(pupData);
             agent.SetProps(pupData);
             return agent;
         }

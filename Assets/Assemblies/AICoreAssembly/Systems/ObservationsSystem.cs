@@ -5,12 +5,10 @@ using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
-    public class ObservationsSystem<TAgent, TReaction, TFeature, TSensor> : 
-        SystemBase<TAgent, TReaction, TFeature, TSensor>,
+    public class ObservationsSystem<TAgent, TSensor> : 
+        SystemBase<TAgent>,
         ISensor
         where TAgent :  IAgent
-        where TReaction : IAction
-        where TFeature : IFeature
         where TSensor : ISensor
     {
         [Tooltip("If manual - you need to call \"CreatePhenomenons\" manually, else Brain will do it automatically by timer.")]

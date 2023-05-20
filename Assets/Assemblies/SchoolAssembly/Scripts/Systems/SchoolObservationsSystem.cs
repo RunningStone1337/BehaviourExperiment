@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviourModel
 {
     public class SchoolObservationsSystem<TAgent>
-        : ObservationsSystem<TAgent, ActionBase, FeatureBase, Sensor>
+        : ObservationsSystem<TAgent, Sensor>
         where TAgent : SchoolAgentBase<TAgent>
     {
         [SerializeField] private EventsSensor eventsSensor;

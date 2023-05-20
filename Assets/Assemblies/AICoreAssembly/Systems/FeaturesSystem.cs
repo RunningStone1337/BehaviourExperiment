@@ -4,12 +4,10 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public class FeaturesSystem<TAgent, TReaction, TFeature, TSensor> :
-        SystemBase<TAgent, TReaction, TFeature, TSensor>, IEnumerable<TFeature>
+    public class FeaturesSystem<TAgent, TFeature> :
+        SystemBase<TAgent>, IEnumerable<TFeature>
         where TAgent :  IAgent
-        where TReaction : IAction
         where TFeature : IFeature
-        where TSensor : ISensor
     {
         [SerializeField] private List<TFeature> features;
        

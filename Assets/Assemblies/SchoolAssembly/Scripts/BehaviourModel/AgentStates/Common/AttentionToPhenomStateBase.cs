@@ -18,7 +18,7 @@ namespace BehaviourModel
             IsContinue = true;
             AttentionSubject = attentionSource;
             thisAgent.AutoMakeActions = false;
-            thisAgent.Brain.ManualAction = StartState();
+            thisAgent.Executor.ManualAction = StartState();
             thisAgent.BreakCurrentActing();
         }
         protected IEnumerator RotateToFaceStep()
