@@ -10,7 +10,7 @@ namespace BehaviourModel
 
         IEnumerator manualAction;
         public IEnumerator ManualAction { get => manualAction; set => manualAction = value; }
-        internal IEnumerator ExecureManuallySetted()
+        internal IEnumerator ExecuteManuallySettedAction()
         {
             if (manualAction != null)
                 yield return manualAction;
@@ -20,32 +20,32 @@ namespace BehaviourModel
         /// <summary>
         /// React if has observable phenomena to react and current state is able to force change it
         /// </summary>
-        public virtual IEnumerator ExecutePossible(BrainSystem<TAgent,TAction> brainSystem)
+        public virtual IEnumerator ExecutePossibleAction(BrainSystem<TAgent,TAction> brain)
         {
-            while (brainSystem.PhenomensToReact.Count > 0)
+            while (brain.PhenomensToReact.Count > 0)
             {
-                var selectedPhenom = brainSystem.SelectPhenomToReact(brainSystem.PhenomensToReact);
+                var selectedPhenom = brain.SelectPhenomToReact(brain.PhenomensToReact);
 
-                if (brainSystem.TryGetActionsOnPhenom(selectedPhenom, out List<TAction> allReactions))
+                if (brain.TryGetActionsOnPhenom(selectedPhenom, out List<TAction> allReactions))
                 {
                     //если реакция есть, необязательно, что её можно реализовать в текущий момент по определенным причинам
                     if (allReactions.Count == 0)
                     {
-                        brainSystem.PhenomensToReact.Remove(selectedPhenom);
+                        brain.PhenomensToReact.Remove(selectedPhenom);
                         continue;
                     }
                     TAction selectedReaction;
                     do
                     {
-                        selectedReaction = brainSystem.SelectActionFromList(allReactions);
+                        selectedReaction = brain.SelectActionFromList(allReactions);
                         yield return selectedReaction.TryPerformAction();
                         allReactions.Remove(selectedReaction);
                     } while (!selectedReaction.WasPerformed && allReactions.Count > 0);
-                    brainSystem.PhenomensToReact.Remove(selectedPhenom);
+                    brain.PhenomensToReact.Remove(selectedPhenom);
                     break;
                 }
                 else
-                    brainSystem.PhenomensToReact.Remove(selectedPhenom);
+                    brain.PhenomensToReact.Remove(selectedPhenom);
             }
         }
     }

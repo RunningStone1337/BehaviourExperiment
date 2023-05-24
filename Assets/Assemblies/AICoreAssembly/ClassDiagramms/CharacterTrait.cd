@@ -6,6 +6,7 @@
       <HashCode>AAQEAAIFAAAAAAAAACAAACGAAAAAgAgBgIIgAIAEIAA=</HashCode>
       <FileName>Assets\Assemblies\AICoreAssembly\CharacterTraits\CharacterTraitBase.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="BehaviourModel.CalmnessAnxiety" Collapsed="true">
     <Position X="4" Y="3" Width="1.5" />

@@ -1,34 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="BehaviourModel.SystemBase&lt;TAgent, TReaction, TFeature, TSensor&gt;" Collapsed="true">
-    <Position X="6.5" Y="1.75" Width="3.75" />
+  <Class Name="BehaviourModel.SystemBase&lt;TAgent&gt;" Collapsed="true">
+    <Position X="6.5" Y="2.25" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAAAAAEA=</HashCode>
       <FileName>Assets\Assemblies\AICoreAssembly\Systems\SystemBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BehaviourModel.BrainSystem&lt;TAgent, TReaction, TFeature, TSensor&gt;" Collapsed="true">
-    <Position X="4.5" Y="2.75" Width="3.5" />
-    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent, TReaction, TFeature, TSensor&gt;" FixedToPoint="true">
+  <Class Name="BehaviourModel.CharacterSystem&lt;TAgent&gt;" Collapsed="true">
+    <Position X="3.75" Y="3.25" Width="4.5" />
+    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent&gt;" FixedToPoint="true">
       <Path>
-        <Point X="8.375" Y="2.441" />
-        <Point X="8.375" Y="3.125" />
-        <Point X="8" Y="3.125" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAUAgAAAAAAAEAAwAQAgAgAAACABCAAAASChAEEg=</HashCode>
-      <FileName>Assets\Assemblies\AICoreAssembly\Systems\BrainSystem.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="BehaviourModel.CharacterSystem&lt;TAgent, TReaction, TFeature, TSensor&gt;" Collapsed="true">
-    <Position X="3.5" Y="4" Width="4.5" />
-    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent, TReaction, TFeature, TSensor&gt;" FixedToPoint="true">
-      <Path>
-        <Point X="8.375" Y="2.441" />
-        <Point X="8.375" Y="4.312" />
-        <Point X="8" Y="4.312" />
+        <Point X="8.375" Y="2.941" />
+        <Point X="8.375" Y="3.562" />
+        <Point X="8.25" Y="3.562" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -37,13 +22,13 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="BehaviourModel.FeaturesSystem&lt;TAgent, TReaction, TFeature, TSensor&gt;" Collapsed="true">
-    <Position X="4" Y="5" Width="4" />
-    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent, TReaction, TFeature, TSensor&gt;" FixedToPoint="true">
+  <Class Name="BehaviourModel.FeaturesSystem&lt;TAgent, TFeature&gt;" Collapsed="true">
+    <Position X="8.5" Y="3.25" Width="4" />
+    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent&gt;" FixedToPoint="true">
       <Path>
-        <Point X="8.375" Y="2.441" />
-        <Point X="8.375" Y="5.312" />
-        <Point X="8" Y="5.312" />
+        <Point X="8.375" Y="2.941" />
+        <Point X="8.375" Y="3.562" />
+        <Point X="8.5" Y="3.562" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -52,34 +37,63 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="BehaviourModel.ObservationsSystem&lt;TAgent, TReaction, TFeature, TSensor&gt;" Collapsed="true">
-    <Position X="8.75" Y="2.75" Width="4.25" />
-    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent, TReaction, TFeature, TSensor&gt;" FixedToPoint="true">
+  <Class Name="BehaviourModel.ObservationsSystem&lt;TAgent, TSensor&gt;" Collapsed="true">
+    <Position X="4" Y="4.5" Width="4.25" />
+    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent&gt;" FixedToPoint="true">
       <Path>
-        <Point X="8.375" Y="2.441" />
-        <Point X="8.375" Y="3.125" />
-        <Point X="8.75" Y="3.125" />
+        <Point X="8.375" Y="2.941" />
+        <Point X="8.375" Y="4.875" />
+        <Point X="8.25" Y="4.875" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AgAAEAIAABAQAAAQAAAAAAAAAAAAAAAgEAACAAAACAA=</HashCode>
+      <HashCode>AgAAEAIAABAQAAAQAAAAAAABAAAAAAAgEAAAAAAACAA=</HashCode>
       <FileName>Assets\Assemblies\AICoreAssembly\Systems\ObservationsSystem.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="BehaviourModel.RelationsSystem&lt;TAgent, TReaction, TFeature, TSensor&gt;" Collapsed="true">
-    <Position X="8.75" Y="4" Width="4" />
-    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent, TReaction, TFeature, TSensor&gt;" FixedToPoint="true">
+  <Class Name="BehaviourModel.RelationsSystem&lt;TAgent&gt;" Collapsed="true">
+    <Position X="8.5" Y="4.5" Width="4" />
+    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent&gt;" FixedToPoint="true">
       <Path>
-        <Point X="8.375" Y="2.441" />
-        <Point X="8.375" Y="4.312" />
-        <Point X="8.75" Y="4.312" />
+        <Point X="8.375" Y="2.941" />
+        <Point X="8.375" Y="4.875" />
+        <Point X="8.5" Y="4.875" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAABAAAAgAAAAIAAAAAAACAAAAAAEg=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAACIAAAAAAACACAAAAEg=</HashCode>
       <FileName>Assets\Assemblies\AICoreAssembly\Systems\RelationsSystem.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviourModel.ActionsExecutorSystem&lt;TAgent, TAction&gt;" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="3" />
+    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="8.375" Y="2.941" />
+        <Point X="8.375" Y="5.812" />
+        <Point X="8.25" Y="5.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAQAAAAAAIAAAAQAAAAAA=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\Systems\ActionsExecutorSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviourModel.BrainSystem&lt;TAgent, TAction&gt;" Collapsed="true">
+    <Position X="8.5" Y="5.5" Width="2.25" />
+    <InheritanceLine Type="BehaviourModel.SystemBase&lt;TAgent&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="8.375" Y="2.941" />
+        <Point X="8.375" Y="5.812" />
+        <Point X="8.5" Y="5.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAACEAAAAAAAACEAAgAAAgAAAAQAAAAAAAACAhAEEg=</HashCode>
+      <FileName>Assets\Assemblies\AICoreAssembly\Systems\BrainSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

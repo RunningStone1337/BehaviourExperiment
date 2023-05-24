@@ -4,12 +4,6 @@ using UnityEngine;
 
 namespace BehaviourModel
 {
-    public enum ActionsMode
-    {
-        Manual,
-        ByInterval
-    }
-
 
     public abstract class BrainSystem<TAgent, TAction>
         : SystemBase<TAgent>,

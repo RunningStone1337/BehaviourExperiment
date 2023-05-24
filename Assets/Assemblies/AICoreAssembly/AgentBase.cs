@@ -54,7 +54,7 @@ namespace BehaviourModel
             {
                 if (CollectObservations)
                 {
-                    if (observationsSystem.CollectMode == ActionsMode.ByInterval)
+                    if (observationsSystem.CollectMode == ObservationsCollectMode.ByInterval)
                     {
                         var observations = observationsSystem.CollectObservations();
                         yield return Brain.HandleNewPhenomenons(observations);
@@ -78,9 +78,9 @@ namespace BehaviourModel
             while (IsActing)
             {
                 if (autoMakeActions)
-                    yield return executorSystem.ExecutePossible(Brain);
+                    yield return executorSystem.ExecutePossibleAction(Brain);
                 else
-                    yield return executorSystem.ExecureManuallySetted();
+                    yield return executorSystem.ExecuteManuallySettedAction();
             }
         }
 

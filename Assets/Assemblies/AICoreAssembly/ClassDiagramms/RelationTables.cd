@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RelationViewBase" Collapsed="true">
-    <Position X="5.75" Y="3.5" Width="1.5" />
+    <Position X="5.5" Y="3.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\RelationViewBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CharacterToPhenomContainerBase&lt;TView, TContent&gt;" Collapsed="true">
-    <Position X="4.75" Y="4.5" Width="3.5" />
+    <Position X="4.75" Y="4.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAQAAACCEAAAAAIiCgAIwgAAAAAAAAAKAAAAQADAAAA=</HashCode>
       <FileName>Assets\Assemblies\AICoreAssembly\RelationsTables\Base\CharacterToPhenomContainerBase.cs</FileName>
@@ -18,7 +18,7 @@
     <Position X="4.25" Y="5.75" Width="4.75" />
     <InheritanceLine Type="CharacterToPhenomContainerBase&lt;TView, TContent&gt;" FixedToPoint="true">
       <Path>
-        <Point X="6.5" Y="5.191" />
+        <Point X="6.5" Y="5.441" />
         <Point X="6.5" Y="5.75" />
       </Path>
     </InheritanceLine>

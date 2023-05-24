@@ -5,6 +5,11 @@ using Random = UnityEngine.Random;
 
 namespace BehaviourModel
 {
+    public enum ObservationsCollectMode
+    {
+        Manual,
+        ByInterval
+    }
     public class ObservationsSystem<TAgent, TSensor> : 
         SystemBase<TAgent>,
         ISensor
@@ -12,7 +17,7 @@ namespace BehaviourModel
         where TSensor : ISensor
     {
         [Tooltip("If manual - you need to call \"CreatePhenomenons\" manually, else Brain will do it automatically by timer.")]
-        [SerializeField] ActionsMode observationsCollectingMode;
+        [SerializeField] ObservationsCollectMode observationsCollectingMode;
         [Space]
         [Tooltip("Interval of collectiong observations in scalled seconds.")]
         [SerializeField] [Range(0f,256f)] float observationsCollectingInterval;
@@ -27,7 +32,7 @@ namespace BehaviourModel
         /// Sensors that your implementation use for collecting observations.
         /// </summary>
         public List<TSensor> Sensors => sensors;
-        public ActionsMode CollectMode { get => observationsCollectingMode; set => observationsCollectingMode = value; }
+        public ObservationsCollectMode CollectMode { get => observationsCollectingMode; set => observationsCollectingMode = value; }
         public float ObservationsCollectingInterval { get => observationsCollectingInterval;
             set => observationsCollectingInterval = value; }
         public float ObservationsCollectingIntervalSeed { get => observationsCollectingIntervalSeed;
