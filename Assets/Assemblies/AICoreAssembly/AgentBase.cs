@@ -54,18 +54,12 @@ namespace BehaviourModel
             {
                 if (CollectObservations)
                 {
-                    if (observationsSystem.CollectMode == ObservationsCollectMode.ByInterval)
-                    {
-                        var observations = observationsSystem.CollectObservations();
-                        yield return Brain.HandleNewPhenomenons(observations);
-                        yield return observationsSystem.CollectingDelay();
-                    }
-                    else
-                        yield return new WaitForFixedUpdate();
+                    var observations = observationsSystem.CollectObservations();
+                    yield return Brain.HandleNewPhenomenons(observations);
+                    yield return observationsSystem.CollectingDelay();
                 }
                 else
                     yield return new WaitForFixedUpdate();
-                //Debug.Log($"Observations collected, count {Brain.PhenomensToReact.Count}");
             }
         }
 
